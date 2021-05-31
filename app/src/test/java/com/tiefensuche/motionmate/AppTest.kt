@@ -30,6 +30,7 @@ internal class AppTest {
     }
 
     @Test
+    @LooperMode(LooperMode.Mode.LEGACY)
     @Throws(Exception::class)
     internal fun testService() {
         val mCurrentDate = Util.calendar.timeInMillis - DateUtils.DAY_IN_MILLIS // -24h, previous day
