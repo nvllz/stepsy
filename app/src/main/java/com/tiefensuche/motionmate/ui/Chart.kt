@@ -8,11 +8,12 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.tiefensuche.motionmate.util.Database
 import java.util.*
@@ -51,11 +52,7 @@ internal class Chart : BarChart {
         x.axisLineColor = Color.WHITE
         x.granularity = 1f
         x.setDrawGridLines(false)
-        x.valueFormatter = IAxisValueFormatter { value, _ ->
-            val cal = Calendar.getInstance()
-            cal.set(Calendar.DAY_OF_WEEK, (value + cal.firstDayOfWeek).toInt() % 7)
-            cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault())
-        }
+        x.valueFormatter = DayFormatter()
 
         axisLeft.isEnabled = false
         axisRight.isEnabled = false
@@ -109,5 +106,13 @@ internal class Chart : BarChart {
 
         animateXY(2000, 2000)
         invalidate()
+    }
+
+    internal class DayFormatter : ValueFormatter() {
+        override fun getFormattedValue(value: Float, axis: AxisBase?): String? {
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.DAY_OF_WEEK, (value + cal.firstDayOfWeek).toInt() % 7)
+            return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault())
+        }
     }
 }

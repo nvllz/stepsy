@@ -21,8 +21,8 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.ResultReceiver
 import android.preference.PreferenceManager
-import android.support.annotation.RequiresApi
-import android.support.v4.app.NotificationCompat
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import android.text.format.DateUtils
 import android.util.Log
 import android.util.SparseArray
