@@ -1,6 +1,6 @@
 # MotionMate
 
-[![Build Status](https://travis-ci.org/0xf4b1/motionmate.svg?branch=master)](https://travis-ci.org/0xf4b1/motionmate)
+[![android](https://github.com/0xf4b1/motionmate/actions/workflows/android.yml/badge.svg)](https://github.com/0xf4b1/motionmate/actions/workflows/android.yml)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5528e26310324fb7b0908e5fd64911aa)](https://www.codacy.com/manual/tiefensuche/motionmate?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=0xf4b1/motionmate&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f1dbf88de7d7702f94e0/maintainability)](https://codeclimate.com/github/0xf4b1/motionmate/maintainability)
 [![GitHub release](https://img.shields.io/github/v/release/0xf4b1/motionmate.svg)](https://github.com/0xf4b1/motionmate/releases)
