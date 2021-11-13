@@ -7,6 +7,8 @@ package com.tiefensuche.motionmate.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.ResultReceiver
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.View
 import android.widget.CalendarView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import com.tiefensuche.motionmate.R
 import com.tiefensuche.motionmate.service.MotionService
 import com.tiefensuche.motionmate.ui.cards.MotionActivityTextItem
@@ -107,6 +110,19 @@ internal class MainActivity : AppCompatActivity() {
 
         // Start the motion service
         subscribeService()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        AppCompatDelegate.setDefaultNightMode(
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            else AppCompatDelegate.MODE_NIGHT_YES)
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupCards() {
