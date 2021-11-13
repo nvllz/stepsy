@@ -5,10 +5,8 @@
 package com.tiefensuche.motionmate.ui
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -46,13 +44,10 @@ internal class Chart : BarChart {
         setDrawValueAboveBar(true)
         setTouchEnabled(false)
 
-        val x = xAxis
-        x.textColor = Color.WHITE
-        x.position = XAxis.XAxisPosition.BOTTOM_INSIDE
-        x.axisLineColor = Color.WHITE
-        x.granularity = 1f
-        x.setDrawGridLines(false)
-        x.valueFormatter = DayFormatter()
+        xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
+        xAxis.granularity = 1f
+        xAxis.setDrawGridLines(false)
+        xAxis.valueFormatter = DayFormatter()
 
         axisLeft.isEnabled = false
         axisRight.isEnabled = false
@@ -98,7 +93,6 @@ internal class Chart : BarChart {
 
         val data = BarData(set)
         data.setValueTextSize(10f)
-        data.setValueTextColor(Color.WHITE)
         data.barWidth = 0.9f
 
         clear()
