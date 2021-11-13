@@ -47,10 +47,7 @@
                     android:textSize="14sp"
                     android:textAlignment="center" />
 
-                <android.widget.CalendarView
-                    android:id="@+id/calendar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                <include layout="@layout/calendar" />
 
             </LinearLayout>
 
