@@ -10,7 +10,6 @@ import android.os.ResultReceiver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.View
 import android.widget.CalendarView
@@ -41,10 +40,7 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
 
         mTextViewSteps = findViewById(R.id.textViewSteps)
         mTextViewMeters = findViewById(R.id.textViewMeters)
