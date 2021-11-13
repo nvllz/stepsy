@@ -109,7 +109,7 @@ internal class Chart : BarChart {
     }
 
     internal class DayFormatter : ValueFormatter() {
-        override fun getFormattedValue(value: Float, axis: AxisBase?): String? {
+        override fun getFormattedValue(value: Float): String {
             val cal = Calendar.getInstance()
             cal.set(Calendar.DAY_OF_WEEK, (value + cal.firstDayOfWeek).toInt() % 7)
             return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault())
