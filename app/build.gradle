@@ -8,12 +8,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     testOptions.unitTests.includeAndroidResources = true
     defaultConfig {
         applicationId "com.tiefensuche.motionmate"
         minSdkVersion 14
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 8
         versionName "1.3.2"
         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
