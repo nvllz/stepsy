@@ -4,6 +4,7 @@
 
 package com.tiefensuche.motionmate.service
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -27,6 +28,7 @@ import android.text.format.DateUtils
 import android.util.Log
 import android.util.SparseArray
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.tiefensuche.motionmate.R
 import com.tiefensuche.motionmate.ui.MainActivity
 import com.tiefensuche.motionmate.util.Database
@@ -74,12 +76,12 @@ internal class MotionService : Service() {
         // get last steps
         mTodaysSteps = sharedPreferences.getInt(KEY_STEPS, 0)
 
-        val manager = packageManager
-
         // connect sensor
         val mSensorManager = getSystemService(Context.SENSOR_SERVICE) as? SensorManager ?: throw IllegalStateException("could not get sensor service")
         var mStepSensor: Sensor? = null
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && manager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+            packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
+            (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED)) {
             // androids built in step counter
             Log.d(TAG, "using sensor step counter")
             mStepSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
@@ -93,7 +95,7 @@ internal class MotionService : Service() {
                     // no-op
                 }
             }
-        } else if (manager.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)) {
+        } else if (packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)) {
             // fallback sensor
             Log.d(TAG, "using fallback sensor accelerometer")
             mStepSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)

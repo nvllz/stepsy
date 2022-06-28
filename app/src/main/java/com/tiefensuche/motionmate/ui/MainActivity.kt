@@ -4,7 +4,10 @@
 
 package com.tiefensuche.motionmate.ui
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.ResultReceiver
 import android.view.Menu
@@ -17,6 +20,8 @@ import android.view.View
 import android.widget.CalendarView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.tiefensuche.motionmate.R
 import com.tiefensuche.motionmate.service.MotionService
 import com.tiefensuche.motionmate.ui.cards.MotionActivityTextItem
@@ -109,7 +114,7 @@ internal class MainActivity : AppCompatActivity() {
         setupCards()
 
         // Start the motion service
-        subscribeService()
+        checkPermission()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -155,6 +160,25 @@ internal class MainActivity : AppCompatActivity() {
             }
         })
         startService(i)
+    }
+
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACTIVITY_RECOGNITION), 0)
+        } else {
+            subscribeService()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        subscribeService()
     }
 
     private fun updateView(steps: Int, activities: MutableList<Bundle>) {
