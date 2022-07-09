@@ -14,8 +14,8 @@ android {
         applicationId "com.tiefensuche.motionmate"
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 8
-        versionName "1.3.2"
+        versionCode 9
+        versionName "1.3.3"
         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
     signingConfigs {
