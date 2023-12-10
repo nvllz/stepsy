@@ -17,11 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.View
+import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.preference.PreferenceManager
+import com.google.android.material.color.DynamicColors
 import com.tiefensuche.motionmate.R
 import com.tiefensuche.motionmate.service.MotionService
 import com.tiefensuche.motionmate.ui.cards.MotionActivityTextItem
@@ -48,6 +55,10 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Util.applyTheme(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "system")!!)
+        DynamicColors.applyToActivitiesIfAvailable(application)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
 
         mTextViewSteps = findViewById(R.id.textViewSteps)
@@ -101,10 +112,20 @@ internal class MainActivity : AppCompatActivity() {
         }).attachToRecyclerView(mRecyclerView)
 
         // Floating action button to start new activity
-        findViewById<View>(R.id.fab).setOnClickListener {
-            val i = Intent(this@MainActivity, MotionService::class.java)
-            i.action = MotionService.ACTION_START_ACTIVITY
-            startService(i)
+        findViewById<View>(R.id.fab).let {
+            it.setOnClickListener {
+                val i = Intent(this@MainActivity, MotionService::class.java)
+                i.action = MotionService.ACTION_START_ACTIVITY
+                startService(i)
+            }
+
+            ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    bottomMargin = insets.bottom + 50
+                }
+                WindowInsetsCompat.CONSUMED
+            }
         }
 
         // initial update of the diagram
