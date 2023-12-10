@@ -7,7 +7,6 @@ package com.tiefensuche.motionmate.util
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor.*
-import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
@@ -44,23 +43,19 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
             return query(arrayOf("max(timestamp)")).toLong()
         }
 
-    internal val avgSteps: Float
-        get() {
-            return query(arrayOf("avg(steps)")).toFloat()
-        }
+    internal fun avgSteps(minDate: Long, maxDate: Long) = getSteps("avg(steps)", minDate, maxDate)
 
-    internal fun getSumSteps(minDate: Long) = query(arrayOf("sum(steps)"), "timestamp > ?", arrayOf(minDate.toString())).toInt()
+    internal fun getSumSteps(minDate: Long, maxDate: Long) = getSteps("sum(steps)", minDate, maxDate)
+
+    private fun getSteps(columns: String, minDate: Long, maxDate: Long) = query(arrayOf(columns),
+        "timestamp >= ? AND timestamp <= ?", arrayOf(minDate.toString(), maxDate.toString())).toInt()
 
     internal fun addEntry(timestamp: Long, steps: Int) {
         Log.d(TAG, "add entry to database: $timestamp, $steps")
         val values = ContentValues()
         values.put("timestamp", timestamp)
         values.put("steps", steps)
-        try {
-            writableDatabase.insertOrThrow(TABLE_NAME, null, values)
-        } catch (e: SQLException) {
-            Log.e(TAG, "Could not add data to database!", e)
-        }
+        writableDatabase.insertOrThrow(TABLE_NAME, null, values)
     }
 
     internal fun getEntries(minDate: Long, maxDate: Long): List<Entry> {

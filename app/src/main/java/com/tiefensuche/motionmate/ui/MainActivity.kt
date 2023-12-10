@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.ResultReceiver
+import android.text.format.DateUtils
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -50,8 +51,11 @@ internal class MainActivity : AppCompatActivity() {
     private lateinit var mChart: Chart
     private lateinit var mTextViewChart: TextView
     private var mAdapter: TextItemAdapter = TextItemAdapter()
+    private lateinit var mMonthlyStepsCard: MotionStatisticsTextItem
+    private lateinit var mAverageStepsCard: MotionTextItem
+    private lateinit var mOverallStepsCard: MotionStatisticsTextItem
     private var mCurrentSteps: Int = 0
-    private var mSelectedWeek: Int = 0
+    private var mSelectedMonth = Util.calendar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,15 +74,20 @@ internal class MainActivity : AppCompatActivity() {
         mChart = findViewById(R.id.chart)
         mTextViewChart = findViewById(R.id.textViewChart)
         mCalendarView = findViewById(R.id.calendar)
-        mCalendarView.minDate = Database.getInstance(this).firstEntry
+        mCalendarView.minDate = Database.getInstance(this).firstEntry.let {
+            if (it == 0L)
+                Util.calendar.timeInMillis
+            else
+                it
+        }
         mCalendarView.maxDate = Util.calendar.timeInMillis
         mCalendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val cal = Util.calendar
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, month)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            mSelectedMonth.set(Calendar.YEAR, year)
+            mSelectedMonth.set(Calendar.MONTH, month)
+            mSelectedMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            setDataForWeek(cal)
+            updateChart()
+            updateCards()
         }
 
         val mLayoutManager = LinearLayoutManager(this)
@@ -135,7 +144,7 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         // initial update of the diagram
-        setDataForWeek(Util.calendar)
+        updateChart()
 
         // Add some cards with statistics
         setupCards()
@@ -144,7 +153,7 @@ internal class MainActivity : AppCompatActivity() {
         checkPermission()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
@@ -158,21 +167,20 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun setupCards() {
-        val startOfMonth = Calendar.getInstance()
-        startOfMonth.set(Calendar.DAY_OF_MONTH, 1)
-
         // A card that displays sum of steps in the current month
-        val stepsThisMonth = Database.getInstance(this).getSumSteps(startOfMonth.timeInMillis)
-        mAdapter.add(MotionStatisticsTextItem(this, R.string.steps_month, stepsThisMonth))
+        mMonthlyStepsCard = MotionStatisticsTextItem(this, R.string.steps_month, 0)
+        mAdapter.add(mMonthlyStepsCard)
 
         // A card that displays average distance in a day
-        val item = MotionTextItem(this, R.string.avg_distance)
-        item.setContent(Database.getInstance(this).avgSteps)
-        mAdapter.add(item)
+        mAverageStepsCard = MotionTextItem(this, R.string.avg_distance)
+        mAdapter.add(mAverageStepsCard)
 
         // A card that displays overall sum of steps
-        val overallSteps = Database.getInstance(this).getSumSteps(0)
-        mAdapter.add(MotionStatisticsTextItem(this, R.string.overall_distance, overallSteps))
+        val overallSteps = Database.getInstance(this).getSumSteps(Database.getInstance(this).firstEntry, Database.getInstance(this).lastEntry)
+        mOverallStepsCard = MotionStatisticsTextItem(this, R.string.overall_distance, overallSteps)
+        mAdapter.add(mOverallStepsCard)
+
+        updateCards()
     }
 
     private fun subscribeService() {
@@ -215,14 +223,14 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, steps, steps)
 
         // update calendar max date for the case that new day started
-        mCalendarView.maxDate = Util.calendar.timeInMillis
+        if (!DateUtils.isToday(mCalendarView.maxDate))
+            mCalendarView.maxDate = Util.calendar.timeInMillis
 
         // update the cards
+        mOverallStepsCard.updateSteps(steps)
         for (i in 0 until mAdapter.itemCount) {
             val item = mAdapter[i]
-            if (item is MotionStatisticsTextItem) {
-                item.updateSteps(steps)
-            } else if (item is MotionActivityTextItem) {
+            if (item is MotionActivityTextItem) {
                 for (activity in activities) {
                     if (activity.getInt(MotionService.KEY_ID) == item.id) {
                         item.updateSteps(activity.getInt(MotionService.KEY_STEPS))
@@ -247,18 +255,17 @@ internal class MainActivity : AppCompatActivity() {
             mAdapter.addTop(item)
         }
 
-        // If selected week is the current week, update the diagram with today's steps
-        if (mSelectedWeek == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
+        // If selected week is the current week, update the diagram and cards with today's steps
+        if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
             mChart.setCurrentSteps(steps)
             mChart.update()
+            mMonthlyStepsCard.updateSteps(steps)
         }
     }
 
-    private fun setDataForWeek(selected: Calendar) {
-        mSelectedWeek = selected.get(Calendar.WEEK_OF_YEAR)
-
+    private fun updateChart() {
         val min = Calendar.getInstance()
-        min.timeInMillis = selected.timeInMillis
+        min.timeInMillis = mSelectedMonth.timeInMillis
 
         // Jump to the first day of the week
         min.set(Calendar.DAY_OF_WEEK, Calendar.getInstance().firstDayOfWeek)
@@ -275,7 +282,7 @@ internal class MainActivity : AppCompatActivity() {
         // Get the records of the selected week between the min and max timestamps
         val entries = Database.getInstance(this).getEntries(min.timeInMillis, max.timeInMillis)
 
-        mTextViewCalendarContent.text = String.format(getString(R.string.no_entry), selected.timeInMillis)
+        mTextViewCalendarContent.text = String.format(getString(R.string.no_entry), mSelectedMonth.timeInMillis)
         for (entry in entries) {
             mChart.setDiagramEntry(entry)
 
@@ -283,16 +290,35 @@ internal class MainActivity : AppCompatActivity() {
             cal.timeInMillis = entry.timestamp
 
             // Update the description text with the selected date
-            if (cal.get(Calendar.DAY_OF_WEEK) == selected.get(Calendar.DAY_OF_WEEK)) {
+            if (cal.get(Calendar.DAY_OF_WEEK) == mSelectedMonth.get(Calendar.DAY_OF_WEEK)) {
                 mTextViewCalendarContent.text = String.format(Locale.getDefault(), getString(R.string.steps_day_display), cal.timeInMillis, Util.stepsToMeters(entry.steps), entry.steps)
             }
         }
 
         // If selected week is the current week, update the diagram with today's steps
-        if (mSelectedWeek == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
+        if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
             mChart.setCurrentSteps(mCurrentSteps)
         }
         mChart.update()
+    }
+
+    private fun updateCards() {
+        val cal = Util.calendar
+        cal.set(Calendar.DAY_OF_MONTH, 1)
+
+        val startOfMonth = Calendar.getInstance()
+        startOfMonth.timeInMillis = mSelectedMonth.timeInMillis
+        startOfMonth.set(Calendar.DAY_OF_MONTH, 1)
+        val currentMonth = cal == startOfMonth
+
+        val endOfMonth = Calendar.getInstance()
+        endOfMonth.timeInMillis = startOfMonth.timeInMillis
+        endOfMonth.add(Calendar.MONTH, 1)
+
+        val stepsThisMonth = Database.getInstance(this).getSumSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
+        mMonthlyStepsCard.initialSteps = stepsThisMonth
+        mMonthlyStepsCard.updateSteps(if (currentMonth) mCurrentSteps else 0)
+        mAverageStepsCard.setContent(Database.getInstance(this).avgSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis))
     }
 
     companion object {
