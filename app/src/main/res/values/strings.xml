@@ -21,4 +21,10 @@
     <string name="new_activity">New Activity</string>
     <string name="new_activity_started">Started new activity</string>
     <string name="no_sensor">Sorry, needed sensor is not present on your device.</string>
+    <!-- Preference Titles -->
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="step_width">Step width in cm</string>
+    <string name="data">Data</string>
+    <string name="appearance">Appearance</string>
+    <string name="theme">Theme</string>
 </resources>

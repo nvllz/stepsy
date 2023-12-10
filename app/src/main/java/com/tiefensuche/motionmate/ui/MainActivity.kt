@@ -61,6 +61,8 @@ internal class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
 
+        Util.stepWidth = PreferenceManager.getDefaultSharedPreferences(this).getInt("step_width", 70)
+
         mTextViewSteps = findViewById(R.id.textViewSteps)
         mTextViewMeters = findViewById(R.id.textViewMeters)
         val mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
@@ -126,6 +128,10 @@ internal class MainActivity : AppCompatActivity() {
                 }
                 WindowInsetsCompat.CONSUMED
             }
+        }
+
+        mTextViewSteps.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         // initial update of the diagram

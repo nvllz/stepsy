@@ -1,0 +1,37 @@
+<!--
+  ~ SPDX-License-Identifier: GPL-3.0-only
+  -->
+
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/step_width">
+        <SeekBarPreference
+            app:min="50"
+            android:max="120"
+            app:defaultValue="70"
+            app:showSeekBarValue="true"
+            app:key="step_width" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/appearance">
+        <ListPreference
+            app:defaultValue="system"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:key="theme"
+            app:title="@string/theme"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/data">
+        <Preference
+            app:key="import"
+            app:title="Import" />
+
+        <Preference
+            app:key="export"
+            app:title="Export" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -4,6 +4,7 @@
 
 package com.tiefensuche.motionmate.util
 
+import androidx.appcompat.app.AppCompatDelegate
 import java.util.*
 
 internal object Util {
@@ -24,6 +25,8 @@ internal object Util {
         }
 
 
+    var stepWidth = 70
+
     /**
      * Formula to convert steps to kilometers
      *
@@ -31,7 +34,14 @@ internal object Util {
      * @return kilometers
      */
     internal fun stepsToMeters(steps: Number): Double {
-        return steps.toInt() * 0.762 / 1000
+        return (steps.toInt() * stepWidth).toDouble() / 100000
     }
 
+    internal fun applyTheme(theme: String) {
+        when (theme) {
+            "system" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+    }
 }
