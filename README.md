@@ -1,16 +1,14 @@
 # MotionMate
 
 [![android](https://github.com/0xf4b1/motionmate/actions/workflows/android.yml/badge.svg)](https://github.com/0xf4b1/motionmate/actions/workflows/android.yml)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5528e26310324fb7b0908e5fd64911aa)](https://www.codacy.com/manual/tiefensuche/motionmate?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=0xf4b1/motionmate&amp;utm_campaign=Badge_Grade)
-[![Maintainability](https://api.codeclimate.com/v1/badges/f1dbf88de7d7702f94e0/maintainability)](https://codeclimate.com/github/0xf4b1/motionmate/maintainability)
 [![GitHub release](https://img.shields.io/github/v/release/0xf4b1/motionmate.svg)](https://github.com/0xf4b1/motionmate/releases)
 [![GitHub](https://img.shields.io/github/license/0xf4b1/motionmate.svg)](LICENSE)
 
-MotionMate is a very simple and lightweight step counter app for Android that tracks your daily steps and displays the results by selecting a specific day from the calendar view and presents the values in a nice weekly bar chart as well as some other statistics.
+MotionMate is a very simple and lightweight step counter app for Android that records your daily steps and presents the results in a nice weekly bar chart along with other statistics.
 
-It uses the built-in step counter sensor, if it is present on the device and uses a fallback implementation based on the accelerometer sensor otherwise.
+It uses the built-in step counter sensor if it is present on the device, and otherwise uses a fallback implementation based on the accelerometer sensor.
 
-It requires no internet access and no special permissions.
+It supports file-based data import and export and does not require internet access, so all your data is stored on the device only.
 
 ## Download
 
