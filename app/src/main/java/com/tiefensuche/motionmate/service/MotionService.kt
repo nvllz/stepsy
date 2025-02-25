@@ -95,6 +95,12 @@ internal class MotionService : Service() {
                     // no-op
                 }
             }
+            // Add batching only for step counter sensor
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                mSensorManager.registerListener(mListener, mStepSensor, SensorManager.SENSOR_DELAY_UI, 1000000) // 1 second max report latency
+            } else {
+                // Fallback for older devices without batching support
+                mSensorManager.registerListener(mListener, mStepSensor, SensorManager.SENSOR_DELAY_UI) }
         } else if (packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)) {
             // fallback sensor
             Log.d(TAG, "using fallback sensor accelerometer")
@@ -117,19 +123,20 @@ internal class MotionService : Service() {
                     // no-op
                 }
             }
+
+            mSensorManager.registerListener(mListener, mStepSensor, SensorManager.SENSOR_DELAY_UI)
         }
 
-        if (mStepSensor != null) {
-            mSensorManager.registerListener(mListener, mStepSensor,
-                    SensorManager.SENSOR_DELAY_FASTEST)
-        } else {
+        if (mStepSensor == null) {
             Toast.makeText(this, getString(R.string.no_sensor), Toast.LENGTH_LONG).show()
+            stopSelf()
+            return
         }
+
     }
 
     private fun handleEvent(value: Int) {
-        mCurrentSteps = value
-        if (mLastSteps == -1) {
+        if (mLastSteps == -1 || value < mLastSteps) { // if counter resets (reboot or sensor issue)
             mLastSteps = value
         }
         mTodaysSteps += value - mLastSteps
@@ -137,10 +144,12 @@ internal class MotionService : Service() {
         handleEvent()
     }
 
+    private var lastWriteTime: Long = 0
+    private val writeInterval = 30000 // 30 secs
+
     private fun handleEvent() {
         // Check if new day started
         if (!DateUtils.isToday(mCurrentDate)) {
-
             // Add record for the day to the database
             Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
 
@@ -149,7 +158,13 @@ internal class MotionService : Service() {
             mCurrentDate = Util.calendar.timeInMillis
             sharedPreferences.edit().putLong(KEY_DATE, mCurrentDate).apply()
         }
-        sharedPreferences.edit().putInt(KEY_STEPS, mTodaysSteps).apply()
+
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastWriteTime > writeInterval) {
+            sharedPreferences.edit().putInt(KEY_STEPS, mTodaysSteps).apply()
+            lastWriteTime = currentTime
+        }
+
         for (i in 0 until motionActivities.size()) {
             motionActivities.valueAt(i).update(mCurrentSteps)
         }
@@ -221,7 +236,7 @@ internal class MotionService : Service() {
         if (mNotificationManager.getNotificationChannel(CHANNEL_ID) == null) {
             val notificationChannel = NotificationChannel(CHANNEL_ID,
                     getString(R.string.app_name),
-                    NotificationManager.IMPORTANCE_NONE)
+                    NotificationManager.IMPORTANCE_LOW)
 
             notificationChannel.description = getString(R.string.steps)
 
