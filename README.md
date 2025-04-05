@@ -12,11 +12,7 @@ It supports file-based data import and export and does not require internet acce
 
 ## Download
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
-      alt="Download from Google Play"
-      height="80">](https://play.google.com/store/apps/details?id=com.tiefensuche.motionmate)
-
-or download the apk directly from the [GitHub releases](https://github.com/0xf4b1/motionmate/releases) page.
+Download the apk directly from the [GitHub releases](https://github.com/0xf4b1/motionmate/releases) page.
 
 ## Screenshots
 

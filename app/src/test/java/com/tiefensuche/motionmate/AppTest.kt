@@ -2,14 +2,13 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.tiefensuche.motionmate
+package com.nvllz.stepsy
 
 import android.text.format.DateUtils
 import android.util.SparseArray
-import com.tiefensuche.motionmate.service.MotionActivity
-import com.tiefensuche.motionmate.service.MotionService
-import com.tiefensuche.motionmate.util.Database
-import com.tiefensuche.motionmate.util.Util
+import com.nvllz.stepsy.service.MotionService
+import com.nvllz.stepsy.util.Database
+import com.nvllz.stepsy.util.Util
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -35,7 +34,7 @@ internal class AppTest {
     @Throws(Exception::class)
     internal fun testService() {
         val mCurrentDate = Util.calendar.timeInMillis - DateUtils.DAY_IN_MILLIS // -24h, previous day
-        var mCurrentSteps = Random().nextInt(10000) // random steps between 0-10000
+        var mCurrentSteps = Random().nextInt(10000) // random stepsy between 0-10000
 
         ShadowSystemClock.setNanoTime(TimeUnit.NANOSECONDS.convert(mCurrentDate, TimeUnit.MILLISECONDS))
 
@@ -80,7 +79,7 @@ internal class AppTest {
         motionActivitySecond.toggle()
         activities.put(1, motionActivitySecond)
 
-        // handle sensor event and update steps, check for new day
+        // handle sensor event and update stepsy, check for new day
         val m = MotionService::class.java.getDeclaredMethod("handleEvent", Int::class.javaPrimitiveType!!)
         m.isAccessible = true
         m.invoke(service, 0) // first event initializes current sensor value, here zero
@@ -118,7 +117,7 @@ internal class AppTest {
         println(String.format("%tD", dateField.getLong(service)))
         Assert.assertTrue(DateUtils.isToday(dateField.getLong(service)))
 
-        // check if steps were reset
+        // check if stepsy were reset
         println("mTodaysSteps=" + todaysStepsField.getInt(service))
         Assert.assertEquals(0, todaysStepsField.getInt(service))
 
@@ -126,7 +125,7 @@ internal class AppTest {
         println(String.format("%tD", database.lastEntry))
         val entries = database.getEntries(database.lastEntry, database.lastEntry)
         println("entries=" + entries.size)
-        println("steps=" + entries[0].steps)
+        println("stepsy=" + entries[0].steps)
 
         Assert.assertEquals(100, database.getEntries(database.firstEntry, database.lastEntry).size)
         Assert.assertEquals(mCurrentDate, database.lastEntry)

@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.tiefensuche.motionmate.util
+package com.nvllz.stepsy.util
 
 import androidx.appcompat.app.AppCompatDelegate
 import java.util.*
@@ -24,17 +24,15 @@ internal object Util {
             return calendar
         }
 
+    var height = 180
+    var weight = 70
 
-    var stepWidth = 70
-
-    /**
-     * Formula to convert steps to kilometers
-     *
-     * @param steps steps
-     * @return kilometers
-     */
     internal fun stepsToMeters(steps: Number): Double {
-        return (steps.toInt() * stepWidth).toDouble() / 100000
+        return (steps.toInt() * height * 0.41) / 100000
+    }
+
+    internal fun stepsToCalories(steps:Number): Int {
+        return (steps.toInt() * weight * 0.0005).toInt()
     }
 
     internal fun applyTheme(theme: String) {

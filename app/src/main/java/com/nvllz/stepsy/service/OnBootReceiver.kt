@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.tiefensuche.motionmate.service
+package com.nvllz.stepsy.service
 
 import android.content.BroadcastReceiver
 import android.content.Context

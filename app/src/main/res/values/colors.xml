@@ -1,0 +1,9 @@
+<!-- res/values-night/colors.xml -->
+<resources>
+    <color name="colorAccent">#575757</color>
+    <color name="colorPrimary">#282828</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#121212</color>
+    <color name="colorBackground">#FFFFFF</color>
+</resources>

@@ -5,33 +5,61 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/step_width">
-        <SeekBarPreference
-            app:min="50"
-            android:max="120"
-            app:defaultValue="70"
-            app:showSeekBarValue="true"
-            app:key="step_width" />
-    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="personal_data"
+        android:title="@string/personal_data"
+        app:iconSpaceReserved="false">
 
-    <PreferenceCategory app:title="@string/appearance">
+        <SeekBarPreference
+            android:key="height_cm"
+            android:title="@string/height_cm"
+            app:min="120"
+            android:max="220"
+            app:defaultValue="180"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:key="weight_kg"
+            android:title="@string/weight_kg"
+            app:min="30"
+            android:max="220"
+            app:defaultValue="70"
+            app:showSeekBarValue="true" />
+</PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/appearance"
+        app:iconSpaceReserved="false">
+
         <ListPreference
+            android:key="theme"
+            android:title="@string/theme"
             app:defaultValue="system"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
-            app:key="theme"
-            app:title="@string/theme"
             app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:key="date_format"
+            android:title="@string/date_format"
+            android:summary="@string/date_format_summary"
+            android:defaultValue="yyyy-MM-dd"
+            android:entries="@array/date_format_options"
+            android:entryValues="@array/date_format_values" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/data">
-        <Preference
-            app:key="import"
-            app:title="Import" />
+    <PreferenceCategory
+        android:title="@string/data"
+        app:iconSpaceReserved="false">
 
         <Preference
-            app:key="export"
-            app:title="Export" />
+            android:key="import"
+            android:title="Import"
+        app:iconSpaceReserved="true" />
+
+        <Preference
+            android:key="export"
+            android:title="Export"
+        app:iconSpaceReserved="true" />
     </PreferenceCategory>
-
 </PreferenceScreen>

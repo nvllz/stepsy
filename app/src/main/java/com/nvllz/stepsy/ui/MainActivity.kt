@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.tiefensuche.motionmate.ui
+package com.nvllz.stepsy.ui
 
 import android.Manifest
 import android.content.Intent
@@ -16,36 +16,30 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.View
-import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
 import androidx.preference.PreferenceManager
-import com.google.android.material.color.DynamicColors
-import com.tiefensuche.motionmate.R
-import com.tiefensuche.motionmate.service.MotionService
-import com.tiefensuche.motionmate.ui.cards.MotionActivityTextItem
-import com.tiefensuche.motionmate.ui.cards.MotionStatisticsTextItem
-import com.tiefensuche.motionmate.ui.cards.MotionTextItem
-import com.tiefensuche.motionmate.util.Database
-import com.tiefensuche.motionmate.util.Util
+import com.nvllz.stepsy.R
+import com.nvllz.stepsy.service.MotionService
+import com.nvllz.stepsy.ui.cards.MotionStatisticsTextItem
+import com.nvllz.stepsy.ui.cards.MotionTextItem
+import com.nvllz.stepsy.util.Database
+import com.nvllz.stepsy.util.Util
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * The main activity for the UI of the step counter.
  */
 internal class MainActivity : AppCompatActivity() {
-    private lateinit var mTextViewSteps: TextView
     private lateinit var mTextViewMeters: TextView
+    private lateinit var mTextViewSteps: TextView
+    private lateinit var mTextViewCalories: TextView
     private lateinit var mTextViewCalendarContent: TextView
     private lateinit var mCalendarView: CalendarView
     private lateinit var mChart: Chart
@@ -56,19 +50,30 @@ internal class MainActivity : AppCompatActivity() {
     private lateinit var mOverallStepsCard: MotionStatisticsTextItem
     private var mCurrentSteps: Int = 0
     private var mSelectedMonth = Util.calendar
+    private var isPaused = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Util.applyTheme(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "system")!!)
-        DynamicColors.applyToActivitiesIfAvailable(application)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
 
-        Util.stepWidth = PreferenceManager.getDefaultSharedPreferences(this).getInt("step_width", 70)
+        Util.height = PreferenceManager.getDefaultSharedPreferences(this).getInt("height_cm", 180)
+        Util.weight = PreferenceManager.getDefaultSharedPreferences(this).getInt("weight_kg", 70)
 
-        mTextViewSteps = findViewById(R.id.textViewSteps)
         mTextViewMeters = findViewById(R.id.textViewMeters)
+        mTextViewSteps = findViewById(R.id.textViewSteps)
+        mTextViewCalories = findViewById(R.id.textViewCalories)
+        isPaused = getSharedPreferences("settings", MODE_PRIVATE).getBoolean("isPaused", false)
+
+        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
+        if (isPaused) {
+            fab.setImageResource(android.R.drawable.ic_media_play) // Set the play icon if paused
+        } else {
+            fab.setImageResource(android.R.drawable.ic_media_pause) // Set the pause icon if running
+        }
+
         val mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         mTextViewCalendarContent = findViewById(R.id.textViewCalendarContent)
         mChart = findViewById(R.id.chart)
@@ -94,48 +99,27 @@ internal class MainActivity : AppCompatActivity() {
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mAdapter
 
-        // setup swipeable cards and remove them on swiped, used for activities
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(recyclerView: RecyclerView,
-                                viewHolder: RecyclerView.ViewHolder,
-                                target: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = mAdapter[viewHolder.adapterPosition]
-                if (item is MotionActivityTextItem) {
-                    val i = Intent(this@MainActivity, MotionService::class.java)
-                    i.action = MotionService.ACTION_STOP_ACTIVITY
-                    i.putExtra(MotionService.KEY_ID, item.id)
-                    startService(i)
-                    mAdapter.remove(viewHolder.adapterPosition)
-                }
-            }
-
-            override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-                val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-                return if (mAdapter[viewHolder.adapterPosition].isSwipeable) {
-                    ItemTouchHelper.Callback.makeMovementFlags(0, swipeFlags)
-                } else 0
-            }
-
-        }).attachToRecyclerView(mRecyclerView)
-
         // Floating action button to start new activity
         findViewById<View>(R.id.fab).let {
             it.setOnClickListener {
-                val i = Intent(this@MainActivity, MotionService::class.java)
-                i.action = MotionService.ACTION_START_ACTIVITY
-                startService(i)
-            }
+                val fab = it as com.google.android.material.floatingactionbutton.FloatingActionButton
 
-            ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
-                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-                view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    bottomMargin = insets.bottom + 50
+                if (isPaused) {
+                    // Resume step counting
+                    val intent = Intent(this, MotionService::class.java)
+                    intent.action = MotionService.ACTION_RESUME_COUNTING
+                    startService(intent)
+                    fab.setImageResource(android.R.drawable.ic_media_pause) // Change to pause icon
+                    getSharedPreferences("settings", MODE_PRIVATE).edit().putBoolean("isPaused", false).apply()
+                } else {
+                    // Pause step counting
+                    val intent = Intent(this, MotionService::class.java)
+                    intent.action = MotionService.ACTION_PAUSE_COUNTING
+                    startService(intent)
+                    fab.setImageResource(android.R.drawable.ic_media_play) // Change to play icon
+                    getSharedPreferences("settings", MODE_PRIVATE).edit().putBoolean("isPaused", true).apply()
                 }
-                WindowInsetsCompat.CONSUMED
+                isPaused = !isPaused // Toggle the state
             }
         }
 
@@ -153,6 +137,14 @@ internal class MainActivity : AppCompatActivity() {
         checkPermission()
     }
 
+    private fun formatToSelectedDateFormat(dateInMillis: Long): String {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val dateFormatString = sharedPreferences.getString("date_format", "yyyy-MM-dd") ?: "yyyy-MM-dd"
+
+        val sdf = SimpleDateFormat(dateFormatString, Locale.getDefault())
+        return sdf.format(Date(dateInMillis))
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
@@ -167,7 +159,7 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun setupCards() {
-        // A card that displays sum of steps in the current month
+        // A card that displays sum of stepsy in the current month
         mMonthlyStepsCard = MotionStatisticsTextItem(this, R.string.steps_month, 0)
         mAdapter.add(mMonthlyStepsCard)
 
@@ -175,9 +167,9 @@ internal class MainActivity : AppCompatActivity() {
         mAverageStepsCard = MotionTextItem(this, R.string.avg_distance)
         mAdapter.add(mAverageStepsCard)
 
-        // A card that displays overall sum of steps
+        // A card that displays overall sum of stepsy
         val overallSteps = Database.getInstance(this).getSumSteps(Database.getInstance(this).firstEntry, Database.getInstance(this).lastEntry)
-        mOverallStepsCard = MotionStatisticsTextItem(this, R.string.overall_distance, overallSteps)
+        mOverallStepsCard = MotionStatisticsTextItem(this, R.string.total_distance, overallSteps)
         mAdapter.add(mOverallStepsCard)
 
         updateCards()
@@ -190,7 +182,12 @@ internal class MainActivity : AppCompatActivity() {
         i.putExtra(RECEIVER_TAG, object : ResultReceiver(null) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle) {
                 if (resultCode == 0) {
-                    runOnUiThread { updateView(resultData.getInt(MotionService.KEY_STEPS), resultData.getParcelableArrayList(MotionService.KEY_ACTIVITIES) ?: ArrayList()) }
+                    isPaused = resultData.getBoolean(MotionService.KEY_IS_PAUSED, false)
+                    runOnUiThread {
+                        updateView(resultData.getInt(MotionService.KEY_STEPS))
+                        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
+                        fab.setImageResource(if (isPaused) android.R.drawable.ic_media_play else android.R.drawable.ic_media_pause)
+                    }
                 }
             }
         })
@@ -216,11 +213,12 @@ internal class MainActivity : AppCompatActivity() {
         subscribeService()
     }
 
-    private fun updateView(steps: Int, activities: MutableList<Bundle>) {
-        // update current today's steps in the header
+    private fun updateView(steps: Int) {
+        // update current today's stepsy in the header
         mCurrentSteps = steps
-        mTextViewMeters.text = String.format(getString(R.string.meters_today), Util.stepsToMeters(steps))
+        mTextViewMeters.text = String.format(getString(R.string.distance_today), Util.stepsToMeters(steps))
         mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, steps, steps)
+        mTextViewCalories.text = String.format(getString(R.string.calories), Util.stepsToCalories(steps))
 
         // update calendar max date for the case that new day started
         if (!DateUtils.isToday(mCalendarView.maxDate))
@@ -228,34 +226,8 @@ internal class MainActivity : AppCompatActivity() {
 
         // update the cards
         mOverallStepsCard.updateSteps(steps)
-        for (i in 0 until mAdapter.itemCount) {
-            val item = mAdapter[i]
-            if (item is MotionActivityTextItem) {
-                for (activity in activities) {
-                    if (activity.getInt(MotionService.KEY_ID) == item.id) {
-                        item.updateSteps(activity.getInt(MotionService.KEY_STEPS))
-                        activities.remove(activity)
-                        break
-                    }
-                }
-            }
-        }
 
-        // initialize dynamic cards, e.g. activities, that are not yet added
-        for (activity in activities) {
-            val id = activity.getInt(MotionService.KEY_ID)
-            val item = MotionActivityTextItem(this, id, View.OnClickListener {
-                val i = Intent(this@MainActivity, MotionService::class.java)
-                i.action = MotionService.ACTION_TOGGLE_ACTIVITY
-                i.putExtra(MotionService.KEY_ID, id)
-                startService(i)
-            })
-            item.updateSteps(activity.getInt(MotionService.KEY_STEPS))
-            item.setActive(activity.getBoolean(MotionService.KEY_ACTIVE))
-            mAdapter.addTop(item)
-        }
-
-        // If selected week is the current week, update the diagram and cards with today's steps
+        // If selected week is the current week, update the diagram and cards with today's stepsy
         if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
             mChart.setCurrentSteps(steps)
             mChart.update()
@@ -267,35 +239,45 @@ internal class MainActivity : AppCompatActivity() {
         val min = Calendar.getInstance()
         min.timeInMillis = mSelectedMonth.timeInMillis
 
-        // Jump to the first day of the week
         min.set(Calendar.DAY_OF_WEEK, Calendar.getInstance().firstDayOfWeek)
 
         val max = Calendar.getInstance()
         max.timeInMillis = min.timeInMillis
 
-        // Jump to the last day of the week
         max.add(Calendar.DAY_OF_YEAR, 6)
 
         mChart.clearDiagram()
-        mTextViewChart.text = String.format(Locale.getDefault(), getString(R.string.week_display_format), min.get(Calendar.WEEK_OF_YEAR), min.timeInMillis, max.timeInMillis)
 
-        // Get the records of the selected week between the min and max timestamps
+        val startDateFormatted = formatToSelectedDateFormat(min.timeInMillis)
+        val endDateFormatted = formatToSelectedDateFormat(max.timeInMillis)
+
+        mTextViewChart.text = String.format(
+            Locale.getDefault(),
+            getString(R.string.week_display_format),
+            min.get(Calendar.WEEK_OF_YEAR), startDateFormatted, endDateFormatted
+        )
+
         val entries = Database.getInstance(this).getEntries(min.timeInMillis, max.timeInMillis)
 
-        mTextViewCalendarContent.text = String.format(getString(R.string.no_entry), mSelectedMonth.timeInMillis)
+        val selectedMonthDateFormatted = formatToSelectedDateFormat(mSelectedMonth.timeInMillis)
+        mTextViewCalendarContent.text = String.format(getString(R.string.no_entry), selectedMonthDateFormatted)
         for (entry in entries) {
             mChart.setDiagramEntry(entry)
 
             val cal = Calendar.getInstance()
             cal.timeInMillis = entry.timestamp
 
-            // Update the description text with the selected date
+            val calDateFormatted = formatToSelectedDateFormat(cal.timeInMillis)
+
             if (cal.get(Calendar.DAY_OF_WEEK) == mSelectedMonth.get(Calendar.DAY_OF_WEEK)) {
-                mTextViewCalendarContent.text = String.format(Locale.getDefault(), getString(R.string.steps_day_display), cal.timeInMillis, Util.stepsToMeters(entry.steps), entry.steps)
+                mTextViewCalendarContent.text = String.format(
+                    Locale.getDefault(),
+                    getString(R.string.steps_day_display),
+                    calDateFormatted, Util.stepsToMeters(entry.steps), entry.steps
+                )
             }
         }
 
-        // If selected week is the current week, update the diagram with today's steps
         if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
             mChart.setCurrentSteps(mCurrentSteps)
         }

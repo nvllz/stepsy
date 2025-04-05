@@ -7,15 +7,12 @@
         <item quantity="one">%d Schritt</item>
         <item quantity="other">%d Schritte</item>
     </plurals>
-    <string name="history">Verlauf</string>
     <string name="steps_day_display">Am %tD bist du ungefähr %.2f km gegangen mit %d Schritten.</string>
     <string name="no_entry">Kein Eintrag für den %tD.</string>
     <string name="week_display_format">Woche %d: %tD - %tD</string>
     <string name="steps_month">Schritte diesen Monat</string>
     <string name="avg_distance">Durchschnittliche Distanz pro Tag</string>
-    <string name="overall_distance">Distanz insgesamt</string>
+    <string name="total_distance">Distanz insgesamt</string>
     <string name="steps_format">%.2f km / %d Schritte</string>
-    <string name="new_activity">Neue Aktivität</string>
-    <string name="new_activity_started">Neue Aktivität gestartet</string>
     <string name="no_sensor">Entschuldigung, benötigter Sensor ist auf dem Gerät nicht vorhanden.</string>
 </resources>

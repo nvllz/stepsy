@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.tiefensuche.motionmate.ui
+package com.nvllz.stepsy.ui
 
 
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import com.tiefensuche.motionmate.R
-import com.tiefensuche.motionmate.ui.cards.TextItem
+import com.nvllz.stepsy.R
+import com.nvllz.stepsy.ui.cards.TextItem
 import java.util.*
 
 /**

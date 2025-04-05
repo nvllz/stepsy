@@ -2,10 +2,10 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.tiefensuche.motionmate.service
+package com.nvllz.stepsy
 
 /**
- * This class represents a motion activity started by the user. It counts all the steps from the time
+ * This class represents a motion activity started by the user. It counts all the stepsy from the time
  * the activity was started.
  */
 internal class MotionActivity(val id: Int, private var previousSteps: Int) {

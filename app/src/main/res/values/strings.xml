@@ -3,28 +3,51 @@
   -->
 
 <resources>
-    <string name="app_name" translatable="false">MotionMate</string>
-    <string name="steps" translatable="false">steps</string>
-    <string name="meters_today" translatable="false">%.2f km</string>
+    <string name="app_name" translatable="false">Stepsy</string>
+    <string name="distance_today" translatable="false">%1$.2f km</string>
     <plurals name="steps_text">
-        <item quantity="one">%d step</item>
-        <item quantity="other">%d steps</item>
+        <item quantity="one">%1$d step</item>
+        <item quantity="other">%1$d steps</item>
     </plurals>
-    <string name="history">History</string>
-    <string name="steps_day_display">On %tD you walked about %.2f km with %d steps.</string>
-    <string name="no_entry">No record for %tD.</string>
-    <string name="week_display_format">Week %d: %tD - %tD</string>
-    <string name="steps_month">Steps this month</string>
-    <string name="avg_distance">Average distance per day</string>
-    <string name="overall_distance">Overall distance</string>
-    <string name="steps_format">%.2f km / %d steps</string>
-    <string name="new_activity">New Activity</string>
-    <string name="new_activity_started">Started new activity</string>
-    <string name="no_sensor">Sorry, needed sensor is not present on your device.</string>
+    <string name="steps_day_display">%1$s: %2$.2f km / %3$d steps / %4$d kcal</string>
+    <string name="no_entry">No record for %1$s</string>
+    <string name="week_display_format">Week %1$s: %2$s - %3$s</string>
+    <string name="steps_month">This month</string>
+    <string name="avg_distance">Average per day</string>
+    <string name="total_distance">Total distance</string>
+    <string name="steps_format">%1$.2f km / %2$d steps</string>
+    <string name="no_sensor">Your device does not have a step counting sensor</string>
+    <string name="notification_category_steps_day">Step data</string>
+    <string name="notification_category_counting_paused">Counting paused</string>
+    <string name="notification_step_counting_paused">Step counting is paused</string>
+    <string name="notification_description_steps_day">Steps today</string>
+    <string name="notification_description_paused">Notify when step counting is paused</string>
+    <string name="step_counting_paused">Paused step counting</string>
+    <string name="step_counting_resumed">Resumed step counting</string>
+
     <!-- Preference Titles -->
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="step_width">Step width in cm</string>
-    <string name="data">Data</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="personal_data">Personal data</string>
+    <string name="date_format">Date format</string>
+    <string name="date_format_summary">Select your preferred date format</string>
+    <string-array name="date_format_options">
+        <item>yyyy-MM-dd</item>
+        <item>dd.MM.yyyy</item>
+        <item>MM/dd/yyyy</item>
+    </string-array>
+
+    <string-array name="date_format_values">
+        <item>yyyy-MM-dd</item>
+        <item>dd.MM.yyyy</item>
+        <item>MM/dd/yyyy</item>
+    </string-array>
+    <string name="data">Step data</string>
     <string name="appearance">Appearance</string>
     <string name="theme">Theme</string>
+    <string name="settings">Settings</string>
+    <string name="resume">Resume</string>
+    <string name="height_cm">Height (cm)</string>
+    <string name="weight_kg">Weight (kg)</string>
+    <string name="calories">%1$d kcal</string>
+
 </resources>

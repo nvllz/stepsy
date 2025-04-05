@@ -2,12 +2,12 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.tiefensuche.motionmate.ui.cards
+package com.nvllz.stepsy.ui.cards
 
 import android.content.Context
 import android.view.View
 
-import com.tiefensuche.motionmate.ui.TextItemAdapter
+import com.nvllz.stepsy.ui.TextItemAdapter
 
 /**
  * Basic TextItem that is contained in the [TextItemAdapter].

@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.tiefensuche.motionmate.util
+package com.nvllz.stepsy.util
 
 import android.content.ContentValues
 import android.content.Context
@@ -43,9 +43,9 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
             return query(arrayOf("max(timestamp)")).toLong()
         }
 
-    internal fun avgSteps(minDate: Long, maxDate: Long) = getSteps("avg(steps)", minDate, maxDate)
+    internal fun avgSteps(minDate: Long, maxDate: Long) = getSteps("avg(stepsy)", minDate, maxDate)
 
-    internal fun getSumSteps(minDate: Long, maxDate: Long) = getSteps("sum(steps)", minDate, maxDate)
+    internal fun getSumSteps(minDate: Long, maxDate: Long) = getSteps("sum(stepsy)", minDate, maxDate)
 
     private fun getSteps(columns: String, minDate: Long, maxDate: Long) = query(arrayOf(columns),
         "timestamp >= ? AND timestamp <= ?", arrayOf(minDate.toString(), maxDate.toString())).toInt()
@@ -54,8 +54,15 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         Log.d(TAG, "add entry to database: $timestamp, $steps")
         val values = ContentValues()
         values.put("timestamp", timestamp)
-        values.put("steps", steps)
-        writableDatabase.insertOrThrow(TABLE_NAME, null, values)
+        values.put("stepsy", steps)
+
+        // Check if the entry already exists
+        val rowsUpdated = writableDatabase.update(TABLE_NAME, values, "timestamp = ?", arrayOf(timestamp.toString()))
+
+        // If no rows were updated (entry didn't exist), insert a new one
+        if (rowsUpdated == 0) {
+            writableDatabase.insertOrThrow(TABLE_NAME, null, values)
+        }
     }
 
     internal fun getEntries(minDate: Long, maxDate: Long): List<Entry> {
@@ -86,7 +93,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         private const val DATABASE_NAME = "MotionMate"
         private const val DATABASE_VERSION = 1
         private const val TABLE_NAME = "History"
-        private const val DATABASE_CREATE = "create table if not exists $TABLE_NAME (timestamp long primary key, steps int not null);"
+        private const val DATABASE_CREATE = "create table if not exists $TABLE_NAME (timestamp long primary key, stepsy int not null);"
 
         private var instance: Database? = null
 
@@ -94,7 +101,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
             var instance = instance
             if (instance == null) {
                 instance = Database(context)
-                this.instance = instance
+                Companion.instance = instance
             }
             return instance
         }

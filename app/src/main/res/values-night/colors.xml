@@ -1,0 +1,9 @@
+<!-- res/values/colors.xml -->
+<resources>
+    <color name="colorAccent">#999999</color>
+    <color name="colorPrimary">#282828</color>
+    <color name="colorOnPrimary">#E9E9E9</color>
+    <color name="colorSurface">#000000</color>
+    <color name="colorOnSurface">#F0F0F0</color>
+    <color name="colorBackground">#000000</color>
+</resources>
