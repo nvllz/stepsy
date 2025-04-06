@@ -9,7 +9,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -19,10 +18,11 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.os.ResultReceiver
 import android.preference.PreferenceManager
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import android.text.format.DateUtils
 import android.util.Log
@@ -38,7 +38,6 @@ import androidx.core.content.edit
 internal class MotionService : Service() {
     private lateinit var sharedPreferences: SharedPreferences
     private var mTodaysSteps: Int = 0
-    private var mCurrentSteps: Int = 0
     private var mLastSteps = -1
     private var mCurrentDate: Long = 0
     private var receiver: ResultReceiver? = null
@@ -64,7 +63,7 @@ internal class MotionService : Service() {
 
         isCountingPaused = sharedPreferences.getBoolean(KEY_IS_PAUSED, false)
 
-        val mSensorManager = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
+        val mSensorManager = getSystemService(SENSOR_SERVICE) as? SensorManager
             ?: throw IllegalStateException("Could not get sensor service")
 
         if (packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
@@ -94,37 +93,56 @@ internal class MotionService : Service() {
         }
     }
 
+    private val handler = Handler(Looper.getMainLooper())
+    private val delayedWriteRunnable = Runnable {
+        handleStepUpdate()
+    }
+
     private fun handleEvent(value: Int) {
         if (!isCountingPaused) {
             if (mLastSteps == -1 || value < mLastSteps) {
                 mLastSteps = value
+                return
             }
-            mTodaysSteps += value - mLastSteps
+
+            val delta = value - mLastSteps
+            mTodaysSteps += delta
             mLastSteps = value
-            handleEvent()
+
+            handleStepUpdate()
+
+            // reset the delayed write runnable
+            handler.removeCallbacks(delayedWriteRunnable)
+            handler.postDelayed(delayedWriteRunnable, 10_000)
+
         } else {
             mLastSteps = value
         }
     }
 
-    fun getTodaysSteps(): Int {
-        return mTodaysSteps
-    }
-
     private var lastWriteTime: Long = 0
     private val writeInterval = 10000
 
-    private fun handleEvent() {
+    private fun handleStepUpdate() {
+        val currentDate = Util.calendar.timeInMillis
+
         if (!DateUtils.isToday(mCurrentDate)) {
             Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
             mTodaysSteps = 0
-            mCurrentDate = Util.calendar.timeInMillis
-            sharedPreferences.edit().putLong(KEY_DATE, mCurrentDate).apply()
+            mCurrentDate = currentDate
+            mLastSteps = -1
+            sharedPreferences.edit {
+                putInt(KEY_STEPS, mTodaysSteps)
+                putLong(KEY_DATE, mCurrentDate)
+            }
         }
 
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastWriteTime > writeInterval) {
-            sharedPreferences.edit().putInt(KEY_STEPS, mTodaysSteps).apply()
+            Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
+            sharedPreferences.edit {
+                putInt(KEY_STEPS, mTodaysSteps)
+            }
             lastWriteTime = currentTime
         }
 
@@ -134,12 +152,7 @@ internal class MotionService : Service() {
     private fun sendUpdate() {
         if (isCountingPaused) {
             sendPauseNotification()
-            receiver?.let {
-                val bundle = Bundle()
-                bundle.putInt(KEY_STEPS, mTodaysSteps)
-                bundle.putBoolean(KEY_IS_PAUSED, isCountingPaused)
-                it.send(0, bundle)
-            }
+            sendBundleUpdate(isCountingPaused)
             return
         } else {
             dismissPauseNotification()
@@ -155,12 +168,19 @@ internal class MotionService : Service() {
         mBuilder.setContentText(notificationText)
         mNotificationManager.notify(FOREGROUND_ID, mBuilder.build())
 
+        sendBundleUpdate(isCountingPaused)
+    }
+
+    private fun sendBundleUpdate(paused: Boolean = false) {
         receiver?.let {
-            val bundle = Bundle()
-            bundle.putInt(KEY_STEPS, mTodaysSteps)
+            val bundle = Bundle().apply {
+                putInt(KEY_STEPS, mTodaysSteps)
+                if (paused) putBoolean(KEY_IS_PAUSED, true)
+            }
             it.send(0, bundle)
         }
     }
+
 
     private fun sendPauseNotification() {
         val resumeIntent = Intent(this, MotionService::class.java).apply {
@@ -180,7 +200,7 @@ internal class MotionService : Service() {
             .setContentText(getString(R.string.notification_step_counting_paused))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .addAction(
-                R.drawable.ic_notification,  // You might want to use a play icon here
+                R.drawable.ic_notification,
                 getString(R.string.resume),
                 resumePendingIntent
             )
@@ -201,39 +221,42 @@ internal class MotionService : Service() {
                 ACTION_SUBSCRIBE -> receiver = it.getParcelableExtra(MainActivity.RECEIVER_TAG)
                 ACTION_PAUSE_COUNTING -> {
                     isCountingPaused = true
-                    sharedPreferences.edit() { putBoolean(KEY_IS_PAUSED, true) }
+                    sharedPreferences.edit { putBoolean(KEY_IS_PAUSED, true) }
                     Toast.makeText(this, R.string.step_counting_paused, Toast.LENGTH_SHORT).show()
                 }
                 ACTION_RESUME_COUNTING -> {
                     isCountingPaused = false
-                    sharedPreferences.edit() { putBoolean(KEY_IS_PAUSED, false) }
+                    sharedPreferences.edit { putBoolean(KEY_IS_PAUSED, false) }
                     Toast.makeText(this, R.string.step_counting_resumed, Toast.LENGTH_SHORT).show()
                 }
             }
+
+            // handle forced update with new values
+            if (it.hasExtra("FORCE_UPDATE")) {
+                mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
+                mCurrentDate = it.getLongExtra(KEY_DATE, mCurrentDate)
+                mLastSteps = -1 // reset step counter to avoid incorrect delta calculations
+                sharedPreferences.edit {
+                    putInt(KEY_STEPS, mTodaysSteps)
+                    putLong(KEY_DATE, mCurrentDate)
+                }
+            }
+
             sendUpdate()
         }
 
         return START_STICKY
     }
 
-    private fun sendStateChangeBroadcast() {
-        val intent = Intent("PAUSE_STATE_CHANGED")
-        intent.putExtra("isPaused", isCountingPaused)
-        sendBroadcast(intent)
-    }
-
-
     private fun startService() {
-        mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+        mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as? NotificationManager
             ?: throw IllegalStateException("Could not get notification service")
 
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createStepNotificationChannel()
-            createPauseNotificationChannel()
-        }
+        createStepNotificationChannel()
+        createPauseNotificationChannel()
 
         mBuilder = NotificationCompat.Builder(this, STEP_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
@@ -244,7 +267,6 @@ internal class MotionService : Service() {
         startForeground(FOREGROUND_ID, mBuilder.build())
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createStepNotificationChannel() {
         if (mNotificationManager.getNotificationChannel(STEP_CHANNEL_ID) == null) {
             val stepNotificationChannel = NotificationChannel(
@@ -257,7 +279,6 @@ internal class MotionService : Service() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createPauseNotificationChannel() {
         if (mNotificationManager.getNotificationChannel(PAUSE_CHANNEL_ID) == null) {
             val pauseNotificationChannel = NotificationChannel(
@@ -273,9 +294,7 @@ internal class MotionService : Service() {
     companion object {
         private val TAG = MotionService::class.java.simpleName
         internal const val ACTION_SUBSCRIBE = "ACTION_SUBSCRIBE"
-        internal const val KEY_ID = "ID"
         internal const val KEY_STEPS = "STEPS"
-        internal const val KEY_ACTIVITIES = "ACTIVITIES"
         internal const val KEY_DATE = "DATE"
         internal const val KEY_IS_PAUSED = "IS_PAUSED"
         internal const val ACTION_PAUSE_COUNTING = "ACTION_PAUSE_COUNTING"

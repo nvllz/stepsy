@@ -11,7 +11,7 @@
     </plurals>
     <string name="steps_day_display">%1$s: %2$.2f km / %3$d steps / %4$d kcal</string>
     <string name="no_entry">No record for %1$s</string>
-    <string name="week_display_format">Week %1$s: %2$s - %3$s</string>
+    <string name="week_display_format">Week %1$d: %2$s - %3$s</string>
     <string name="steps_month">This month</string>
     <string name="avg_distance">Average per day</string>
     <string name="total_distance">Total distance</string>
@@ -41,7 +41,7 @@
         <item>dd.MM.yyyy</item>
         <item>MM/dd/yyyy</item>
     </string-array>
-    <string name="data">Step data</string>
+    <string name="data">Backup</string>
     <string name="appearance">Appearance</string>
     <string name="theme">Theme</string>
     <string name="settings">Settings</string>
@@ -49,5 +49,7 @@
     <string name="height_cm">Height (cm)</string>
     <string name="weight_kg">Weight (kg)</string>
     <string name="calories">%1$d kcal</string>
+    <string name="import_data">Import</string>
+    <string name="export_data">Export</string>
 
 </resources>

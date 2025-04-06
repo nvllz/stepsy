@@ -4,19 +4,23 @@
 
 package com.nvllz.stepsy.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import androidx.preference.SeekBarPreference
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
+import com.nvllz.stepsy.service.MotionService.Companion.KEY_DATE
+import com.nvllz.stepsy.service.MotionService.Companion.KEY_STEPS
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.io.FileInputStream
@@ -86,7 +90,7 @@ class SettingsActivity : AppCompatActivity() {
                 // Generate the filename using the current date in yyyyMMdd format
                 val dateFormat = java.text.SimpleDateFormat("yyyyMMdd-HHmmSS", Locale.getDefault())
                 val currentDate = dateFormat.format(Date())
-                val fileName = "${currentDate}_motionmate.csv"
+                val fileName = "${currentDate}.csv"
 
                 // Create the export intent with the new filename
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
@@ -99,10 +103,11 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onActivityResult(
             requestCode: Int, resultCode: Int, resultData: Intent?) {
             super.onActivityResult(requestCode, resultCode, resultData)
-            if (resultCode != Activity.RESULT_OK)
+            if (resultCode != RESULT_OK)
                 return
             resultData?.data?.also { uri ->
                 when (requestCode) {
@@ -114,37 +119,66 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun import(uri: Uri) {
             val db = Database.getInstance(requireContext())
+            val today = Util.calendar.timeInMillis
+            var todaySteps = 0
+            var entries = 0
+            var failed = 0
+
             try {
                 requireContext().contentResolver.openFileDescriptor(uri, "r")?.use {
-                    FileInputStream(it.fileDescriptor).bufferedReader().use {
-                        var entries = 0
-                        var failed = 0
-                        for (line in it.readLines()) {
+                    FileInputStream(it.fileDescriptor).bufferedReader().use { reader ->
+                        for (line in reader.readLines()) {
                             entries += 1
                             try {
                                 val split = line.split(",")
-                                db.addEntry(split[0].toLong(), split[1].toInt())
+                                val timestamp = split[0].toLong()
+                                val steps = split[1].toInt()
+
+                                if (DateUtils.isToday(timestamp)) {
+                                    todaySteps = steps
+                                }
+                                db.addEntry(timestamp, steps)
                             } catch (ex: Exception) {
-                                println("Can not import entry, ${ex.message}")
+                                println("Cannot import entry, ${ex.message}")
                                 failed += 1
                             }
                         }
-                        Toast.makeText(context, "Imported ${entries - failed} entries ($failed failed).", Toast.LENGTH_LONG).show()
                     }
+
+                    // update today's steps if found in import
+                    if (todaySteps > 0) {
+                        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                        prefs.edit {
+                            putInt(KEY_STEPS, todaySteps)
+                            putLong(KEY_DATE, today)
+                        }
+
+                        // force update the service and UI
+                        val intent = Intent(requireContext(), MotionService::class.java).apply {
+                            putExtra("FORCE_UPDATE", true)
+                            putExtra(KEY_STEPS, todaySteps)
+                            putExtra(KEY_DATE, today)
+                        }
+                        requireContext().startService(intent)
+                    }
+
+                    Toast.makeText(
+                        context,
+                        "Imported ${entries - failed} entries ($failed failed). " +
+                                if (todaySteps > 0) "Today's steps set to $todaySteps." else "",
+                        Toast.LENGTH_LONG
+                    ).show()
                     restartApp()
                 }
             } catch (ex: Exception) {
-                println("Can not open file, ${ex.message}")
-                Toast.makeText(context, "Can not open file", Toast.LENGTH_LONG).show()
+                println("Cannot open file, ${ex.message}")
+                Toast.makeText(context, "Cannot open file", Toast.LENGTH_LONG).show()
             }
         }
 
         private fun export(uri: Uri) {
             val db = Database.getInstance(requireContext())
-            val currentDate = Util.calendar.timeInMillis
-            val todaysSteps = MotionService().getTodaysSteps()
 
-            db.addEntry(currentDate, todaysSteps)
             try {
                 requireContext().contentResolver.openFileDescriptor(uri, "w")?.use {
                     FileOutputStream(it.fileDescriptor).bufferedWriter().use {

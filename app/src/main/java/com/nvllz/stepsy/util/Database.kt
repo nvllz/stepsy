@@ -90,7 +90,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
     companion object {
 
         private val TAG = Database::class.java.simpleName
-        private const val DATABASE_NAME = "MotionMate"
+        private const val DATABASE_NAME = "Stepsy"
         private const val DATABASE_VERSION = 1
         private const val TABLE_NAME = "History"
         private const val DATABASE_CREATE = "create table if not exists $TABLE_NAME (timestamp long primary key, stepsy int not null);"

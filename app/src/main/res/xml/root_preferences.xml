@@ -16,7 +16,8 @@
             app:min="120"
             android:max="220"
             app:defaultValue="180"
-            app:showSeekBarValue="true" />
+            app:showSeekBarValue="true"
+            app:iconSpaceReserved="false" />
 
         <SeekBarPreference
             android:key="weight_kg"
@@ -24,7 +25,8 @@
             app:min="30"
             android:max="220"
             app:defaultValue="70"
-            app:showSeekBarValue="true" />
+            app:showSeekBarValue="true"
+            app:iconSpaceReserved="false" />
 </PreferenceCategory>
 
     <PreferenceCategory
@@ -54,12 +56,12 @@
 
         <Preference
             android:key="import"
-            android:title="Import"
+            android:title="@string/import_data"
         app:iconSpaceReserved="true" />
 
         <Preference
             android:key="export"
-            android:title="Export"
+            android:title="@string/export_data"
         app:iconSpaceReserved="true" />
     </PreferenceCategory>
 </PreferenceScreen>

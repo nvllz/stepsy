@@ -32,6 +32,7 @@ import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.core.content.edit
 
 /**
  * The main activity for the UI of the step counter.
@@ -69,9 +70,9 @@ internal class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
         if (isPaused) {
-            fab.setImageResource(android.R.drawable.ic_media_play) // Set the play icon if paused
+            fab.setImageResource(android.R.drawable.ic_media_play)
         } else {
-            fab.setImageResource(android.R.drawable.ic_media_pause) // Set the pause icon if running
+            fab.setImageResource(android.R.drawable.ic_media_pause)
         }
 
         val mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
@@ -99,27 +100,34 @@ internal class MainActivity : AppCompatActivity() {
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mAdapter
 
-        // Floating action button to start new activity
         findViewById<View>(R.id.fab).let {
             it.setOnClickListener {
                 val fab = it as com.google.android.material.floatingactionbutton.FloatingActionButton
 
                 if (isPaused) {
-                    // Resume step counting
                     val intent = Intent(this, MotionService::class.java)
                     intent.action = MotionService.ACTION_RESUME_COUNTING
                     startService(intent)
-                    fab.setImageResource(android.R.drawable.ic_media_pause) // Change to pause icon
-                    getSharedPreferences("settings", MODE_PRIVATE).edit().putBoolean("isPaused", false).apply()
+                    fab.setImageResource(android.R.drawable.ic_media_pause)
+                    getSharedPreferences("settings", MODE_PRIVATE).edit {
+                        putBoolean(
+                            "isPaused",
+                            false
+                        )
+                    }
                 } else {
-                    // Pause step counting
                     val intent = Intent(this, MotionService::class.java)
                     intent.action = MotionService.ACTION_PAUSE_COUNTING
                     startService(intent)
-                    fab.setImageResource(android.R.drawable.ic_media_play) // Change to play icon
-                    getSharedPreferences("settings", MODE_PRIVATE).edit().putBoolean("isPaused", true).apply()
+                    fab.setImageResource(android.R.drawable.ic_media_play)
+                    getSharedPreferences("settings", MODE_PRIVATE).edit {
+                        putBoolean(
+                            "isPaused",
+                            true
+                        )
+                    }
                 }
-                isPaused = !isPaused // Toggle the state
+                isPaused = !isPaused
             }
         }
 
@@ -127,14 +135,22 @@ internal class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
 
-        // initial update of the diagram
         updateChart()
 
-        // Add some cards with statistics
         setupCards()
 
-        // Start the motion service
-        checkPermission()
+        checkPermissions()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        subscribeService()
+
+        val intent = Intent(this, MotionService::class.java).apply {
+            putExtra("FORCE_UPDATE", true)
+        }
+        startService(intent)
     }
 
     private fun formatToSelectedDateFormat(dateInMillis: Long): String {
@@ -159,15 +175,12 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun setupCards() {
-        // A card that displays sum of stepsy in the current month
         mMonthlyStepsCard = MotionStatisticsTextItem(this, R.string.steps_month, 0)
         mAdapter.add(mMonthlyStepsCard)
 
-        // A card that displays average distance in a day
         mAverageStepsCard = MotionTextItem(this, R.string.avg_distance)
         mAdapter.add(mAverageStepsCard)
 
-        // A card that displays overall sum of stepsy
         val overallSteps = Database.getInstance(this).getSumSteps(Database.getInstance(this).firstEntry, Database.getInstance(this).lastEntry)
         mOverallStepsCard = MotionStatisticsTextItem(this, R.string.total_distance, overallSteps)
         mAdapter.add(mOverallStepsCard)
@@ -176,7 +189,6 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeService() {
-        // start the service and pass a result receiver that is used by the service to update the UI
         val i = Intent(this, MotionService::class.java)
         i.action = MotionService.ACTION_SUBSCRIBE
         i.putExtra(RECEIVER_TAG, object : ResultReceiver(null) {
@@ -194,13 +206,19 @@ internal class MainActivity : AppCompatActivity() {
         startService(i)
     }
 
-    private fun checkPermission() {
+    private fun checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
             packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACTIVITY_RECOGNITION), 0)
+
         } else {
-            subscribeService()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
+            }
         }
     }
 
@@ -210,11 +228,22 @@ internal class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        subscribeService()
+
+        if (requestCode == 0) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                subscribeService()
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
+                }
+            }
+        }
     }
 
+
     private fun updateView(steps: Int) {
-        // update current today's stepsy in the header
+        // update current today's steps in the header
         mCurrentSteps = steps
         mTextViewMeters.text = String.format(getString(R.string.distance_today), Util.stepsToMeters(steps))
         mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, steps, steps)
@@ -273,7 +302,7 @@ internal class MainActivity : AppCompatActivity() {
                 mTextViewCalendarContent.text = String.format(
                     Locale.getDefault(),
                     getString(R.string.steps_day_display),
-                    calDateFormatted, Util.stepsToMeters(entry.steps), entry.steps
+                    calDateFormatted, Util.stepsToMeters(entry.steps), entry.steps, Util.stepsToCalories(entry.steps)
                 )
             }
         }
@@ -285,8 +314,10 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun updateCards() {
-        val cal = Util.calendar
-        cal.set(Calendar.DAY_OF_MONTH, 1)
+        val cal = Calendar.getInstance().apply {
+            timeInMillis = Util.calendar.timeInMillis
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
 
         val startOfMonth = Calendar.getInstance()
         startOfMonth.timeInMillis = mSelectedMonth.timeInMillis
