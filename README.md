@@ -1,32 +1,39 @@
-# MotionMate
+# Stepsy - a minimalist step counting app
 
-[![android](https://github.com/0xf4b1/motionmate/actions/workflows/android.yml/badge.svg)](https://github.com/0xf4b1/motionmate/actions/workflows/android.yml)
-[![GitHub release](https://img.shields.io/github/v/release/0xf4b1/motionmate.svg)](https://github.com/0xf4b1/motionmate/releases)
+[![GitHub release](https://img.shields.io/github/v/release/nvllz/stepsy.svg)](https://github.com/nvllz/stepsy/releases)
 [![GitHub](https://img.shields.io/github/license/0xf4b1/motionmate.svg)](LICENSE)
 
-MotionMate is a very simple and lightweight step counter app for Android that records your daily steps and presents the results in a nice weekly bar chart along with other statistics.
+Stepsy, a fork of [Motionmate](https://github.com/0xf4b1/motionmate), is a lightweight Android app that helps you track your daily steps using your phone's built-in sensors. Stay active, track your progress, and reach your fitness goals - all with a clean, minimal interface and no real impact on your battery.
 
-It uses the built-in step counter sensor if it is present on the device, and otherwise uses a fallback implementation based on the accelerometer sensor.
+- Calculate distance and calories burned based on your height and weight
+- Visualize your data with dynamic, interactive charts
+- Export your data to a CSV file for backup and easy analysis
 
-It supports file-based data import and export and does not require internet access, so all your data is stored on the device only.
+## Screenshots
+<img src="images/stepsy-scr-1.png" width="300"/> <img src="images/stepsy-scr-2.png" width="300"/>
+
+# Stepsy vs Motionmate - Main differences
+<details>
+
+- Made the step counting more efficient
+- Revamped overall design for a cleaner look  
+- Improved compatibility with recent Android versions (updated permission handling)  
+- Removed deprecated code for better maintainability  
+- Fixed numerous bugs (including issues with charts, settings, backups, and step data handling)  
+- Optimized database writes for better reliability  
+- Added support for custom date formats  
+- Replaced "step width" with intuitive height and weight sliders  
+- Removed custom activities
+- Updated the "Play" button — now functions as a pause toggle for step counting  
+- Refreshed app icon with a new design  
+- Introduced dynamic charts with value-based bar highlights  
+- Enhanced notification system for improved user feedback
+
+</details>
 
 ## Download
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
-      alt="Download from Google Play"
-      height="80">](https://play.google.com/store/apps/details?id=com.tiefensuche.motionmate)
-
-or download the apk directly from the [GitHub releases](https://github.com/0xf4b1/motionmate/releases) page.
-
-## Screenshots
-
-<img src="images/motionmate-screenshot-1.png" width="300"/> <img src="images/motionmate-screenshot-2.png" width="300"/>
-
-## Building
-
-	$ git clone https://github.com/0xf4b1/motionmate && cd motionmate
-	$ ./gradlew assembleDebug
-	$ adb install app/build/outputs/apk/debug/app-debug.apk
+Download the apk directly from the [GitHub releases](https://github.com/nvllz/stepsy/releases) page.
 
 ## License
 
