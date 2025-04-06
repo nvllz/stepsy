@@ -2,6 +2,10 @@
 *.apk
 *.ap_
 
+# Keystore
+*.jks
+*.keystore
+
 # Files for the ART/Dalvik VM
 *.dex
 
@@ -57,3 +61,4 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+/app/release/output-metadata.json
