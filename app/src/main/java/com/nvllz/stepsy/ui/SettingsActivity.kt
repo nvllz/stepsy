@@ -90,7 +90,7 @@ class SettingsActivity : AppCompatActivity() {
                 // Generate the filename using the current date in yyyyMMdd format
                 val dateFormat = java.text.SimpleDateFormat("yyyyMMdd-HHmmSS", Locale.getDefault())
                 val currentDate = dateFormat.format(Date())
-                val fileName = "${currentDate}.csv"
+                val fileName = "${currentDate}_stepsy.csv"
 
                 // Create the export intent with the new filename
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
