@@ -240,6 +240,7 @@ internal class MotionService : Service() {
                     putInt(KEY_STEPS, mTodaysSteps)
                     putLong(KEY_DATE, mCurrentDate)
                 }
+                handleStepUpdate()
             }
 
             sendUpdate()
