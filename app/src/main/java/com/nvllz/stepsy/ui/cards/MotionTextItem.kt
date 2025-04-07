@@ -21,6 +21,6 @@ internal open class MotionTextItem(context: Context, description: Int) : TextIte
     }
 
     internal fun setContent(steps: Number) {
-        setContent(String.format(Locale.getDefault(), format, Util.stepsToMeters(steps), steps.toInt()))
+        setContent(String.format(Locale.getDefault(), format, Util.stepsToDistance(steps), Util.getDistanceUnitString(), steps.toInt()))
     }
 }

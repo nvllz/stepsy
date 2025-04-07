@@ -42,12 +42,21 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
+            android:key="unit_system"
+            android:title="@string/unit_system"
+            android:defaultValue="metric"
+            android:entries="@array/unit_system_entries"
+            android:entryValues="@array/unit_system_values"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
             android:key="date_format"
             android:title="@string/date_format"
             android:summary="@string/date_format_summary"
             android:defaultValue="yyyy-MM-dd"
             android:entries="@array/date_format_options"
-            android:entryValues="@array/date_format_values" />
+            android:entryValues="@array/date_format_values"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -62,14 +62,29 @@ class SettingsActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
             findPreference<SeekBarPreference>("height_cm")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.height = newValue as Int
+                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
+                    putInt("height_cm", newValue)
+                }
                 true
             }
             findPreference<SeekBarPreference>("weight_kg")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.weight = newValue as Int
+                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
+                    putInt("weight_kg", newValue)
+                }
+                true
+            }
+            findPreference<ListPreference>("unit_system")?.setOnPreferenceChangeListener { _, newValue ->
+                Util.distanceUnit = when (newValue.toString()) {
+                    "imperial" -> Util.DistanceUnit.IMPERIAL
+                    else -> Util.DistanceUnit.METRIC
+                }
+                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
+                    putString("unit_system", newValue.toString())
+                }
                 true
             }
             findPreference<ListPreference>("date_format")?.setOnPreferenceChangeListener { _, newValue ->
-                // Handle the date format change
                 val dateFormat = newValue.toString()
                 Toast.makeText(context, "Date format set to: $dateFormat", Toast.LENGTH_SHORT).show()
                 true
@@ -90,7 +105,7 @@ class SettingsActivity : AppCompatActivity() {
                 // Generate the filename using the current date in yyyyMMdd format
                 val dateFormat = java.text.SimpleDateFormat("yyyyMMdd-HHmmSS", Locale.getDefault())
                 val currentDate = dateFormat.format(Date())
-                val fileName = "${currentDate}_stepsy.csv"
+                val fileName = "${currentDate}.csv"
 
                 // Create the export intent with the new filename
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {

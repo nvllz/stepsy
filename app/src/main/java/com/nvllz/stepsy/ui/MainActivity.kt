@@ -9,9 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.PowerManager
 import android.os.ResultReceiver
-import android.provider.Settings
 import android.text.format.DateUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -35,7 +33,6 @@ import com.nvllz.stepsy.util.Util
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.core.content.edit
-import androidx.core.net.toUri
 
 /**
  * The main activity for the UI of the step counter.
@@ -59,6 +56,7 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Util.applyTheme(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "system")!!)
+        Util.init(applicationContext)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
@@ -222,21 +220,6 @@ internal class MainActivity : AppCompatActivity() {
                 ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
             }
-
-            requestIgnoreBatteryOptimization()
-        }
-    }
-
-    private fun requestIgnoreBatteryOptimization() {
-        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
-        val packageName = packageName
-
-        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
-            val intent = Intent().apply {
-                action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                data = "package:$packageName".toUri()
-            }
-            startActivity(intent)
         }
     }
 
@@ -263,7 +246,7 @@ internal class MainActivity : AppCompatActivity() {
     private fun updateView(steps: Int) {
         // update current today's steps in the header
         mCurrentSteps = steps
-        mTextViewMeters.text = String.format(getString(R.string.distance_today), Util.stepsToMeters(steps))
+        mTextViewMeters.text = String.format(getString(R.string.distance_today), Util.stepsToDistance(steps), Util.getDistanceUnitString())
         mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, steps, steps)
         mTextViewCalories.text = String.format(getString(R.string.calories), Util.stepsToCalories(steps))
 
@@ -320,7 +303,7 @@ internal class MainActivity : AppCompatActivity() {
                 mTextViewCalendarContent.text = String.format(
                     Locale.getDefault(),
                     getString(R.string.steps_day_display),
-                    calDateFormatted, Util.stepsToMeters(entry.steps), entry.steps, Util.stepsToCalories(entry.steps)
+                    calDateFormatted, Util.stepsToDistance(entry.steps), Util.getDistanceUnitString(), entry.steps, Util.stepsToCalories(entry.steps)
                 )
             }
         }

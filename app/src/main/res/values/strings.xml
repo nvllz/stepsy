@@ -4,18 +4,18 @@
 
 <resources>
     <string name="app_name" translatable="false">Stepsy</string>
-    <string name="distance_today" translatable="false">%1$.2f km</string>
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <plurals name="steps_text">
         <item quantity="one">%1$d step</item>
         <item quantity="other">%1$d steps</item>
     </plurals>
-    <string name="steps_day_display">%1$s: %2$.2f km / %3$d steps / %4$d kcal</string>
+    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$d steps / %5$d kcal</string>
     <string name="no_entry">No record for %1$s</string>
     <string name="week_display_format">Week %1$d: %2$s - %3$s</string>
     <string name="steps_month">This month</string>
     <string name="avg_distance">Average per day</string>
     <string name="total_distance">Total distance</string>
-    <string name="steps_format">%1$.2f km / %2$d steps</string>
+    <string name="steps_format">%1$.2f %2$s / %3$d steps</string>
     <string name="no_sensor">Your device does not have a step counting sensor</string>
     <string name="notification_category_steps_day">Step data</string>
     <string name="notification_category_counting_paused">Counting paused</string>
@@ -51,5 +51,15 @@
     <string name="calories">%1$d kcal</string>
     <string name="import_data">Import</string>
     <string name="export_data">Export</string>
+
+    <string name="unit_system">Unit system</string>
+    <string-array name="unit_system_entries">
+        <item>Metric (km)</item>
+        <item>Imperial (miles)</item>
+    </string-array>
+    <string-array name="unit_system_values">
+        <item>metric</item>
+        <item>imperial</item>
+    </string-array>
 
 </resources>
