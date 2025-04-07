@@ -9,7 +9,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
 import android.os.ResultReceiver
+import android.provider.Settings
 import android.text.format.DateUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -33,6 +35,7 @@ import com.nvllz.stepsy.util.Util
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.core.content.edit
+import androidx.core.net.toUri
 
 /**
  * The main activity for the UI of the step counter.
@@ -219,6 +222,21 @@ internal class MainActivity : AppCompatActivity() {
                 ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
             }
+
+            requestIgnoreBatteryOptimization()
+        }
+    }
+
+    private fun requestIgnoreBatteryOptimization() {
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        val packageName = packageName
+
+        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+            val intent = Intent().apply {
+                action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                data = "package:$packageName".toUri()
+            }
+            startActivity(intent)
         }
     }
 
