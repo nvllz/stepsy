@@ -1,4 +1,5 @@
 <img src="images/github-banner.png" alt="stepsy banner"/>
+
 #
 
 [![GitHub release](https://img.shields.io/github/v/release/nvllz/stepsy.svg)](https://github.com/nvllz/stepsy/releases)
