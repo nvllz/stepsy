@@ -1,4 +1,5 @@
-# Stepsy - a minimalist step counting app
+<img src="images/github-banner.png" alt="stepsy banner"/>
+#
 
 [![GitHub release](https://img.shields.io/github/v/release/nvllz/stepsy.svg)](https://github.com/nvllz/stepsy/releases)
 [![GitHub](https://img.shields.io/github/license/0xf4b1/motionmate.svg)](LICENSE)
@@ -10,10 +11,9 @@ Stepsy, a fork of [Motionmate](https://github.com/0xf4b1/motionmate), is a light
 - Export your data to a CSV file for backup and easy analysis
 
 ## Screenshots
-<img src="images/stepsy-scr-1.png" width="300"/> <img src="images/stepsy-scr-2.png" width="300"/>
+<img src="images/stepsy-scr-1.png" width="350" alt="app screenshot"/> <img src="images/stepsy-scr-2.png" width="350" alt="settings screenshot"/>
 
-# Stepsy vs Motionmate - Main differences
-<details>
+# Stepsy vs Motionmate - differences
 
 - Made the step counting more efficient
 - Revamped overall design for a cleaner look  
@@ -28,8 +28,6 @@ Stepsy, a fork of [Motionmate](https://github.com/0xf4b1/motionmate), is a light
 - Refreshed app icon with a new design  
 - Introduced dynamic charts with value-based bar highlights  
 - Enhanced notification system for improved user feedback
-
-</details>
 
 ## Download
 
