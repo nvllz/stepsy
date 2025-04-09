@@ -34,6 +34,8 @@ import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.util.*
 import androidx.core.content.edit
+import com.nvllz.stepsy.ui.WidgetStepsCompactProvider
+import com.nvllz.stepsy.ui.WidgetStepsProvider
 
 internal class MotionService : Service() {
     private lateinit var sharedPreferences: SharedPreferences
@@ -121,7 +123,8 @@ internal class MotionService : Service() {
     }
 
     private var lastWriteTime: Long = 0
-    private val writeInterval = 10000
+    private var lastWidgetUpdateTime: Long = 0
+    private val writeInterval = 15000
 
     private fun handleStepUpdate() {
         val currentDate = Util.calendar.timeInMillis
@@ -144,6 +147,12 @@ internal class MotionService : Service() {
                 putInt(KEY_STEPS, mTodaysSteps)
             }
             lastWriteTime = currentTime
+        }
+
+        if (currentTime - lastWidgetUpdateTime > (writeInterval * 2)) {
+            WidgetStepsProvider.updateWidget(applicationContext, mTodaysSteps)
+            WidgetStepsCompactProvider.updateWidget(applicationContext, mTodaysSteps)
+            lastWidgetUpdateTime = currentTime
         }
 
         sendUpdate()

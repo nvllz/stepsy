@@ -28,11 +28,13 @@ android {
     }
     buildTypes {
         debug {
+            manifestPlaceholders = [icon: "@drawable/ic_launcher_debug"]
             applicationIdSuffix ".debug"
             versionNameSuffix '-debug'
             minifyEnabled true
         }
         release {
+            manifestPlaceholders = [icon: "@drawable/ic_launcher"]
             minifyEnabled true
             shrinkResources true
             signingConfig signingConfigs.release
