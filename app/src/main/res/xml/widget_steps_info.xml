@@ -5,6 +5,7 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget_steps"
     android:initialKeyguardLayout="@layout/widget_steps"
+    android:orientation="horizontal"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
     android:previewImage="@drawable/widget_steps_preview" />
