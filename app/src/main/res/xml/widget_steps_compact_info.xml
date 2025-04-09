@@ -3,9 +3,6 @@
     android:minWidth="80dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/widget_steps_compact"
-    android:initialKeyguardLayout="@layout/widget_steps_compact"
-    android:orientation="horizontal"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
     android:previewImage="@drawable/widget_steps_compact_preview" />
