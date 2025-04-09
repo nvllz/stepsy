@@ -16,12 +16,15 @@ internal object Util {
 
     fun init(context: Context) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+
         distanceUnit = when (prefs.getString("unit_system", "metric")) {
             "imperial" -> DistanceUnit.IMPERIAL
             else -> DistanceUnit.METRIC
         }
+
         height = prefs.getInt("height_cm", 180)
         weight = prefs.getInt("weight_kg", 70)
+        firstDayOfWeek = prefs.getString("first_day_of_week", Calendar.MONDAY.toString())!!.toInt()
     }
 
     /**
@@ -41,6 +44,7 @@ internal object Util {
 
     var height = 180
     var weight = 70
+    var firstDayOfWeek: Int = Calendar.getInstance().firstDayOfWeek
 
     var distanceUnit: DistanceUnit = DistanceUnit.METRIC
 

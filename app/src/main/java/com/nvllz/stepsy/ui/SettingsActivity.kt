@@ -35,6 +35,8 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
 
+        Util.init(this)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -60,39 +62,54 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
             findPreference<SeekBarPreference>("height_cm")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.height = newValue as Int
-                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
-                    putInt("height_cm", newValue)
-                }
+                Database.getInstance(requireContext()).setSetting("height_cm", newValue.toString())
                 true
             }
+
             findPreference<SeekBarPreference>("weight_kg")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.weight = newValue as Int
-                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
-                    putInt("weight_kg", newValue)
-                }
+                Database.getInstance(requireContext()).setSetting("weight_kg", newValue.toString())
                 true
             }
+
             findPreference<ListPreference>("unit_system")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.distanceUnit = when (newValue.toString()) {
                     "imperial" -> Util.DistanceUnit.IMPERIAL
                     else -> Util.DistanceUnit.METRIC
                 }
-                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
-                    putString("unit_system", newValue.toString())
-                }
+                Database.getInstance(requireContext()).setSetting("unit_system", newValue.toString())
                 true
             }
+
             findPreference<ListPreference>("date_format")?.setOnPreferenceChangeListener { _, newValue ->
                 val dateFormat = newValue.toString()
+                Database.getInstance(requireContext()).setSetting("date_format", dateFormat)
                 Toast.makeText(context, "Date format set to: $dateFormat", Toast.LENGTH_SHORT).show()
                 true
             }
+
+            findPreference<ListPreference>("first_day_of_week")?.setOnPreferenceChangeListener { _, newValue ->
+                val value = newValue.toString().toInt()
+                Util.firstDayOfWeek = value
+                Database.getInstance(requireContext()).setSetting("first_day_of_week", value.toString())
+
+                val intent = Intent(requireContext(), MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                startActivity(intent)
+                activity?.finish()
+
+                true
+            }
+
             findPreference<ListPreference>("theme")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.applyTheme(newValue.toString())
                 true
             }
+
             findPreference<Preference>("import")?.setOnPreferenceClickListener {
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
@@ -101,17 +118,16 @@ class SettingsActivity : AppCompatActivity() {
                 startActivityForResult(intent, 1)
                 true
             }
+
             findPreference<Preference>("export")?.setOnPreferenceClickListener {
-                // Generate the filename using the current date in yyyyMMdd format
-                val dateFormat = java.text.SimpleDateFormat("yyyyMMdd-HHmmSS", Locale.getDefault())
+                val dateFormat = java.text.SimpleDateFormat("yyyyMMdd-HHmmSS_stepsy", Locale.getDefault())
                 val currentDate = dateFormat.format(Date())
                 val fileName = "${currentDate}.csv"
 
-                // Create the export intent with the new filename
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/*"
-                    putExtra(Intent.EXTRA_TITLE, fileName) // Use the generated filename
+                    putExtra(Intent.EXTRA_TITLE, fileName)
                 }
                 startActivityForResult(intent, 2)
                 true
@@ -160,7 +176,6 @@ class SettingsActivity : AppCompatActivity() {
                         }
                     }
 
-                    // update today's steps if found in import
                     if (todaySteps > 0) {
                         val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
                         prefs.edit {
@@ -168,7 +183,6 @@ class SettingsActivity : AppCompatActivity() {
                             putLong(KEY_DATE, today)
                         }
 
-                        // force update the service and UI
                         val intent = Intent(requireContext(), MotionService::class.java).apply {
                             putExtra("FORCE_UPDATE", true)
                             putExtra(KEY_STEPS, todaySteps)
@@ -216,7 +230,7 @@ class SettingsActivity : AppCompatActivity() {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
             startActivity(intent)
-            Runtime.getRuntime().exit(0) // This will kill the current process
+            Runtime.getRuntime().exit(0)
         }
     }
 }

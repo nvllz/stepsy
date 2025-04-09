@@ -81,6 +81,7 @@ internal class MainActivity : AppCompatActivity() {
         mChart = findViewById(R.id.chart)
         mTextViewChart = findViewById(R.id.textViewChart)
         mCalendarView = findViewById(R.id.calendar)
+        mCalendarView.firstDayOfWeek = Util.firstDayOfWeek
         mCalendarView.minDate = Database.getInstance(this).firstEntry.let {
             if (it == 0L)
                 Util.calendar.timeInMillis
@@ -269,7 +270,7 @@ internal class MainActivity : AppCompatActivity() {
         val min = Calendar.getInstance()
         min.timeInMillis = mSelectedMonth.timeInMillis
 
-        min.set(Calendar.DAY_OF_WEEK, Calendar.getInstance().firstDayOfWeek)
+        min.set(Calendar.DAY_OF_WEEK, Util.firstDayOfWeek)
 
         val max = Calendar.getInstance()
         max.timeInMillis = min.timeInMillis

@@ -4,6 +4,7 @@
 
 package com.nvllz.stepsy.util
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor.*
@@ -20,7 +21,7 @@ import java.util.*
 internal class Database private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     private fun query(columns: Array<String>, selection: String? = null, selectionArgs: Array<String>? = null): Number {
-        val cursor = readableDatabase.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null)
+        val cursor = readableDatabase.query(HISTORY_TABLE, columns, selection, selectionArgs, null, null, null)
         cursor.moveToFirst()
         val result: Number = when (cursor.getType(0)) {
             FIELD_TYPE_INTEGER -> cursor.getLong(0)
@@ -57,17 +58,17 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         values.put("stepsy", steps)
 
         // Check if the entry already exists
-        val rowsUpdated = writableDatabase.update(TABLE_NAME, values, "timestamp = ?", arrayOf(timestamp.toString()))
+        val rowsUpdated = writableDatabase.update(HISTORY_TABLE, values, "timestamp = ?", arrayOf(timestamp.toString()))
 
         // If no rows were updated (entry didn't exist), insert a new one
         if (rowsUpdated == 0) {
-            writableDatabase.insertOrThrow(TABLE_NAME, null, values)
+            writableDatabase.insertOrThrow(HISTORY_TABLE, null, values)
         }
     }
 
     internal fun getEntries(minDate: Long, maxDate: Long): List<Entry> {
         val entries = ArrayList<Entry>()
-        val cursor = readableDatabase.query(TABLE_NAME, null, "timestamp >= ? AND timestamp <= ?", arrayOf(minDate.toString(), maxDate.toString()), null, null, null)
+        val cursor = readableDatabase.query(HISTORY_TABLE, null, "timestamp >= ? AND timestamp <= ?", arrayOf(minDate.toString(), maxDate.toString()), null, null, null)
         while (cursor.moveToNext()) {
             val cal = Util.calendar
             cal.timeInMillis = cursor.getLong(0)
@@ -77,8 +78,42 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         return entries
     }
 
+    internal fun setSetting(key: String, value: String) {
+        val values = ContentValues().apply {
+            put("key", key)
+            put("value", value)
+        }
+        val rowsUpdated = writableDatabase.update(
+            SETTINGS_TABLE, values, "key = ?", arrayOf(key)
+        )
+        if (rowsUpdated == 0) {
+            writableDatabase.insertOrThrow(SETTINGS_TABLE, null, values)
+        }
+    }
+
+    @SuppressLint("Range")
+    internal fun getSetting(key: String, defaultValue: String): String {
+        val cursor = readableDatabase.query(
+            SETTINGS_TABLE,
+            arrayOf("value"),
+            "key = ?",
+            arrayOf(key),
+            null,
+            null,
+            null
+        )
+        cursor.use {
+            if (cursor.moveToFirst()) {
+                return cursor.getString(cursor.getColumnIndex("value"))
+            }
+        }
+        return defaultValue
+    }
+
+
     override fun onCreate(sqLiteDatabase: SQLiteDatabase) {
-        sqLiteDatabase.execSQL(DATABASE_CREATE)
+        sqLiteDatabase.execSQL(DATABASE_CREATE_HISTORY)
+        sqLiteDatabase.execSQL(DATABASE_CREATE_SETTINGS)
     }
 
     override fun onUpgrade(sqLiteDatabase: SQLiteDatabase, i: Int, i1: Int) {
@@ -92,8 +127,20 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         private val TAG = Database::class.java.simpleName
         private const val DATABASE_NAME = "Stepsy"
         private const val DATABASE_VERSION = 1
-        private const val TABLE_NAME = "History"
-        private const val DATABASE_CREATE = "create table if not exists $TABLE_NAME (timestamp long primary key, stepsy int not null);"
+        private const val HISTORY_TABLE = "History"
+        private const val DATABASE_CREATE_HISTORY = """
+            CREATE TABLE IF NOT EXISTS $HISTORY_TABLE (
+                timestamp long primary key, stepsy int not null
+            );
+        """
+
+        private const val SETTINGS_TABLE = "Settings"
+        private const val DATABASE_CREATE_SETTINGS = """
+            CREATE TABLE IF NOT EXISTS $SETTINGS_TABLE (
+                `key` TEXT PRIMARY KEY, 
+                value TEXT NOT NULL
+            );
+        """
 
         private var instance: Database? = null
 

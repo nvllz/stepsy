@@ -57,6 +57,15 @@
             android:entries="@array/date_format_options"
             android:entryValues="@array/date_format_values"
             app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:key="first_day_of_week"
+            android:title="@string/first_day_of_the_week"
+            android:defaultValue="2"
+            android:entries="@array/weekdays"
+            android:entryValues="@array/weekdays_values"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
