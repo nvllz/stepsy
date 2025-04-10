@@ -23,6 +23,17 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <ImageButton
+                    android:id="@+id/gearButton"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_settings"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_marginEnd="10dp"
+                    android:layout_gravity="end|top"
+                    app:tint="@color/colorOnSurface"
+                    android:scaleType="centerInside" />
+
                 <TextView
                     android:id="@+id/textViewSteps"
                     android:layout_width="wrap_content"
@@ -30,7 +41,6 @@
                     android:layout_gravity="center"
                     android:textSize="42sp"
                     android:textStyle="bold"
-                    android:paddingTop="18sp"
                     android:textColor="@color/colorOnSurface"
                     android:fontFamily="@font/opensans_semibold"
                     android:fontWeight="700" />

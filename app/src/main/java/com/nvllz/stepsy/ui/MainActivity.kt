@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.CalendarView
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -68,6 +69,11 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewSteps = findViewById(R.id.textViewSteps)
         mTextViewCalories = findViewById(R.id.textViewCalories)
         isPaused = getSharedPreferences("settings", MODE_PRIVATE).getBoolean("isPaused", false)
+
+        val gearButton = findViewById<ImageButton>(R.id.gearButton)
+        gearButton.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
 
         val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
         if (isPaused) {
@@ -131,10 +137,6 @@ internal class MainActivity : AppCompatActivity() {
                 }
                 isPaused = !isPaused
             }
-        }
-
-        mTextViewSteps.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         updateChart()

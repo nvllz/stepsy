@@ -5,6 +5,7 @@
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorAccent">@color/colorOnPrimary</item>
         <item name="android:fontFamily">@font/opensans_family</item>
         <item name="fontFamily">@font/opensans_family</item>
 
@@ -18,6 +19,7 @@
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorAccent">@color/colorOnPrimary</item>
         <item name="android:fontFamily">@font/opensans_family</item>
         <item name="fontFamily">@font/opensans_family</item>
 
