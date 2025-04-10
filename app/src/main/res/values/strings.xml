@@ -50,6 +50,7 @@
     <string name="first_day_of_the_week">First day of the week</string>
     <string name="personal_data">Personal data</string>
     <string name="unit_system">Unit system</string>
+    <string name="pause">Pause</string>
 
     <!-- Arrays: Date Format -->
     <string-array name="date_format_options">

@@ -260,6 +260,17 @@ internal class MotionService : Service() {
     }
 
     private fun startService() {
+        val pauseIntent = Intent(this, MotionService::class.java).apply {
+            action = ACTION_PAUSE_COUNTING
+        }
+
+        val pausePendingIntent = PendingIntent.getService(
+            this,
+            1,
+            pauseIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as? NotificationManager
             ?: throw IllegalStateException("Could not get notification service")
 
@@ -275,6 +286,11 @@ internal class MotionService : Service() {
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_MIN)
             .setOnlyAlertOnce(true)
+            .addAction(
+                R.drawable.ic_notification,
+                getString(R.string.pause),
+                pausePendingIntent
+            )
         startForeground(FOREGROUND_ID, mBuilder.build())
     }
 
