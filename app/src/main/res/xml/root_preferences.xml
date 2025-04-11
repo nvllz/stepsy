@@ -39,7 +39,8 @@
             app:defaultValue="system"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_theme" />
 
         <ListPreference
             android:key="unit_system"
@@ -47,7 +48,8 @@
             android:defaultValue="metric"
             android:entries="@array/unit_system_entries"
             android:entryValues="@array/unit_system_values"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_unit" />
 
         <ListPreference
             android:key="date_format"
@@ -56,7 +58,8 @@
             android:defaultValue="yyyy-MM-dd"
             android:entries="@array/date_format_options"
             android:entryValues="@array/date_format_values"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_dateformat" />
 
         <ListPreference
             android:key="first_day_of_week"
@@ -64,7 +67,8 @@
             android:defaultValue="2"
             android:entries="@array/weekdays"
             android:entryValues="@array/weekdays_values"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_firstday" />
 
     </PreferenceCategory>
 
@@ -75,11 +79,11 @@
         <Preference
             android:key="import"
             android:title="@string/import_data"
-        app:iconSpaceReserved="true" />
+            app:icon="@drawable/ic_import" />
 
         <Preference
             android:key="export"
             android:title="@string/export_data"
-        app:iconSpaceReserved="true" />
+            app:icon="@drawable/ic_export" />
     </PreferenceCategory>
 </PreferenceScreen>
