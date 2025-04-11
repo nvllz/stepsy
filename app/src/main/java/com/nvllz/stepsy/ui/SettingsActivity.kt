@@ -120,9 +120,9 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             findPreference<Preference>("export")?.setOnPreferenceClickListener {
-                val dateFormat = java.text.SimpleDateFormat("yyyyMMdd-HHmmSS_stepsy", Locale.getDefault())
+                val dateFormat = java.text.SimpleDateFormat("yyyyMMdd-HHmmSS", Locale.getDefault())
                 val currentDate = dateFormat.format(Date())
-                val fileName = "${currentDate}.csv"
+                val fileName = "${currentDate}_stepsy.csv"
 
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
