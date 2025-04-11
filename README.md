@@ -16,8 +16,16 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 - Includes a home screen widget to keep your daily steps visible at a glance
 
 ## Screenshots
+
 | ![Screenshot 1](images/stepsy-scr-1.png) | ![Screenshot 2](images/stepsy-scr-2.png) | ![Screenshot 3](images/stepsy-scr-3.png) |
 |:--:|:--:|:--:|
+
+## Download
+
+<a href="https://github.com/nvllz/stepsy/releases">
+<img src="images/badge_github.png" height="80" alt="Get it on Github"/></a>
+<a href="https://apt.izzysoft.de/packages/com.nvllz.stepsy">
+<img src="images/badge_izzyondroid.png" height="80" alt="Get it on IzzyOnDroid"/></a>
 
 ## Stepsy vs Motionmate - differences
 
@@ -39,10 +47,6 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 ... and more
 
 </details>
-
-## Download
-
-Download the apk directly from the [GitHub releases](https://github.com/nvllz/stepsy/releases) page.
 
 ## License
 
