@@ -87,7 +87,6 @@ internal class MainActivity : AppCompatActivity() {
         mChart = findViewById(R.id.chart)
         mTextViewChart = findViewById(R.id.textViewChart)
         mCalendarView = findViewById(R.id.calendar)
-        mCalendarView.firstDayOfWeek = Util.firstDayOfWeek
         mCalendarView.minDate = Database.getInstance(this).firstEntry.let {
             if (it == 0L)
                 Util.calendar.timeInMillis
@@ -103,6 +102,7 @@ internal class MainActivity : AppCompatActivity() {
             updateChart()
             updateCards()
         }
+        mCalendarView.firstDayOfWeek = Util.firstDayOfWeek
 
         val mLayoutManager = LinearLayoutManager(this)
         mRecyclerView.layoutManager = mLayoutManager
@@ -271,13 +271,14 @@ internal class MainActivity : AppCompatActivity() {
     private fun updateChart() {
         val min = Calendar.getInstance()
         min.timeInMillis = mSelectedMonth.timeInMillis
-
-        min.set(Calendar.DAY_OF_WEEK, Util.firstDayOfWeek)
+        min.firstDayOfWeek = Util.firstDayOfWeek
+        min.set(Calendar.DAY_OF_WEEK, min.firstDayOfWeek)
 
         val max = Calendar.getInstance()
         max.timeInMillis = min.timeInMillis
-
+        max.firstDayOfWeek = Util.firstDayOfWeek
         max.add(Calendar.DAY_OF_YEAR, 6)
+
 
         mChart.clearDiagram()
 

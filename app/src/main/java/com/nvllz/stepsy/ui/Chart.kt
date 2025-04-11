@@ -90,9 +90,13 @@ internal class Chart : BarChart {
 
     private fun getDayOfWeekFromTimestamp(timestamp: Long): Int {
         val cal = Calendar.getInstance()
+        cal.firstDayOfWeek = Util.firstDayOfWeek
         cal.timeInMillis = timestamp
-        return (cal.get(Calendar.DAY_OF_WEEK) - Util.firstDayOfWeek + 7) % 7
+
+        val dayIndex = (cal.get(Calendar.DAY_OF_WEEK) - cal.firstDayOfWeek + 7) % 7
+        return dayIndex
     }
+
 
     private fun updateBarEntryForDay(dayOfWeek: Int, steps: Float) {
         yVals[dayOfWeek].y = steps
@@ -156,10 +160,12 @@ internal class Chart : BarChart {
     internal class DayFormatter : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
             val cal = Calendar.getInstance()
+            cal.firstDayOfWeek = Util.firstDayOfWeek
             cal.set(Calendar.DAY_OF_WEEK, ((value.toInt() + Util.firstDayOfWeek - 1) % 7 + 1))
             return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()) ?: ""
         }
     }
+
 
     // Custom value formatter to display integer values over the bars
     internal class IntValueFormatter : ValueFormatter() {
