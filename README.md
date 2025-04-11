@@ -16,9 +16,10 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 - Includes a home screen widget to keep your daily steps visible at a glance
 
 ## Screenshots
-<img src="images/stepsy-scr-1.png" width="350" alt="app screenshot"/> <img src="images/stepsy-scr-2.png" width="350" alt="settings screenshot"/>
+| ![Screenshot 1](images/stepsy-scr-1.png) | ![Screenshot 2](images/stepsy-scr-2.png) | ![Screenshot 3](images/stepsy-scr-3.png) |
+|:--:|:--:|:--:|
 
-# Stepsy vs Motionmate - differences
+## Stepsy vs Motionmate - differences
 
 <details>
 
