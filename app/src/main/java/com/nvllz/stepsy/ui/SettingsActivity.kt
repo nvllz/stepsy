@@ -87,7 +87,6 @@ class SettingsActivity : AppCompatActivity() {
             findPreference<ListPreference>("date_format")?.setOnPreferenceChangeListener { _, newValue ->
                 val dateFormat = newValue.toString()
                 Database.getInstance(requireContext()).setSetting("date_format", dateFormat)
-                Toast.makeText(context, "Date format set to: $dateFormat", Toast.LENGTH_SHORT).show()
                 true
             }
 
