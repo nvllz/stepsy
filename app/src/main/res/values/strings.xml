@@ -18,6 +18,7 @@
     <string name="import_data">Import</string>
     <string name="no_entry">No record for %1$s</string>
     <string name="no_sensor">Your device does not have a step counting sensor</string>
+    <string name="no_activity_permission">Missing ACTIVITY_RECOGNITION permission</string>
     <string name="resume">Resume</string>
     <string name="settings">Settings</string>
     <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$d steps / %5$d kcal</string>

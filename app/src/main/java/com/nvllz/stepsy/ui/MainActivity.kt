@@ -152,12 +152,12 @@ internal class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        subscribeService()
-
-        val intent = Intent(this, MotionService::class.java).apply {
-            putExtra("FORCE_UPDATE", true)
+        if (isActivityPermissionGranted()) {
+            subscribeService()
+            startService(Intent(this, MotionService::class.java).apply {
+                putExtra("FORCE_UPDATE", true)
+            })
         }
-        startService(intent)
     }
 
     private fun formatToSelectedDateFormat(dateInMillis: Long): String {
@@ -249,6 +249,28 @@ internal class MainActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 100) {
+            if (isActivityPermissionGranted()) {
+                subscribeService()
+                startService(Intent(this, MotionService::class.java).apply {
+                    putExtra("FORCE_UPDATE", true)
+                })
+            }
+        }
+    }
+
+    private fun isActivityPermissionGranted(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED) {
+            return true
+        }
+
+        return false
     }
 
     private fun updateView(steps: Int) {

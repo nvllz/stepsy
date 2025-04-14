@@ -22,7 +22,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.os.ResultReceiver
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.core.app.NotificationCompat
 import android.text.format.DateUtils
 import android.util.Log
@@ -48,8 +48,8 @@ internal class MotionService : Service() {
     private lateinit var mBuilder: NotificationCompat.Builder
     private var isCountingPaused = false
 
-    private val PAUSE_CHANNEL_ID = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
-    private val PAUSE_NOTIFICATION_ID = 3844
+    private val pauseChannelId = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
+    private val pauseNotificationId = 3844
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -59,7 +59,7 @@ internal class MotionService : Service() {
         Log.d(TAG, "Creating MotionService")
         startService()
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         mCurrentDate = sharedPreferences.getLong(KEY_DATE, Util.calendar.timeInMillis)
         mTodaysSteps = sharedPreferences.getInt(KEY_STEPS, 0)
 
@@ -90,7 +90,7 @@ internal class MotionService : Service() {
 
             mSensorManager.registerListener(mListener, mStepSensor, SensorManager.SENSOR_DELAY_UI, 1000000)
         } else {
-            Toast.makeText(this, getString(R.string.no_sensor), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.no_activity_permission), Toast.LENGTH_LONG).show()
             stopSelf()
         }
     }
@@ -204,7 +204,7 @@ internal class MotionService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val pauseNotification = NotificationCompat.Builder(this, PAUSE_CHANNEL_ID)
+        val pauseNotification = NotificationCompat.Builder(this, pauseChannelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(getString(R.string.app_name))
             .setContentText(getString(R.string.notification_step_counting_paused))
@@ -216,11 +216,11 @@ internal class MotionService : Service() {
             )
             .build()
 
-        mNotificationManager.notify(PAUSE_NOTIFICATION_ID, pauseNotification)
+        mNotificationManager.notify(pauseNotificationId, pauseNotification)
     }
 
     private fun dismissPauseNotification() {
-        mNotificationManager.cancel(PAUSE_NOTIFICATION_ID)
+        mNotificationManager.cancel(pauseNotificationId)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -228,7 +228,12 @@ internal class MotionService : Service() {
 
         intent?.let {
             when (it.action) {
-                ACTION_SUBSCRIBE -> receiver = it.getParcelableExtra(MainActivity.RECEIVER_TAG)
+                ACTION_SUBSCRIBE -> receiver = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    it.getParcelableExtra(MainActivity.RECEIVER_TAG, ResultReceiver::class.java)
+                } else {
+                    @Suppress("DEPRECATION")
+                    it.getParcelableExtra(MainActivity.RECEIVER_TAG)
+                }
                 ACTION_PAUSE_COUNTING -> {
                     isCountingPaused = true
                     sharedPreferences.edit { putBoolean(KEY_IS_PAUSED, true) }
@@ -307,9 +312,9 @@ internal class MotionService : Service() {
     }
 
     private fun createPauseNotificationChannel() {
-        if (mNotificationManager.getNotificationChannel(PAUSE_CHANNEL_ID) == null) {
+        if (mNotificationManager.getNotificationChannel(pauseChannelId) == null) {
             val pauseNotificationChannel = NotificationChannel(
-                PAUSE_CHANNEL_ID,
+                pauseChannelId,
                 getString(R.string.notification_category_counting_paused),
                 NotificationManager.IMPORTANCE_DEFAULT
             )
