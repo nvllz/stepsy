@@ -1,0 +1,1 @@
+Simple and lightweight step counter app
