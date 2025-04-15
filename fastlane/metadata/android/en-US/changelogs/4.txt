@@ -1,0 +1,8 @@
+Changes:
+- Steps data/widget update threshold is now determined by system battery saver state
+
+Fixes:
+- Crash on first start (Android 14+)
+- Incorrect handling of SharedPreferences
+- Doubling of today's steps value in stat cards
+- Missing 'ignore battery optimization' dialog
