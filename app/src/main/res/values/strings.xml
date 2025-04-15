@@ -72,9 +72,9 @@
         <item>Saturday</item>
     </string-array>
     <string-array name="weekdays_values">
-        <item>1</item> <!-- SUNDAY -->
-        <item>2</item> <!-- MONDAY -->
-        <item>7</item> <!-- SATURDAY -->
+        <item>"1"</item> <!-- SUNDAY -->
+        <item>"2"</item> <!-- MONDAY -->
+        <item>"7"</item> <!-- SATURDAY -->
     </string-array>
 
     <!-- Arrays: Unit System -->

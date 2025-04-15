@@ -9,7 +9,10 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.hardware.Sensor
@@ -21,6 +24,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.os.PowerManager
 import android.os.ResultReceiver
 import androidx.preference.PreferenceManager
 import androidx.core.app.NotificationCompat
@@ -124,7 +128,8 @@ internal class MotionService : Service() {
 
     private var lastWriteTime: Long = 0
     private var lastWidgetUpdateTime: Long = 0
-    private val writeInterval = 15000
+    private val writeInterval: Long
+        get() = if (isBatterySavingEnabled(this)) 20_000L else 10_000L
 
     private fun handleStepUpdate() {
         val currentDate = Util.calendar.timeInMillis
@@ -191,7 +196,6 @@ internal class MotionService : Service() {
         }
     }
 
-
     private fun sendPauseNotification() {
         val resumeIntent = Intent(this, MotionService::class.java).apply {
             action = ACTION_RESUME_COUNTING
@@ -221,6 +225,11 @@ internal class MotionService : Service() {
 
     private fun dismissPauseNotification() {
         mNotificationManager.cancel(pauseNotificationId)
+    }
+
+    fun isBatterySavingEnabled(context: Context): Boolean {
+        val powerManager = context.getSystemService(POWER_SERVICE) as PowerManager
+        return powerManager.isPowerSaveMode
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

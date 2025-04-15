@@ -24,7 +24,8 @@ internal object Util {
         }
         height = prefs.getInt("height_cm", 180)
         weight = prefs.getInt("weight_kg", 70)
-        firstDayOfWeek = prefs.getString("first_day_of_week", "1")?.toIntOrNull() ?: Calendar.SUNDAY
+        firstDayOfWeek = prefs.getString("first_day_of_week", Calendar.MONDAY.toString())?.toIntOrNull()
+            ?: prefs.getInt("first_day_of_week", Calendar.MONDAY)
     }
 
     /**

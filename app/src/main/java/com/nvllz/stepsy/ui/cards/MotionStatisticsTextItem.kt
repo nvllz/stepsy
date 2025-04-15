@@ -12,7 +12,7 @@ import android.content.Context
  */
 internal class MotionStatisticsTextItem(context: Context, description: Int, var initialSteps: Int) : MotionTextItem(context, description) {
 
-    override fun updateSteps(steps: Int) {
-        setContent(steps + this.initialSteps)
+    fun updateSteps() {
+        setContent(this.initialSteps)
     }
 }

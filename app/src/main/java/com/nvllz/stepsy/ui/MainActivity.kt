@@ -13,6 +13,7 @@ import android.os.PowerManager
 import android.os.ResultReceiver
 import android.provider.Settings
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -285,13 +286,13 @@ internal class MainActivity : AppCompatActivity() {
             mCalendarView.maxDate = Util.calendar.timeInMillis
 
         // update the cards
-        mOverallStepsCard.updateSteps(steps)
+        mOverallStepsCard.updateSteps()
 
         // If selected week is the current week, update the diagram and cards with today's stepsy
         if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
             mChart.setCurrentSteps(steps)
             mChart.update()
-            mMonthlyStepsCard.updateSteps(steps)
+            mMonthlyStepsCard.updateSteps()
         }
     }
 
@@ -346,15 +347,9 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun updateCards() {
-        val cal = Calendar.getInstance().apply {
-            timeInMillis = Util.calendar.timeInMillis
-            set(Calendar.DAY_OF_MONTH, 1)
-        }
-
         val startOfMonth = Calendar.getInstance()
         startOfMonth.timeInMillis = mSelectedMonth.timeInMillis
         startOfMonth.set(Calendar.DAY_OF_MONTH, 1)
-        val currentMonth = cal == startOfMonth
 
         val endOfMonth = Calendar.getInstance()
         endOfMonth.timeInMillis = startOfMonth.timeInMillis
@@ -362,8 +357,10 @@ internal class MainActivity : AppCompatActivity() {
 
         val stepsThisMonth = Database.getInstance(this).getSumSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
         mMonthlyStepsCard.initialSteps = stepsThisMonth
-        mMonthlyStepsCard.updateSteps(if (currentMonth) mCurrentSteps else 0)
+        mMonthlyStepsCard.updateSteps()
         mAverageStepsCard.setContent(Database.getInstance(this).avgSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis))
+        mOverallStepsCard.updateSteps()
+
     }
 
     companion object {

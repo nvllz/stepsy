@@ -63,15 +63,21 @@ class SettingsActivity : AppCompatActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
+            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
             findPreference<SeekBarPreference>("height_cm")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.height = newValue as Int
-                Database.getInstance(requireContext()).setSetting("height_cm", newValue.toString())
+                prefs.edit {
+                    putInt("height_cm", newValue)
+                }
                 true
             }
 
             findPreference<SeekBarPreference>("weight_kg")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.weight = newValue as Int
-                Database.getInstance(requireContext()).setSetting("weight_kg", newValue.toString())
+                prefs.edit {
+                    putInt("weight_kg", newValue)
+                }
                 true
             }
 
@@ -80,27 +86,33 @@ class SettingsActivity : AppCompatActivity() {
                     "imperial" -> Util.DistanceUnit.IMPERIAL
                     else -> Util.DistanceUnit.METRIC
                 }
-                Database.getInstance(requireContext()).setSetting("unit_system", newValue.toString())
+                prefs.edit {
+                    putString("unit_system", newValue.toString())
+                }
                 true
             }
 
             findPreference<ListPreference>("date_format")?.setOnPreferenceChangeListener { _, newValue ->
                 val dateFormat = newValue.toString()
-                Database.getInstance(requireContext()).setSetting("date_format", dateFormat)
+                prefs.edit {
+                    putString("date_format", dateFormat)
+                }
                 true
             }
 
             findPreference<ListPreference>("first_day_of_week")?.setOnPreferenceChangeListener { _, newValue ->
                 val value = newValue.toString().toInt()
                 Util.firstDayOfWeek = value
-                Database.getInstance(requireContext()).setSetting("first_day_of_week", value.toString())
+                prefs.edit {
+                    putString("first_day_of_week", value.toString())
+                }
 
+                // restart the activity to apply changes
                 val intent = Intent(requireContext(), MainActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
                 startActivity(intent)
                 activity?.finish()
-
                 true
             }
 
@@ -134,8 +146,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         @Deprecated("Deprecated in Java")
-        override fun onActivityResult(
-            requestCode: Int, resultCode: Int, resultData: Intent?) {
+        override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
             super.onActivityResult(requestCode, resultCode, resultData)
             if (resultCode != RESULT_OK)
                 return
@@ -148,6 +159,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         private fun import(uri: Uri) {
+            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
             val db = Database.getInstance(requireContext())
             val today = Util.calendar.timeInMillis
             var todaySteps = 0
@@ -176,7 +188,6 @@ class SettingsActivity : AppCompatActivity() {
                     }
 
                     if (todaySteps > 0) {
-                        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
                         prefs.edit {
                             putInt(KEY_STEPS, todaySteps)
                             putLong(KEY_DATE, today)
