@@ -39,7 +39,8 @@
             android:entries="@array/language_names"
             android:entryValues="@array/language_values"
             app:useSimpleSummaryProvider="true"
-            android:defaultValue="system" />
+            android:defaultValue="system"
+            app:icon="@drawable/ic_language" />
 
 
         <ListPreference
