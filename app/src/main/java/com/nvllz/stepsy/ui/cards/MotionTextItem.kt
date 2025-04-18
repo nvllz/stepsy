@@ -15,12 +15,25 @@ import java.util.*
 internal open class MotionTextItem(context: Context, description: Int) : TextItem(context, description) {
 
     private val format: String = context.getString(R.string.steps_format)
-
-    internal open fun updateSteps(steps: Int) {
-        setContent(steps)
-    }
+    private val resources = context.resources
 
     internal fun setContent(steps: Number) {
-        setContent(String.format(Locale.getDefault(), format, Util.stepsToDistance(steps), Util.getDistanceUnitString(), steps.toInt()))
+        val stepCount = steps.toInt()
+
+        val stepsPlural = resources.getQuantityString(
+            R.plurals.steps_text,
+            stepCount,
+            stepCount
+        )
+
+        val formatted = String.format(
+            Locale.getDefault(),
+            format,
+            Util.stepsToDistance(steps),
+            Util.getDistanceUnitString(),
+            stepsPlural
+        )
+
+        setContent(formatted)
     }
 }

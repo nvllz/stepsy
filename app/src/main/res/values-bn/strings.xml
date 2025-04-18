@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$s / %5$d কিলোক্যালরি</string>
+    <string name="steps_format">%1$.2f %2$s / %3$s</string>
+    <string name="week_display_format">সপ্তাহ %1$d: %2$s - %3$s</string>
+    <string name="no_entry">%1$s এর জন্য কোন রেকর্ড নেই</string>
+    <string name="calories">%1$d কিলোক্যালরি</string>
+    <string name="steps_month">এই মাসে</string>
+    <string name="avg_distance">প্রতিদিনের গড়</string>
+    <string name="total_distance">মোট দূরত্ব</string>
+
+    <string name="no_sensor">আপনার ডিভাইসে পদক্ষেপ গণনার সেন্সর নেই</string>
+    <string name="no_activity_permission">ACTIVITY_RECOGNITION অনুমতি নেই</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="one">%1$d পদক্ষেপ</item>
+        <item quantity="other">%1$d পদক্ষেপ</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">গণনা বন্ধ</string>
+    <string name="notification_category_steps_day">পদক্ষেপের তথ্য</string>
+    <string name="notification_description_paused">পদক্ষেপ গণনা বন্ধ হলে জানান</string>
+    <string name="notification_description_steps_day">আজকের পদক্ষেপ</string>
+    <string name="notification_step_counting_paused">পদক্ষেপ গণনা বন্ধ আছে</string>
+    <string name="step_counting_paused">পদক্ষেপ গণনা বন্ধ</string>
+    <string name="step_counting_resumed">পদক্ষেপ গণনা পুনরায় শুরু</string>
+    <string name="action_pause">বিরতি</string>
+    <string name="action_resume">পুনরায় শুরু</string>
+
+    <!-- Preferences -->
+    <string name="settings">সেটিংস</string>
+    <string name="header_personal_data">ব্যক্তিগত তথ্য</string>
+    <string name="header_appearance">অ্যাপের চেহারা</string>
+    <string name="header_data_backup">ব্যাকআপ</string>
+
+    <string name="height_cm">উচ্চতা (সেন্টিমিটার)</string>
+    <string name="weight_kg">ওজন (কিলোগ্রাম)</string>
+    <string name="first_day_of_the_week">সপ্তাহের প্রথম দিন</string>
+    <string name="app_language">ভাষা</string>
+    <string name="theme">থিম</string>
+    <string name="date_format">তারিখের ফরম্যাট</string>
+    <string name="unit_system">একক পদ্ধতি</string>
+    <string name="export_data">রপ্তানি</string>
+    <string name="import_data">আমদানি</string>
+
+</resources>

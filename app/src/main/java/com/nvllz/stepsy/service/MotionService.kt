@@ -9,10 +9,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.hardware.Sensor
@@ -172,13 +170,20 @@ internal class MotionService : Service() {
             dismissPauseNotification()
         }
 
+        val stepsPlural = resources.getQuantityString(
+            R.plurals.steps_text,
+            mTodaysSteps,
+            mTodaysSteps
+        )
+
         val notificationText = String.format(
             Locale.getDefault(),
             getString(R.string.steps_format),
             Util.stepsToDistance(mTodaysSteps),
             Util.getDistanceUnitString(),
-            mTodaysSteps
+            stepsPlural
         )
+
 
         mBuilder.setContentText(notificationText)
         mNotificationManager.notify(FOREGROUND_ID, mBuilder.build())
@@ -215,7 +220,7 @@ internal class MotionService : Service() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .addAction(
                 R.drawable.ic_notification,
-                getString(R.string.resume),
+                getString(R.string.action_resume),
                 resumePendingIntent
             )
             .build()
@@ -302,7 +307,7 @@ internal class MotionService : Service() {
             .setOnlyAlertOnce(true)
             .addAction(
                 R.drawable.ic_notification,
-                getString(R.string.pause),
+                getString(R.string.action_pause),
                 pausePendingIntent
             )
         startForeground(FOREGROUND_ID, mBuilder.build())

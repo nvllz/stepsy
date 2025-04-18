@@ -11,7 +11,9 @@ import android.text.format.DateUtils
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
+import androidx.core.os.LocaleListCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -65,6 +67,12 @@ class SettingsActivity : AppCompatActivity() {
 
             val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
+            val currentLocales = AppCompatDelegate.getApplicationLocales()
+            val currentLanguage = when {
+                currentLocales.isEmpty -> "system"
+                else -> currentLocales[0]?.language ?: "system"
+            }
+
             findPreference<SeekBarPreference>("height_cm")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.height = newValue as Int
                 prefs.edit {
@@ -115,6 +123,28 @@ class SettingsActivity : AppCompatActivity() {
                 activity?.finish()
                 true
             }
+
+            findPreference<ListPreference>("language")?.let { languagePref ->
+                languagePref.value = currentLanguage
+
+                languagePref.setOnPreferenceChangeListener { _, newValue ->
+                    val localeCode = newValue.toString()
+
+                    val newLocale = when (localeCode) {
+                        "system" -> LocaleListCompat.getEmptyLocaleList() // Use system's default language
+                        else -> LocaleListCompat.create(Locale(localeCode)) // Create a new locale from the selected language
+                    }
+
+                    // Apply the new locale
+                    AppCompatDelegate.setApplicationLocales(newLocale)
+
+                    // Restart the app to apply the language change
+                    restartApp()
+
+                    true
+                }
+            }
+
 
             findPreference<ListPreference>("theme")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.applyTheme(newValue.toString())

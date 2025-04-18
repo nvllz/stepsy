@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$s / %5$d kcal</string>
+    <string name="steps_format">%1$.2f %2$s / %3$s</string>
+    <string name="week_display_format">Semaine %1$d: %2$s - %3$s</string>
+    <string name="no_entry">Aucun enregistrement pour %1$s</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="steps_month">Ce mois-ci</string>
+    <string name="avg_distance">Moyenne par jour</string>
+    <string name="total_distance">Distance totale</string>
+
+    <string name="no_sensor">Votre appareil ne possède pas de capteur de pas</string>
+    <string name="no_activity_permission">Permission ACTIVITY_RECOGNITION manquante</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="one">%1$d pas</item>
+        <item quantity="many">%1$d pas</item>
+        <item quantity="other">%1$d pas</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">Comptage en pause</string>
+    <string name="notification_category_steps_day">Données de pas</string>
+    <string name="notification_description_paused">Notifier lorsque le comptage est en pause</string>
+    <string name="notification_description_steps_day">Pas aujourd\'hui</string>
+    <string name="notification_step_counting_paused">Le comptage des pas est en pause</string>
+    <string name="step_counting_paused">Comptage des pas en pause</string>
+    <string name="step_counting_resumed">Comptage des pas repris</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_resume">Reprendre</string>
+
+    <!-- Preferences -->
+    <string name="settings">Paramètres</string>
+    <string name="header_personal_data">Données personnelles</string>
+    <string name="header_appearance">Apparence</string>
+    <string name="header_data_backup">Sauvegarde</string>
+
+    <string name="height_cm">Taille (cm)</string>
+    <string name="weight_kg">Poids (kg)</string>
+    <string name="first_day_of_the_week">Premier jour de la semaine</string>
+    <string name="app_language">Langue</string>
+    <string name="theme">Thème</string>
+    <string name="date_format">Format de date</string>
+    <string name="unit_system">Système d\'unités</string>
+    <string name="export_data">Exporter</string>
+    <string name="import_data">Importer</string>
+
+</resources>

@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>Systemowy</item>
+        <item>Jasny</item>
+        <item>Ciemny</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>Niedziela</item>
+        <item>Poniedziałek</item>
+        <item>Sobota</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>Metryczny (kilometry)</item>
+        <item>Imperialny (mile)</item>
+    </string-array>
+
+</resources>

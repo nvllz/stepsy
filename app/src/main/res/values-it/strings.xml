@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$s / %5$d kcal</string>
+    <string name="steps_format">%1$.2f %2$s / %3$s</string>
+    <string name="week_display_format">Settimana %1$d: %2$s - %3$s</string>
+    <string name="no_entry">Nessun dato per %1$s</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="steps_month">Questo mese</string>
+    <string name="avg_distance">Media giornaliera</string>
+    <string name="total_distance">Distanza totale</string>
+
+    <string name="no_sensor">Il tuo dispositivo non ha un sensore per contare i passi</string>
+    <string name="no_activity_permission">Permesso ACTIVITY_RECOGNITION mancante</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="one">%1$d passo</item>
+        <item quantity="many">%1$d passi</item>
+        <item quantity="other">%1$d passi</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">Conteggio sospeso</string>
+    <string name="notification_category_steps_day">Dati passi</string>
+    <string name="notification_description_paused">Notifica quando il conteggio passi è sospeso</string>
+    <string name="notification_description_steps_day">Passi oggi</string>
+    <string name="notification_step_counting_paused">Il conteggio passi è sospeso</string>
+    <string name="step_counting_paused">Conteggio passi sospeso</string>
+    <string name="step_counting_resumed">Conteggio passi ripreso</string>
+    <string name="action_pause">Pausa</string>
+    <string name="action_resume">Riprendi</string>
+
+    <!-- Preferences -->
+    <string name="settings">Impostazioni</string>
+    <string name="header_personal_data">Dati personali</string>
+    <string name="header_appearance">Aspetto</string>
+    <string name="header_data_backup">Backup</string>
+
+    <string name="height_cm">Altezza (cm)</string>
+    <string name="weight_kg">Peso (kg)</string>
+    <string name="first_day_of_the_week">Primo giorno della settimana</string>
+    <string name="app_language">Lingua</string>
+    <string name="theme">Tema</string>
+    <string name="date_format">Formato data</string>
+    <string name="unit_system">Sistema di unità</string>
+    <string name="export_data">Esporta</string>
+    <string name="import_data">Importa</string>
+
+</resources>

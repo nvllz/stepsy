@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>সিস্টেম</item>
+        <item>হালকা</item>
+        <item>গাঢ়</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>রবিবার</item>
+        <item>সোমবার</item>
+        <item>শনিবার</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>মেট্রিক (কিলোমিটার)</item>
+        <item>ইম্পেরিয়াল (মাইল)</item>
+    </string-array>
+
+</resources>

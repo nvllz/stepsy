@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$s / %5$d ккал</string>
+    <string name="steps_format">%1$.2f %2$s / %3$s</string>
+    <string name="week_display_format">Неделя %1$d: %2$s - %3$s</string>
+    <string name="no_entry">Нет данных за %1$s</string>
+    <string name="calories">%1$d ккал</string>
+    <string name="steps_month">Этот месяц</string>
+    <string name="avg_distance">Среднее за день</string>
+    <string name="total_distance">Общее расстояние</string>
+
+    <string name="no_sensor">Ваше устройство не имеет датчика подсчёта шагов</string>
+    <string name="no_activity_permission">Не хватает разрешения ACTIVITY_RECOGNITION</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="one">%1$d шаг</item>
+        <item quantity="few">%1$d шага</item>
+        <item quantity="many">%1$d шагов</item>
+        <item quantity="other">%1$d шага</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">Подсчёт приостановлен</string>
+    <string name="notification_category_steps_day">Данные о шагах</string>
+    <string name="notification_description_paused">Уведомлять при приостановке подсчёта шагов</string>
+    <string name="notification_description_steps_day">Шаги за сегодня</string>
+    <string name="notification_step_counting_paused">Подсчёт шагов приостановлен</string>
+    <string name="step_counting_paused">Подсчёт шагов приостановлен</string>
+    <string name="step_counting_resumed">Подсчёт шагов возобновлён</string>
+    <string name="action_pause">Пауза</string>
+    <string name="action_resume">Продолжить</string>
+
+    <!-- Preferences -->
+    <string name="settings">Настройки</string>
+    <string name="header_personal_data">Персональные данные</string>
+    <string name="header_appearance">Внешний вид</string>
+    <string name="header_data_backup">Резервная копия</string>
+
+    <string name="height_cm">Рост (см)</string>
+    <string name="weight_kg">Вес (кг)</string>
+    <string name="first_day_of_the_week">Первый день недели</string>
+    <string name="app_language">Язык</string>
+    <string name="theme">Тема</string>
+    <string name="date_format">Формат даты</string>
+    <string name="unit_system">Система измерений</string>
+    <string name="export_data">Экспорт</string>
+    <string name="import_data">Импорт</string>
+
+</resources>

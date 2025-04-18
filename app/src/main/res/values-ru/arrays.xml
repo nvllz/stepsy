@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>Системная</item>
+        <item>Светлая</item>
+        <item>Тёмная</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>Воскресенье</item>
+        <item>Понедельник</item>
+        <item>Суббота</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>Метрическая (км)</item>
+        <item>Имперская (мили)</item>
+    </string-array>
+
+</resources>

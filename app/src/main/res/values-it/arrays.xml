@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>Di sistema</item>
+        <item>Chiaro</item>
+        <item>Scuro</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>Domenica</item>
+        <item>Lunedì</item>
+        <item>Sabato</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>Metrico (km)</item>
+        <item>Imperiale (miglia)</item>
+    </string-array>
+
+</resources>

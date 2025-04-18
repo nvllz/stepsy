@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$s / %5$d kcal</string>
+    <string name="steps_format">%1$.2f %2$s / %3$s</string>
+    <string name="week_display_format">Tydzień %1$d: %2$s - %3$s</string>
+    <string name="no_entry">Brak danych dla %1$s</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="steps_month">Ten miesiąc</string>
+    <string name="avg_distance">Średnio dziennie</string>
+    <string name="total_distance">Całkowity dystans</string>
+
+    <string name="no_sensor">Twoje urządzenie nie ma czujnika kroków</string>
+    <string name="no_activity_permission">Brak uprawnienia ACTIVITY_RECOGNITION</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="one">%1$d krok</item>
+        <item quantity="few">%1$d kroki</item>
+        <item quantity="many">%1$d kroków</item>
+        <item quantity="other">%1$d kroków</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">Liczenie wstrzymane</string>
+    <string name="notification_category_steps_day">Dane o krokach</string>
+    <string name="notification_description_paused">Powiadamiaj gdy liczenie kroków jest wstrzymane</string>
+    <string name="notification_description_steps_day">Kroki dzisiaj</string>
+    <string name="notification_step_counting_paused">Liczenie kroków jest wstrzymane</string>
+    <string name="step_counting_paused">Wstrzymano liczenie kroków</string>
+    <string name="step_counting_resumed">Wznowiono liczenie kroków</string>
+    <string name="action_pause">Wstrzymaj</string>
+    <string name="action_resume">Wznów</string>
+
+    <!-- Preferences -->
+    <string name="settings">Ustawienia</string>
+    <string name="header_personal_data">Dane osobiste</string>
+    <string name="header_appearance">Wygląd</string>
+    <string name="header_data_backup">Kopia zapasowa</string>
+
+    <string name="height_cm">Wzrost (cm)</string>
+    <string name="weight_kg">Waga (kg)</string>
+    <string name="first_day_of_the_week">Pierwszy dzień tygodnia</string>
+    <string name="app_language">Język</string>
+    <string name="theme">Motyw</string>
+    <string name="date_format">Format daty</string>
+    <string name="unit_system">System jednostek</string>
+    <string name="export_data">Eksportuj</string>
+    <string name="import_data">Importuj</string>
+
+</resources>

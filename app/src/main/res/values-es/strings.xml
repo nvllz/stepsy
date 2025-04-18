@@ -1,0 +1,54 @@
+<resources>
+
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$s / %5$d kcal</string>
+    <string name="steps_format">%1$.2f %2$s / %3$s</string>
+    <string name="week_display_format">Semana %1$d: %2$s - %3$s</string>
+    <string name="no_entry">No hay registro para %1$s</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="steps_month">Este mes</string>
+    <string name="avg_distance">Promedio por día</string>
+    <string name="total_distance">Distancia total</string>
+
+    <string name="no_sensor">Tu dispositivo no tiene sensor de conteo de pasos</string>
+    <string name="no_activity_permission">Falta permiso ACTIVITY_RECOGNITION</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="one">%1$d paso</item>
+        <item quantity="many">%1$d pasos</item>
+        <item quantity="other">%1$d pasos</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">Conteo pausado</string>
+    <string name="notification_category_steps_day">Datos de pasos</string>
+    <string name="notification_description_paused">Notificar cuando el conteo de pasos está pausado</string>
+    <string name="notification_description_steps_day">Pasos hoy</string>
+    <string name="notification_step_counting_paused">El conteo de pasos está pausado</string>
+    <string name="step_counting_paused">Conteo de pasos pausado</string>
+    <string name="step_counting_resumed">Conteo de pasos reanudado</string>
+    <string name="action_pause">Pausar</string>
+    <string name="action_resume">Reanudar</string>
+
+    <!-- Preferences -->
+    <string name="settings">Configuración</string>
+    <string name="header_personal_data">Datos personales</string>
+    <string name="header_appearance">Apariencia</string>
+    <string name="header_data_backup">Respaldo</string>
+
+    <string name="height_cm">Estatura (cm)</string>
+    <string name="weight_kg">Peso (kg)</string>
+    <string name="first_day_of_the_week">Primer día de la semana</string>
+    <string name="app_language">Idioma</string>
+    <string name="theme">Tema</string>
+    <string name="date_format">Formato de fecha</string>
+    <string name="unit_system">Sistema de unidades</string>
+    <string name="export_data">Exportar</string>
+    <string name="import_data">Importar</string>
+
+</resources>

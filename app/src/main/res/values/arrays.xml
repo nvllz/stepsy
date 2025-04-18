@@ -1,8 +1,6 @@
-<!--
-  ~ SPDX-License-Identifier: GPL-3.0-only
-  -->
-
 <resources>
+
+    <!-- Theme -->
     <string-array name="theme_entries">
         <item>System</item>
         <item>Light</item>
@@ -14,4 +12,64 @@
         <item>light</item>
         <item>dark</item>
     </string-array>
+
+    <!-- Date Format -->
+    <string-array name="date_format_options">
+        <item>2012–12–31</item>
+        <item>31.12.2012</item>
+        <item>12/31/2012</item>
+    </string-array>
+    <string-array name="date_format_values">
+        <item>yyyy-MM-dd</item>
+        <item>dd.MM.yyyy</item>
+        <item>MM/dd/yyyy</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Saturday</item>
+    </string-array>
+    <string-array name="weekdays_values">
+        <item>"1"</item> <!-- SUNDAY -->
+        <item>"2"</item> <!-- MONDAY -->
+        <item>"7"</item> <!-- SATURDAY -->
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>Metric (km)</item>
+        <item>Imperial (miles)</item>
+    </string-array>
+    <string-array name="unit_system_values">
+        <item>metric</item>
+        <item>imperial</item>
+    </string-array>
+
+    <!-- Languages -->
+    <string-array name="language_names">
+        <item>System</item>
+        <item>English</item>
+        <item>Italiano</item>
+        <item>Español</item>
+        <item>Deutsch</item>
+        <item>Français</item>
+        <item>Polski</item>
+        <item>Россия</item>
+        <item>বাংলা</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>system</item>
+        <item>en</item>
+        <item>it</item>
+        <item>es</item>
+        <item>de</item>
+        <item>fr</item>
+        <item>pl</item>
+        <item>ru</item>
+        <item>bn</item>
+    </string-array>
+
 </resources>

@@ -332,12 +332,24 @@ internal class MainActivity : AppCompatActivity() {
             val calDateFormatted = formatToSelectedDateFormat(cal.timeInMillis)
 
             if (cal.get(Calendar.DAY_OF_WEEK) == mSelectedMonth.get(Calendar.DAY_OF_WEEK)) {
+                val steps = entry.steps
+                val stepsPlural = resources.getQuantityString(
+                    R.plurals.steps_text,
+                    steps,
+                    steps
+                )
+
                 mTextViewCalendarContent.text = String.format(
                     Locale.getDefault(),
                     getString(R.string.steps_day_display),
-                    calDateFormatted, Util.stepsToDistance(entry.steps), Util.getDistanceUnitString(), entry.steps, Util.stepsToCalories(entry.steps)
+                    calDateFormatted,
+                    Util.stepsToDistance(steps),
+                    Util.getDistanceUnitString(),
+                    stepsPlural,
+                    Util.stepsToCalories(steps)
                 )
             }
+
         }
 
         if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {

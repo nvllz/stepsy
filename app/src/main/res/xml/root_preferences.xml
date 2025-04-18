@@ -6,8 +6,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="personal_data"
-        android:title="@string/personal_data"
+        android:key="header_personal_data"
+        android:title="@string/header_personal_data"
         app:iconSpaceReserved="false">
 
         <SeekBarPreference
@@ -30,8 +30,17 @@
 </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/appearance"
+        android:title="@string/header_appearance"
         app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:key="language"
+            android:title="@string/app_language"
+            android:entries="@array/language_names"
+            android:entryValues="@array/language_values"
+            app:useSimpleSummaryProvider="true"
+            android:defaultValue="system" />
+
 
         <ListPreference
             android:key="theme"
@@ -54,7 +63,6 @@
         <ListPreference
             android:key="date_format"
             android:title="@string/date_format"
-            android:summary="@string/date_format_summary"
             android:defaultValue="yyyy-MM-dd"
             android:entries="@array/date_format_options"
             android:entryValues="@array/date_format_values"
@@ -73,7 +81,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/data"
+        android:title="@string/header_data_backup"
         app:iconSpaceReserved="false">
 
         <Preference

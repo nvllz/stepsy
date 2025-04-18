@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Thème -->
+    <string-array name="theme_entries">
+        <item>Système</item>
+        <item>Clair</item>
+        <item>Sombre</item>
+    </string-array>
+
+    <!-- Jours de la semaine -->
+    <string-array name="weekdays">
+        <item>Dimanche</item>
+        <item>Lundi</item>
+        <item>Samedi</item>
+    </string-array>
+
+    <!-- Système d'unités -->
+    <string-array name="unit_system_entries">
+        <item>Métrique (km)</item>
+        <item>Impérial (miles)</item>
+    </string-array>
+
+</resources>
