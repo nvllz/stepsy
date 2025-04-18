@@ -1,0 +1,7 @@
+Changes:
+- Localization! You can now set your preferred language of the app. I added a few languages with the help of AI, you can create an issue ticket in case you need for a different language/correction of current strings
+- New widget: Plain
+
+Fixes:
+- Widget missing delayed update
+- No plural handling of some strings
