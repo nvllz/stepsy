@@ -101,7 +101,7 @@ internal class MotionService : Service() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val delayedWriteRunnable = Runnable {
-        handleStepUpdate()
+        handleStepUpdate(true)
     }
 
     private fun handleEvent(value: Int) {
@@ -131,7 +131,7 @@ internal class MotionService : Service() {
     private val writeInterval: Long
         get() = if (isBatterySavingEnabled(this)) 20_000L else 10_000L
 
-    private fun handleStepUpdate() {
+    private fun handleStepUpdate(delayedTrigger: Boolean = false) {
         val currentDate = Util.calendar.timeInMillis
 
         if (!DateUtils.isToday(mCurrentDate)) {
@@ -154,7 +154,7 @@ internal class MotionService : Service() {
             lastWriteTime = currentTime
         }
 
-        if (currentTime - lastWidgetUpdateTime > (writeInterval * 2)) {
+        if (currentTime - lastWidgetUpdateTime > (writeInterval * 2) || delayedTrigger) {
             WidgetStepsProvider.updateWidget(applicationContext, mTodaysSteps)
             WidgetStepsCompactProvider.updateWidget(applicationContext, mTodaysSteps)
             lastWidgetUpdateTime = currentTime
