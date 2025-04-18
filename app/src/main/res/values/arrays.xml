@@ -50,26 +50,26 @@
     <!-- Languages -->
     <string-array name="language_names">
         <item>System</item>
-        <item>English</item>
-        <item>Italiano</item>
-        <item>Español</item>
+        <item>বাংলা</item>
         <item>Deutsch</item>
+        <item>English</item>
+        <item>Español</item>
         <item>Français</item>
+        <item>Italiano</item>
         <item>Polski</item>
         <item>Россия</item>
-        <item>বাংলা</item>
     </string-array>
 
     <string-array name="language_values">
         <item>system</item>
-        <item>en</item>
-        <item>it</item>
-        <item>es</item>
+        <item>bn</item>
         <item>de</item>
+        <item>en</item>
+        <item>es</item>
         <item>fr</item>
+        <item>it</item>
         <item>pl</item>
         <item>ru</item>
-        <item>bn</item>
     </string-array>
 
 </resources>
