@@ -36,8 +36,9 @@ import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.util.*
 import androidx.core.content.edit
-import com.nvllz.stepsy.ui.WidgetStepsCompactProvider
 import com.nvllz.stepsy.ui.WidgetStepsProvider
+import com.nvllz.stepsy.ui.WidgetStepsCompactProvider
+import com.nvllz.stepsy.ui.WidgetStepsPlainProvider
 
 internal class MotionService : Service() {
     private lateinit var sharedPreferences: SharedPreferences
@@ -155,6 +156,7 @@ internal class MotionService : Service() {
         if (currentTime - lastWidgetUpdateTime > (writeInterval * 2) || delayedTrigger) {
             WidgetStepsProvider.updateWidget(applicationContext, mTodaysSteps)
             WidgetStepsCompactProvider.updateWidget(applicationContext, mTodaysSteps)
+            WidgetStepsPlainProvider.updateWidget(applicationContext, mTodaysSteps)
             lastWidgetUpdateTime = currentTime
         }
 

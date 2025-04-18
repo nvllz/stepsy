@@ -81,6 +81,17 @@
                 android:resource="@xml/widget_steps_compact_info" />
         </receiver>
 
+        <receiver android:name=".ui.WidgetStepsPlainProvider"
+            android:exported="true"
+            android:label="Plain">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_steps_plain_info" />
+        </receiver>
+
     </application>
 
 </manifest>
