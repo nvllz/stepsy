@@ -36,12 +36,11 @@
         <ListPreference
             android:key="language"
             android:title="@string/app_language"
+            android:defaultValue="system"
             android:entries="@array/language_names"
             android:entryValues="@array/language_values"
             app:useSimpleSummaryProvider="true"
-            android:defaultValue="system"
             app:icon="@drawable/ic_language" />
-
 
         <ListPreference
             android:key="theme"
