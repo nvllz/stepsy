@@ -6,7 +6,7 @@
     android:background="@drawable/widget_bg"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="14dp">
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/widget_steps"
@@ -15,6 +15,6 @@
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/widgetPrimary"
-        android:textSize="23sp" />
+        android:textSize="22sp" />
 
 </FrameLayout>
