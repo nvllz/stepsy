@@ -58,6 +58,7 @@
         <item>Italiano</item>
         <item>Polski</item>
         <item>Россия</item>
+        <item>Türkçe</item>
     </string-array>
 
     <string-array name="language_values">
@@ -70,6 +71,7 @@
         <item>it</item>
         <item>pl</item>
         <item>ru</item>
+        <item>tr</item>
     </string-array>
 
 </resources>
