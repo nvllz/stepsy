@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>Sistem varsayılanı</item>
+        <item>Aydınlık</item>
+        <item>Karanlık</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>Pazar</item>
+        <item>Pazartesi</item>
+        <item>Cumartesi</item>
+    </string-array>
+
+    <string-array name="weekdays_values">
+        <item>"7"</item> <!-- SUNDAY -->
+        <item>"1"</item> <!-- MONDAY -->
+        <item>"6"</item> <!-- SATURDAY -->
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>Metrik (Kilometre)</item>
+        <item>İngiliz (Mil)</item>
+    </string-array>
+
+</resources>

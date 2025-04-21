@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
+    <string name="week_display_format">Hafta %1$d: %2$s - %3$s</string>
+    <string name="no_entry">%1$s için kayıt yok</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="steps_month">Bu ay</string>
+    <string name="avg_distance">Günlük ortalama</string>
+    <string name="total_distance">Toplam mesafe</string>
+
+    <string name="no_sensor">Cihazınızda adım sayma sensörü bulunmamaktadır</string>
+    <string name="no_activity_permission">ACTIVITY_RECOGNITION izni eksik</string>
+
+    <!-- Header section -->
+    <string name="expand_collapse">Genişlet/Daralt</string>
+    <string name="header_today">Bugün</string>
+    <string name="header_week">Bu hafta</string>
+    <string name="header_month">Bu ay</string>
+    <string name="header_7d">Son 7 gün</string>
+    <string name="header_30d">Son 30 gün</string>
+    <string name="header_365d">Son 365 gün</string>
+    <string name="header_all_time">Tüm zamanlar</string>
+    <string name="header_year">%1$d Yılı</string>
+
+    <string name="label_today">Bugün</string>
+    <string name="label_week">Hafta</string>
+    <string name="label_month">Ay</string>
+    <string name="label_7d">7 gün</string>
+    <string name="label_30d">30 gün</string>
+    <string name="label_365d">365 gün</string>
+    <string name="label_all_time">Tüm zamanlar</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="one">%1$d adım</item>
+        <item quantity="other">%1$d adım</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">Sayım duraklatıldı</string>
+    <string name="notification_category_steps_day">Adım verisi</string>
+    <string name="notification_description_paused">Adım sayımı duraklatıldığında bilgilendir</string>
+    <string name="notification_description_steps_day">Bugünkü adımlar</string>
+    <string name="notification_step_counting_paused">Adım sayımı duraklatıldı</string>
+    <string name="step_counting_paused">Adım sayımı duraklatıldı</string>
+    <string name="step_counting_resumed">Adım sayımı devam ediyor</string>
+    <string name="action_pause">Duraklat</string>
+    <string name="action_resume">Devam et</string>
+
+    <!-- Preferences -->
+    <string name="settings">Ayarlar</string>
+    <string name="header_personal_data">Kişisel veriler</string>
+    <string name="header_appearance">Görünüm</string>
+    <string name="header_data_backup">Yedekleme</string>
+
+    <string name="height_cm">Boy (cm)</string>
+    <string name="weight_kg">Kilo (kg)</string>
+    <string name="first_day_of_the_week">Haftanın ilk günü</string>
+    <string name="app_language">Dil</string>
+    <string name="theme">Tema</string>
+    <string name="date_format">Tarih biçimi</string>
+    <string name="unit_system">Birim sistemi</string>
+    <string name="export_data">Dışa aktar</string>
+    <string name="import_data">İçe aktar</string>
+
+</resources>
