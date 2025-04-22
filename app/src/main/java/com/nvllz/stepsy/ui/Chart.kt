@@ -4,15 +4,22 @@
 
 package com.nvllz.stepsy.ui
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.ColorUtils
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.nvllz.stepsy.R
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.util.*
@@ -22,6 +29,7 @@ import java.util.*
  */
 internal class Chart : BarChart {
     private val yVals = ArrayList<BarEntry>()
+    private val oldYVals = ArrayList<BarEntry>()
 
     constructor(context: Context) : super(context) {
         initializeChart()
@@ -38,6 +46,7 @@ internal class Chart : BarChart {
     private fun initializeChart() {
         // Disable description text
         description.isEnabled = false
+
 
         // Other chart styling and configuration
         setDrawBarShadow(false)
@@ -76,6 +85,7 @@ internal class Chart : BarChart {
     private fun initializeData() {
         for (i in 0..6) {
             yVals.add(BarEntry(i.toFloat(), 0f))
+            oldYVals.add(BarEntry(i.toFloat(), 0f)) // keep previous values
         }
     }
 
@@ -97,7 +107,6 @@ internal class Chart : BarChart {
         return dayIndex
     }
 
-
     private fun updateBarEntryForDay(dayOfWeek: Int, steps: Float) {
         yVals[dayOfWeek].y = steps
     }
@@ -108,53 +117,81 @@ internal class Chart : BarChart {
     }
 
     internal fun update() {
+        val typeface = ResourcesCompat.getFont(context, R.font.opensans_regular)
         if (yVals.isEmpty()) return
 
-        val minSteps = yVals.minOfOrNull { it.y } ?: 0f
-        val maxSteps = yVals.maxOfOrNull { it.y } ?: 1f  // Avoid division by zero
+        val fromVals = oldYVals.map { it.y }
+        val toVals = yVals.map { it.y }
 
-        val dataSet = BarDataSet(yVals, "Step Data").apply {
-            setDrawIcons(false)
+        // Pre-calculate colors based on new values
+        val finalMin = yVals.minOfOrNull { it.y } ?: 0f
+        val finalMax = yVals.maxOfOrNull { it.y } ?: 1f
+        val finalColors = yVals.map { getColorForValue(it.y, finalMin, finalMax) }
 
-            // Generate colors dynamically based on values
-            val colors = yVals.map { entry ->
-                getColorForValue(entry.y, minSteps, maxSteps)
+        val animator = ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 200
+            interpolator = Easing.EaseInOutCubic
+            addUpdateListener { animation ->
+                val progress = animation.animatedValue as Float
+
+                val interpolatedVals = yVals.mapIndexed { index, entry ->
+                    BarEntry(entry.x, fromVals[index] + (toVals[index] - fromVals[index]) * progress)
+                }
+
+                // Apply pre-calculated colors (prevent flickering)
+                BarDataSet(interpolatedVals, "Step Data").apply {
+                    setDrawIcons(false)
+                    colors = finalColors
+                    setDrawValues(true)
+                    valueFormatter = IntValueFormatter()
+                    valueTypeface = typeface
+                }.let { dataSet ->
+                    BarData(dataSet).apply {
+                        setValueTextSize(10f)
+                        setValueTextColor(Color.GRAY)
+                        barWidth = 0.92f
+                    }
+                }.also { data ->
+                    val interpolatedMax = (fromVals.maxOrNull() ?: 1f) +
+                            ((toVals.maxOrNull() ?: 1f) - (fromVals.maxOrNull() ?: 1f)) * progress
+                    axisLeft.axisMaximum = maxOf(interpolatedMax * 1.05f, 1f)
+                    axisLeft.axisMinimum = 0f
+
+                    setData(data)
+                    invalidate()
+                }
             }
+        }.start()
 
-            setColors(colors) // Apply dynamic colors
-            setDrawValues(true)  // Ensure values are drawn above the bars
-            valueFormatter = IntValueFormatter() // Custom formatter for integer values
-        }
-
-        val data = BarData(dataSet).apply {
-            setValueTextSize(10f)
-            setValueTextColor(Color.GRAY)
-        }
-
-        data.barWidth = 0.9f
-
-        clear()  // Reset chart data
-        setData(data)  // Set new data
-
-        animateChart()
+        for (i in 0..6) oldYVals[i].y = yVals[i].y
     }
 
-    /**
-     * Assigns a shade of gray based on the step count.
-     * - Highest value → Lightest Gray (`#DCDCDC`)
-     * - Lowest value → Darkest Gray (`#333333`)
-     */
     private fun getColorForValue(value: Float, min: Float, max: Float): Int {
-        if (max == min) return Color.parseColor("#B7B7B7") // Neutral gray if all values are equal
+        val baseColor = ContextCompat.getColor(context, R.color.colorPrimary)
 
-        val factor = (value - min) / (max - min) // Normalize value to 0-1 range
-        val grayValue = (183 + (63 - 183) * (1 - factor)).toInt() // Linear interpolation between light & dark gray
-        return Color.rgb(grayValue, grayValue, grayValue)
-    }
+        if (max == min) return baseColor
 
-    private fun animateChart() {
-        animateXY(2000, 2000)  // Smooth animation for the data update
-        invalidate()
+        val hsl = FloatArray(3)
+        ColorUtils.colorToHSL(baseColor, hsl)
+
+        val factor = (value - min) / (max - min)
+
+        val isDarkTheme = when (AppCompatDelegate.getDefaultNightMode()) {
+            AppCompatDelegate.MODE_NIGHT_YES -> true
+            AppCompatDelegate.MODE_NIGHT_NO -> false
+            else -> {
+                val uiMode = resources.configuration.uiMode
+                (uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
+            }
+        }
+
+        // Bar tint:
+        // > Light theme: higher = darker
+        // > Dark theme: higher = lighter
+        val lightnessRange = if (isDarkTheme) 0.3f to 0.75f else 0.75f to 0.3f
+        hsl[2] = lightnessRange.first + (lightnessRange.second - lightnessRange.first) * factor
+
+        return ColorUtils.HSLToColor(hsl)
     }
 
     internal class DayFormatter : ValueFormatter() {
@@ -167,10 +204,9 @@ internal class Chart : BarChart {
     }
 
 
-    // Custom value formatter to display integer values over the bars
     internal class IntValueFormatter : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
-            return value.toInt().toString() // Convert the float value to an integer and return as string
+            return if (value > 0f) value.toInt().toString() else ""
         }
     }
 }

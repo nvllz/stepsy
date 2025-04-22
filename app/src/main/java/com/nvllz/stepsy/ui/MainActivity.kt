@@ -7,6 +7,8 @@ package com.nvllz.stepsy.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
@@ -17,8 +19,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.CalendarView
 import android.widget.ImageButton
@@ -30,15 +30,22 @@ import androidx.core.view.WindowCompat
 import androidx.preference.PreferenceManager
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
-import com.nvllz.stepsy.ui.cards.MotionStatisticsTextItem
-import com.nvllz.stepsy.ui.cards.MotionTextItem
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.button.MaterialButton
 
+import androidx.transition.TransitionManager
+import androidx.transition.AutoTransition
+import androidx.transition.Transition
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
+import android.view.Gravity
+import android.view.ViewGroup
 /**
  * The main activity for the UI of the step counter.
  */
@@ -46,25 +53,81 @@ internal class MainActivity : AppCompatActivity() {
     private lateinit var mTextViewMeters: TextView
     private lateinit var mTextViewSteps: TextView
     private lateinit var mTextViewCalories: TextView
-    private lateinit var mTextViewCalendarContent: TextView
     private lateinit var mCalendarView: CalendarView
     private lateinit var mChart: Chart
     private lateinit var mTextViewChart: TextView
-    private var mAdapter: TextItemAdapter = TextItemAdapter()
-    private lateinit var mMonthlyStepsCard: MotionStatisticsTextItem
-    private lateinit var mAverageStepsCard: MotionTextItem
-    private lateinit var mOverallStepsCard: MotionStatisticsTextItem
     private var mCurrentSteps: Int = 0
     private var mSelectedMonth = Util.calendar
     private var isPaused = false
+    private var currentSelectedButton: MaterialButton? = null
+    private var isTodaySelected = true
+
+    private lateinit var mTextViewDayHeader: TextView
+    private lateinit var mTextViewDayDetails: TextView
+    private lateinit var mTextViewMonthTotal: TextView
+    private lateinit var mTextViewMonthAverage: TextView
+    private lateinit var mTextViewTopHeader: TextView
+    private lateinit var mTextAvgPerDayHeader: TextView
+    private lateinit var mTextAvgPerDayValue: TextView
+
+    private lateinit var mRangeStaticBox: FlexboxLayout
+    private lateinit var mRangeDynamicBox: FlexboxLayout
+    private lateinit var mExpandButton: ImageButton
+    private var isExpanded = false
+    private var currentSelectedYearButton: MaterialButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Util.init(applicationContext)
         super.onCreate(savedInstanceState)
         Util.applyTheme(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "system")!!)
-        Util.init(applicationContext)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
+
+        mRangeStaticBox = findViewById(R.id.rangeStaticBox)
+        mRangeDynamicBox = findViewById(R.id.rangeDynamicBox)
+        mExpandButton = findViewById(R.id.expandButton)
+
+        mExpandButton.setOnClickListener {
+            isExpanded = !isExpanded
+
+            if (isExpanded) {
+                mRangeStaticBox.visibility = View.VISIBLE
+                mRangeDynamicBox.visibility = View.VISIBLE
+            }
+
+            TransitionManager.beginDelayedTransition(
+                mRangeStaticBox.parent as ViewGroup,
+                AutoTransition().apply {
+                    duration = 300
+                    addListener(object : Transition.TransitionListener {
+                        override fun onTransitionEnd(transition: Transition) {
+                            if (!isExpanded) {
+                                mRangeStaticBox.visibility = View.GONE
+                                mRangeDynamicBox.visibility = View.GONE
+                            }
+                        }
+                        override fun onTransitionStart(transition: Transition) {}
+                        override fun onTransitionCancel(transition: Transition) {}
+                        override fun onTransitionPause(transition: Transition) {}
+                        override fun onTransitionResume(transition: Transition) {}
+                    })
+                }
+            )
+
+            mRangeStaticBox.visibility = if (isExpanded) View.VISIBLE else View.INVISIBLE
+            mRangeDynamicBox.visibility = if (isExpanded) View.VISIBLE else View.INVISIBLE
+
+            mExpandButton.setImageResource(
+                if (isExpanded) R.drawable.ic_expand_less
+                else R.drawable.ic_expand_more
+            )
+        }
+
+        loadYearButtons()
+
+        val todayButton = findViewById<MaterialButton>(R.id.button_today)
+        setSelectedButton(todayButton)
 
         Util.height = PreferenceManager.getDefaultSharedPreferences(this).getInt("height_cm", 180)
         Util.weight = PreferenceManager.getDefaultSharedPreferences(this).getInt("weight_kg", 70)
@@ -74,6 +137,14 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewCalories = findViewById(R.id.textViewCalories)
         isPaused = getSharedPreferences("settings", MODE_PRIVATE).getBoolean("isPaused", false)
 
+        mTextViewDayHeader = findViewById(R.id.textViewDayHeader)
+        mTextViewDayDetails = findViewById(R.id.textViewDayDetails)
+        mTextViewMonthTotal = findViewById(R.id.textViewMonthTotal)
+        mTextViewMonthAverage = findViewById(R.id.textViewMonthAverage)
+        mTextViewTopHeader = findViewById(R.id.textViewTopHeader)
+        mTextAvgPerDayHeader = findViewById(R.id.textAvgPerDayHeader)
+        mTextAvgPerDayValue = findViewById(R.id.textAvgPerDayValue)
+
         val gearButton = findViewById<ImageButton>(R.id.gearButton)
         gearButton.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
@@ -82,12 +153,12 @@ internal class MainActivity : AppCompatActivity() {
         val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
         if (isPaused) {
             fab.setImageResource(android.R.drawable.ic_media_play)
+            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
         } else {
             fab.setImageResource(android.R.drawable.ic_media_pause)
+            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
         }
 
-        val mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        mTextViewCalendarContent = findViewById(R.id.textViewCalendarContent)
         mChart = findViewById(R.id.chart)
         mTextViewChart = findViewById(R.id.textViewChart)
         mCalendarView = findViewById(R.id.calendar)
@@ -98,19 +169,42 @@ internal class MainActivity : AppCompatActivity() {
                 it
         }
         mCalendarView.maxDate = Util.calendar.timeInMillis
+        mCalendarView.firstDayOfWeek = Util.firstDayOfWeek
         mCalendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             mSelectedMonth.set(Calendar.YEAR, year)
             mSelectedMonth.set(Calendar.MONTH, month)
             mSelectedMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
             updateChart()
-            updateCards()
         }
-        mCalendarView.firstDayOfWeek = Util.firstDayOfWeek
 
-        val mLayoutManager = LinearLayoutManager(this)
-        mRecyclerView.layoutManager = mLayoutManager
-        mRecyclerView.adapter = mAdapter
+        findViewById<MaterialButton>(R.id.button_today).setOnClickListener {
+            handleTimeRangeSelection("TODAY", it as MaterialButton)
+        }
+
+        findViewById<MaterialButton>(R.id.button_this_week).setOnClickListener {
+            handleTimeRangeSelection("WEEK", it as MaterialButton)
+        }
+
+        findViewById<MaterialButton>(R.id.button_this_month).setOnClickListener {
+            handleTimeRangeSelection("MONTH", it as MaterialButton)
+        }
+
+        findViewById<MaterialButton>(R.id.button_7days).setOnClickListener {
+            handleTimeRangeSelection("7 DAYS", it as MaterialButton)
+        }
+
+        findViewById<MaterialButton>(R.id.button_30days).setOnClickListener {
+            handleTimeRangeSelection("30 DAYS", it as MaterialButton)
+        }
+
+        findViewById<MaterialButton>(R.id.button_365days).setOnClickListener {
+            handleTimeRangeSelection("365 DAYS", it as MaterialButton)
+        }
+
+        findViewById<MaterialButton>(R.id.button_alltime).setOnClickListener {
+            handleTimeRangeSelection("ALL TIME", it as MaterialButton)
+        }
 
         findViewById<View>(R.id.fab).let {
             it.setOnClickListener {
@@ -121,6 +215,7 @@ internal class MainActivity : AppCompatActivity() {
                     intent.action = MotionService.ACTION_RESUME_COUNTING
                     startService(intent)
                     fab.setImageResource(android.R.drawable.ic_media_pause)
+                    fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
                     getSharedPreferences("settings", MODE_PRIVATE).edit {
                         putBoolean(
                             "isPaused",
@@ -132,6 +227,7 @@ internal class MainActivity : AppCompatActivity() {
                     intent.action = MotionService.ACTION_PAUSE_COUNTING
                     startService(intent)
                     fab.setImageResource(android.R.drawable.ic_media_play)
+                    fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
                     getSharedPreferences("settings", MODE_PRIVATE).edit {
                         putBoolean(
                             "isPaused",
@@ -143,9 +239,9 @@ internal class MainActivity : AppCompatActivity() {
             }
         }
 
-        updateChart()
+        restoreSelectionState()
 
-        setupCards()
+        updateChart()
 
         checkPermissions()
     }
@@ -161,6 +257,274 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setSelectedButton(button: MaterialButton, isYearButton: Boolean = false) {
+        if (isYearButton) {
+            currentSelectedYearButton?.let {
+                it.strokeWidth = 2
+                it.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+                it.setTypeface(null, Typeface.NORMAL)
+            }
+            currentSelectedYearButton = button
+            currentSelectedButton?.let {
+                it.strokeWidth = 2
+                it.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+                it.setTypeface(null, Typeface.NORMAL)
+            }
+            currentSelectedButton = null
+        } else {
+            currentSelectedButton?.let {
+                it.strokeWidth = 2
+                it.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+                it.setTypeface(null, Typeface.NORMAL)
+            }
+            currentSelectedButton = button
+            currentSelectedYearButton?.let {
+                it.strokeWidth = 2
+                it.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+                it.setTypeface(null, Typeface.NORMAL)
+            }
+            currentSelectedYearButton = null
+        }
+
+        button.setTypeface(null, Typeface.BOLD)
+        button.strokeWidth = 6
+        button.setTextColor(ContextCompat.getColor(this, R.color.colorOnSurface))
+    }
+
+    private fun loadYearButtons() {
+        val db = Database.getInstance(this)
+        val firstYear = Calendar.getInstance().apply {
+            timeInMillis = db.firstEntry
+        }.get(Calendar.YEAR)
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+
+        mRangeDynamicBox.removeAllViews()
+
+        for (year in firstYear..currentYear) {
+            val startOfYear = Calendar.getInstance(getDeviceTimeZone()).apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, Calendar.JANUARY)
+                set(Calendar.DAY_OF_MONTH, 1)
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+            }.timeInMillis
+
+            val endOfYear = Calendar.getInstance(getDeviceTimeZone()).apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, Calendar.DECEMBER)
+                set(Calendar.DAY_OF_MONTH, 31)
+                set(Calendar.HOUR_OF_DAY, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+            }.timeInMillis
+
+            val hasData = db.getSumSteps(startOfYear, endOfYear) > 0
+
+            if (hasData) {
+                val button = layoutInflater.inflate(R.layout.year_button, mRangeDynamicBox, false) as MaterialButton
+                button.text = year.toString()
+                button.setOnClickListener {
+                    setSelectedButton(button, true)
+                    updateYearSummaryView(year)
+                }
+                mRangeDynamicBox.addView(button)
+            }
+        }
+    }
+
+    private fun handleTimeRangeSelection(range: String, button: MaterialButton) {
+        setSelectedButton(button)
+        isTodaySelected = range == "TODAY"
+        saveSelectedRange(range)
+
+        if (isTodaySelected) {
+            mTextViewTopHeader.text = getString(R.string.header_today)
+            updateView(mCurrentSteps)
+            return
+        }
+
+        val timeZone = getDeviceTimeZone()
+        val calendar = Calendar.getInstance(timeZone)
+        val db = Database.getInstance(this)
+
+        val (startTime, endTime) = when (range) {
+            "WEEK" -> {
+                mTextViewTopHeader.text = getString(R.string.header_week)
+                calendar.firstDayOfWeek = Util.firstDayOfWeek
+                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+                calendar.set(Calendar.HOUR_OF_DAY, 0)
+                calendar.set(Calendar.MINUTE, 0)
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
+                val start = calendar.timeInMillis
+                calendar.add(Calendar.DAY_OF_YEAR, 6)
+                calendar.set(Calendar.HOUR_OF_DAY, 23)
+                calendar.set(Calendar.MINUTE, 59)
+                calendar.set(Calendar.SECOND, 59)
+                calendar.set(Calendar.MILLISECOND, 999)
+                Pair(start, calendar.timeInMillis)
+            }
+            "MONTH" -> {
+                mTextViewTopHeader.text = getString(R.string.header_month)
+                calendar.set(Calendar.DAY_OF_MONTH, 1)
+                calendar.set(Calendar.HOUR_OF_DAY, 0)
+                calendar.set(Calendar.MINUTE, 0)
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
+                val start = calendar.timeInMillis
+                calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+                calendar.set(Calendar.HOUR_OF_DAY, 1)
+                Pair(start, calendar.timeInMillis)
+            }
+            "7 DAYS" -> {
+                mTextViewTopHeader.text = getString(R.string.header_7d)
+                calendar.add(Calendar.DAY_OF_YEAR, -6)
+                calendar.set(Calendar.HOUR_OF_DAY, 0)
+                calendar.set(Calendar.MINUTE, 0)
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
+                val start = calendar.timeInMillis
+                calendar.add(Calendar.DAY_OF_YEAR, 6)
+                calendar.set(Calendar.HOUR_OF_DAY, 1)
+                Pair(start, calendar.timeInMillis)
+            }
+            "30 DAYS" -> {
+                mTextViewTopHeader.text = getString(R.string.header_30d)
+                calendar.add(Calendar.DAY_OF_YEAR, -29)
+                calendar.set(Calendar.HOUR_OF_DAY, 0)
+                calendar.set(Calendar.MINUTE, 0)
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
+                val start = calendar.timeInMillis
+                calendar.add(Calendar.DAY_OF_YEAR, 29)
+                calendar.set(Calendar.HOUR_OF_DAY, 1)
+                Pair(start, calendar.timeInMillis)
+            }
+            "365 DAYS" -> {
+                mTextViewTopHeader.text = getString(R.string.header_365d)
+                calendar.add(Calendar.DAY_OF_YEAR, -364)
+                calendar.set(Calendar.HOUR_OF_DAY, 0)
+                calendar.set(Calendar.MINUTE, 0)
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
+                val start = calendar.timeInMillis
+                calendar.add(Calendar.DAY_OF_YEAR, 364)
+                calendar.set(Calendar.HOUR_OF_DAY, 23)
+                calendar.set(Calendar.MINUTE, 59)
+                calendar.set(Calendar.SECOND, 59)
+                calendar.set(Calendar.MILLISECOND, 999)
+                Pair(start, calendar.timeInMillis)
+            }
+            "ALL TIME" -> {
+                mTextViewTopHeader.text = getString(R.string.header_all_time)
+                // Include the very first and last moments
+                Pair(db.firstEntry, db.lastEntry)
+            }
+            else -> return
+        }
+
+        val totalSteps = db.getSumSteps(startTime, endTime)
+        val avgSteps = db.avgSteps(startTime, endTime)
+
+        mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, totalSteps, totalSteps)
+        mTextViewMeters.text = String.format(getString(R.string.distance_today),
+            Util.stepsToDistance(totalSteps),
+            Util.getDistanceUnitString())
+
+        mTextViewCalories.text = ""
+        mTextAvgPerDayHeader.visibility = View.VISIBLE
+        mTextAvgPerDayValue.visibility = View.VISIBLE
+        mTextAvgPerDayHeader.text = getString(R.string.avg_distance)
+        mTextAvgPerDayValue.text = String.format(
+            getString(R.string.steps_format),
+            avgSteps.toString(),
+            Util.stepsToDistance(avgSteps),
+            Util.getDistanceUnitString()
+        )
+    }
+
+    private fun restoreSelectionState() {
+        if (isYearSelected()) {
+            val year = loadSelectedYear()
+            if (year != -1) {
+                for (i in 0 until mRangeDynamicBox.childCount) {
+                    val button = mRangeDynamicBox.getChildAt(i) as? MaterialButton
+                    if (button?.text == year.toString()) {
+                        setSelectedButton(button, true)
+                        updateYearSummaryView(year)
+                        break
+                    }
+                }
+            }
+        } else {
+            val range = loadSelectedRange()
+            if (range != null) {
+                val buttonId = when (range) {
+                    "TODAY" -> R.id.button_today
+                    "WEEK" -> R.id.button_this_week
+                    "MONTH" -> R.id.button_this_month
+                    "7 DAYS" -> R.id.button_7days
+                    "30 DAYS" -> R.id.button_30days
+                    "365 DAYS" -> R.id.button_365days
+                    "ALL TIME" -> R.id.button_alltime
+                    else -> null
+                }
+
+                buttonId?.let {
+                    val button = findViewById<MaterialButton>(it)
+                    setSelectedButton(button)
+                    handleTimeRangeSelection(range, button)
+                }
+            }
+        }
+    }
+
+    private fun updateYearSummaryView(year: Int) {
+        saveSelectedYear(year)
+        currentSelectedButton = null
+
+        val timeZone = getDeviceTimeZone()
+        val startOfYear = Calendar.getInstance(timeZone).apply {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, Calendar.JANUARY)
+            set(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+
+        val endOfYear = Calendar.getInstance(timeZone).apply {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, Calendar.DECEMBER)
+            set(Calendar.DAY_OF_MONTH, 31)
+            set(Calendar.HOUR_OF_DAY, 1)
+        }.timeInMillis
+
+        mTextViewTopHeader.text = String.format(getString(R.string.header_year),
+            year)
+
+        val yearSteps = Database.getInstance(this).getSumSteps(startOfYear, endOfYear)
+        val avgSteps = Database.getInstance(this).avgSteps(startOfYear, endOfYear)
+
+        mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, yearSteps, yearSteps)
+        mTextViewMeters.text = String.format(getString(R.string.distance_today),
+            Util.stepsToDistance(yearSteps),
+            Util.getDistanceUnitString())
+
+        mTextViewCalories.text = ""
+        mTextAvgPerDayHeader.visibility = View.VISIBLE
+        mTextAvgPerDayValue.visibility = View.VISIBLE
+        mTextAvgPerDayHeader.text = getString(R.string.avg_distance)
+        mTextAvgPerDayValue.text = String.format(
+            getString(R.string.steps_format),
+            avgSteps.toString(),
+            Util.stepsToDistance(avgSteps),
+            Util.getDistanceUnitString()
+        )
+    }
+
     private fun formatToSelectedDateFormat(dateInMillis: Long): String {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val dateFormatString = sharedPreferences.getString("date_format", "yyyy-MM-dd") ?: "yyyy-MM-dd"
@@ -169,31 +533,12 @@ internal class MainActivity : AppCompatActivity() {
         return sdf.format(Date(dateInMillis))
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         AppCompatDelegate.setDefaultNightMode(
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
                 AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             else AppCompatDelegate.MODE_NIGHT_YES)
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun setupCards() {
-        mMonthlyStepsCard = MotionStatisticsTextItem(this, R.string.steps_month, 0)
-        mAdapter.add(mMonthlyStepsCard)
-
-        mAverageStepsCard = MotionTextItem(this, R.string.avg_distance)
-        mAdapter.add(mAverageStepsCard)
-
-        val overallSteps = Database.getInstance(this).getSumSteps(Database.getInstance(this).firstEntry, Database.getInstance(this).lastEntry)
-        mOverallStepsCard = MotionStatisticsTextItem(this, R.string.total_distance, overallSteps)
-        mAdapter.add(mOverallStepsCard)
-
-        updateCards()
     }
 
     private fun subscribeService() {
@@ -275,38 +620,153 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun updateView(steps: Int) {
-        // update current today's steps in the header
         mCurrentSteps = steps
-        mTextViewMeters.text = String.format(getString(R.string.distance_today), Util.stepsToDistance(steps), Util.getDistanceUnitString())
-        mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, steps, steps)
-        mTextViewCalories.text = String.format(getString(R.string.calories), Util.stepsToCalories(steps))
+        if (isTodaySelected) {
+            // Only update today's steps if "Today" is selected
 
-        // update calendar max date for the case that new day started
-        if (!DateUtils.isToday(mCalendarView.maxDate))
+            mTextViewMeters.text = String.format(getString(R.string.distance_today),
+                Util.stepsToDistance(steps),
+                Util.getDistanceUnitString())
+            mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, steps, steps)
+            mTextViewCalories.text = String.format(getString(R.string.calories),
+                Util.stepsToCalories(steps))
+            mTextAvgPerDayHeader.visibility = View.GONE
+            mTextAvgPerDayValue.visibility = View.GONE
+            mTextAvgPerDayHeader.text = ""
+            mTextAvgPerDayValue.text = ""
+        }
+
+        // Update calendar max date for the case that new day started
+        if (!DateUtils.isToday(mCalendarView.maxDate)) {
             mCalendarView.maxDate = Util.calendar.timeInMillis
+        }
 
-        // update the cards
-        mOverallStepsCard.updateSteps()
+        // If a year is selected, refresh its data to get latest steps
+        currentSelectedYearButton?.let { button ->
+            val year = button.text.toString().toInt()
+            updateYearSummaryView(year)
+        }
 
         // If selected week is the current week, update the diagram and cards with today's stepsy
         if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
             mChart.setCurrentSteps(steps)
             mChart.update()
-            mMonthlyStepsCard.updateSteps()
+        }
+
+        // If a time range is selected (other than Today), refresh its data
+        currentSelectedButton?.let { button ->
+            when (button.id) {
+                R.id.button_this_week -> handleTimeRangeSelection("WEEK", button)
+                R.id.button_this_month -> handleTimeRangeSelection("MONTH", button)
+                R.id.button_7days -> handleTimeRangeSelection("7 DAYS", button)
+                R.id.button_30days -> handleTimeRangeSelection("30 DAYS", button)
+                R.id.button_365days -> handleTimeRangeSelection("365 DAYS", button)
+                R.id.button_alltime -> handleTimeRangeSelection("ALL TIME", button)
+            }
         }
     }
 
+    private fun getDeviceTimeZone(): TimeZone {
+        return TimeZone.getDefault()
+    }
+
+    private fun getDayEntry(timestamp: Long): Database.Entry? {
+        val calendar = Calendar.getInstance(getDeviceTimeZone()).apply {
+            timeInMillis = timestamp
+        }
+        // Get start and end of day in local timezone
+        val startOfDay = calendar.apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+
+        val endOfDay = calendar.apply {
+            set(Calendar.HOUR_OF_DAY, 1)
+        }.timeInMillis
+
+        val entries = Database.getInstance(this).getEntries(startOfDay, endOfDay)
+        return entries.firstOrNull()
+    }
+
     private fun updateChart() {
-        val min = Calendar.getInstance()
-        min.timeInMillis = mSelectedMonth.timeInMillis
-        min.firstDayOfWeek = Util.firstDayOfWeek
-        min.set(Calendar.DAY_OF_WEEK, min.firstDayOfWeek)
+        val timeZone = getDeviceTimeZone()
 
-        val max = Calendar.getInstance()
-        max.timeInMillis = min.timeInMillis
-        max.firstDayOfWeek = Util.firstDayOfWeek
-        max.add(Calendar.DAY_OF_YEAR, 6)
+        mTextViewDayHeader.text = formatToSelectedDateFormat(mSelectedMonth.timeInMillis)
 
+        val dayEntry = getDayEntry(mSelectedMonth.timeInMillis)
+
+        val stepsPlural = dayEntry?.let {
+            resources.getQuantityString(
+                R.plurals.steps_text,
+                it.steps,
+                it.steps
+            )
+        }
+
+        if (dayEntry != null) {
+            mTextViewDayDetails.text = String.format(
+                getString(R.string.steps_day_display),
+                stepsPlural,
+                Util.stepsToDistance(dayEntry.steps),
+                Util.getDistanceUnitString(),
+                Util.stepsToCalories(dayEntry.steps)
+            )
+        } else {
+            mTextViewDayDetails.text = String.format(
+                getString(R.string.steps_day_display),
+                resources.getQuantityString(R.plurals.steps_text,0,0),
+                0.0,
+                Util.getDistanceUnitString(),
+                0
+            )
+        }
+
+        val startOfMonth = Calendar.getInstance(timeZone).apply {
+            timeInMillis = mSelectedMonth.timeInMillis
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        val endOfMonth = Calendar.getInstance(timeZone).apply {
+            timeInMillis = startOfMonth.timeInMillis
+            set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
+            set(Calendar.HOUR_OF_DAY, 1)
+        }
+
+        val monthSteps = Database.getInstance(this).getSumSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
+        val avgSteps = Database.getInstance(this).avgSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
+
+        // Update month stats
+        mTextViewMonthTotal.text = String.format(
+            getString(R.string.steps_format),
+            monthSteps.toString(),
+            Util.stepsToDistance(monthSteps),
+            Util.getDistanceUnitString()
+        )
+
+        mTextViewMonthAverage.text = String.format(
+            getString(R.string.steps_format),
+            avgSteps.toString(),
+            Util.stepsToDistance(avgSteps),
+            Util.getDistanceUnitString()
+        )
+
+        val min = Calendar.getInstance().apply {
+            timeInMillis = mSelectedMonth.timeInMillis
+            firstDayOfWeek = Util.firstDayOfWeek
+            set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        val max = Calendar.getInstance().apply {
+            timeInMillis = min.timeInMillis
+            add(Calendar.DAY_OF_YEAR, 6)
+            set(Calendar.HOUR_OF_DAY, 1)
+        }
 
         mChart.clearDiagram()
 
@@ -320,36 +780,8 @@ internal class MainActivity : AppCompatActivity() {
         )
 
         val entries = Database.getInstance(this).getEntries(min.timeInMillis, max.timeInMillis)
-
-        val selectedMonthDateFormatted = formatToSelectedDateFormat(mSelectedMonth.timeInMillis)
-        mTextViewCalendarContent.text = String.format(getString(R.string.no_entry), selectedMonthDateFormatted)
         for (entry in entries) {
             mChart.setDiagramEntry(entry)
-
-            val cal = Calendar.getInstance()
-            cal.timeInMillis = entry.timestamp
-
-            val calDateFormatted = formatToSelectedDateFormat(cal.timeInMillis)
-
-            if (cal.get(Calendar.DAY_OF_WEEK) == mSelectedMonth.get(Calendar.DAY_OF_WEEK)) {
-                val steps = entry.steps
-                val stepsPlural = resources.getQuantityString(
-                    R.plurals.steps_text,
-                    steps,
-                    steps
-                )
-
-                mTextViewCalendarContent.text = String.format(
-                    Locale.getDefault(),
-                    getString(R.string.steps_day_display),
-                    calDateFormatted,
-                    Util.stepsToDistance(steps),
-                    Util.getDistanceUnitString(),
-                    stepsPlural,
-                    Util.stepsToCalories(steps)
-                )
-            }
-
         }
 
         if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
@@ -358,25 +790,39 @@ internal class MainActivity : AppCompatActivity() {
         mChart.update()
     }
 
-    private fun updateCards() {
-        val startOfMonth = Calendar.getInstance()
-        startOfMonth.timeInMillis = mSelectedMonth.timeInMillis
-        startOfMonth.set(Calendar.DAY_OF_MONTH, 1)
+    private fun saveSelectedRange(range: String) {
+        getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit {
+            putString(KEY_SELECTED_RANGE, range)
+            putBoolean(KEY_IS_YEAR_SELECTED, false)
+            apply()
+        }
+    }
 
-        val endOfMonth = Calendar.getInstance()
-        endOfMonth.timeInMillis = startOfMonth.timeInMillis
-        endOfMonth.add(Calendar.MONTH, 1)
+    private fun saveSelectedYear(year: Int) {
+        getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit {
+            putInt(KEY_SELECTED_YEAR, year)
+            putBoolean(KEY_IS_YEAR_SELECTED, true)
+            apply()
+        }
+    }
 
-        val stepsThisMonth = Database.getInstance(this).getSumSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
-        mMonthlyStepsCard.initialSteps = stepsThisMonth
-        mMonthlyStepsCard.updateSteps()
-        mAverageStepsCard.setContent(Database.getInstance(this).avgSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis))
-        mOverallStepsCard.updateSteps()
+    private fun loadSelectedRange(): String? {
+        return getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getString(KEY_SELECTED_RANGE, null)
+    }
 
+    private fun loadSelectedYear(): Int {
+        return getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getInt(KEY_SELECTED_YEAR, -1)
+    }
+
+    private fun isYearSelected(): Boolean {
+        return getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getBoolean(KEY_IS_YEAR_SELECTED, false)
     }
 
     companion object {
-
         const val RECEIVER_TAG = "RECEIVER_TAG"
+        private const val PREFS_NAME = "RangePrefs"
+        private const val KEY_SELECTED_RANGE = "selected_range"
+        private const val KEY_SELECTED_YEAR = "selected_year"
+        private const val KEY_IS_YEAR_SELECTED = "is_year_selected"
     }
 }

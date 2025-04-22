@@ -14,7 +14,7 @@ internal object Util {
         METRIC, IMPERIAL
     }
 
-    var firstDayOfWeek: Int = Calendar.SUNDAY
+    var firstDayOfWeek: Int = Calendar.MONDAY
 
     fun init(context: Context) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)

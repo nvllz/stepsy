@@ -25,21 +25,35 @@
 
                 <ImageButton
                     android:id="@+id/gearButton"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/settings"
                     android:src="@drawable/ic_settings"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_gravity="end|top"
                     app:tint="@color/colorOnSurface"
                     android:scaleType="centerInside" />
+
+                <TextView
+                    android:id="@+id/textViewTopHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10sp"
+                    android:textAllCaps="true"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:fontWeight="700" />
 
                 <TextView
                     android:id="@+id/textViewSteps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textSize="42sp"
+                    android:textSize="38sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorOnSurface"
                     android:fontFamily="@font/opensans_semibold"
@@ -50,16 +64,140 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textSize="25sp" />
+                    android:textSize="22sp"
+                    android:fontFamily="@font/opensans_regular"/>
 
                 <TextView
                     android:id="@+id/textViewCalories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textSize="25sp"
-                    android:layout_marginBottom="18sp" />
+                    android:textSize="20sp"
+                    android:fontFamily="@font/opensans_regular"/>
 
+                <TextView
+                    android:id="@+id/textAvgPerDayHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/opensans_regular"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/textAvgPerDayValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/opensans_regular"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <ImageButton
+                            android:id="@+id/expandButton"
+                            android:layout_width="48dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_expand_more"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/expand_collapse"
+                            android:padding="8dp"
+                            app:tint="@color/colorAccent" />
+                    </LinearLayout>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/rangeStaticBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:flexWrap="wrap"
+                        app:alignItems="center"
+                        app:justifyContent="center"
+                        android:animateLayoutChanges="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:id="@+id/button_today"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_today"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/opensans_regular"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:id="@+id/button_this_week"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_week"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/opensans_regular"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:id="@+id/button_this_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_month"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/opensans_regular"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:id="@+id/button_7days"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_7d"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/opensans_regular"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:id="@+id/button_30days"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_30d"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/opensans_regular"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:id="@+id/button_365days"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_365d"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/opensans_regular"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:id="@+id/button_alltime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_all_time"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/opensans_regular"/>
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/rangeDynamicBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:flexWrap="wrap"
+                        app:alignItems="center"
+                        app:justifyContent="center"/>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -70,6 +208,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#333333"
+            android:layout_margin="15dp"
             android:layout_marginVertical="4dp"/>
 
         <com.google.android.material.card.MaterialCardView
@@ -91,7 +230,8 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:textSize="18sp"
-                    android:layout_marginBottom="10sp" />
+                    android:layout_marginBottom="10sp"
+                    android:fontFamily="@font/opensans_regular"/>
 
                 <com.nvllz.stepsy.ui.Chart
                     android:id="@+id/chart"
@@ -117,29 +257,69 @@
 
                 <include layout="@layout/calendar" />
 
+                <!-- Selected Day Header -->
                 <TextView
-                    android:id="@+id/textViewCalendarContent"
+                    android:id="@+id/textViewDayHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textSize="14sp"
-                    android:paddingTop="10sp"
-                    android:textAlignment="center"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="5sp"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:fontWeight="700" />
+
+                <!-- Day Details -->
+                <TextView
+                    android:id="@+id/textViewDayDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19sp"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="20sp"
+                    android:fontFamily="@font/opensans_regular"/>
+
+                <TextView
+                    android:id="@+id/textViewMonthTotalHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="@string/total_distance"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:fontWeight="700" />
+
+                <TextView
+                    android:id="@+id/textViewMonthTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10sp"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/opensans_regular"/>
+
+                <TextView
+                    android:id="@+id/textViewMonthAvgHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="@string/avg_distance"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:fontWeight="700" />
+
+                <TextView
+                    android:id="@+id/textViewMonthAverage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/opensans_regular"/>
+
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
-
-        <!-- Divider -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#333333"
-            android:layout_marginVertical="4dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </LinearLayout>
 

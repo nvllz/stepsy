@@ -1,4 +1,4 @@
-<!-- res/values/colors.xml -->
+<!-- res/values-night/colors.xml -->
 <resources>
     <color name="colorAccent">#999999</color>
     <color name="colorPrimary">#282828</color>

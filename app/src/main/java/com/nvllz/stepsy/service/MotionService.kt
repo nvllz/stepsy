@@ -181,9 +181,9 @@ internal class MotionService : Service() {
         val notificationText = String.format(
             Locale.getDefault(),
             getString(R.string.steps_format),
+            stepsPlural,
             Util.stepsToDistance(mTodaysSteps),
-            Util.getDistanceUnitString(),
-            stepsPlural
+            Util.getDistanceUnitString()
         )
 
 

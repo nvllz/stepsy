@@ -15,13 +15,6 @@ import com.nvllz.stepsy.R
 import com.nvllz.stepsy.ui.cards.TextItem
 import java.util.*
 
-/**
- * An adapter for the [RecyclerView] that contains [TextItem].
- * It contains dynamically changing items that display statistics and activities.
- *
- *
- * Created by tiefensuche on 19.10.16.
- */
 internal class TextItemAdapter : RecyclerView.Adapter<TextItemAdapter.ViewHolder>() {
     private val mDataset = ArrayList<TextItem>()
 
@@ -53,21 +46,6 @@ internal class TextItemAdapter : RecyclerView.Adapter<TextItemAdapter.ViewHolder
         val item = mDataset[position]
         holder.mTextViewDescription.text = item.description
         holder.mTextViewContent.text = item.content
-        if (item.buttonClickListener != null) {
-            holder.mImageButton.setOnClickListener(item.buttonClickListener)
-            holder.mImageButton.setImageResource(android.R.drawable.ic_media_pause)
-        } else {
-            holder.mImageButton.visibility = View.GONE
-        }
-        item.setUpdateListener(object : TextItem.UpdateListener {
-            override fun update(text: String?) {
-                holder.mTextViewContent.text = text
-            }
-
-            override fun updateIcon(id: Int) {
-                holder.mImageButton.setImageResource(id)
-            }
-        })
     }
 
     override fun getItemCount(): Int {
@@ -77,7 +55,6 @@ internal class TextItemAdapter : RecyclerView.Adapter<TextItemAdapter.ViewHolder
     internal inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         internal val mTextViewDescription: TextView = v.findViewById(R.id.textViewDescription)
         internal val mTextViewContent: TextView = v.findViewById(R.id.textViewContent)
-        internal val mImageButton: ImageButton = v.findViewById(R.id.imageButton)
     }
 
 }

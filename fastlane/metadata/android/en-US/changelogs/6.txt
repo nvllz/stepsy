@@ -1,0 +1,8 @@
+Changes
+- Major interface redesign
+- Chart animations
+- New language: Turkish
+
+Fixes
+- Chart coloring and visual glitches
+.. and several minor bugs

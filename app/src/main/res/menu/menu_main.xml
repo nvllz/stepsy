@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ SPDX-License-Identifier: GPL-3.0-only
-  -->
-
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/action_force_dark"
-        android:title="Force dark mode" />
-</menu>

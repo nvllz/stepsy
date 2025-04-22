@@ -14,8 +14,8 @@ android {
         applicationId "com.nvllz.stepsy"
         minSdkVersion 26
         targetSdkVersion 35
-        versionCode 5
-        versionName "1.4.6"
+        versionCode 6
+        versionName "1.4.7"
         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
     signingConfigs {
@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.14.1'

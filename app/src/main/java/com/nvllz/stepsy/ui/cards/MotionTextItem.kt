@@ -29,9 +29,9 @@ internal open class MotionTextItem(context: Context, description: Int) : TextIte
         val formatted = String.format(
             Locale.getDefault(),
             format,
+            stepsPlural,
             Util.stepsToDistance(steps),
-            Util.getDistanceUnitString(),
-            stepsPlural
+            Util.getDistanceUnitString()
         )
 
         setContent(formatted)

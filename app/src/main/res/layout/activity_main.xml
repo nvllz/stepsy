@@ -15,10 +15,10 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        android:backgroundTint ="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:contentDescription="@string/action_pause"
         android:src="@android:drawable/ic_media_pause"
         app:tint="@color/colorOnPrimary"
         android:layout_marginEnd="18dp"
