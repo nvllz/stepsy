@@ -6,8 +6,8 @@
 
     <!-- General UI Labels -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$s / %5$d কিলোক্যালরি</string>
-    <string name="steps_format">%1$.2f %2$s / %3$s</string>
+    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d কিলোক্যালরি</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">সপ্তাহ %1$d: %2$s - %3$s</string>
     <string name="no_entry">%1$s এর জন্য কোন রেকর্ড নেই</string>
     <string name="calories">%1$d কিলোক্যালরি</string>
@@ -17,6 +17,25 @@
 
     <string name="no_sensor">আপনার ডিভাইসে পদক্ষেপ গণনার সেন্সর নেই</string>
     <string name="no_activity_permission">ACTIVITY_RECOGNITION অনুমতি নেই</string>
+
+    <!-- Header section -->
+    <string name="expand_collapse">বিস্তার/সংকোচন</string>
+    <string name="header_today">আজ</string>
+    <string name="header_week">এই সপ্তাহ</string>
+    <string name="header_month">এই মাস</string>
+    <string name="header_7d">গত ৭ দিন</string>
+    <string name="header_30d">গত ৩০ দিন</string>
+    <string name="header_365d">গত ৩৬৫ দিন</string>
+    <string name="header_all_time">সর্বমোট</string>
+    <string name="header_year">%1$d সাল</string>
+
+    <string name="label_today">আজ</string>
+    <string name="label_week">সপ্তাহ</string>
+    <string name="label_month">মাস</string>
+    <string name="label_7d">৭ দিন</string>
+    <string name="label_30d">৩০ দিন</string>
+    <string name="label_365d">৩৬৫ দিন</string>
+    <string name="label_all_time">সর্বমোট</string>
 
     <!-- Plurals -->
     <plurals name="steps_text">

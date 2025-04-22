@@ -6,8 +6,8 @@
 
     <!-- General UI Labels -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$s / %5$d kcal</string>
-    <string name="steps_format">%1$.2f %2$s / %3$s</string>
+    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Semaine %1$d: %2$s - %3$s</string>
     <string name="no_entry">Aucun enregistrement pour %1$s</string>
     <string name="calories">%1$d kcal</string>
@@ -17,6 +17,25 @@
 
     <string name="no_sensor">Votre appareil ne possède pas de capteur de pas</string>
     <string name="no_activity_permission">Permission ACTIVITY_RECOGNITION manquante</string>
+
+    <!-- Header section -->
+    <string name="expand_collapse">Déplier/Replier</string>
+    <string name="header_today">Aujourd\'hui</string>
+    <string name="header_week">Semaine en cours</string>
+    <string name="header_month">Mois en cours</string>
+    <string name="header_7d">7 derniers jours</string>
+    <string name="header_30d">30 derniers jours</string>
+    <string name="header_365d">365 derniers jours</string>
+    <string name="header_all_time">Total</string>
+    <string name="header_year">Année %1$d</string>
+
+    <string name="label_today">Aujourd\'hui</string>
+    <string name="label_week">Semaine</string>
+    <string name="label_month">Mois</string>
+    <string name="label_7d">7 jours</string>
+    <string name="label_30d">30 jours</string>
+    <string name="label_365d">365 jours</string>
+    <string name="label_all_time">Total</string>
 
     <!-- Plurals -->
     <plurals name="steps_text">

@@ -6,8 +6,8 @@
 
     <!-- General UI Labels -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s: %2$.2f %3$s / %4$s / %5$d kcal</string>
-    <string name="steps_format">%1$.2f %2$s / %3$s</string>
+    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Tydzień %1$d: %2$s - %3$s</string>
     <string name="no_entry">Brak danych dla %1$s</string>
     <string name="calories">%1$d kcal</string>
@@ -17,6 +17,25 @@
 
     <string name="no_sensor">Twoje urządzenie nie ma czujnika kroków</string>
     <string name="no_activity_permission">Brak uprawnienia ACTIVITY_RECOGNITION</string>
+
+    <!-- Labels -->
+    <string name="expand_collapse">Zwiń/Rozwiń</string>
+    <string name="header_today">Dziś</string>
+    <string name="header_week">Ten tydzień</string>
+    <string name="header_month">Ten miesiąc</string>
+    <string name="header_7d">Ostatnie 7 dni</string>
+    <string name="header_30d">Ostatnie 30 dni</string>
+    <string name="header_365d">Ostatnie 365 dni</string>
+    <string name="header_all_time">Ogółem</string>
+    <string name="header_year">Rok %1$d</string>
+
+    <string name="label_today">Dziś</string>
+    <string name="label_week">Tydzień</string>
+    <string name="label_month">Miesiąc</string>
+    <string name="label_7d">7 dni</string>
+    <string name="label_30d">30 dni</string>
+    <string name="label_365d">365 dni</string>
+    <string name="label_all_time">Cały okres</string>
 
     <!-- Plurals -->
     <plurals name="steps_text">
