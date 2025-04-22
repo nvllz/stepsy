@@ -14,12 +14,6 @@
         <item>Cumartesi</item>
     </string-array>
 
-    <string-array name="weekdays_values">
-        <item>"7"</item> <!-- SUNDAY -->
-        <item>"1"</item> <!-- MONDAY -->
-        <item>"6"</item> <!-- SATURDAY -->
-    </string-array>
-
     <!-- Unit System -->
     <string-array name="unit_system_entries">
         <item>Metrik (Kilometre)</item>
