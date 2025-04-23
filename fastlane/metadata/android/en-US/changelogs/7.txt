@@ -1,0 +1,10 @@
+A new release has dropped! Don't forget to star the app repository on Github.
+
+Changes:
+- Replaced seekbars with text dialogs for height and weight preferences
+- Widgets will now respect system theme
+- New date format: dd/MM/yyyy
+
+Fixes:
+- Inconsistent theming of Settings
+- Widget sizing
