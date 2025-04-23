@@ -18,11 +18,13 @@
         <item>2012–12–31</item>
         <item>31.12.2012</item>
         <item>12/31/2012</item>
+        <item>31/12/2012</item>
     </string-array>
     <string-array name="date_format_values">
         <item>yyyy-MM-dd</item>
         <item>dd.MM.yyyy</item>
         <item>MM/dd/yyyy</item>
+        <item>dd/MM/yyyy</item>
     </string-array>
 
     <!-- Weekdays -->
