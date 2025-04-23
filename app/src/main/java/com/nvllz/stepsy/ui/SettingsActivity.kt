@@ -5,6 +5,7 @@
 package com.nvllz.stepsy.ui
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateUtils
@@ -12,6 +13,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.os.LocaleListCompat
 import androidx.preference.ListPreference
@@ -30,6 +32,7 @@ import java.io.FileOutputStream
 import java.lang.Exception
 import java.util.Date
 import java.util.Locale
+import androidx.core.graphics.drawable.toDrawable
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -42,13 +45,16 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        val color = ContextCompat.getColor(this, R.color.colorBackground)
+        supportActionBar?.setBackgroundDrawable(color.toDrawable())
+
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         }
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
