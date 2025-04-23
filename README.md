@@ -17,7 +17,7 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 ## Screenshots
 
 | ![Screenshot 1](images/stepsy-scr-1.png) | ![Screenshot 2](images/stepsy-scr-2.png) | ![Screenshot 3](images/stepsy-scr-3.png) | ![Screenshot 4](images/stepsy-scr-4.png) |
-|:--:|:--:|:--:|
+|:--:|:--:|:--:|:--:|
 
 ## Download
 
