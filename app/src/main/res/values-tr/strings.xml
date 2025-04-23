@@ -70,4 +70,6 @@
     <string name="export_data">Dışa aktar</string>
     <string name="import_data">İçe aktar</string>
 
+    <string name="valid_number_toast">Geçerli bir sayı girin</string>
+
 </resources>

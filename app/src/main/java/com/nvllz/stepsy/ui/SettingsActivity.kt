@@ -5,7 +5,6 @@
 package com.nvllz.stepsy.ui
 
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateUtils
@@ -20,7 +19,6 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import androidx.preference.SeekBarPreference
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
 import com.nvllz.stepsy.service.MotionService.Companion.KEY_DATE
@@ -33,6 +31,7 @@ import java.lang.Exception
 import java.util.Date
 import java.util.Locale
 import androidx.core.graphics.drawable.toDrawable
+import androidx.preference.EditTextPreference
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -54,7 +53,6 @@ class SettingsActivity : AppCompatActivity() {
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -79,20 +77,40 @@ class SettingsActivity : AppCompatActivity() {
                 else -> currentLocales[0]?.language ?: "system"
             }
 
-            findPreference<SeekBarPreference>("height_cm")?.setOnPreferenceChangeListener { _, newValue ->
-                Util.height = newValue as Int
-                prefs.edit {
-                    putInt("height_cm", newValue)
+            findPreference<EditTextPreference>("height")?.setOnPreferenceChangeListener { _, newValue ->
+                try {
+                    val height = newValue.toString()
+                    if (height.toInt() <= 250) {
+                        Util.height = height.toInt()
+                        prefs.edit {
+                            putString("height", height)
+                        }
+                        true
+                    } else {
+                        false
+                    }
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(context, R.string.valid_number_toast, Toast.LENGTH_SHORT).show()
+                    false
                 }
-                true
             }
 
-            findPreference<SeekBarPreference>("weight_kg")?.setOnPreferenceChangeListener { _, newValue ->
-                Util.weight = newValue as Int
-                prefs.edit {
-                    putInt("weight_kg", newValue)
+            findPreference<EditTextPreference>("weight")?.setOnPreferenceChangeListener { _, newValue ->
+                try {
+                    val weight = newValue.toString()
+                    if (weight.toInt() <= 500) {
+                        Util.weight = weight.toInt()
+                        prefs.edit {
+                            putString("weight", weight)
+                        }
+                        true
+                    } else {
+                        false
+                    }
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(context, R.string.valid_number_toast, Toast.LENGTH_SHORT).show()
+                    false
                 }
-                true
             }
 
             findPreference<ListPreference>("unit_system")?.setOnPreferenceChangeListener { _, newValue ->
@@ -108,6 +126,7 @@ class SettingsActivity : AppCompatActivity() {
 
             findPreference<ListPreference>("date_format")?.setOnPreferenceChangeListener { _, newValue ->
                 val dateFormat = newValue.toString()
+                Util.dateFormatString = dateFormat
                 prefs.edit {
                     putString("date_format", dateFormat)
                 }

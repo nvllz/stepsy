@@ -18,21 +18,17 @@ internal object Util {
 
     fun init(context: Context) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        dateFormatString = prefs.getString("date_format", "yyyy-MM-dd") ?: "yyyy-MM-dd"
         distanceUnit = when (prefs.getString("unit_system", "metric")) {
             "imperial" -> DistanceUnit.IMPERIAL
             else -> DistanceUnit.METRIC
         }
-        height = prefs.getInt("height_cm", 180)
-        weight = prefs.getInt("weight_kg", 70)
+        height = prefs.getString("height", "180")!!.toInt()
+        weight = prefs.getString("weight", "70")!!.toInt()
         firstDayOfWeek = prefs.getString("first_day_of_week", Calendar.MONDAY.toString())?.toIntOrNull()
             ?: prefs.getInt("first_day_of_week", Calendar.MONDAY)
     }
 
-    /**
-     * Get calendar with zeroed time (hours, minutes, seconds)
-     *
-     * @return Calendar with start of the day
-     */
     internal val calendar: Calendar
         get() {
             val calendar = Calendar.getInstance()
@@ -46,7 +42,7 @@ internal object Util {
 
     var height = 180
     var weight = 70
-
+    var dateFormatString: String = "yyyy-MM-dd"
     var distanceUnit: DistanceUnit = DistanceUnit.METRIC
 
     internal fun stepsToDistance(steps: Number): Double {

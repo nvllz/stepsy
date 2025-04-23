@@ -15,37 +15,32 @@ import android.os.PowerManager
 import android.os.ResultReceiver
 import android.provider.Settings
 import android.text.format.DateUtils
-import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.preference.PreferenceManager
+import androidx.transition.AutoTransition
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
+import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.button.MaterialButton
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.core.content.edit
-import androidx.core.net.toUri
-import com.google.android.flexbox.FlexboxLayout
-import com.google.android.material.button.MaterialButton
 
-import androidx.transition.TransitionManager
-import androidx.transition.AutoTransition
-import androidx.transition.Transition
-import androidx.transition.Slide
-import androidx.transition.TransitionSet
-import android.view.Gravity
-import android.view.ViewGroup
 /**
  * The main activity for the UI of the step counter.
  */
@@ -128,9 +123,6 @@ internal class MainActivity : AppCompatActivity() {
 
         val todayButton = findViewById<MaterialButton>(R.id.button_today)
         setSelectedButton(todayButton)
-
-        Util.height = PreferenceManager.getDefaultSharedPreferences(this).getInt("height_cm", 180)
-        Util.weight = PreferenceManager.getDefaultSharedPreferences(this).getInt("weight_kg", 70)
 
         mTextViewMeters = findViewById(R.id.textViewMeters)
         mTextViewSteps = findViewById(R.id.textViewSteps)
@@ -526,10 +518,7 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun formatToSelectedDateFormat(dateInMillis: Long): String {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val dateFormatString = sharedPreferences.getString("date_format", "yyyy-MM-dd") ?: "yyyy-MM-dd"
-
-        val sdf = SimpleDateFormat(dateFormatString, Locale.getDefault())
+        val sdf = SimpleDateFormat(Util.dateFormatString, Locale.getDefault())
         return sdf.format(Date(dateInMillis))
     }
 

@@ -10,23 +10,21 @@
         android:title="@string/header_personal_data"
         app:iconSpaceReserved="false">
 
-        <SeekBarPreference
-            android:key="height_cm"
+        <EditTextPreference
+            android:key="height"
             android:title="@string/height_cm"
-            app:min="120"
-            android:max="220"
-            app:defaultValue="180"
-            app:showSeekBarValue="true"
-            app:iconSpaceReserved="false" />
+            android:defaultValue="180"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_height" />
 
-        <SeekBarPreference
-            android:key="weight_kg"
+        <EditTextPreference
+            android:key="weight"
             android:title="@string/weight_kg"
-            app:min="30"
-            android:max="220"
-            app:defaultValue="70"
-            app:showSeekBarValue="true"
-            app:iconSpaceReserved="false" />
+            android:defaultValue="70"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_weight" />
 </PreferenceCategory>
 
     <PreferenceCategory

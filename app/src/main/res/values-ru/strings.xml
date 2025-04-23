@@ -72,4 +72,6 @@
     <string name="export_data">Экспорт</string>
     <string name="import_data">Импорт</string>
 
+    <string name="valid_number_toast">Введите правильное число</string>
+
 </resources>

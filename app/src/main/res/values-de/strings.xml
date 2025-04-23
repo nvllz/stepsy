@@ -70,4 +70,6 @@
     <string name="export_data">Exportieren</string>
     <string name="import_data">Importieren</string>
 
+    <string name="valid_number_toast">Gib eine gültige Zahl ein</string>
+
 </resources>

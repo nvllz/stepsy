@@ -70,4 +70,6 @@
     <string name="export_data">রপ্তানি</string>
     <string name="import_data">আমদানি</string>
 
+    <string name="valid_number_toast">সঠিক সংখ্যা লিখুন</string>
+
 </resources>
