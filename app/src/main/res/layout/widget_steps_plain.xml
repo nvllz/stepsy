@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_plain_container"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/widget_bg"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="12dp">
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp" >
 
-    <TextView
-        android:id="@+id/widget_steps"
+    <LinearLayout
+        android:id="@+id/widget_inner_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAlignment="center"
-        android:textColor="@color/widgetPrimary"
-        android:textSize="22sp" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_margin="12dp" >
+
+        <TextView
+            android:id="@+id/widget_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/widgetPrimary"
+            android:textSize="22sp" />
+    </LinearLayout>
 
 </FrameLayout>

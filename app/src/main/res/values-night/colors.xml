@@ -6,4 +6,7 @@
     <color name="colorSurface">#000000</color>
     <color name="colorOnSurface">#F0F0F0</color>
     <color name="colorBackground">#000000</color>
+    <color name="widgetPrimary">#E9E9E9</color>
+    <color name="widgetSecondary">#BCBCBC</color>
+    <color name="widgetBackground">#80000000</color>
 </resources>
