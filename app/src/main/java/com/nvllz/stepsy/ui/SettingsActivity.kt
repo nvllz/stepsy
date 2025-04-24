@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -34,7 +36,6 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.preference.EditTextPreference
 
 class SettingsActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
@@ -66,8 +67,23 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
+        private lateinit var importLauncher: ActivityResultLauncher<Intent>
+        private lateinit var exportLauncher: ActivityResultLauncher<Intent>
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+            importLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                    result.data?.data?.let { import(it) }
+                }
+            }
+
+            exportLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                    result.data?.data?.let { export(it) }
+                }
+            }
 
             val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -79,17 +95,13 @@ class SettingsActivity : AppCompatActivity() {
 
             findPreference<EditTextPreference>("height")?.setOnPreferenceChangeListener { _, newValue ->
                 try {
-                    val height = newValue.toString()
-                    if (height.toInt() <= 250) {
-                        Util.height = height.toInt()
-                        prefs.edit {
-                            putString("height", height)
-                        }
-                        true
-                    } else {
-                        false
+                    val height = newValue.toString().toInt()
+                    Util.height = height
+                    prefs.edit {
+                        putInt("height", height)
                     }
-                } catch (e: NumberFormatException) {
+                    true
+                } catch (_: NumberFormatException) {
                     Toast.makeText(context, R.string.valid_number_toast, Toast.LENGTH_SHORT).show()
                     false
                 }
@@ -97,31 +109,33 @@ class SettingsActivity : AppCompatActivity() {
 
             findPreference<EditTextPreference>("weight")?.setOnPreferenceChangeListener { _, newValue ->
                 try {
-                    val weight = newValue.toString()
-                    if (weight.toInt() <= 500) {
-                        Util.weight = weight.toInt()
-                        prefs.edit {
-                            putString("weight", weight)
-                        }
-                        true
-                    } else {
-                        false
+                    val weight = newValue.toString().toInt()
+                    Util.weight = weight
+                    prefs.edit {
+                        putInt("weight", weight)
                     }
-                } catch (e: NumberFormatException) {
+                    true
+                } catch (_: NumberFormatException) {
                     Toast.makeText(context, R.string.valid_number_toast, Toast.LENGTH_SHORT).show()
                     false
                 }
             }
 
             findPreference<ListPreference>("unit_system")?.setOnPreferenceChangeListener { _, newValue ->
-                Util.distanceUnit = when (newValue.toString()) {
-                    "imperial" -> Util.DistanceUnit.IMPERIAL
-                    else -> Util.DistanceUnit.METRIC
+                try {
+                    Util.distanceUnit = when (newValue.toString()) {
+                        "imperial" -> Util.DistanceUnit.IMPERIAL
+                        "metric" -> Util.DistanceUnit.METRIC
+                        else -> throw IllegalArgumentException("Unknown unit system: $newValue")
+                    }
+                    prefs.edit {
+                        putString("unit_system", newValue.toString())
+                    }
+                    true
+                } catch (_: NumberFormatException) {
+                    Toast.makeText(context, R.string.valid_number_toast, Toast.LENGTH_SHORT).show()
+                    false
                 }
-                prefs.edit {
-                    putString("unit_system", newValue.toString())
-                }
-                true
             }
 
             findPreference<ListPreference>("date_format")?.setOnPreferenceChangeListener { _, newValue ->
@@ -181,7 +195,7 @@ class SettingsActivity : AppCompatActivity() {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/*"
                 }
-                startActivityForResult(intent, 1)
+                importLauncher.launch(intent)
                 true
             }
 
@@ -195,21 +209,8 @@ class SettingsActivity : AppCompatActivity() {
                     type = "text/*"
                     putExtra(Intent.EXTRA_TITLE, fileName)
                 }
-                startActivityForResult(intent, 2)
+                exportLauncher.launch(intent)
                 true
-            }
-        }
-
-        @Deprecated("Deprecated in Java")
-        override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-            super.onActivityResult(requestCode, resultCode, resultData)
-            if (resultCode != RESULT_OK)
-                return
-            resultData?.data?.also { uri ->
-                when (requestCode) {
-                    1 -> import(uri)
-                    2 -> export(uri)
-                }
             }
         }
 
