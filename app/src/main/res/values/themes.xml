@@ -1,5 +1,6 @@
 <!-- res/values/themes.xml -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
+    <!-- Base theme -->
     <style name="Theme.stepsy" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
@@ -12,8 +13,11 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+
+        <item name="alertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
     </style>
 
+    <!-- Settings activity theme -->
     <style name="Theme.stepsySettings" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
@@ -27,12 +31,31 @@
         <item name="android:statusBarColor">@color/colorBackground</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
 
+        <item name="alertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
     </style>
 
+    <!-- Calendar view style -->
     <style name="CalendarViewStyle" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorOnPrimary</item>
         <item name="android:fontFamily">@font/opensans_family</item>
         <item name="fontFamily">@font/opensans_family</item>
     </style>
+
+    <!-- Dialog Button Styles -->
+    <style name="DialogButton.Positive" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorOnSurface</item>
+    </style>
+
+    <style name="DialogButton.Negative" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <!-- Dialog Theme -->
+    <style name="ThemeOverlay.stepsy.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/DialogButton.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DialogButton.Negative</item>
+        <item name="android:background">@color/colorBackground</item>
+    </style>
+
 </resources>
