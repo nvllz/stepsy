@@ -72,6 +72,12 @@
     <string name="export_data">Экспорт</string>
     <string name="import_data">Импорт</string>
 
-    <string name="valid_number_toast">Введите правильное число</string>
+    <!-- Toasts -->
+    <string name="enter_valid_number">Введите правильное число</string>
+    <string name="cannot_write_file">Cannot write file</string>
+    <string name="cannot_open_file">Cannot open file</string>
+    <string name="export_result">Exported %1$d entries.</string>
+    <string name="import_result">Imported %1$d entries (%2$d failed). %3$s</string>
+    <string name="today_steps_set">Today\'s steps set to %1$d.</string>
 
 </resources>

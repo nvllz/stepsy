@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,9 @@ import java.util.Date
 import java.util.Locale
 import androidx.core.graphics.drawable.toDrawable
 import androidx.preference.EditTextPreference
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -66,10 +70,26 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
+
+        private lateinit var importLauncher: ActivityResultLauncher<Intent>
+        private lateinit var exportLauncher: ActivityResultLauncher<Intent>
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
             val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+            importLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    result.data?.data?.let { uri -> import(uri) }
+                }
+            }
+
+            exportLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    result.data?.data?.let { uri -> export(uri) }
+                }
+            }
 
             val currentLocales = AppCompatDelegate.getApplicationLocales()
             val currentLanguage = when {
@@ -80,17 +100,13 @@ class SettingsActivity : AppCompatActivity() {
             findPreference<EditTextPreference>("height")?.setOnPreferenceChangeListener { _, newValue ->
                 try {
                     val height = newValue.toString()
-                    if (height.toInt() <= 250) {
+                    if (height.toInt() in 1..250) {
                         Util.height = height.toInt()
-                        prefs.edit {
-                            putString("height", height)
-                        }
+                        prefs.edit { putString("height", height) }
                         true
-                    } else {
-                        false
-                    }
-                } catch (e: NumberFormatException) {
-                    Toast.makeText(context, R.string.valid_number_toast, Toast.LENGTH_SHORT).show()
+                    } else false
+                } catch (_: NumberFormatException) {
+                    Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
                     false
                 }
             }
@@ -98,49 +114,35 @@ class SettingsActivity : AppCompatActivity() {
             findPreference<EditTextPreference>("weight")?.setOnPreferenceChangeListener { _, newValue ->
                 try {
                     val weight = newValue.toString()
-                    if (weight.toInt() <= 500) {
+                    if (weight.toInt() in 1..500) {
                         Util.weight = weight.toInt()
-                        prefs.edit {
-                            putString("weight", weight)
-                        }
+                        prefs.edit { putString("weight", weight) }
                         true
-                    } else {
-                        false
-                    }
-                } catch (e: NumberFormatException) {
-                    Toast.makeText(context, R.string.valid_number_toast, Toast.LENGTH_SHORT).show()
+                    } else false
+                } catch (_: NumberFormatException) {
+                    Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
                     false
                 }
             }
 
             findPreference<ListPreference>("unit_system")?.setOnPreferenceChangeListener { _, newValue ->
-                Util.distanceUnit = when (newValue.toString()) {
-                    "imperial" -> Util.DistanceUnit.IMPERIAL
-                    else -> Util.DistanceUnit.METRIC
-                }
-                prefs.edit {
-                    putString("unit_system", newValue.toString())
-                }
+                Util.distanceUnit = if (newValue.toString() == "imperial") Util.DistanceUnit.IMPERIAL else Util.DistanceUnit.METRIC
+                prefs.edit { putString("unit_system", newValue.toString()) }
                 true
             }
 
             findPreference<ListPreference>("date_format")?.setOnPreferenceChangeListener { _, newValue ->
                 val dateFormat = newValue.toString()
                 Util.dateFormatString = dateFormat
-                prefs.edit {
-                    putString("date_format", dateFormat)
-                }
+                prefs.edit { putString("date_format", dateFormat) }
                 true
             }
 
             findPreference<ListPreference>("first_day_of_week")?.setOnPreferenceChangeListener { _, newValue ->
                 val value = newValue.toString().toInt()
                 Util.firstDayOfWeek = value
-                prefs.edit {
-                    putString("first_day_of_week", value.toString())
-                }
+                prefs.edit { putString("first_day_of_week", value.toString()) }
 
-                // restart the activity to apply changes
                 val intent = Intent(requireContext(), MainActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
@@ -151,25 +153,18 @@ class SettingsActivity : AppCompatActivity() {
 
             findPreference<ListPreference>("language")?.let { languagePref ->
                 languagePref.value = currentLanguage
-
                 languagePref.setOnPreferenceChangeListener { _, newValue ->
                     val localeCode = newValue.toString()
-
-                    val newLocale = when (localeCode) {
-                        "system" -> LocaleListCompat.getEmptyLocaleList() // Use system's default language
-                        else -> LocaleListCompat.create(Locale(localeCode)) // Create a new locale from the selected language
+                    val newLocale = if (localeCode == "system") {
+                        LocaleListCompat.getEmptyLocaleList()
+                    } else {
+                        LocaleListCompat.create(Locale(localeCode))
                     }
-
-                    // Apply the new locale
                     AppCompatDelegate.setApplicationLocales(newLocale)
-
-                    // Restart the app to apply the language change
                     restartApp()
-
                     true
                 }
             }
-
 
             findPreference<ListPreference>("theme")?.setOnPreferenceChangeListener { _, newValue ->
                 Util.applyTheme(newValue.toString())
@@ -181,7 +176,7 @@ class SettingsActivity : AppCompatActivity() {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/*"
                 }
-                startActivityForResult(intent, 1)
+                importLauncher.launch(intent)
                 true
             }
 
@@ -195,21 +190,8 @@ class SettingsActivity : AppCompatActivity() {
                     type = "text/*"
                     putExtra(Intent.EXTRA_TITLE, fileName)
                 }
-                startActivityForResult(intent, 2)
+                exportLauncher.launch(intent)
                 true
-            }
-        }
-
-        @Deprecated("Deprecated in Java")
-        override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-            super.onActivityResult(requestCode, resultCode, resultData)
-            if (resultCode != RESULT_OK)
-                return
-            resultData?.data?.also { uri ->
-                when (requestCode) {
-                    1 -> import(uri)
-                    2 -> export(uri)
-                }
             }
         }
 
@@ -225,19 +207,18 @@ class SettingsActivity : AppCompatActivity() {
                 requireContext().contentResolver.openFileDescriptor(uri, "r")?.use {
                     FileInputStream(it.fileDescriptor).bufferedReader().use { reader ->
                         for (line in reader.readLines()) {
-                            entries += 1
+                            entries++
                             try {
                                 val split = line.split(",")
                                 val timestamp = split[0].toLong()
                                 val steps = split[1].toInt()
-
                                 if (DateUtils.isToday(timestamp)) {
                                     todaySteps = steps
                                 }
                                 db.addEntry(timestamp, steps)
                             } catch (ex: Exception) {
-                                println("Cannot import entry, ${ex.message}")
-                                failed += 1
+                                Log.e("SettingsFragment", "Cannot import entry", ex)
+                                failed++
                             }
                         }
                     }
@@ -247,7 +228,6 @@ class SettingsActivity : AppCompatActivity() {
                             putInt(KEY_STEPS, todaySteps)
                             putLong(KEY_DATE, today)
                         }
-
                         val intent = Intent(requireContext(), MotionService::class.java).apply {
                             putExtra("FORCE_UPDATE", true)
                             putExtra(KEY_STEPS, todaySteps)
@@ -256,37 +236,43 @@ class SettingsActivity : AppCompatActivity() {
                         requireContext().startService(intent)
                     }
 
-                    Toast.makeText(
-                        context,
-                        "Imported ${entries - failed} entries ($failed failed). " +
-                                if (todaySteps > 0) "Today's steps set to $todaySteps." else "",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    val successCount = entries - failed
+                    val todaySetText = if (todaySteps > 0) {
+                        getString(R.string.today_steps_set, todaySteps)
+                    } else {
+                        ""
+                    }
+
+                    val resultText = getString(R.string.import_result, successCount, failed, todaySetText)
+
+                    Toast.makeText(context, resultText, Toast.LENGTH_LONG).show()
+
                     restartApp()
                 }
             } catch (ex: Exception) {
-                println("Cannot open file, ${ex.message}")
-                Toast.makeText(context, "Cannot open file", Toast.LENGTH_LONG).show()
+                Log.e("SettingsFragment", "Cannot open file", ex)
+                Toast.makeText(context, getString(R.string.cannot_open_file), Toast.LENGTH_SHORT).show()
             }
         }
 
         private fun export(uri: Uri) {
             val db = Database.getInstance(requireContext())
-
             try {
                 requireContext().contentResolver.openFileDescriptor(uri, "w")?.use {
-                    FileOutputStream(it.fileDescriptor).bufferedWriter().use {
+                    FileOutputStream(it.fileDescriptor).bufferedWriter().use { writer ->
                         var entries = 0
                         for (entry in db.getEntries(db.firstEntry, db.lastEntry)) {
-                            it.write("${entry.timestamp},${entry.steps}\r\n")
-                            entries += 1
+                            writer.write("${entry.timestamp},${entry.steps}\r\n")
+                            entries++
                         }
-                        Toast.makeText(context, "Exported $entries entries.", Toast.LENGTH_LONG).show()
+
+                        val resultText = getString(R.string.export_result, entries)
+                        Toast.makeText(context, resultText, Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (ex: Exception) {
-                println("Can not open file, ${ex.message}")
-                Toast.makeText(context, "Can not open file", Toast.LENGTH_LONG).show()
+                Log.e("SettingsFragment", "Cannot write file", ex)
+                Toast.makeText(context, getString(R.string.cannot_write_file), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -295,7 +281,7 @@ class SettingsActivity : AppCompatActivity() {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
             startActivity(intent)
-            Runtime.getRuntime().exit(0)
+            activity?.finishAffinity()
         }
     }
 }
