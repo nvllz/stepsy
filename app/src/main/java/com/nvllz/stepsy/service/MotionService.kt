@@ -24,7 +24,6 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
 import android.os.ResultReceiver
-import androidx.preference.PreferenceManager
 import androidx.core.app.NotificationCompat
 import android.text.format.DateUtils
 import android.util.Log
@@ -62,7 +61,7 @@ internal class MotionService : Service() {
         Log.d(TAG, "Creating MotionService")
         startService()
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        sharedPreferences = applicationContext.getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
         mCurrentDate = sharedPreferences.getLong(KEY_DATE, Util.calendar.timeInMillis)
         mTodaysSteps = sharedPreferences.getInt(KEY_STEPS, 0)
 

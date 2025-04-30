@@ -19,7 +19,6 @@ import androidx.core.os.LocaleListCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
 import com.nvllz.stepsy.service.MotionService.Companion.KEY_DATE
@@ -77,7 +76,7 @@ class SettingsActivity : AppCompatActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            val prefs = requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
 
             importLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
@@ -99,13 +98,17 @@ class SettingsActivity : AppCompatActivity() {
 
             findPreference<EditTextPreference>("height")?.setOnPreferenceChangeListener { _, newValue ->
                 try {
-                    val height = newValue.toString()
-                    if (height.toInt() in 1..250) {
-                        Util.height = height.toInt()
-                        prefs.edit { putString("height", height) }
+                    val height = newValue.toString().toInt()
+                    if (height in 1..250) {
+                        requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
+                            .edit { putString("height", height.toString()) }
+                        Util.height = height
                         true
-                    } else false
-                } catch (_: NumberFormatException) {
+                    } else {
+                        Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
+                        false
+                    }
+                } catch (_: Exception) {
                     Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
                     false
                 }
@@ -113,13 +116,17 @@ class SettingsActivity : AppCompatActivity() {
 
             findPreference<EditTextPreference>("weight")?.setOnPreferenceChangeListener { _, newValue ->
                 try {
-                    val weight = newValue.toString()
-                    if (weight.toInt() in 1..500) {
-                        Util.weight = weight.toInt()
-                        prefs.edit { putString("weight", weight) }
+                    val weight = newValue.toString().toInt()
+                    if (weight in 1..500) {
+                        requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
+                            .edit { putString("weight", weight.toString()) }
+                        Util.weight = weight
                         true
-                    } else false
-                } catch (_: NumberFormatException) {
+                    } else {
+                        Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
+                        false
+                    }
+                } catch (_: Exception) {
                     Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
                     false
                 }
@@ -167,7 +174,13 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             findPreference<ListPreference>("theme")?.setOnPreferenceChangeListener { _, newValue ->
-                Util.applyTheme(newValue.toString())
+                val theme = newValue.toString()
+                requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
+                    putString("theme", theme)
+                    apply()
+                }
+                Util.applyTheme(theme)
+                activity?.recreate()
                 true
             }
 
@@ -196,7 +209,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         private fun import(uri: Uri) {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            val prefs = requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
             val db = Database.getInstance(requireContext())
             val today = Util.calendar.timeInMillis
             var todaySteps = 0

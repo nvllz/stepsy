@@ -15,20 +15,17 @@ import android.os.PowerManager
 import android.os.ResultReceiver
 import android.provider.Settings
 import android.text.format.DateUtils
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
-import androidx.preference.PreferenceManager
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -73,8 +70,9 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Util.init(applicationContext)
+        Util.applyTheme(getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getString("theme", "system")!!)
+
         super.onCreate(savedInstanceState)
-        Util.applyTheme(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "system")!!)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
@@ -127,7 +125,7 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewMeters = findViewById(R.id.textViewMeters)
         mTextViewSteps = findViewById(R.id.textViewSteps)
         mTextViewCalories = findViewById(R.id.textViewCalories)
-        isPaused = getSharedPreferences("settings", MODE_PRIVATE).getBoolean("isPaused", false)
+        isPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean("IS_PAUSED", false)
 
         mTextViewDayHeader = findViewById(R.id.textViewDayHeader)
         mTextViewDayDetails = findViewById(R.id.textViewDayDetails)
@@ -208,9 +206,9 @@ internal class MainActivity : AppCompatActivity() {
                     startService(intent)
                     fab.setImageResource(android.R.drawable.ic_media_pause)
                     fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
-                    getSharedPreferences("settings", MODE_PRIVATE).edit {
+                    getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
                         putBoolean(
-                            "isPaused",
+                            "IS_PAUSED",
                             false
                         )
                     }
@@ -220,9 +218,9 @@ internal class MainActivity : AppCompatActivity() {
                     startService(intent)
                     fab.setImageResource(android.R.drawable.ic_media_play)
                     fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-                    getSharedPreferences("settings", MODE_PRIVATE).edit {
+                    getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
                         putBoolean(
-                            "isPaused",
+                            "IS_PAUSED",
                             true
                         )
                     }
@@ -520,14 +518,6 @@ internal class MainActivity : AppCompatActivity() {
     private fun formatToSelectedDateFormat(dateInMillis: Long): String {
         val sdf = SimpleDateFormat(Util.dateFormatString, Locale.getDefault())
         return sdf.format(Date(dateInMillis))
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        AppCompatDelegate.setDefaultNightMode(
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            else AppCompatDelegate.MODE_NIGHT_YES)
-        return super.onOptionsItemSelected(item)
     }
 
     private fun subscribeService() {

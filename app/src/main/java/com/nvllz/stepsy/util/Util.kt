@@ -5,9 +5,11 @@
 package com.nvllz.stepsy.util
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import java.util.*
+import androidx.core.content.edit
 
 internal object Util {
     enum class DistanceUnit {
@@ -17,16 +19,34 @@ internal object Util {
     var firstDayOfWeek: Int = Calendar.MONDAY
 
     fun init(context: Context) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        dateFormatString = prefs.getString("date_format", "yyyy-MM-dd") ?: "yyyy-MM-dd"
+        migrateDefaultPreferences(context)
+        val prefs = context.getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
+
+        height = try {
+            prefs.getString("height", "180")?.toInt() ?: 180
+        } catch (_: Exception) {
+            180
+        }
+
+        weight = try {
+            prefs.getString("weight", "70")?.toInt() ?: 70
+        } catch (_: Exception) {
+            70
+        }
+
         distanceUnit = when (prefs.getString("unit_system", "metric")) {
             "imperial" -> DistanceUnit.IMPERIAL
             else -> DistanceUnit.METRIC
         }
-        height = prefs.getString("height", "180")!!.toInt()
-        weight = prefs.getString("weight", "70")!!.toInt()
-        firstDayOfWeek = prefs.getString("first_day_of_week", Calendar.MONDAY.toString())?.toIntOrNull()
-            ?: prefs.getInt("first_day_of_week", Calendar.MONDAY)
+
+        dateFormatString = prefs.getString("date_format", "yyyy-MM-dd") ?: "yyyy-MM-dd"
+
+        firstDayOfWeek = try {
+            prefs.getString("first_day_of_week", Calendar.MONDAY.toString())?.toIntOrNull()
+                ?: Calendar.MONDAY
+        } catch (_: Exception) {
+            Calendar.MONDAY
+        }
     }
 
     internal val calendar: Calendar
@@ -71,4 +91,35 @@ internal object Util {
             "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }
+
+    private fun migrateDefaultPreferences(context: Context) {
+        val defaultPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val newPrefs = context.getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
+
+        val migrationDoneKey = "prefs_migration_1.4.9"
+        if (!newPrefs.getBoolean(migrationDoneKey, false)) {
+            newPrefs.edit {
+                val allEntries = defaultPrefs.all
+
+                for ((key, value) in allEntries) {
+                    when (value) {
+                        is String -> putString(key, value)
+                        is Int -> putInt(key, value)
+                        is Boolean -> putBoolean(key, value)
+                        is Float -> putFloat(key, value)
+                        is Long -> putLong(key, value)
+                        is Set<*> -> {
+                            @Suppress("UNCHECKED_CAST")
+                            if (value.all { it is String }) {
+                                putStringSet(key, value as Set<String>)
+                            }
+                        }
+                    }
+                }
+
+                putBoolean(migrationDoneKey, true)
+            }
+        }
+    }
+
 }
