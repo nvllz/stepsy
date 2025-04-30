@@ -18,10 +18,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:contentDescription="@string/action_pause"
         android:src="@android:drawable/ic_media_pause"
         app:tint="@color/colorOnPrimary"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="46dp" />
+        app:fabCustomSize="56dp"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
