@@ -8,8 +8,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -34,7 +36,9 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.preference.EditTextPreference
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-
+import androidx.appcompat.app.AlertDialog
+import androidx.core.text.HtmlCompat
+import com.nvllz.stepsy.BuildConfig
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -75,6 +79,11 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+            findPreference<Preference>("about")?.apply {
+                val version = BuildConfig.VERSION_NAME
+                summary = "Version: $version\nLicense: GPL-3.0"
+            }
 
             val prefs = requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
 
@@ -206,6 +215,36 @@ class SettingsActivity : AppCompatActivity() {
                 exportLauncher.launch(intent)
                 true
             }
+
+            findPreference<Preference>("about")?.setOnPreferenceClickListener {
+                val version = BuildConfig.VERSION_NAME
+                val html = """
+                    Stepsy <a href="https://github.com/nvllz/stepsy/releases">v$version</a><br><br>
+                    Maintained by <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
+                    Built on top of <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> by <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
+                    <a href="https://github.com/nvllz/stepsy/issues">Report a bug</a><br><br>                   
+                    <a href="https://github.com/nvllz/stepsy">Project website</a><br>
+                    <a href="https://www.gnu.org/licenses/gpl-3.0.html">License GPL-3.0</a>
+                """.trimIndent()
+
+                val textView = TextView(requireContext()).apply {
+                    text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    movementMethod = LinkMovementMethod.getInstance()
+                    setPadding(50, 30, 50, 10)
+                    setLinkTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+                }
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("About")
+                    .setView(textView)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
+
+
+                true
+            }
+
+
         }
 
         private fun import(uri: Uri) {

@@ -31,7 +31,7 @@ android {
             manifestPlaceholders = [icon: "@drawable/ic_launcher_debug"]
             applicationIdSuffix ".debug"
             versionNameSuffix '-debug'
-            minifyEnabled true
+            minifyEnabled false
         }
         release {
             manifestPlaceholders = [icon: "@drawable/ic_launcher"]
@@ -49,6 +49,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
     dependenciesInfo {
         includeInApk = false
