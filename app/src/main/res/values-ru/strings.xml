@@ -25,7 +25,6 @@
     <string name="header_month">В этом месяце</string>
     <string name="header_7d">Последние 7 дней</string>
     <string name="header_30d">Последние 30 дней</string>
-    <string name="header_365d">Последние 365 дней</string>
     <string name="header_all_time">За всё время</string>
     <string name="header_year">Год %1$d</string>
 
@@ -34,7 +33,6 @@
     <string name="label_month">Месяц</string>
     <string name="label_7d">7 дней</string>
     <string name="label_30d">30 дней</string>
-    <string name="label_365d">365 дней</string>
     <string name="label_all_time">Всё время</string>
 
     <!-- Plurals -->

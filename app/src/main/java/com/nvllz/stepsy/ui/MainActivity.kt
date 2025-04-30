@@ -188,10 +188,6 @@ internal class MainActivity : AppCompatActivity() {
             handleTimeRangeSelection("30 DAYS", it as MaterialButton)
         }
 
-        findViewById<MaterialButton>(R.id.button_365days).setOnClickListener {
-            handleTimeRangeSelection("365 DAYS", it as MaterialButton)
-        }
-
         findViewById<MaterialButton>(R.id.button_alltime).setOnClickListener {
             handleTimeRangeSelection("ALL TIME", it as MaterialButton)
         }
@@ -391,21 +387,6 @@ internal class MainActivity : AppCompatActivity() {
                 calendar.set(Calendar.HOUR_OF_DAY, 1)
                 Pair(start, calendar.timeInMillis)
             }
-            "365 DAYS" -> {
-                mTextViewTopHeader.text = getString(R.string.header_365d)
-                calendar.add(Calendar.DAY_OF_YEAR, -364)
-                calendar.set(Calendar.HOUR_OF_DAY, 0)
-                calendar.set(Calendar.MINUTE, 0)
-                calendar.set(Calendar.SECOND, 0)
-                calendar.set(Calendar.MILLISECOND, 0)
-                val start = calendar.timeInMillis
-                calendar.add(Calendar.DAY_OF_YEAR, 364)
-                calendar.set(Calendar.HOUR_OF_DAY, 23)
-                calendar.set(Calendar.MINUTE, 59)
-                calendar.set(Calendar.SECOND, 59)
-                calendar.set(Calendar.MILLISECOND, 999)
-                Pair(start, calendar.timeInMillis)
-            }
             "ALL TIME" -> {
                 mTextViewTopHeader.text = getString(R.string.header_all_time)
                 // Include the very first and last moments
@@ -456,7 +437,6 @@ internal class MainActivity : AppCompatActivity() {
                     "MONTH" -> R.id.button_this_month
                     "7 DAYS" -> R.id.button_7days
                     "30 DAYS" -> R.id.button_30days
-                    "365 DAYS" -> R.id.button_365days
                     "ALL TIME" -> R.id.button_alltime
                     else -> null
                 }
@@ -639,7 +619,6 @@ internal class MainActivity : AppCompatActivity() {
                 R.id.button_this_month -> handleTimeRangeSelection("MONTH", button)
                 R.id.button_7days -> handleTimeRangeSelection("7 DAYS", button)
                 R.id.button_30days -> handleTimeRangeSelection("30 DAYS", button)
-                R.id.button_365days -> handleTimeRangeSelection("365 DAYS", button)
                 R.id.button_alltime -> handleTimeRangeSelection("ALL TIME", button)
             }
         }

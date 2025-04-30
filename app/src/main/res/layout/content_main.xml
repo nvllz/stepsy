@@ -171,15 +171,6 @@
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:id="@+id/button_365days"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_365d"
-                            android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/opensans_regular"/>
-
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:id="@+id/button_alltime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

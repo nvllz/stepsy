@@ -25,7 +25,6 @@
     <string name="header_month">এই মাস</string>
     <string name="header_7d">গত ৭ দিন</string>
     <string name="header_30d">গত ৩০ দিন</string>
-    <string name="header_365d">গত ৩৬৫ দিন</string>
     <string name="header_all_time">সর্বমোট</string>
     <string name="header_year">%1$d সাল</string>
 
@@ -34,7 +33,6 @@
     <string name="label_month">মাস</string>
     <string name="label_7d">৭ দিন</string>
     <string name="label_30d">৩০ দিন</string>
-    <string name="label_365d">৩৬৫ দিন</string>
     <string name="label_all_time">সর্বমোট</string>
 
     <!-- Plurals -->

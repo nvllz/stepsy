@@ -24,7 +24,6 @@
     <string name="header_month">Este mes</string>
     <string name="header_7d">Últimos 7 días</string>
     <string name="header_30d">Últimos 30 días</string>
-    <string name="header_365d">Últimos 365 días</string>
     <string name="header_all_time">Total</string>
     <string name="header_year">Año %1$d</string>
 
@@ -33,7 +32,6 @@
     <string name="label_month">Mes</string>
     <string name="label_7d">7 días</string>
     <string name="label_30d">30 días</string>
-    <string name="label_365d">365 días</string>
     <string name="label_all_time">Todo el tiempo</string>
 
     <!-- Plurals -->

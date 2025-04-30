@@ -25,7 +25,6 @@
     <string name="header_month">This month</string>
     <string name="header_7d">Past 7 days</string>
     <string name="header_30d">Past 30 days</string>
-    <string name="header_365d">Past 365 days</string>
     <string name="header_all_time">Overall</string>
     <string name="header_year">Year %1$d</string>
 
@@ -34,7 +33,6 @@
     <string name="label_month">Month</string>
     <string name="label_7d">7 days</string>
     <string name="label_30d">30 days</string>
-    <string name="label_365d">365 days</string>
     <string name="label_all_time">All time</string>
 
     <!-- Plurals -->
