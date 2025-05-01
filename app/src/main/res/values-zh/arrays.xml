@@ -1,0 +1,80 @@
+<resources>
+
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>系统</item>
+        <item>浅色模式</item>
+        <item>深色模式</item>
+    </string-array>
+
+    <string-array name="theme_values">
+        <item>system</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
+    <!-- Date Format -->
+    <string-array name="date_format_options">
+        <item>2012–12–31</item>
+        <item>31.12.2012</item>
+        <item>12/31/2012</item>
+        <item>31/12/2012</item>
+    </string-array>
+    <string-array name="date_format_values">
+        <item>yyyy-MM-dd</item>
+        <item>dd.MM.yyyy</item>
+        <item>MM/dd/yyyy</item>
+        <item>dd/MM/yyyy</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>周日</item>
+        <item>周一</item>
+        <item>周六</item>
+    </string-array>
+    <string-array name="weekdays_values">
+        <item>"1"</item> <!-- SUNDAY -->
+        <item>"2"</item> <!-- MONDAY -->
+        <item>"7"</item> <!-- SATURDAY -->
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>公制度量衡（km）</item>
+        <item>英制度量衡（in）</item>
+    </string-array>
+    <string-array name="unit_system_values">
+        <item>metric</item>
+        <item>imperial</item>
+    </string-array>
+
+    <!-- Languages -->
+    <string-array name="language_names">
+        <item>系统</item>
+        <item>বাংলা</item>
+        <item>Deutsch</item>
+        <item>English</item>
+        <item>Español</item>
+        <item>Français</item>
+        <item>Italiano</item>
+        <item>Polski</item>
+        <item>Türkçe</item>
+        <item>Россия</item>
+        <item>中文（中国）</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>system</item>
+        <item>bn</item>
+        <item>de</item>
+        <item>en</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>pl</item>
+        <item>tr</item>
+        <item>ru</item>
+    </string-array>
+
+</resources>
