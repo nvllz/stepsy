@@ -82,7 +82,8 @@ class SettingsActivity : AppCompatActivity() {
 
             findPreference<Preference>("about")?.apply {
                 val version = BuildConfig.VERSION_NAME
-                summary = "Version: $version\nLicense: GPL-3.0"
+                summary = "${getString(R.string.about_version)}: $version\n${getString(R.string.about_license)}: GPL-3.0"
+
             }
 
             val prefs = requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
@@ -114,11 +115,11 @@ class SettingsActivity : AppCompatActivity() {
                         Util.height = height
                         true
                     } else {
-                        Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
                         false
                     }
                 } catch (_: Exception) {
-                    Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
                     false
                 }
             }
@@ -132,11 +133,11 @@ class SettingsActivity : AppCompatActivity() {
                         Util.weight = weight
                         true
                     } else {
-                        Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
                         false
                     }
                 } catch (_: Exception) {
-                    Toast.makeText(context, R.string.enter_valid_number, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
                     false
                 }
             }

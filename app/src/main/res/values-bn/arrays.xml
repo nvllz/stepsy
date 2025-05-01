@@ -2,7 +2,7 @@
 
     <!-- Theme -->
     <string-array name="theme_entries">
-        <item>সিস্টেম</item>
+        <item>@string/preference_system</item>
         <item>হালকা</item>
         <item>গাঢ়</item>
     </string-array>

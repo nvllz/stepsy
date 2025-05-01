@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>@string/preference_system</item>
+        <item>浅色模式</item>
+        <item>深色模式</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>周日</item>
+        <item>周一</item>
+        <item>周六</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>公制度量衡（km）</item>
+        <item>英制度量衡（in）</item>
+    </string-array>
+
+</resources>

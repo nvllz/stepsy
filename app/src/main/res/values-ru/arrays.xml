@@ -2,7 +2,7 @@
 
     <!-- Theme -->
     <string-array name="theme_entries">
-        <item>Системная</item>
+        <item>@string/preference_system</item>
         <item>Светлая</item>
         <item>Тёмная</item>
     </string-array>

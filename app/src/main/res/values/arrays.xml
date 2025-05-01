@@ -2,7 +2,7 @@
 
     <!-- Theme -->
     <string-array name="theme_entries">
-        <item>System</item>
+        <item>@string/preference_system</item>
         <item>Light</item>
         <item>Dark</item>
     </string-array>
@@ -51,7 +51,7 @@
 
     <!-- Languages -->
     <string-array name="language_names">
-        <item>System</item>
+        <item>@string/preference_system</item>
         <item>বাংলা</item>
         <item>Deutsch</item>
         <item>English</item>
@@ -61,6 +61,7 @@
         <item>Polski</item>
         <item>Türkçe</item>
         <item>Россия</item>
+        <item>中文（中国）</item>
     </string-array>
 
     <string-array name="language_values">
@@ -74,6 +75,7 @@
         <item>pl</item>
         <item>tr</item>
         <item>ru</item>
+        <item>zh</item>
     </string-array>
 
 </resources>

@@ -2,7 +2,7 @@
 
     <!-- Thème -->
     <string-array name="theme_entries">
-        <item>Système</item>
+        <item>@string/preference_system</item>
         <item>Clair</item>
         <item>Sombre</item>
     </string-array>

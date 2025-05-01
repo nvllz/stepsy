@@ -58,6 +58,7 @@
     <string name="header_appearance">Darstellung</string>
     <string name="header_data_backup">Backup</string>
 
+    <string name="preference_system">Systemvorgabe</string>
     <string name="height_cm">Größe (cm)</string>
     <string name="weight_kg">Gewicht (kg)</string>
     <string name="first_day_of_the_week">Erster Tag der Woche</string>
@@ -68,12 +69,17 @@
     <string name="export_data">Exportieren</string>
     <string name="import_data">Importieren</string>
 
+    <string name="header_about">App-Informationen</string>
+    <string name="about_stepsy">Über</string>
+    <string name="about_version">Version</string>
+    <string name="about_license">Lizenz</string>
+
     <!-- Toasts -->
-    <string name="enter_valid_number">Gib eine gültige Zahl ein</string>
-    <string name="cannot_write_file">Cannot write file</string>
-    <string name="cannot_open_file">Cannot open file</string>
-    <string name="export_result">Exported %1$d entries.</string>
-    <string name="import_result">Imported %1$d entries (%2$d failed). %3$s</string>
-    <string name="today_steps_set">Today\'s steps set to %1$d.</string>
+    <string name="enter_valid_value">Bitte einen gültigen Wert eingeben</string>
+    <string name="cannot_write_file">Datei kann nicht geschrieben werden</string>
+    <string name="cannot_open_file">Datei kann nicht geöffnet werden</string>
+    <string name="export_result">%1$d Einträge exportiert.</string>
+    <string name="import_result">%1$d Einträge importiert (%2$d fehlgeschlagen). %3$s</string>
+    <string name="today_steps_set">Schritte für heute auf %1$d gesetzt.</string>
 
 </resources>

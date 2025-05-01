@@ -59,6 +59,7 @@
     <string name="header_appearance">Aspetto</string>
     <string name="header_data_backup">Backup</string>
 
+    <string name="preference_system">Di sistema</string>
     <string name="height_cm">Altezza (cm)</string>
     <string name="weight_kg">Peso (kg)</string>
     <string name="first_day_of_the_week">Primo giorno della settimana</string>
@@ -69,12 +70,17 @@
     <string name="export_data">Esporta</string>
     <string name="import_data">Importa</string>
 
+    <string name="header_about">Informazioni sull\'app</string>
+    <string name="about_stepsy">Informazioni</string>
+    <string name="about_version">Versione</string>
+    <string name="about_license">Licenza</string>
+
     <!-- Toasts -->
-    <string name="enter_valid_number">Inserisci un numero valido</string>
-    <string name="cannot_write_file">Cannot write file</string>
-    <string name="cannot_open_file">Cannot open file</string>
-    <string name="export_result">Exported %1$d entries.</string>
-    <string name="import_result">Imported %1$d entries (%2$d failed). %3$s</string>
-    <string name="today_steps_set">Today\'s steps set to %1$d.</string>
+    <string name="enter_valid_value">Inserisci un valore valido</string>
+    <string name="cannot_write_file">Impossibile scrivere il file</string>
+    <string name="cannot_open_file">Impossibile aprire il file</string>
+    <string name="export_result">Esportati %1$d elementi.</string>
+    <string name="import_result">Importati %1$d elementi (%2$d falliti). %3$s</string>
+    <string name="today_steps_set">I passi di oggi sono impostati a %1$d.</string>
 
 </resources>

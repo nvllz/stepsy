@@ -2,7 +2,7 @@
 
     <!-- Theme -->
     <string-array name="theme_entries">
-        <item>Systemowy</item>
+        <item>@string/preference_system</item>
         <item>Jasny</item>
         <item>Ciemny</item>
     </string-array>

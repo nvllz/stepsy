@@ -99,7 +99,7 @@
 
         <Preference
             android:key="about"
-            android:title="@string/about_screen"
+            android:title="@string/about_stepsy"
             app:icon="@drawable/ic_info" />
     </PreferenceCategory>
 

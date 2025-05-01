@@ -2,7 +2,7 @@
 
     <!-- Theme -->
     <string-array name="theme_entries">
-        <item>Di sistema</item>
+        <item>@string/preference_system</item>
         <item>Chiaro</item>
         <item>Scuro</item>
     </string-array>

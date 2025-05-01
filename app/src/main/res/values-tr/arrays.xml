@@ -2,7 +2,7 @@
 
     <!-- Theme -->
     <string-array name="theme_entries">
-        <item>Sistem varsayılanı</item>
+        <item>@string/preference_system</item>
         <item>Aydınlık</item>
         <item>Karanlık</item>
     </string-array>

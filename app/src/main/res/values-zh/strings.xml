@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
+    <string name="week_display_format">Week %1$d: %2$s - %3$s</string>
+    <string name="no_entry">No record for %1$s</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="steps_month">This month</string>
+    <string name="avg_distance">Average per day</string>
+    <string name="total_distance">Total distance</string>
+
+    <string name="no_sensor">Your device does not have a step counting sensor</string>
+    <string name="no_activity_permission">Missing ACTIVITY_RECOGNITION permission</string>
+
+    <!-- Header section -->
+    <string name="expand_collapse">展开/收起</string>
+    <string name="header_today">今日</string>
+    <string name="header_week">本周</string>
+    <string name="header_month">本月</string>
+    <string name="header_7d">最近 7 日</string>
+    <string name="header_30d">最近 30 日</string>
+    <string name="header_all_time">总共</string>
+    <string name="header_year">%1$d 年</string>
+
+    <string name="label_today">今日</string>
+    <string name="label_week">周</string>
+    <string name="label_month">月</string>
+    <string name="label_7d">7 日</string>
+    <string name="label_30d">30 日</string>
+    <string name="label_all_time">总共</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="other">%1$d 步</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">暂停计步</string>
+    <string name="notification_category_steps_day">步数</string>
+    <string name="notification_description_paused">计步暂停时将提醒</string>
+    <string name="notification_description_steps_day">今日步数</string>
+    <string name="notification_step_counting_paused">计步已暂停</string>
+    <string name="step_counting_paused">暂停计步</string>
+    <string name="step_counting_resumed">恢复计步</string>
+    <string name="action_pause">暂停</string>
+    <string name="action_resume">回复</string>
+
+    <!-- Preferences -->
+    <string name="settings">设置</string>
+    <string name="header_personal_data">个人数据</string>
+    <string name="header_appearance">外观</string>
+    <string name="header_data_backup">备份</string>
+
+    <string name="preference_system">系统</string>
+    <string name="height_cm">身高（厘米）</string>
+    <string name="weight_kg">体重（公斤）</string>
+    <string name="first_day_of_the_week">一周的第一天</string>
+    <string name="app_language">语言</string>
+    <string name="theme">主题</string>
+    <string name="date_format">日期格式</string>
+    <string name="unit_system">单位制式</string>
+    <string name="export_data">导出</string>
+    <string name="import_data">导入</string>
+
+    <string name="header_about">应用信息</string>
+    <string name="about_stepsy">关于应用</string>
+    <string name="about_version">版本</string>
+    <string name="about_license">许可</string>
+
+    <!-- Toasts -->
+    <string name="enter_valid_value">请输入一个有效的数字</string>
+    <string name="cannot_write_file">无法写入文件</string>
+    <string name="cannot_open_file">无法打开文件</string>
+    <string name="export_result">已导出 %1$d 组数据。</string>
+    <string name="import_result">已导入 %1$d 组数据 (%2$d 导出失败)。 %3$s</string>
+    <string name="today_steps_set">今日的步数已设定为 %1$d 步。</string>
+
+</resources>
