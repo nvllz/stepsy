@@ -66,7 +66,7 @@ internal object Util {
     var distanceUnit: DistanceUnit = DistanceUnit.METRIC
 
     internal fun stepsToDistance(steps: Number): Double {
-        val meters = (steps.toInt() * height * 0.41) / 100000
+        val meters = (steps.toInt() * height * 0.415) / 100000
         return when (distanceUnit) {
             DistanceUnit.METRIC -> meters
             DistanceUnit.IMPERIAL -> meters * 0.621371
