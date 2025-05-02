@@ -125,7 +125,7 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewMeters = findViewById(R.id.textViewMeters)
         mTextViewSteps = findViewById(R.id.textViewSteps)
         mTextViewCalories = findViewById(R.id.textViewCalories)
-        isPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean("IS_PAUSED", false)
+        isPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean(MotionService.KEY_IS_PAUSED, false)
 
         mTextViewDayHeader = findViewById(R.id.textViewDayHeader)
         mTextViewDayDetails = findViewById(R.id.textViewDayDetails)
@@ -204,7 +204,7 @@ internal class MainActivity : AppCompatActivity() {
                     fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
                     getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
                         putBoolean(
-                            "IS_PAUSED",
+                            MotionService.KEY_IS_PAUSED,
                             false
                         )
                     }
@@ -216,7 +216,7 @@ internal class MainActivity : AppCompatActivity() {
                     fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
                     getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
                         putBoolean(
-                            "IS_PAUSED",
+                            MotionService.KEY_IS_PAUSED,
                             true
                         )
                     }
