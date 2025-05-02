@@ -5,25 +5,22 @@
 package com.nvllz.stepsy.service
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import androidx.core.content.edit
 import com.nvllz.stepsy.R
 
 /**
  * A TileService that provides a quick settings tile for pausing and resuming step counting.
  */
 
+@Suppress("DEPRECATION")
 class StepsyTileService : TileService() {
-    private lateinit var sharedPreferences: SharedPreferences
     private var isPaused = false
 
     override fun onCreate() {
         super.onCreate()
-        sharedPreferences = applicationContext.getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
     }
 
     override fun onStartListening() {
@@ -34,7 +31,7 @@ class StepsyTileService : TileService() {
     override fun onClick() {
         super.onClick()
 
-        isPaused = sharedPreferences.getBoolean(MotionService.KEY_IS_PAUSED, false)
+        isPaused = isPaused()
 
         val intent = Intent(this, MotionService::class.java)
         intent.action = if (isPaused) {
@@ -45,16 +42,12 @@ class StepsyTileService : TileService() {
         startService(intent)
 
         isPaused = !isPaused
-        sharedPreferences.edit {
-            putBoolean(MotionService.KEY_IS_PAUSED, isPaused)
-        }
-
         updateTile()
     }
 
     private fun updateTile() {
         val tile = qsTile ?: return
-        isPaused = sharedPreferences.getBoolean(MotionService.KEY_IS_PAUSED, false)
+        isPaused = isPaused()
 
         tile.label = getString(R.string.app_name)
         tile.state = if (isPaused) Tile.STATE_INACTIVE else Tile.STATE_ACTIVE
@@ -69,5 +62,10 @@ class StepsyTileService : TileService() {
         }
 
         tile.updateTile()
+    }
+
+    private fun isPaused(): Boolean {
+        val sharedPrefs = applicationContext.getSharedPreferences("StepsyPrefs", MODE_MULTI_PROCESS)
+        return sharedPrefs.getBoolean(MotionService.KEY_IS_PAUSED, false)
     }
 }
