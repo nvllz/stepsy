@@ -11,7 +11,6 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -29,18 +28,17 @@ import android.text.format.DateUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.ui.MainActivity
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.util.*
-import androidx.core.content.edit
-import com.nvllz.stepsy.ui.WidgetStepsProvider
-import com.nvllz.stepsy.ui.WidgetStepsCompactProvider
-import com.nvllz.stepsy.ui.WidgetStepsPlainProvider
+import com.nvllz.stepsy.util.AppPreferences
+import com.nvllz.stepsy.util.Util.getDistanceUnitString
+import com.nvllz.stepsy.util.WidgetManager
 
 internal class MotionService : Service() {
-    private lateinit var sharedPreferences: SharedPreferences
     private var mTodaysSteps: Int = 0
     private var mLastSteps = -1
     private var mCurrentDate: Long = 0
@@ -61,11 +59,9 @@ internal class MotionService : Service() {
         Log.d(TAG, "Creating MotionService")
         startService()
 
-        sharedPreferences = applicationContext.getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
-        mCurrentDate = sharedPreferences.getLong(KEY_DATE, Util.calendar.timeInMillis)
-        mTodaysSteps = sharedPreferences.getInt(KEY_STEPS, 0)
-
-        isCountingPaused = sharedPreferences.getBoolean(KEY_IS_PAUSED, false)
+        mCurrentDate = AppPreferences.date
+        mTodaysSteps = AppPreferences.steps
+        isCountingPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean(KEY_IS_PAUSED, false)
 
         val mSensorManager = getSystemService(SENSOR_SERVICE) as? SensorManager
             ?: throw IllegalStateException("Could not get sensor service")
@@ -130,6 +126,7 @@ internal class MotionService : Service() {
         get() = if (isBatterySavingEnabled(this)) 20_000L else 10_000L
 
     private fun handleStepUpdate(delayedTrigger: Boolean = false) {
+        AppPreferences.steps = mTodaysSteps
         val currentDate = Util.calendar.timeInMillis
 
         if (!DateUtils.isToday(mCurrentDate)) {
@@ -137,32 +134,37 @@ internal class MotionService : Service() {
             mTodaysSteps = 0
             mCurrentDate = currentDate
             mLastSteps = -1
-            sharedPreferences.edit {
-                putInt(KEY_STEPS, mTodaysSteps)
-                putLong(KEY_DATE, mCurrentDate)
-            }
+            AppPreferences.steps = mTodaysSteps
+            AppPreferences.date = mCurrentDate
         }
 
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastWriteTime > writeInterval) {
             Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
-            sharedPreferences.edit {
-                putInt(KEY_STEPS, mTodaysSteps)
-            }
+            AppPreferences.steps = mTodaysSteps
             lastWriteTime = currentTime
         }
 
         if (currentTime - lastWidgetUpdateTime > (writeInterval * 2) || delayedTrigger) {
-            WidgetStepsProvider.updateWidget(applicationContext, mTodaysSteps)
-            WidgetStepsCompactProvider.updateWidget(applicationContext, mTodaysSteps)
-            WidgetStepsPlainProvider.updateWidget(applicationContext, mTodaysSteps)
+            updateAllWidgets()
             lastWidgetUpdateTime = currentTime
         }
 
         sendUpdate()
     }
 
+    private fun updateAllWidgets() {
+        WidgetManager.updateAllWidgets(
+            context = applicationContext,
+            steps = mTodaysSteps,
+            immediate = true
+        )
+    }
+
+
     private fun sendUpdate() {
+        sendBroadcast(Intent("com.nvllz.stepsy.STATE_UPDATE"))
+
         if (isCountingPaused) {
             sendPauseNotification()
             sendBundleUpdate(isCountingPaused)
@@ -182,9 +184,9 @@ internal class MotionService : Service() {
             getString(R.string.steps_format),
             stepsPlural,
             Util.stepsToDistance(mTodaysSteps),
-            Util.getDistanceUnitString()
-        )
+            getDistanceUnitString()
 
+        )
 
         mBuilder.setContentText(notificationText)
         mNotificationManager.notify(FOREGROUND_ID, mBuilder.build())
@@ -255,14 +257,19 @@ internal class MotionService : Service() {
                 }
                 ACTION_PAUSE_COUNTING -> {
                     isCountingPaused = true
-                    sharedPreferences.edit { putBoolean(KEY_IS_PAUSED, true) }
                     Toast.makeText(this, R.string.step_counting_paused, Toast.LENGTH_SHORT).show()
                 }
                 ACTION_RESUME_COUNTING -> {
                     isCountingPaused = false
-                    sharedPreferences.edit { putBoolean(KEY_IS_PAUSED, false) }
                     Toast.makeText(this, R.string.step_counting_resumed, Toast.LENGTH_SHORT).show()
                 }
+            }
+
+            getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
+                putBoolean(
+                    KEY_IS_PAUSED,
+                    isCountingPaused
+                )
             }
 
             // handle forced update with new values
@@ -270,10 +277,8 @@ internal class MotionService : Service() {
                 mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
                 mCurrentDate = it.getLongExtra(KEY_DATE, mCurrentDate)
                 mLastSteps = -1 // reset step counter to avoid incorrect delta calculations
-                sharedPreferences.edit {
-                    putInt(KEY_STEPS, mTodaysSteps)
-                    putLong(KEY_DATE, mCurrentDate)
-                }
+                AppPreferences.steps = mTodaysSteps
+                AppPreferences.date = mCurrentDate
                 handleStepUpdate()
             }
 

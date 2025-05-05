@@ -33,6 +33,7 @@ import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.button.MaterialButton
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
+import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.text.SimpleDateFormat
@@ -69,8 +70,8 @@ internal class MainActivity : AppCompatActivity() {
     private var currentSelectedYearButton: MaterialButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Util.init(applicationContext)
-        Util.applyTheme(getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getString("theme", "system")!!)
+//        Util.init(applicationContext)
+        Util.applyTheme(AppPreferences.theme)
 
         super.onCreate(savedInstanceState)
 
@@ -126,7 +127,6 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewSteps = findViewById(R.id.textViewSteps)
         mTextViewCalories = findViewById(R.id.textViewCalories)
         isPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean(MotionService.KEY_IS_PAUSED, false)
-
         mTextViewDayHeader = findViewById(R.id.textViewDayHeader)
         mTextViewDayDetails = findViewById(R.id.textViewDayDetails)
         mTextViewMonthTotal = findViewById(R.id.textViewMonthTotal)
@@ -159,7 +159,7 @@ internal class MainActivity : AppCompatActivity() {
                 it
         }
         mCalendarView.maxDate = Util.calendar.timeInMillis
-        mCalendarView.firstDayOfWeek = Util.firstDayOfWeek
+        mCalendarView.firstDayOfWeek = AppPreferences.firstDayOfWeek
         mCalendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             mSelectedMonth.set(Calendar.YEAR, year)
             mSelectedMonth.set(Calendar.MONTH, month)
@@ -202,24 +202,14 @@ internal class MainActivity : AppCompatActivity() {
                     startService(intent)
                     fab.setImageResource(android.R.drawable.ic_media_pause)
                     fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
-                    getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-                        putBoolean(
-                            MotionService.KEY_IS_PAUSED,
-                            false
-                        )
-                    }
+                    getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit { putBoolean(MotionService.KEY_IS_PAUSED, false) }
                 } else {
                     val intent = Intent(this, MotionService::class.java)
                     intent.action = MotionService.ACTION_PAUSE_COUNTING
                     startService(intent)
                     fab.setImageResource(android.R.drawable.ic_media_play)
                     fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-                    getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-                        putBoolean(
-                            MotionService.KEY_IS_PAUSED,
-                            true
-                        )
-                    }
+                    getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit { putBoolean(MotionService.KEY_IS_PAUSED, true) }
                 }
                 isPaused = !isPaused
             }
@@ -337,7 +327,7 @@ internal class MainActivity : AppCompatActivity() {
         val (startTime, endTime) = when (range) {
             "WEEK" -> {
                 mTextViewTopHeader.text = getString(R.string.header_week)
-                calendar.firstDayOfWeek = Util.firstDayOfWeek
+                calendar.firstDayOfWeek = AppPreferences.firstDayOfWeek
                 calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
                 calendar.set(Calendar.HOUR_OF_DAY, 0)
                 calendar.set(Calendar.MINUTE, 0)
@@ -496,7 +486,7 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun formatToSelectedDateFormat(dateInMillis: Long): String {
-        val sdf = SimpleDateFormat(Util.dateFormatString, Locale.getDefault())
+        val sdf = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
         return sdf.format(Date(dateInMillis))
     }
 
@@ -641,7 +631,7 @@ internal class MainActivity : AppCompatActivity() {
         }.timeInMillis
 
         val endOfDay = calendar.apply {
-            set(Calendar.HOUR_OF_DAY, 1)
+            set(Calendar.HOUR_OF_DAY, 23)
         }.timeInMillis
 
         val entries = Database.getInstance(this).getEntries(startOfDay, endOfDay)
@@ -712,7 +702,7 @@ internal class MainActivity : AppCompatActivity() {
 
         val min = Calendar.getInstance().apply {
             timeInMillis = mSelectedMonth.timeInMillis
-            firstDayOfWeek = Util.firstDayOfWeek
+            firstDayOfWeek = AppPreferences.firstDayOfWeek
             set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)

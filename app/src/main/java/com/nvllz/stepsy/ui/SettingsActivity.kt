@@ -4,6 +4,7 @@
 
 package com.nvllz.stepsy.ui
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -16,7 +17,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.core.os.LocaleListCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -38,15 +38,17 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
+import androidx.datastore.preferences.core.edit
+import androidx.lifecycle.lifecycleScope
 import com.nvllz.stepsy.BuildConfig
+import com.nvllz.stepsy.util.AppPreferences
+import kotlinx.coroutines.launch
 
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
-
-        Util.init(this)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -86,8 +88,6 @@ class SettingsActivity : AppCompatActivity() {
 
             }
 
-            val prefs = requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
-
             importLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
                     result.data?.data?.let { uri -> import(uri) }
@@ -110,9 +110,11 @@ class SettingsActivity : AppCompatActivity() {
                 try {
                     val height = newValue.toString().toInt()
                     if (height in 1..250) {
-                        requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
-                            .edit { putString("height", height.toString()) }
-                        Util.height = height
+                        lifecycleScope.launch {
+                            AppPreferences.dataStore.edit { preferences ->
+                                preferences[AppPreferences.PreferenceKeys.HEIGHT] = height.toString()
+                            }
+                        }
                         true
                     } else {
                         Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
@@ -128,9 +130,11 @@ class SettingsActivity : AppCompatActivity() {
                 try {
                     val weight = newValue.toString().toInt()
                     if (weight in 1..500) {
-                        requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
-                            .edit { putString("weight", weight.toString()) }
-                        Util.weight = weight
+                        lifecycleScope.launch {
+                            AppPreferences.dataStore.edit { preferences ->
+                                preferences[AppPreferences.PreferenceKeys.WEIGHT] = weight.toString()
+                            }
+                        }
                         true
                     } else {
                         Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
@@ -143,28 +147,44 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             findPreference<ListPreference>("unit_system")?.setOnPreferenceChangeListener { _, newValue ->
-                Util.distanceUnit = if (newValue.toString() == "imperial") Util.DistanceUnit.IMPERIAL else Util.DistanceUnit.METRIC
-                prefs.edit { putString("unit_system", newValue.toString()) }
+                lifecycleScope.launch {
+                    val selectedUnit = if (newValue.toString() == "imperial") {
+                        Util.DistanceUnit.IMPERIAL
+                    } else {
+                        Util.DistanceUnit.METRIC
+                    }
+
+                    AppPreferences.dataStore.edit { preferences ->
+                        preferences[AppPreferences.PreferenceKeys.UNIT_SYSTEM] =
+                            if (selectedUnit == Util.DistanceUnit.IMPERIAL) "imperial" else "metric"
+                    }
+
+                    restartMotionService(requireContext())
+                }
                 true
             }
 
             findPreference<ListPreference>("date_format")?.setOnPreferenceChangeListener { _, newValue ->
-                val dateFormat = newValue.toString()
-                Util.dateFormatString = dateFormat
-                prefs.edit { putString("date_format", dateFormat) }
+                lifecycleScope.launch {
+                    AppPreferences.dataStore.edit { preferences ->
+                        preferences[AppPreferences.PreferenceKeys.DATE_FORMAT] = newValue.toString()
+                    }
+                }
                 true
             }
 
             findPreference<ListPreference>("first_day_of_week")?.setOnPreferenceChangeListener { _, newValue ->
-                val value = newValue.toString().toInt()
-                Util.firstDayOfWeek = value
-                prefs.edit { putString("first_day_of_week", value.toString()) }
+                lifecycleScope.launch {
+                    AppPreferences.dataStore.edit { preferences ->
+                        preferences[AppPreferences.PreferenceKeys.FIRST_DAY_OF_WEEK] = newValue.toString()
+                    }
 
-                val intent = Intent(requireContext(), MainActivity::class.java).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    val intent = Intent(requireContext(), MainActivity::class.java).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    startActivity(intent)
+                    activity?.finish()
                 }
-                startActivity(intent)
-                activity?.finish()
                 true
             }
 
@@ -184,13 +204,14 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             findPreference<ListPreference>("theme")?.setOnPreferenceChangeListener { _, newValue ->
-                val theme = newValue.toString()
-                requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-                    putString("theme", theme)
-                    apply()
+                lifecycleScope.launch {
+                    AppPreferences.dataStore.edit { preferences ->
+                        preferences[AppPreferences.PreferenceKeys.THEME] = newValue.toString()
+                    }
+
+                    Util.applyTheme(newValue.toString())
+                    activity?.recreate()
                 }
-                Util.applyTheme(theme)
-                activity?.recreate()
                 true
             }
 
@@ -249,7 +270,6 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         private fun import(uri: Uri) {
-            val prefs = requireContext().getSharedPreferences("StepsyPrefs", MODE_PRIVATE)
             val db = Database.getInstance(requireContext())
             val today = Util.calendar.timeInMillis
             var todaySteps = 0
@@ -276,21 +296,26 @@ class SettingsActivity : AppCompatActivity() {
                         }
                     }
 
-                    if (todaySteps > 0) {
-                        prefs.edit {
-                            putInt(KEY_STEPS, todaySteps)
-                            putLong(KEY_DATE, today)
+                    val overridingTodaySteps = todaySteps > 0 && todaySteps > AppPreferences.steps
+
+                    if (overridingTodaySteps) {
+                        lifecycleScope.launch {
+                            AppPreferences.dataStore.edit { preferences ->
+                                preferences[AppPreferences.PreferenceKeys.STEPS] = todaySteps
+                                preferences[AppPreferences.PreferenceKeys.DATE] = today
+                            }
+
+                            val intent = Intent(requireContext(), MotionService::class.java).apply {
+                                putExtra("FORCE_UPDATE", true)
+                                putExtra(KEY_STEPS, todaySteps)
+                                putExtra(KEY_DATE, today)
+                            }
+                            requireContext().startService(intent)
                         }
-                        val intent = Intent(requireContext(), MotionService::class.java).apply {
-                            putExtra("FORCE_UPDATE", true)
-                            putExtra(KEY_STEPS, todaySteps)
-                            putExtra(KEY_DATE, today)
-                        }
-                        requireContext().startService(intent)
                     }
 
                     val successCount = entries - failed
-                    val todaySetText = if (todaySteps > 0) {
+                    val todaySetText = if (overridingTodaySteps) {
                         getString(R.string.today_steps_set, todaySteps)
                     } else {
                         ""
@@ -328,6 +353,13 @@ class SettingsActivity : AppCompatActivity() {
                 Toast.makeText(context, getString(R.string.cannot_write_file), Toast.LENGTH_SHORT).show()
             }
         }
+
+        fun restartMotionService(context: Context) {
+            val serviceIntent = Intent(context, MotionService::class.java)
+            context.stopService(serviceIntent)
+            ContextCompat.startForegroundService(context, serviceIntent)
+        }
+
 
         private fun restartApp() {
             val intent = Intent(requireContext(), MainActivity::class.java).apply {

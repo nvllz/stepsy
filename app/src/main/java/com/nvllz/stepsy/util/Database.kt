@@ -9,8 +9,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.Cursor.*
-import android.util.Log
-import java.util.*
 
 /**
  * Created by tiefensuche on 19.10.16, modified by nvllz in April 2025
@@ -32,10 +30,10 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
     }
 
     internal val firstEntry: Long
-        get() = query(arrayOf("min(timestamp)")).toLong()
+        get() = query(arrayOf("min(timestamp)"), "timestamp > ?", arrayOf("0")).toLong()
 
     internal val lastEntry: Long
-        get() = query(arrayOf("max(timestamp)")).toLong()
+        get() = query(arrayOf("max(timestamp)"), "timestamp > ?", arrayOf("0")).toLong()
 
     internal fun avgSteps(minDate: Long, maxDate: Long) =
         getSteps("avg(stepsy)", minDate, maxDate)
@@ -47,7 +45,6 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         query(arrayOf(columns), "timestamp >= ? AND timestamp <= ?", arrayOf(minDate.toString(), maxDate.toString())).toInt()
 
     internal fun addEntry(timestamp: Long, steps: Int) {
-        Log.d(TAG, "add entry to database: $timestamp, $steps")
         val values = ContentValues().apply {
             put("timestamp", timestamp)
             put("stepsy", steps)
@@ -82,7 +79,6 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
     internal inner class Entry(val timestamp: Long, val steps: Int)
 
     companion object {
-        private val TAG = Database::class.java.simpleName
         private const val DATABASE_NAME = "Stepsy"
         private const val DATABASE_VERSION = 1
         private const val HISTORY_TABLE = "History"

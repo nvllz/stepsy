@@ -4,9 +4,14 @@
 
 package com.nvllz.stepsy.service
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.drawable.Icon
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import com.nvllz.stepsy.R
@@ -18,14 +23,28 @@ import com.nvllz.stepsy.R
 @Suppress("DEPRECATION")
 class StepsyTileService : TileService() {
     private var isPaused = false
+    private val stateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == "com.nvllz.stepsy.STATE_UPDATE") {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    updateTile(isPaused())
+                }, 500)
+
+            }
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
+        val filter = IntentFilter().apply {
+            addAction("com.nvllz.stepsy.STATE_UPDATE")
+        }
+        registerReceiver(stateReceiver, filter, RECEIVER_NOT_EXPORTED)
     }
 
     override fun onStartListening() {
         super.onStartListening()
-        updateTile()
+        updateTile(isPaused())
     }
 
     override fun onClick() {
@@ -33,7 +52,7 @@ class StepsyTileService : TileService() {
 
         isPaused = isPaused()
 
-        val intent = Intent(this, MotionService::class.java)
+        val intent = Intent(applicationContext, MotionService::class.java)
         intent.action = if (isPaused) {
             MotionService.ACTION_RESUME_COUNTING
         } else {
@@ -42,12 +61,11 @@ class StepsyTileService : TileService() {
         startService(intent)
 
         isPaused = !isPaused
-        updateTile()
+        updateTile(isPaused)
     }
 
-    private fun updateTile() {
+    private fun updateTile(isPaused: Boolean) {
         val tile = qsTile ?: return
-        isPaused = isPaused()
 
         tile.label = getString(R.string.app_name)
         tile.state = if (isPaused) Tile.STATE_INACTIVE else Tile.STATE_ACTIVE
@@ -67,5 +85,10 @@ class StepsyTileService : TileService() {
     private fun isPaused(): Boolean {
         val sharedPrefs = applicationContext.getSharedPreferences("StepsyPrefs", MODE_MULTI_PROCESS)
         return sharedPrefs.getBoolean(MotionService.KEY_IS_PAUSED, false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(stateReceiver)
     }
 }
