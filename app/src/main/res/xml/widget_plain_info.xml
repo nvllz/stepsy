@@ -3,9 +3,10 @@
     android:minWidth="150dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/widget_steps_plain"
-    android:initialKeyguardLayout="@layout/widget_steps_plain"
+    android:initialLayout="@layout/widget_plain"
+    android:initialKeyguardLayout="@layout/widget_plain"
     android:orientation="horizontal"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
-    android:previewImage="@drawable/widget_steps_plain_preview" />
+    android:previewImage="@drawable/widget_steps_plain_preview"
+    android:configure="com.nvllz.stepsy.ui.WidgetPlainConfigureActivity" />

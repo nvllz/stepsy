@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/widget_container"
+    android:id="@+id/widget_icon_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/widget_bg"
-    android:layout_margin="12dp">
+    android:background="@drawable/widget_bg">
 
     <LinearLayout
-        android:id="@+id/widget_inner_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:layout_margin="12dp" >
+        android:layout_margin="8dp">
 
         <ImageView
-            android:id="@+id/widget_icon"
+            android:id="@+id/widget_icon_img"
             android:layout_width="30dp"
             android:layout_height="40dp"
             android:src="@drawable/widget_icon"
             android:contentDescription="@null"
-            android:layout_marginEnd="16dp" />
+            android:layout_marginEnd="16dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/widget_steps"
+                android:id="@+id/widget_icon_steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="-5sp"
+                android:includeFontPadding="false"
                 android:text=""
                 android:textColor="@color/widgetPrimary"
                 android:textSize="24sp"
@@ -41,14 +39,14 @@
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/widget_distance"
+                android:id="@+id/widget_icon_distance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:text=""
                 android:textColor="@color/widgetSecondary"
                 android:textSize="14sp"
-                android:textAlignment="center"
-                />
+                android:textAlignment="center"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

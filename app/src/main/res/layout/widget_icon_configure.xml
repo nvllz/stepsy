@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_centerVertical="true"
+    android:background="@color/colorSurface">
+
+    <LinearLayout
+        android:id="@+id/outer_widget_icon_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSurface"
+        android:gravity="center"
+        android:padding="36dp"
+        android:layout_gravity="center_horizontal">
+
+        <FrameLayout
+            android:id="@+id/preview_widget_icon_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/widget_bg">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:layout_margin="16dp">
+
+                <ImageView
+                    android:id="@+id/preview_widget_icon_img"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/widget_icon"
+                    android:contentDescription="@null"
+                    android:layout_marginEnd="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/preview_widget_icon_steps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="12345"
+                        android:textColor="@color/widgetPrimary"
+                        android:textSize="24sp"
+                        android:textAlignment="center"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/preview_widget_icon_distance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="12.34 km"
+                        android:textColor="@color/widgetSecondary"
+                        android:textSize="14sp"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/inverse_bg_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:checked="false"
+        android:textColor="@color/colorOnSurface"
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/widget_pref_invert_bg"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent"
+        android:layout_marginVertical="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/dynamic_colors_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:checked="true"
+            android:textColor="@color/colorOnSurface"
+            android:layout_marginBottom="30dp"
+            android:text="@string/widget_pref_dynamic_colors"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/label_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_pref_text_scale"
+            android:textColor="@color/colorOnSurface"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBodyLarge"/>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/text_size_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            app:trackColorActive="@color/colorAccent"
+            app:trackColorInactive="@color/colorPrimary"
+            app:thumbColor="@color/colorAccent"
+            app:tickColorActive="@color/colorPrimary"
+            app:tickColorInactive="@color/colorAccent"
+            android:valueFrom="75"
+            android:valueTo="175"
+            android:stepSize="5"
+            android:value="100"
+            app:labelBehavior="gone"
+            android:layout_marginBottom="30dp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/label_opacity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_pref_bg_opacity"
+            android:textColor="@color/colorOnSurface"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/opacity_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:contentDescription="@null"
+            android:value="100"
+            android:valueFrom="0"
+            android:valueTo="100"
+            app:labelBehavior="gone"
+            app:thumbColor="@color/colorAccent"
+            app:trackColorActive="@color/colorAccent"
+            app:trackColorInactive="@color/colorPrimary"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorOnPrimary"
+            android:text="@string/widget_pref_btn_save"
+            android:layout_gravity="end"
+            android:layout_marginTop="24dp"/>
+    </LinearLayout>
+</LinearLayout>

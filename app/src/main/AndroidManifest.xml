@@ -16,6 +16,7 @@
         android:required="true" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="${icon}"
         android:label="@string/app_name"
@@ -76,7 +77,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".ui.WidgetStepsProvider"
+        <receiver android:name=".ui.WidgetIconProvider"
             android:exported="true"
             android:label="Steps/Distance">
             <intent-filter>
@@ -84,10 +85,10 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_steps_info" />
+                android:resource="@xml/widget_icon_info" />
         </receiver>
 
-        <receiver android:name=".ui.WidgetStepsCompactProvider"
+        <receiver android:name=".ui.WidgetCompactProvider"
             android:exported="true"
             android:label="Compact">
             <intent-filter>
@@ -95,10 +96,10 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_steps_compact_info" />
+                android:resource="@xml/widget_compact_info" />
         </receiver>
 
-        <receiver android:name=".ui.WidgetStepsPlainProvider"
+        <receiver android:name=".ui.WidgetPlainProvider"
             android:exported="true"
             android:label="Plain">
             <intent-filter>
@@ -106,8 +107,30 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_steps_plain_info" />
+                android:resource="@xml/widget_plain_info" />
         </receiver>
+
+        <activity android:name=".ui.WidgetIconConfigureActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.WidgetCompactConfigureActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.WidgetPlainConfigureActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
 
     </application>
 
