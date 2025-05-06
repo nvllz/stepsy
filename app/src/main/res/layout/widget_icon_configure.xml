@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -29,7 +30,8 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
-                android:layout_margin="16dp">
+                android:layout_margin="16dp"
+                tools:ignore="UselessParent">
 
                 <ImageView
                     android:id="@+id/preview_widget_icon_img"
@@ -54,7 +56,8 @@
                         android:textColor="@color/widgetPrimary"
                         android:textSize="24sp"
                         android:textAlignment="center"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:id="@+id/preview_widget_icon_distance"
@@ -64,7 +67,8 @@
                         android:text="12.34 km"
                         android:textColor="@color/widgetSecondary"
                         android:textSize="14sp"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        tools:ignore="HardcodedText" />
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>

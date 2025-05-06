@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -29,35 +30,37 @@
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:layout_margin="16dp">
+                android:layout_margin="16dp"
+                tools:ignore="UselessParent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/preview_widget_compact_steps"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="12345"
-                    android:textAlignment="center"
-                    android:textColor="@color/widgetPrimary"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/preview_widget_compact_distance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:text="12.34 km"
-                    android:textAlignment="center"
-                    android:textColor="@color/widgetSecondary"
-                    android:textSize="11sp"/>
+                    <TextView
+                        android:id="@+id/preview_widget_compact_steps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="12345"
+                        android:textAlignment="center"
+                        android:textColor="@color/widgetPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
+                    <TextView
+                        android:id="@+id/preview_widget_compact_distance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="12.34 km"
+                        android:textAlignment="center"
+                        android:textColor="@color/widgetSecondary"
+                        android:textSize="11sp"
+                        tools:ignore="HardcodedText" />
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>

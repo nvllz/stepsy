@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_plain_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,17 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        tools:ignore="UselessParent">
 
         <TextView
             android:id="@+id/widget_plain_steps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:includeFontPadding="false"
             android:text=""
             android:textAlignment="center"
             android:textColor="@color/widgetPrimary"
-            android:textSize="22sp"/>
+            android:textSize="22sp" />
     </LinearLayout>
-
 </FrameLayout>
