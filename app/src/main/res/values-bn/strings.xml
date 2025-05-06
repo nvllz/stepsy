@@ -82,4 +82,11 @@
     <string name="import_result">%1$d টি এন্ট্রি ইমপোর্ট হয়েছে (%2$d ব্যর্থ)। %3$s</string>
     <string name="today_steps_set">আজকের পদক্ষেপ %1$d এ সেট করা হয়েছে।</string>
 
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">পটভূমির রঙ উল্টান</string>
+    <string name="widget_pref_dynamic_colors">গতিশীল রঙ</string>
+    <string name="widget_pref_text_scale">টেক্সট স্কেল</string>
+    <string name="widget_pref_bg_opacity">পটভূমির অস্পষ্টতা</string>
+    <string name="widget_pref_btn_save">সংরক্ষণ করুন</string>
+
 </resources>

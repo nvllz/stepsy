@@ -84,4 +84,11 @@
     <string name="import_result">Zaimportowano %1$d wpisów (%2$d nieudanych). %3$s</string>
     <string name="today_steps_set">Dzisiejsze kroki ustawione na %1$d.</string>
 
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">Odwróć kolor tła</string>
+    <string name="widget_pref_dynamic_colors">Dynamiczne kolory</string>
+    <string name="widget_pref_text_scale">Skala tekstu</string>
+    <string name="widget_pref_bg_opacity">Przezroczystość tła</string>
+    <string name="widget_pref_btn_save">Zapisz</string>
+
 </resources>

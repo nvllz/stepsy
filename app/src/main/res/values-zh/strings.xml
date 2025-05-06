@@ -81,4 +81,11 @@
     <string name="import_result">已导入 %1$d 组数据 (%2$d 导出失败)。 %3$s</string>
     <string name="today_steps_set">今日的步数已设定为 %1$d 步。</string>
 
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">反转背景颜色</string>
+    <string name="widget_pref_dynamic_colors">动态颜色</string>
+    <string name="widget_pref_text_scale">文字缩放</string>
+    <string name="widget_pref_bg_opacity">背景不透明度</string>
+    <string name="widget_pref_btn_save">保存</string>
+
 </resources>

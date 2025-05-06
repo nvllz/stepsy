@@ -84,4 +84,11 @@
     <string name="import_result">Импортировано: %1$d записей (%2$d не удалось). %3$s</string>
     <string name="today_steps_set">Сегодняшние шаги установлены на %1$d.</string>
 
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">Инвертировать цвет фона</string>
+    <string name="widget_pref_dynamic_colors">Динамические цвета</string>
+    <string name="widget_pref_text_scale">Масштаб текста</string>
+    <string name="widget_pref_bg_opacity">Прозрачность фона</string>
+    <string name="widget_pref_btn_save">Сохранить</string>
+
 </resources>

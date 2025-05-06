@@ -83,4 +83,11 @@
     <string name="import_result">%1$d entrées importées (%2$d échouées). %3$s</string>
     <string name="today_steps_set">Le nombre de pas aujourd\'hui est défini à %1$d.</string>
 
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">Inverser la couleur de fond</string>
+    <string name="widget_pref_dynamic_colors">Couleurs dynamiques</string>
+    <string name="widget_pref_text_scale">Échelle du texte</string>
+    <string name="widget_pref_bg_opacity">Opacité de l\’arrière-plan</string>
+    <string name="widget_pref_btn_save">Enregistrer</string>
+
 </resources>

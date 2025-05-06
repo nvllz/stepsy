@@ -82,4 +82,11 @@
     <string name="import_result">%1$d giriş içe aktarıldı (%2$d başarısız). %3$s</string>
     <string name="today_steps_set">Bugünkü adımlar %1$d olarak ayarlandı.</string>
 
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">Arka plan rengini tersine çevir</string>
+    <string name="widget_pref_dynamic_colors">Dinamik Renkler</string>
+    <string name="widget_pref_text_scale">Metin Ölçeği</string>
+    <string name="widget_pref_bg_opacity">Arka Plan Opaklığı</string>
+    <string name="widget_pref_btn_save">Kaydet</string>
+
 </resources>

@@ -83,4 +83,11 @@
     <string name="import_result">Importati %1$d elementi (%2$d falliti). %3$s</string>
     <string name="today_steps_set">I passi di oggi sono impostati a %1$d.</string>
 
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">Inverti colore di sfondo</string>
+    <string name="widget_pref_dynamic_colors">Colori dinamici</string>
+    <string name="widget_pref_text_scale">Scala del testo</string>
+    <string name="widget_pref_bg_opacity">Opacità dello sfondo</string>
+    <string name="widget_pref_btn_save">Salva</string>
+
 </resources>
