@@ -21,6 +21,8 @@ import androidx.core.text.HtmlCompat
 import androidx.preference.PreferenceManager
 import com.nvllz.stepsy.BuildConfig
 import com.nvllz.stepsy.R
+import com.nvllz.stepsy.util.AppPreferences.PreferenceKeys
+import com.nvllz.stepsy.util.AppPreferences.dataStore
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -53,6 +55,7 @@ object AppPreferences {
 
         runBlocking {
             updateAppVersion()
+            stepDataStoreMigration(context)
         }
     }
 
@@ -155,7 +158,6 @@ object AppPreferences {
     fun welcomeDialog(context: Context) {
         val dialogTargetVersion = 8 //ver 1.4.9
 
-
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
         if (!sharedPrefs.contains("STEPS")) {
             return
@@ -174,6 +176,31 @@ object AppPreferences {
                 }
             }
         }
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun stepDataStoreMigration(context: Context) {
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        if (!sharedPrefs.contains("STEPS")) {
+            return
+        }
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val currentDataStoreSteps = dataStore.data.map {
+                it[PreferenceKeys.STEPS] ?: 0
+            }.first()
+
+            val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+            val sharedPrefsSteps = sharedPrefs.getInt("STEPS", 0)
+
+            if (sharedPrefsSteps > currentDataStoreSteps) {
+                dataStore.edit { preferences ->
+                    preferences[PreferenceKeys.STEPS] = sharedPrefsSteps
+                }
+                sharedPrefs.edit().clear().apply()
+            }
+        }
+    }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -207,4 +234,3 @@ object AppPreferences {
             }
             .show()
     }
-}
