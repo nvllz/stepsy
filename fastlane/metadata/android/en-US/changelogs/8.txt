@@ -1,0 +1,17 @@
+This update may reset your settings. Step data is safe, don't worry!
+
+New features:
+- Dynamic widget coloring + configuration screen
+- Quick tile icon
+- Chinese (zh) translation
+- About section
+
+Changes:
+- Removed 365 days filter
+- Replaced SharedPreferences with Datastore
+
+Fixes:
+- Missing calendar controls after import
+- Various styling tweaks
+- Distance calculation formula
+...and dozens of small bugs
