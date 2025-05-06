@@ -71,7 +71,7 @@ class StepsyTileService : TileService() {
         tile.state = if (isPaused) Tile.STATE_INACTIVE else Tile.STATE_ACTIVE
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            tile.subtitle = if (isPaused) getString(R.string.step_counting_paused) else ""
+            tile.subtitle = if (isPaused) getString(R.string.notification_step_counting_paused) else ""
             tile.state = if (isPaused) Tile.STATE_INACTIVE else Tile.STATE_ACTIVE
         }
 
