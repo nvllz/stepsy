@@ -4,9 +4,10 @@
 package com.nvllz.stepsy.util
 
 import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
-import android.util.Log
+import android.text.method.LinkMovementMethod
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
@@ -15,12 +16,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.launch
+import java.util.Calendar
+import androidx.core.text.HtmlCompat
+import androidx.preference.PreferenceManager
+import com.nvllz.stepsy.BuildConfig
+import com.nvllz.stepsy.R
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import java.util.Calendar
-import androidx.core.content.edit
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private val Context.appDataStore: DataStore<Preferences> by preferencesDataStore(name = "app_preferences")
 
@@ -34,8 +39,8 @@ object AppPreferences {
         val UNIT_SYSTEM = stringPreferencesKey("unit_system")
         val DATE_FORMAT = stringPreferencesKey("date_format")
         val FIRST_DAY_OF_WEEK = stringPreferencesKey("first_day_of_week")
-        val SHAREDPREFS_MIGRATION_COMPLETED = booleanPreferencesKey("sharedprefs_migration_completed")
         val APP_VERSION_CODE = intPreferencesKey("app_version_code")
+        val ALERTDIALOG_LAST_VERSION_CODE = intPreferencesKey("alertdialog_last")
     }
 
     lateinit var dataStore: DataStore<Preferences>
@@ -47,51 +52,15 @@ object AppPreferences {
         }
 
         runBlocking {
-            sharedPrefsToDataStoreMigrationCheck(context)
-            updateAppVersion(context)
+            updateAppVersion()
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun sharedPrefsToDataStoreMigrationCheck(context: Context) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val migrationCompleted = dataStore.data.map {
-                it[PreferenceKeys.SHAREDPREFS_MIGRATION_COMPLETED] == true
-            }.first()
+    private fun updateAppVersion() {
+        val currentVersionCode = BuildConfig.VERSION_CODE
 
-            if (!migrationCompleted) {
-                migrateFromSharedPreferences(context)
-                Log.d("StepsyMigration", "${PreferenceKeys.SHAREDPREFS_MIGRATION_COMPLETED}")
-
-                // Mark migration as completed
-                dataStore.edit { preferences ->
-                    preferences[PreferenceKeys.SHAREDPREFS_MIGRATION_COMPLETED] = true
-                }
-            }
-        }
-    }
-
-    private suspend fun updateAppVersion(context: Context) {
-        try {
-            val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                context.packageManager.getPackageInfo(context.packageName, PackageManager.PackageInfoFlags.of(0))
-            } else {
-                @Suppress("DEPRECATION")
-                context.packageManager.getPackageInfo(context.packageName, 0)
-            }
-
-            val currentVersionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                packageInfo.longVersionCode.toInt()
-            } else {
-                @Suppress("DEPRECATION")
-                packageInfo.versionCode
-            }
-
-            dataStore.edit { preferences ->
-                preferences[PreferenceKeys.APP_VERSION_CODE] = currentVersionCode
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        runBlocking {
+            dataStore.edit { it[PreferenceKeys.APP_VERSION_CODE] = currentVersionCode }
         }
     }
 
@@ -181,49 +150,61 @@ object AppPreferences {
             dataStore.edit { it[PreferenceKeys.FIRST_DAY_OF_WEEK] = value.toString() }
         }
 
-    // Migration from SharedPreferences
-    @Deprecated(
-        message = "To be removed in 1.5.0+",
-        level = DeprecationLevel.WARNING
-    )
-    suspend fun migrateFromSharedPreferences(context: Context) {
-        val sharedPrefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(context)
+    @Deprecated(message = "Drop SHAREDPREFERENCES check after 1.4.9")
+    @OptIn(DelicateCoroutinesApi::class)
+    fun welcomeDialog(context: Context) {
+        val dialogTargetVersion = 8 //ver 1.4.9
 
-        dataStore.edit { preferences ->
-            if (sharedPrefs.contains("STEPS")) {
-                preferences[PreferenceKeys.STEPS] = sharedPrefs.getInt("STEPS", 0)
-            }
 
-            if (sharedPrefs.contains("DATE")) {
-                preferences[PreferenceKeys.DATE] = sharedPrefs.getLong("DATE", System.currentTimeMillis())
-            }
-
-            if (sharedPrefs.contains("theme")) {
-                preferences[PreferenceKeys.THEME] = sharedPrefs.getString("theme", "system") ?: "system"
-            }
-
-            if (sharedPrefs.contains("height")) {
-                preferences[PreferenceKeys.HEIGHT] = sharedPrefs.getString("height", "180") ?: "180"
-            }
-
-            if (sharedPrefs.contains("weight")) {
-                preferences[PreferenceKeys.WEIGHT] = sharedPrefs.getString("weight", "70") ?: "70"
-            }
-
-            if (sharedPrefs.contains("unit_system")) {
-                preferences[PreferenceKeys.UNIT_SYSTEM] = sharedPrefs.getString("unit_system", "metric") ?: "metric"
-            }
-
-            if (sharedPrefs.contains("date_format")) {
-                preferences[PreferenceKeys.DATE_FORMAT] = sharedPrefs.getString("date_format", "yyyy-MM-dd") ?: "yyyy-MM-dd"
-            }
-
-            if (sharedPrefs.contains("first_day_of_week")) {
-                preferences[PreferenceKeys.FIRST_DAY_OF_WEEK] =
-                    sharedPrefs.getString("first_day_of_week", Calendar.MONDAY.toString()) ?: Calendar.MONDAY.toString()
-            }
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        if (!sharedPrefs.contains("STEPS")) {
+            return
         }
 
-         sharedPrefs.edit { clear() }
+        GlobalScope.launch(Dispatchers.IO) {
+            val lastShownVersion = dataStore.data.map {
+                it[PreferenceKeys.ALERTDIALOG_LAST_VERSION_CODE] ?: 0
+            }.first()
+
+            val currentVersion = BuildConfig.VERSION_CODE
+
+            if (lastShownVersion < dialogTargetVersion && currentVersion == dialogTargetVersion) {
+                withContext(Dispatchers.Main) {
+                    showDialogAndUpdateVersion(context, dialogTargetVersion)
+                }
+            }
+        }
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun showDialogAndUpdateVersion(context: Context, dialogVersion: Int) {
+        val version = BuildConfig.VERSION_NAME
+        val html = """
+        This update may reset your preferences once again, I'm sorry. Version $version makes use of the DataStore, which I hope will fix all the problems you have been reporting to me over the past few days.
+        <br><br>
+        Your step data is unaffected by these changes as it is stored in the internal sqlite database. Anyway, I recommend backing it up from time to time.
+        <br><br><br>
+        Best regards,<br>
+        nvllz
+    """.trimIndent()
+
+        val textView = TextView(context).apply {
+            text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            movementMethod = LinkMovementMethod.getInstance()
+            setPadding(50, 30, 50, 10)
+            setLinkTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+        }
+
+        AlertDialog.Builder(context)
+            .setTitle("Stepsy v$version")
+            .setView(textView)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                GlobalScope.launch(Dispatchers.IO) {
+                    dataStore.edit { preferences ->
+                        preferences[PreferenceKeys.ALERTDIALOG_LAST_VERSION_CODE] = dialogVersion
+                    }
+                }
+            }
+            .show()
     }
 }

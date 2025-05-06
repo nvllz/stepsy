@@ -82,6 +82,8 @@ internal class MainActivity : AppCompatActivity() {
         mRangeDynamicBox = findViewById(R.id.rangeDynamicBox)
         mExpandButton = findViewById(R.id.expandButton)
 
+        AppPreferences.welcomeDialog(this)
+
         mExpandButton.setOnClickListener {
             isExpanded = !isExpanded
 
