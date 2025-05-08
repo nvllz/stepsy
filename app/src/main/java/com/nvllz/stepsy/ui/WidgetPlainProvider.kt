@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
+import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
@@ -37,21 +38,18 @@ class WidgetPlainProvider : AppWidgetProvider() {
             val scaleFactor = textScale / 100f
 
             // Resolve colors
-            val primaryColor = ContextCompat.getColor(
-                context,
-                if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31)
-                    R.color.widgetPrimary else R.color.widgetPrimary_default
-            )
-            val bgColor = ContextCompat.getColor(
-                context,
-                if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31)
-                    R.color.widgetBackground else R.color.widgetBackground_default
-            )
-            val alphaBgColor = ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
+            if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
+                remoteViews.setFloat(R.id.widget_plain_background, "setAlpha", opacity / 100f)
+            } else {
+                val primaryColor = ContextCompat.getColor(context, R.color.widgetPrimary_default)
+                val bgColor = ContextCompat.getColor(context, R.color.widgetBackground_default)
+                val alphaBgColor =
+                    ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
 
-            // Apply styles
-            remoteViews.setInt(R.id.widget_plain_container, "setBackgroundColor", alphaBgColor)
-            remoteViews.setTextColor(R.id.widget_plain_steps, primaryColor)
+                // Apply styles
+                remoteViews.setInt(R.id.widget_plain_background, "setColorFilter", alphaBgColor)
+                remoteViews.setTextColor(R.id.widget_plain_steps, primaryColor)
+            }
 
             remoteViews.setTextViewTextSize(
                 R.id.widget_plain_steps,

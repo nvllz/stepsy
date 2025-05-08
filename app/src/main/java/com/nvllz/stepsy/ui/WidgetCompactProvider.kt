@@ -39,27 +39,21 @@ class WidgetCompactProvider : AppWidgetProvider() {
             val scaleFactor = textScale / 100f
 
             // Resolve colors
-            val primaryColor = ContextCompat.getColor(
-                context,
-                if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31)
-                    R.color.widgetPrimary else R.color.widgetPrimary_default
-            )
-            val secondaryColor = ContextCompat.getColor(
-                context,
-                if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31)
-                    R.color.widgetSecondary else R.color.widgetSecondary_default
-            )
-            val bgColor = ContextCompat.getColor(
-                context,
-                if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31)
-                    R.color.widgetBackground else R.color.widgetBackground_default
-            )
-            val alphaBgColor = ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
 
-            // Apply styles
-            remoteViews.setInt(R.id.widget_compact_container, "setBackgroundColor", alphaBgColor)
-            remoteViews.setTextColor(R.id.widget_compact_steps, primaryColor)
-            remoteViews.setTextColor(R.id.widget_compact_distance, secondaryColor)
+            if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
+                remoteViews.setFloat(R.id.widget_compact_background, "setAlpha", opacity / 100f)
+            } else {
+                val primaryColor = ContextCompat.getColor(context, R.color.widgetPrimary_default)
+                val secondaryColor = ContextCompat.getColor(context, R.color.widgetSecondary_default)
+                val bgColor = ContextCompat.getColor(context, R.color.widgetBackground_default)
+                val alphaBgColor =
+                    ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
+
+                // Apply styles
+                remoteViews.setInt(R.id.widget_compact_background, "setColorFilter", alphaBgColor)
+                remoteViews.setTextColor(R.id.widget_compact_steps, primaryColor)
+                remoteViews.setTextColor(R.id.widget_compact_distance, secondaryColor)
+            }
 
             remoteViews.setTextViewTextSize(
                 R.id.widget_compact_steps,
