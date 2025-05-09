@@ -153,15 +153,9 @@ object AppPreferences {
             dataStore.edit { it[PreferenceKeys.FIRST_DAY_OF_WEEK] = value.toString() }
         }
 
-    @Deprecated(message = "Drop SHAREDPREFERENCES check after 1.4.9")
     @OptIn(DelicateCoroutinesApi::class)
     fun welcomeDialog(context: Context) {
         val dialogTargetVersion = 8 //ver 1.4.9
-
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
-        if (!sharedPrefs.contains("STEPS")) {
-            return
-        }
 
         GlobalScope.launch(Dispatchers.IO) {
             val lastShownVersion = dataStore.data.map {
@@ -192,10 +186,14 @@ object AppPreferences {
 
             val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
             val sharedPrefsSteps = sharedPrefs.getInt("STEPS", 0)
+            val sharedPrefsDate = sharedPrefs.getLong("DATE", 0)
 
             if (sharedPrefsSteps > currentDataStoreSteps) {
                 dataStore.edit { preferences ->
                     preferences[PreferenceKeys.STEPS] = sharedPrefsSteps
+                }
+                dataStore.edit { preferences ->
+                    preferences[PreferenceKeys.DATE] = sharedPrefsDate
                 }
                 sharedPrefs.edit().clear().apply()
             }
@@ -207,13 +205,7 @@ object AppPreferences {
     private fun showDialogAndUpdateVersion(context: Context, dialogVersion: Int) {
         val version = BuildConfig.VERSION_NAME
         val html = """
-        This update may reset your preferences once again, I'm sorry. Version $version makes use of the DataStore, which I hope will fix all the problems you have been reporting to me over the past few days.
-        <br><br>
-        Your step data is unaffected by these changes as it is stored in the internal sqlite database. Anyway, I recommend backing it up from time to time.
-        <br><br><br>
-        Best regards,<br>
-        nvllz
-    """.trimIndent()
+        """.trimIndent()
 
         val textView = TextView(context).apply {
             text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
