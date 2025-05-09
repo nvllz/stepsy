@@ -40,6 +40,8 @@ class WidgetPlainProvider : AppWidgetProvider() {
             // Resolve colors
             if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
                 remoteViews.setFloat(R.id.widget_plain_background, "setAlpha", opacity / 100f)
+                remoteViews.setColor(R.id.widget_plain_background, "setColorFilter", R.color.widgetBackground)
+                remoteViews.setColor(R.id.widget_plain_steps, "setTextColor", R.color.widgetPrimary)
             } else {
                 val primaryColor = ContextCompat.getColor(context, R.color.widgetPrimary_default)
                 val bgColor = ContextCompat.getColor(context, R.color.widgetBackground_default)

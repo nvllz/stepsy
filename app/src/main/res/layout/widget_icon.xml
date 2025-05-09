@@ -9,7 +9,7 @@
         android:id="@+id/widget_icon_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@null"
+        android:importantForAccessibility="no"
         android:src="@drawable/widget_bg" />
 
     <LinearLayout
@@ -25,8 +25,8 @@
             android:layout_width="30dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/widget_icon"
-            android:contentDescription="@null" />
+            android:importantForAccessibility="no"
+            android:src="@drawable/widget_icon" />
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -40,6 +40,10 @@ class WidgetIconProvider : AppWidgetProvider() {
             // Resolve colors
             if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
                 remoteViews.setFloat(R.id.widget_icon_background, "setAlpha", opacity / 100f)
+                remoteViews.setColor(R.id.widget_icon_background, "setColorFilter", R.color.widgetBackground)
+                remoteViews.setColor(R.id.widget_icon_steps, "setTextColor", R.color.widgetPrimary)
+                remoteViews.setColor(R.id.widget_icon_distance, "setTextColor", R.color.widgetSecondary)
+                remoteViews.setColor(R.id.widget_icon_img, "setColorFilter", R.color.widgetPrimary)
             } else {
                 val primaryColor = ContextCompat.getColor(context, R.color.widgetPrimary_default)
                 val secondaryColor = ContextCompat.getColor(context, R.color.widgetSecondary_default)
