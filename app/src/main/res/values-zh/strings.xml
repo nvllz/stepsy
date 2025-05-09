@@ -72,6 +72,16 @@
     <string name="about_stepsy">关于应用</string>
     <string name="about_version">版本</string>
     <string name="about_license">许可</string>
+    <string name="about_html">
+    <![CDATA[
+        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
+        项目由 <a href="https://github.com/nvllz"><b>nvllz</b></a> 维护<br>
+        基于 <a href="https://github.com/0xf4b1/motionmate">MotionMate</a>，原作者为 <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
+        <a href="https://github.com/nvllz/stepsy/issues">报告问题</a><br><br>
+        <a href="https://github.com/nvllz/stepsy">项目网站</a><br>
+        <a href="https://www.gnu.org/licenses/gpl-3.0.html">许可证 GPL-3.0</a>
+    ]]>
+    </string>
 
     <!-- Toasts -->
     <string name="enter_valid_value">请输入一个有效的数字</string>

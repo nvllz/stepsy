@@ -73,6 +73,16 @@
     <string name="about_stepsy">সম্পর্কে</string>
     <string name="about_version">সংস্করণ</string>
     <string name="about_license">লাইসেন্স</string>
+    <string name="about_html">
+    <![CDATA[
+        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
+        প্রকল্পটি রক্ষণাবেক্ষণ করছেন <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
+        <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> এর উপর ভিত্তি করে <a href="https://github.com/0xf4b1">0xf4b1</a> দ্বারা<br><br>
+        <a href="https://github.com/nvllz/stepsy/issues">বাগ রিপোর্ট করুন</a><br><br>
+        <a href="https://github.com/nvllz/stepsy">প্রকল্পের ওয়েবসাইট</a><br>
+        <a href="https://www.gnu.org/licenses/gpl-3.0.html">লাইসেন্স GPL-3.0</a>
+    ]]>
+    </string>
 
     <!-- Toasts -->
     <string name="enter_valid_value">একটি বৈধ মান লিখুন</string>

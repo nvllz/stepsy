@@ -75,6 +75,16 @@
     <string name="about_stepsy">О программе</string>
     <string name="about_version">Версия</string>
     <string name="about_license">Лицензия</string>
+    <string name="about_html">
+    <![CDATA[
+        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
+        Проект поддерживается <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
+        Основан на <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> от <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
+        <a href="https://github.com/nvllz/stepsy/issues">Сообщить об ошибке</a><br><br>
+        <a href="https://github.com/nvllz/stepsy">Сайт проекта</a><br>
+        <a href="https://www.gnu.org/licenses/gpl-3.0.html">Лицензия GPL-3.0</a>
+    ]]>
+    </string>
 
     <!-- Toasts -->
     <string name="enter_valid_value">Пожалуйста, введите допустимое значение</string>

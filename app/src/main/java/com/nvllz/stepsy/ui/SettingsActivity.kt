@@ -240,14 +240,7 @@ class SettingsActivity : AppCompatActivity() {
 
             findPreference<Preference>("about")?.setOnPreferenceClickListener {
                 val version = BuildConfig.VERSION_NAME
-                val html = """
-                    Stepsy <a href="https://github.com/nvllz/stepsy/releases">v$version</a><br><br>
-                    Maintained by <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-                    Built on top of <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> by <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
-                    <a href="https://github.com/nvllz/stepsy/issues">Report a bug</a><br><br>                   
-                    <a href="https://github.com/nvllz/stepsy">Project website</a><br>
-                    <a href="https://www.gnu.org/licenses/gpl-3.0.html">License GPL-3.0</a>
-                """.trimIndent()
+                val html = getString(R.string.about_html, version)
 
                 val textView = TextView(requireContext()).apply {
                     text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
