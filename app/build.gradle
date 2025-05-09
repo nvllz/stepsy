@@ -68,7 +68,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.14.1'
 
-    implementation "androidx.datastore:datastore-preferences:1.1.4"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.7"
+    implementation "androidx.datastore:datastore-preferences:1.1.6"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.9.0"
 }
