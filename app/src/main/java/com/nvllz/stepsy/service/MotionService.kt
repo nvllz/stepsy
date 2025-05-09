@@ -95,7 +95,7 @@ internal class MotionService : Service() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val delayedWriteRunnable = Runnable {
-        handleStepUpdate(true)
+        handleStepUpdate(delayedTrigger = true)
     }
 
     private fun handleEvent(value: Int) {
@@ -113,39 +113,49 @@ internal class MotionService : Service() {
 
             // reset the delayed write runnable
             handler.removeCallbacks(delayedWriteRunnable)
-            handler.postDelayed(delayedWriteRunnable, 10_000)
+            handler.postDelayed(delayedWriteRunnable, dbWriteInterval)
 
         } else {
             mLastSteps = value
         }
     }
 
-    private var lastWriteTime: Long = 0
+    private var lastSharedPrefsWriteTime: Long = 0
+    private var lastDbWriteTime: Long = 0
     private var lastWidgetUpdateTime: Long = 0
-    private val writeInterval: Long
-        get() = if (isBatterySavingEnabled(this)) 20_000L else 10_000L
+
+    private val dataStoreWriteInterval: Long
+        get() = if (isBatterySavingEnabled(this)) 15_000L else 7_500L
+    private val dbWriteInterval: Long
+        get() = if (isBatterySavingEnabled(this)) 60_000L else 30_000L
+    private val widgetsUpdateInterval: Long
+        get() = if (isBatterySavingEnabled(this)) 15_000L else 7_500L
 
     private fun handleStepUpdate(delayedTrigger: Boolean = false) {
-        AppPreferences.steps = mTodaysSteps
-        val currentDate = Util.calendar.timeInMillis
+        val currentTime = System.currentTimeMillis()
 
         if (!DateUtils.isToday(mCurrentDate)) {
+            val currentDate = Util.calendar.timeInMillis
             Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
             mTodaysSteps = 0
             mCurrentDate = currentDate
             mLastSteps = -1
-            AppPreferences.steps = mTodaysSteps
             AppPreferences.date = mCurrentDate
-        }
-
-        val currentTime = System.currentTimeMillis()
-        if (currentTime - lastWriteTime > writeInterval) {
-            Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
             AppPreferences.steps = mTodaysSteps
-            lastWriteTime = currentTime
+            lastSharedPrefsWriteTime = currentTime.also { lastDbWriteTime = it }
         }
 
-        if (currentTime - lastWidgetUpdateTime > (writeInterval * 2) || delayedTrigger) {
+        if (currentTime - lastSharedPrefsWriteTime >= dataStoreWriteInterval) {
+            AppPreferences.steps = mTodaysSteps
+            lastSharedPrefsWriteTime = currentTime
+        }
+
+        if (currentTime - lastDbWriteTime >= dbWriteInterval) {
+            Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
+            lastDbWriteTime = currentTime
+        }
+
+        if (currentTime - lastWidgetUpdateTime >= widgetsUpdateInterval || delayedTrigger) {
             updateAllWidgets()
             lastWidgetUpdateTime = currentTime
         }
