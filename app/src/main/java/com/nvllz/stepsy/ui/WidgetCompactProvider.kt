@@ -39,13 +39,15 @@ class WidgetCompactProvider : AppWidgetProvider() {
             val scaleFactor = textScale / 100f
 
             // Resolve colors
-
             if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
                 remoteViews.setFloat(R.id.widget_compact_background, "setAlpha", opacity / 100f)
                 remoteViews.setColor(R.id.widget_compact_background, "setColorFilter", R.color.widgetBackground)
                 remoteViews.setColor(R.id.widget_compact_steps, "setTextColor", R.color.widgetPrimary)
                 remoteViews.setColor(R.id.widget_compact_distance, "setTextColor", R.color.widgetSecondary)
             } else {
+                if (android.os.Build.VERSION.SDK_INT >= 31) {
+                    remoteViews.setFloat(R.id.widget_compact_background, "setAlpha", 1f)
+                }
                 val primaryColor = ContextCompat.getColor(context, R.color.widgetPrimary_default)
                 val secondaryColor = ContextCompat.getColor(context, R.color.widgetSecondary_default)
                 val bgColor = ContextCompat.getColor(context, R.color.widgetBackground_default)
