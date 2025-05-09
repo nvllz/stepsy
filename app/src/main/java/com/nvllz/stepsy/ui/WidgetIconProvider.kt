@@ -5,7 +5,9 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.util.TypedValue
+import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
@@ -40,14 +42,13 @@ class WidgetIconProvider : AppWidgetProvider() {
             // Resolve colors
             if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
                 remoteViews.setFloat(R.id.widget_icon_background, "setAlpha", opacity / 100f)
-                remoteViews.setColor(R.id.widget_icon_background, "setColorFilter", R.color.widgetBackground)
+                remoteViews.setViewVisibility(R.id.widget_icon_background, View.VISIBLE)
+                remoteViews.setInt(R.id.widget_icon_container, "setBackgroundColor", Color.TRANSPARENT)
                 remoteViews.setColor(R.id.widget_icon_steps, "setTextColor", R.color.widgetPrimary)
                 remoteViews.setColor(R.id.widget_icon_distance, "setTextColor", R.color.widgetSecondary)
                 remoteViews.setColor(R.id.widget_icon_img, "setColorFilter", R.color.widgetPrimary)
             } else {
-                if (android.os.Build.VERSION.SDK_INT >= 31) {
-                    remoteViews.setFloat(R.id.widget_icon_background, "setAlpha", 1f)
-                }
+                remoteViews.setViewVisibility(R.id.widget_icon_background, View.GONE)
                 val primaryColor = ContextCompat.getColor(context, R.color.widgetPrimary_default)
                 val secondaryColor = ContextCompat.getColor(context, R.color.widgetSecondary_default)
                 val bgColor = ContextCompat.getColor(context, R.color.widgetBackground_default)
@@ -55,7 +56,7 @@ class WidgetIconProvider : AppWidgetProvider() {
                     ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
 
                 // Apply styles
-                remoteViews.setInt(R.id.widget_icon_background, "setColorFilter", alphaBgColor)
+                remoteViews.setInt(R.id.widget_icon_container, "setBackgroundColor", alphaBgColor)
                 remoteViews.setTextColor(R.id.widget_icon_steps, primaryColor)
                 remoteViews.setTextColor(R.id.widget_icon_distance, secondaryColor)
                 remoteViews.setInt(R.id.widget_icon_img, "setColorFilter", primaryColor)
