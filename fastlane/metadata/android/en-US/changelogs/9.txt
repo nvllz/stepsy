@@ -1,0 +1,8 @@
+Changes:
+- Step count interval adjustment, which should be more reliable and power efficient
+
+Fixes:
+- Foreground service not triggered after update
+- About dialog not translatable
+- Resolve widget colors on host side (@ebraminio)
+- Migration edge case handling
