@@ -124,7 +124,8 @@ object AppPreferences {
     }
 
     fun stepLengthFlow(): Flow<Float> = dataStore.data.map {
-        val estimatedStepLength = (it[PreferenceKeys.HEIGHT]!!.toInt() * 0.415).toFloat()
+        val height = it[PreferenceKeys.HEIGHT]?.toIntOrNull() ?: 180
+        val estimatedStepLength = (height * 0.415).toFloat()
         it[PreferenceKeys.STEP_LENGTH] ?: estimatedStepLength
     }
 
