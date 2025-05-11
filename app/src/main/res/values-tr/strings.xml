@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
@@ -98,5 +97,4 @@
     <string name="widget_pref_text_scale">Metin Ölçeği</string>
     <string name="widget_pref_bg_opacity">Arka Plan Opaklığı</string>
     <string name="widget_pref_btn_save">Kaydet</string>
-
 </resources>

@@ -1,4 +1,4 @@
-<!-- res/values/themes.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base theme -->
     <style name="Theme.stepsy" parent="Theme.Material3.DayNight.NoActionBar">
@@ -7,8 +7,8 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/opensans_family</item>
-        <item name="fontFamily">@font/opensans_family</item>
+        <item name="android:fontFamily">@font/open_sans_family</item>
+        <item name="fontFamily">@font/open_sans_family</item>
 
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -24,8 +24,8 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/opensans_family</item>
-        <item name="fontFamily">@font/opensans_family</item>
+        <item name="android:fontFamily">@font/open_sans_family</item>
+        <item name="fontFamily">@font/open_sans_family</item>
 
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@color/colorBackground</item>
@@ -38,8 +38,8 @@
     <style name="CalendarViewStyle" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorOnPrimary</item>
-        <item name="android:fontFamily">@font/opensans_family</item>
-        <item name="fontFamily">@font/opensans_family</item>
+        <item name="android:fontFamily">@font/open_sans_family</item>
+        <item name="fontFamily">@font/open_sans_family</item>
     </style>
 
     <!-- Dialog Button Styles -->
@@ -57,5 +57,4 @@
         <item name="buttonBarNegativeButtonStyle">@style/DialogButton.Negative</item>
         <item name="android:background">@color/colorBackground</item>
     </style>
-
 </resources>

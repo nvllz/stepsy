@@ -44,7 +44,7 @@
                     android:layout_marginTop="10sp"
                     android:textAllCaps="true"
                     android:textAlignment="center"
-                    android:fontFamily="@font/opensans_semibold"
+                    android:fontFamily="@font/open_sans_semibold"
                     android:fontWeight="700" />
 
                 <TextView
@@ -55,7 +55,7 @@
                     android:textSize="38sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorOnSurface"
-                    android:fontFamily="@font/opensans_semibold"
+                    android:fontFamily="@font/open_sans_semibold"
                     android:fontWeight="700" />
 
                 <TextView
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="22sp"
-                    android:fontFamily="@font/opensans_regular"/>
+                    android:fontFamily="@font/open_sans_regular"/>
 
                 <TextView
                     android:id="@+id/textViewCalories"
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="20sp"
-                    android:fontFamily="@font/opensans_regular"/>
+                    android:fontFamily="@font/open_sans_regular"/>
 
                 <TextView
                     android:id="@+id/textAvgPerDayHeader"
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="20sp"
-                    android:fontFamily="@font/opensans_regular"
+                    android:fontFamily="@font/open_sans_regular"
                     android:visibility="gone"/>
 
                 <TextView
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="20sp"
-                    android:fontFamily="@font/opensans_regular"
+                    android:fontFamily="@font/open_sans_regular"
                     android:visibility="gone"/>
 
                 <LinearLayout
@@ -131,7 +131,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_today"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/opensans_regular"/>
+                            android:fontFamily="@font/open_sans_regular"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -140,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_week"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/opensans_regular"/>
+                            android:fontFamily="@font/open_sans_regular"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -149,7 +149,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_month"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/opensans_regular"/>
+                            android:fontFamily="@font/open_sans_regular"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -158,7 +158,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_7d"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/opensans_regular"/>
+                            android:fontFamily="@font/open_sans_regular"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -167,7 +167,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_30d"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/opensans_regular"/>
+                            android:fontFamily="@font/open_sans_regular"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -176,7 +176,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_all_time"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/opensans_regular"/>
+                            android:fontFamily="@font/open_sans_regular"/>
                     </com.google.android.flexbox.FlexboxLayout>
 
                     <com.google.android.flexbox.FlexboxLayout
@@ -221,7 +221,7 @@
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:layout_marginBottom="10sp"
-                    android:fontFamily="@font/opensans_regular"/>
+                    android:fontFamily="@font/open_sans_regular"/>
 
                 <com.nvllz.stepsy.ui.Chart
                     android:id="@+id/chart"
@@ -257,7 +257,7 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="5sp"
                     android:textAlignment="center"
-                    android:fontFamily="@font/opensans_semibold"
+                    android:fontFamily="@font/open_sans_semibold"
                     android:fontWeight="700" />
 
                 <!-- Day Details -->
@@ -268,7 +268,7 @@
                     android:textSize="19sp"
                     android:textAlignment="center"
                     android:layout_marginBottom="20sp"
-                    android:fontFamily="@font/opensans_regular"/>
+                    android:fontFamily="@font/open_sans_regular"/>
 
                 <TextView
                     android:id="@+id/textViewMonthTotalHeader"
@@ -277,7 +277,7 @@
                     android:textSize="20sp"
                     android:text="@string/total_distance"
                     android:textAlignment="center"
-                    android:fontFamily="@font/opensans_semibold"
+                    android:fontFamily="@font/open_sans_semibold"
                     android:fontWeight="700" />
 
                 <TextView
@@ -288,7 +288,7 @@
                     android:layout_weight="1"
                     android:textSize="18sp"
                     android:textAlignment="center"
-                    android:fontFamily="@font/opensans_regular"/>
+                    android:fontFamily="@font/open_sans_regular"/>
 
                 <TextView
                     android:id="@+id/textViewMonthAvgHeader"
@@ -297,7 +297,7 @@
                     android:textSize="20sp"
                     android:text="@string/avg_distance"
                     android:textAlignment="center"
-                    android:fontFamily="@font/opensans_semibold"
+                    android:fontFamily="@font/open_sans_semibold"
                     android:fontWeight="700" />
 
                 <TextView
@@ -307,7 +307,7 @@
                     android:layout_weight="1"
                     android:textSize="18sp"
                     android:textAlignment="center"
-                    android:fontFamily="@font/opensans_regular"/>
+                    android:fontFamily="@font/open_sans_regular"/>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

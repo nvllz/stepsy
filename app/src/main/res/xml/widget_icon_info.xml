@@ -8,5 +8,5 @@
     android:orientation="horizontal"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
-    android:previewImage="@drawable/widget_steps_preview"
+    android:previewImage="@drawable/widget_preview_icon"
     android:configure="com.nvllz.stepsy.ui.WidgetIconConfigureActivity" />

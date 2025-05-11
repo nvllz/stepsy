@@ -25,7 +25,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="5sp"
             android:textAlignment="center"
-            android:fontFamily="@font/opensans_semibold"
+            android:fontFamily="@font/open_sans_semibold"
             android:fontWeight="700" />
 
         <LinearLayout

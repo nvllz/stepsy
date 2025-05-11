@@ -3,9 +3,9 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/opensans_regular" />
+        android:font="@font/open_sans_regular" />
     <font
         android:fontStyle="normal"
         android:fontWeight="700"
-        android:font="@font/opensans_semibold" />
+        android:font="@font/open_sans_semibold" />
 </font-family>
