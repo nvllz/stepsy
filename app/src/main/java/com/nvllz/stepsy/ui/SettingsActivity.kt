@@ -45,6 +45,7 @@ import androidx.lifecycle.lifecycleScope
 import com.nvllz.stepsy.BuildConfig
 import com.nvllz.stepsy.util.AppPreferences
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -122,6 +123,36 @@ class SettingsActivity : AppCompatActivity() {
                         lifecycleScope.launch {
                             AppPreferences.dataStore.edit { preferences ->
                                 preferences[AppPreferences.PreferenceKeys.HEIGHT] = height.toString()
+                            }
+                            stepLengthCalculations()
+                        }
+                        true
+                    } else {
+                        Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
+                        false
+                    }
+                } catch (_: Exception) {
+                    Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
+                    false
+                }
+            }
+
+            stepLengthCalculations()
+
+            findPreference<EditTextPreference>("step_length")?.setOnPreferenceChangeListener { _, newValue ->
+                val input = newValue.toString().trim()
+                if (input.isEmpty()) {
+                    AppPreferences.resetStepLength()
+                    return@setOnPreferenceChangeListener true
+                }
+
+                try {
+                    val normalizedInput = input.replace(',', '.')
+                    val stepLength = normalizedInput.toFloat()
+                    if (stepLength in 1.00..150.00) {
+                        lifecycleScope.launch {
+                            AppPreferences.dataStore.edit { preferences ->
+                                preferences[AppPreferences.PreferenceKeys.STEP_LENGTH] = stepLength
                             }
                         }
                         true
@@ -369,6 +400,49 @@ class SettingsActivity : AppCompatActivity() {
             ContextCompat.startForegroundService(context, serviceIntent)
         }
 
+        private fun stepLengthCalculations() {
+            val stepLengthPreference: EditTextPreference? = findPreference("step_length")
+            stepLengthPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                editText.keyListener = DigitsKeyListener.getInstance("0123456789.,")
+                editText.setSelection(editText.text.length)
+
+                val locale = Locale.getDefault()
+                val formatter = NumberFormat.getNumberInstance(locale).apply {
+                    maximumFractionDigits = 2
+                    minimumFractionDigits = 2
+                    isGroupingUsed = false
+                }
+
+                val hintValue = formatter.format(AppPreferences.height * 0.415)
+                editText.hint = hintValue
+            }
+
+            stepLengthPreference?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { pref ->
+                val value = pref.text
+                val locale = Locale.getDefault()
+                val formatter = NumberFormat.getNumberInstance(locale).apply {
+                    maximumFractionDigits = 2
+                    minimumFractionDigits = 2
+                    isGroupingUsed = false
+                }
+
+                if (!value.isNullOrEmpty()) {
+                    val displayValue = try {
+                        // Normalize input to parse, then reformat based on locale
+                        val normalized = value.replace(',', '.')
+                        val floatVal = normalized.toFloat()
+                        formatter.format(floatVal)
+                    } catch (_: Exception) {
+                        value // Fallback if parsing fails
+                    }
+                    "$displayValue cm"
+                } else {
+                    val defaultStepLength = formatter.format(AppPreferences.height * 0.415)
+                    "~$defaultStepLength cm"
+                }
+            }
+        }
 
         private fun restartApp() {
             val intent = Intent(requireContext(), MainActivity::class.java).apply {

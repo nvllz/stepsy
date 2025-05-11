@@ -22,11 +22,11 @@ object Util {
             return calendar
         }
 
-    fun stepsToDistance(steps: Number): Double {
-        val meters = (steps.toInt() * AppPreferences.height * 0.415) / 100000
+    fun stepsToDistance(steps: Number): Float {
+        val meters = (steps.toInt() * AppPreferences.stepLength) / 100000
         return when (AppPreferences.distanceUnit) {
             DistanceUnit.METRIC -> meters
-            DistanceUnit.IMPERIAL -> meters * 0.621371
+            DistanceUnit.IMPERIAL -> meters * 0.621371f
         }
     }
 

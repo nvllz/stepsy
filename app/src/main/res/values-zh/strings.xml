@@ -58,6 +58,7 @@
 
     <string name="preference_system">系统</string>
     <string name="height_cm">身高（厘米）</string>
+    <string name="step_length">步长</string>
     <string name="weight_kg">体重（公斤）</string>
     <string name="first_day_of_the_week">一周的第一天</string>
     <string name="app_language">语言</string>

@@ -60,6 +60,7 @@
 
     <string name="preference_system">Di sistema</string>
     <string name="height_cm">Altezza (cm)</string>
+    <string name="step_length">Lunghezza del passo</string>
     <string name="weight_kg">Peso (kg)</string>
     <string name="first_day_of_the_week">Primo giorno della settimana</string>
     <string name="app_language">Lingua</string>

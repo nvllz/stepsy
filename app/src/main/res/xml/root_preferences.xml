@@ -19,6 +19,12 @@
             app:icon="@drawable/ic_height" />
 
         <EditTextPreference
+            android:key="step_length"
+            android:title="@string/step_length"
+            android:inputType="number"
+            app:icon="@drawable/ic_step_length" />
+
+        <EditTextPreference
             android:key="weight"
             android:title="@string/weight_kg"
             android:defaultValue="70"
@@ -75,7 +81,6 @@
             android:entryValues="@array/weekdays_values"
             app:useSimpleSummaryProvider="true"
             app:icon="@drawable/ic_firstday" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

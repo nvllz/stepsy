@@ -61,6 +61,7 @@
 
     <string name="preference_system">Системная</string>
     <string name="height_cm">Рост (см)</string>
+    <string name="step_length">Длина шага</string>
     <string name="weight_kg">Вес (кг)</string>
     <string name="first_day_of_the_week">Первый день недели</string>
     <string name="app_language">Язык</string>

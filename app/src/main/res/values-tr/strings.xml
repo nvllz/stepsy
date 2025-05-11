@@ -59,6 +59,7 @@
 
     <string name="preference_system">Sistem varsayılanı</string>
     <string name="height_cm">Boy (cm)</string>
+    <string name="step_length">Adım uzunluğu</string>
     <string name="weight_kg">Kilo (kg)</string>
     <string name="first_day_of_the_week">Haftanın ilk günü</string>
     <string name="app_language">Dil</string>

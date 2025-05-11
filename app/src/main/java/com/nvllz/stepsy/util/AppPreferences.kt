@@ -38,6 +38,7 @@ object AppPreferences {
         val THEME = stringPreferencesKey("theme")
         val HEIGHT = stringPreferencesKey("height")
         val WEIGHT = stringPreferencesKey("weight")
+        val STEP_LENGTH = floatPreferencesKey("step_length")
         val UNIT_SYSTEM = stringPreferencesKey("unit_system")
         val DATE_FORMAT = stringPreferencesKey("date_format")
         val FIRST_DAY_OF_WEEK = stringPreferencesKey("first_day_of_week")
@@ -114,6 +115,23 @@ object AppPreferences {
         get() = runBlocking { weightFlow().first() }
         set(value) = runBlocking {
             dataStore.edit { it[PreferenceKeys.WEIGHT] = value.toString() }
+        }
+
+    fun resetStepLength() {
+        runBlocking {
+            dataStore.edit { it.remove(PreferenceKeys.STEP_LENGTH) }
+        }
+    }
+
+    fun stepLengthFlow(): Flow<Float> = dataStore.data.map {
+        val estimatedStepLength = (it[PreferenceKeys.HEIGHT]!!.toInt() * 0.415).toFloat()
+        it[PreferenceKeys.STEP_LENGTH] ?: estimatedStepLength
+    }
+
+    var stepLength: Float
+        get() = runBlocking { stepLengthFlow().first() }
+        set(value) = runBlocking {
+            dataStore.edit { it[PreferenceKeys.STEP_LENGTH] = value.toFloat() }
         }
 
     // Distance Unit

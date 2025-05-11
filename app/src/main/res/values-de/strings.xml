@@ -59,6 +59,7 @@
 
     <string name="preference_system">Systemvorgabe</string>
     <string name="height_cm">Größe (cm)</string>
+    <string name="step_length">Schrittlänge</string>
     <string name="weight_kg">Gewicht (kg)</string>
     <string name="first_day_of_the_week">Erster Tag der Woche</string>
     <string name="app_language">Sprache</string>

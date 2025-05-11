@@ -61,6 +61,7 @@
 
     <string name="preference_system">Systemowy</string>
     <string name="height_cm">Wzrost (cm)</string>
+    <string name="step_length">Długość kroku</string>
     <string name="weight_kg">Waga (kg)</string>
     <string name="first_day_of_the_week">Pierwszy dzień tygodnia</string>
     <string name="app_language">Język</string>
