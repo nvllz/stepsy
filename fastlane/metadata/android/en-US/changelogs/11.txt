@@ -1,0 +1,10 @@
+New:
+- Custom step length setting: if you're not happy with the calculated value, you can now set it in Settings
+
+Changes:
+- Show numeric keypad for height/weight input
+
+Fixes:
+- Crash if height preference is not set
+- Exclude widget configuration activities from recent apps list
+- Code consistency and cleanup
