@@ -120,6 +120,7 @@
         </receiver>
 
         <activity android:name=".ui.WidgetIconConfigureActivity"
+            android:excludeFromRecents="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
@@ -127,6 +128,7 @@
         </activity>
 
         <activity android:name=".ui.WidgetCompactConfigureActivity"
+            android:excludeFromRecents="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
@@ -134,6 +136,7 @@
         </activity>
 
         <activity android:name=".ui.WidgetPlainConfigureActivity"
+            android:excludeFromRecents="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
