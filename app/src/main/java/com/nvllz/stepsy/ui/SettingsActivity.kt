@@ -8,7 +8,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.text.format.DateUtils
+import android.text.method.DigitsKeyListener
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
@@ -106,6 +108,13 @@ class SettingsActivity : AppCompatActivity() {
                 else -> currentLocales[0]?.language ?: "system"
             }
 
+            var heightPreference : EditTextPreference? = findPreference("height")
+            heightPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+                editText.keyListener = DigitsKeyListener.getInstance("0123456789")
+                editText.setSelection(editText.text.length)
+            }
+
             findPreference<EditTextPreference>("height")?.setOnPreferenceChangeListener { _, newValue ->
                 try {
                     val height = newValue.toString().toInt()
@@ -124,6 +133,13 @@ class SettingsActivity : AppCompatActivity() {
                     Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
                     false
                 }
+            }
+
+            var weightPreference : EditTextPreference? = findPreference("weight")
+            weightPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+                editText.keyListener = DigitsKeyListener.getInstance("0123456789")
+                editText.setSelection(editText.text.length)
             }
 
             findPreference<EditTextPreference>("weight")?.setOnPreferenceChangeListener { _, newValue ->
