@@ -230,7 +230,7 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                 }
                 tags.contains("backup") -> {
                     Log.d(TAG, "Running backup task")
-                    performBackup()
+                    return performBackup()
                 }
                 else -> {
                     Log.w(TAG, "Worker running with no recognized tags")
