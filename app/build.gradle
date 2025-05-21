@@ -68,6 +68,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.14.1'
 
+    implementation "androidx.work:work-runtime-ktx:2.10.1"
+    implementation "androidx.documentfile:documentfile:1.1.0"
+    implementation "androidx.lifecycle:lifecycle-process:2.9.0"
+
     implementation "androidx.datastore:datastore-preferences:1.1.6"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.9.0"

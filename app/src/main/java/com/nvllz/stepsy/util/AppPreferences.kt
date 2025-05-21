@@ -44,6 +44,11 @@ object AppPreferences {
         val FIRST_DAY_OF_WEEK = stringPreferencesKey("first_day_of_week")
         val APP_VERSION_CODE = intPreferencesKey("app_version_code")
         val ALERTDIALOG_LAST_VERSION_CODE = intPreferencesKey("alertdialog_last")
+
+        val AUTO_BACKUP_ENABLED = booleanPreferencesKey("auto_backup_enabled")
+        val BACKUP_LOCATION_URI = stringPreferencesKey("backup_location_uri")
+        val BACKUP_FREQUENCY = stringPreferencesKey("backup_frequency")
+        val BACKUP_RETENTION_COUNT = intPreferencesKey("backup_retention")
     }
 
     lateinit var dataStore: DataStore<Preferences>
@@ -172,6 +177,56 @@ object AppPreferences {
             dataStore.edit { it[PreferenceKeys.FIRST_DAY_OF_WEEK] = value.toString() }
         }
 
+    // Auto Backup Enabled
+    fun autoBackupEnabledFlow(): Flow<Boolean> = dataStore.data.map {
+        it[PreferenceKeys.AUTO_BACKUP_ENABLED] ?: false
+    }
+
+    var autoBackupEnabled: Boolean
+        get() = runBlocking { autoBackupEnabledFlow().first() }
+        set(value) = runBlocking {
+            dataStore.edit { it[PreferenceKeys.AUTO_BACKUP_ENABLED] = value }
+        }
+
+    // Backup Location URI
+    fun backupLocationUriFlow(): Flow<String?> = dataStore.data.map {
+        it[PreferenceKeys.BACKUP_LOCATION_URI]
+    }
+
+    var backupLocationUri: String?
+        get() = runBlocking { backupLocationUriFlow().first() }
+        set(value) = runBlocking {
+            dataStore.edit {
+                if (value != null) {
+                    it[PreferenceKeys.BACKUP_LOCATION_URI] = value
+                } else {
+                    it.remove(PreferenceKeys.BACKUP_LOCATION_URI)
+                }
+            }
+        }
+
+    // Backup Frequency
+    fun backupFrequencyFlow(): Flow<Int> = dataStore.data.map {
+        it[PreferenceKeys.BACKUP_FREQUENCY]?.toIntOrNull() ?: 1
+    }
+
+    var backupFrequency: Int
+        get() = runBlocking { backupFrequencyFlow().first() }
+        set(value) = runBlocking {
+            dataStore.edit { it[PreferenceKeys.BACKUP_FREQUENCY] = value.toString() }
+        }
+
+    // Backup Retention
+    fun backupRetentionFlow(): Flow<Int> = dataStore.data.map {
+        it[PreferenceKeys.BACKUP_RETENTION_COUNT]?.toInt() ?: 5
+    }
+
+    var backupRetention: Int
+        get() = runBlocking { backupRetentionFlow().first() }
+        set(value) = runBlocking {
+            dataStore.edit { it[PreferenceKeys.BACKUP_RETENTION_COUNT] = value }
+        }
+
     @OptIn(DelicateCoroutinesApi::class)
     fun welcomeDialog(context: Context) {
         val dialogTargetVersion = 8 //ver 1.4.9
@@ -218,7 +273,6 @@ object AppPreferences {
             }
         }
     }
-    }
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun showDialogAndUpdateVersion(context: Context, dialogVersion: Int) {
@@ -245,3 +299,4 @@ object AppPreferences {
             }
             .show()
     }
+}

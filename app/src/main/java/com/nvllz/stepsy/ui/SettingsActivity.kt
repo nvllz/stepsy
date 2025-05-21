@@ -41,11 +41,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.datastore.preferences.core.edit
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.SwitchPreferenceCompat
 import com.nvllz.stepsy.BuildConfig
 import com.nvllz.stepsy.util.AppPreferences
+import com.nvllz.stepsy.util.BackupScheduler
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import androidx.core.net.toUri
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -97,11 +102,11 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
 
-            exportLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    result.data?.data?.let { uri -> export(uri) }
-                }
-            }
+//            exportLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//                if (result.resultCode == RESULT_OK) {
+//                    result.data?.data?.let { uri -> export(uri) }
+//                }
+//            }
 
             val currentLocales = AppCompatDelegate.getApplicationLocales()
             val currentLanguage = when {
@@ -271,17 +276,12 @@ class SettingsActivity : AppCompatActivity() {
                 true
             }
 
-            findPreference<Preference>("export")?.setOnPreferenceClickListener {
-                val dateFormat = java.text.SimpleDateFormat("yyyyMMdd-HHmmSS", Locale.getDefault())
-                val currentDate = dateFormat.format(Date())
-                val fileName = "${currentDate}_stepsy.csv"
-
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "text/*"
-                    putExtra(Intent.EXTRA_TITLE, fileName)
-                }
-                exportLauncher.launch(intent)
+            findPreference<Preference>("backup_settings")?.setOnPreferenceClickListener {
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.settings, BackupPreferenceFragment())
+                    .addToBackStack(null)
+                    .commit()
                 true
             }
 
@@ -373,24 +373,158 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun export(uri: Uri) {
-            val db = Database.getInstance(requireContext())
-            try {
-                requireContext().contentResolver.openFileDescriptor(uri, "w")?.use {
-                    FileOutputStream(it.fileDescriptor).bufferedWriter().use { writer ->
-                        var entries = 0
-                        for (entry in db.getEntries(db.firstEntry, db.lastEntry)) {
-                            writer.write("${entry.timestamp},${entry.steps}\r\n")
-                            entries++
-                        }
+        // Add this class inside SettingsActivity class
+        class BackupPreferenceFragment : PreferenceFragmentCompat() {
+            private lateinit var exportLauncher: ActivityResultLauncher<Intent>
 
-                        val resultText = getString(R.string.export_result, entries)
-                        Toast.makeText(context, resultText, Toast.LENGTH_SHORT).show()
+            override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+                setPreferencesFromResource(R.xml.backup_preferences, rootKey)
+
+                exportLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                    if (result.resultCode == RESULT_OK) {
+                        result.data?.data?.let { uri ->
+                            lifecycleScope.launch {
+                                export(uri)
+                                updateBackupLocationSummary(uri)
+                            }
+                        }
                     }
                 }
-            } catch (ex: Exception) {
-                Log.e("SettingsFragment", "Cannot write file", ex)
-                Toast.makeText(context, getString(R.string.cannot_write_file), Toast.LENGTH_SHORT).show()
+
+                // Set up automatic backup switch
+                findPreference<SwitchPreferenceCompat>("auto_backup_enabled")?.setOnPreferenceChangeListener { _, newValue ->
+                    val enabled = newValue as Boolean
+                    lifecycleScope.launch {
+                        AppPreferences.dataStore.edit { preferences ->
+                            preferences[AppPreferences.PreferenceKeys.AUTO_BACKUP_ENABLED] = enabled
+                        }
+
+                        if (enabled) {
+                            // Schedule backup immediately when enabling auto backup
+                            BackupScheduler.scheduleBackup(requireContext(), immediate = true)
+                        } else {
+                            // Cancel all scheduled work when disabling
+                            BackupScheduler.cancelBackup(requireContext())
+                        }
+                    }
+                    // Enable/disable dependent preferences
+                    findPreference<Preference>("backup_location")?.isEnabled = enabled
+                    findPreference<ListPreference>("backup_frequency")?.isEnabled = enabled
+                    findPreference<EditTextPreference>("backup_retention")?.isEnabled = enabled
+                    true
+                }
+
+                // Set up backup location preference
+                findPreference<Preference>("backup_location")?.setOnPreferenceClickListener {
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
+                                Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                    }
+                    exportLauncher.launch(intent)
+                    true
+                }
+
+                // Set up backup retention
+                findPreference<EditTextPreference>("backup_retention_count")?.apply {
+                    setOnBindEditTextListener { editText ->
+                        editText.inputType = InputType.TYPE_CLASS_NUMBER
+                        editText.keyListener = DigitsKeyListener.getInstance("0123456789")
+                        editText.setSelection(editText.text.length)
+                    }
+                    setOnPreferenceChangeListener { _, newValue ->
+                        try {
+                            val retention = newValue.toString().toInt()
+                            if (retention >= 0) {
+                                lifecycleScope.launch {
+                                    AppPreferences.dataStore.edit { preferences ->
+                                        preferences[AppPreferences.PreferenceKeys.BACKUP_RETENTION_COUNT] = retention
+                                    }
+                                }
+                                true
+                            } else {
+                                Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
+                                false
+                            }
+                        } catch (_: Exception) {
+                            Toast.makeText(context, R.string.enter_valid_value, Toast.LENGTH_SHORT).show()
+                            false
+                        }
+                    }
+                }
+
+                findPreference<Preference>("manual_backup")?.setOnPreferenceClickListener {
+                    if (AppPreferences.backupLocationUri == null) {
+                        Toast.makeText(context, R.string.select_backup_location_first, Toast.LENGTH_SHORT).show()
+                        return@setOnPreferenceClickListener true
+                    }
+
+                    lifecycleScope.launch {
+                        export(AppPreferences.backupLocationUri?.toUri() ?: return@launch)
+                    }
+                    true
+                }
+
+                // Initialize preferences state
+                lifecycleScope.launch {
+                    val enabled = AppPreferences.autoBackupEnabled
+                    findPreference<SwitchPreferenceCompat>("auto_backup_enabled")?.isChecked = enabled
+                    findPreference<Preference>("backup_location")?.isEnabled = enabled
+                    findPreference<ListPreference>("backup_frequency")?.isEnabled = enabled
+                    findPreference<EditTextPreference>("backup_retention")?.isEnabled = enabled
+
+                    updateBackupLocationSummary(AppPreferences.backupLocationUri?.toUri())
+                }
+            }
+
+            private suspend fun updateBackupLocationSummary(uri: Uri?) {
+                if (uri == null) return
+
+                // Persist the URI permission
+                requireContext().contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+
+                AppPreferences.dataStore.edit { preferences ->
+                    preferences[AppPreferences.PreferenceKeys.BACKUP_LOCATION_URI] = uri.toString()
+                }
+
+                // Update summary to show the location
+                findPreference<Preference>("backup_location")?.summary =
+                    uri.lastPathSegment ?: getString(R.string.backup_location_not_set)
+            }
+
+            private fun export(uri: Uri) {
+                val db = Database.getInstance(requireContext())
+                try {
+                    // Create a timestamped filename
+                    val dateFormat = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault())
+                    val fileName = "stepsy_${dateFormat.format(Date())}.csv"
+
+                    // Create the file within the selected directory
+                    val documentFile = DocumentFile.fromTreeUri(requireContext(), uri)
+                    val backupFile = documentFile?.createFile("text/csv", fileName)
+
+                    backupFile?.uri?.let { fileUri ->
+                        requireContext().contentResolver.openOutputStream(fileUri)?.use { outputStream ->
+                            outputStream.bufferedWriter().use { writer ->
+                                var entries = 0
+                                for (entry in db.getEntries(db.firstEntry, db.lastEntry)) {
+                                    writer.write("${entry.timestamp},${entry.steps}\r\n")
+                                    entries++
+                                }
+                                val resultText = getString(R.string.export_result, entries)
+                                Toast.makeText(context, resultText, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } ?: run {
+                        Toast.makeText(context, R.string.cannot_create_file, Toast.LENGTH_SHORT).show()
+                    }
+                } catch (ex: Exception) {
+                    Log.e("BackupPreference", "Cannot write file", ex)
+                    Toast.makeText(context, getString(R.string.cannot_write_file), Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

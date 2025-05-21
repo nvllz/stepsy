@@ -93,7 +93,7 @@
             app:icon="@drawable/ic_import" />
 
         <Preference
-            android:key="export"
+            android:key="backup_settings"
             android:title="@string/export_data"
             app:icon="@drawable/ic_export" />
     </PreferenceCategory>
