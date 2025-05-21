@@ -72,7 +72,8 @@ dependencies {
     implementation "androidx.documentfile:documentfile:1.1.0"
     implementation "androidx.lifecycle:lifecycle-process:2.9.0"
 
-    implementation "androidx.datastore:datastore-preferences:1.1.6"
+
+    implementation "androidx.datastore:datastore-preferences:1.1.7"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.9.0"
 }

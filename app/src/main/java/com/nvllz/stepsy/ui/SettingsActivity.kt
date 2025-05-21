@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.text.InputType
 import android.text.format.DateUtils
 import android.text.method.DigitsKeyListener
@@ -376,6 +377,7 @@ class SettingsActivity : AppCompatActivity() {
         // Add this class inside SettingsActivity class
         class BackupPreferenceFragment : PreferenceFragmentCompat() {
             private lateinit var exportLauncher: ActivityResultLauncher<Intent>
+            private val TAG = "BackupPreferenceFragment"
 
             override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
                 setPreferencesFromResource(R.xml.backup_preferences, rootKey)
@@ -384,8 +386,14 @@ class SettingsActivity : AppCompatActivity() {
                     if (result.resultCode == RESULT_OK) {
                         result.data?.data?.let { uri ->
                             lifecycleScope.launch {
-                                export(uri)
                                 updateBackupLocationSummary(uri)
+
+                                // Run immediate backup if auto backup is enabled
+                                if (AppPreferences.autoBackupEnabled) {
+                                    export(uri)
+                                    // Reschedule backup when location changes
+                                    BackupScheduler.scheduleBackup(requireContext(), immediate = true)
+                                }
                             }
                         }
                     }
@@ -400,28 +408,45 @@ class SettingsActivity : AppCompatActivity() {
                         }
 
                         if (enabled) {
-                            // Schedule backup immediately when enabling auto backup
-                            BackupScheduler.scheduleBackup(requireContext(), immediate = true)
+                            // Check if backup location is set, if not prompt user
+                            if (AppPreferences.backupLocationUri == null) {
+                                promptForBackupLocation()
+                            } else {
+                                // Schedule backup immediately when enabling auto backup
+                                BackupScheduler.scheduleBackup(requireContext(), immediate = true)
+                            }
                         } else {
                             // Cancel all scheduled work when disabling
                             BackupScheduler.cancelBackup(requireContext())
                         }
                     }
-                    // Enable/disable dependent preferences
-                    findPreference<Preference>("backup_location")?.isEnabled = enabled
+
+                    // Only disable backup frequency and retention preferences, keep location and manual backup enabled
                     findPreference<ListPreference>("backup_frequency")?.isEnabled = enabled
-                    findPreference<EditTextPreference>("backup_retention")?.isEnabled = enabled
+                    findPreference<EditTextPreference>("backup_retention_count")?.isEnabled = enabled
                     true
                 }
 
                 // Set up backup location preference
                 findPreference<Preference>("backup_location")?.setOnPreferenceClickListener {
-                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-                        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
-                                Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                    promptForBackupLocation()
+                    true
+                }
+
+                // Set up backup frequency preference
+                findPreference<ListPreference>("backup_frequency")?.setOnPreferenceChangeListener { _, newValue ->
+                    val frequency = newValue.toString().toInt()
+                    lifecycleScope.launch {
+                        AppPreferences.dataStore.edit { preferences ->
+                            preferences[AppPreferences.PreferenceKeys.BACKUP_FREQUENCY] = frequency.toString()
+                        }
+
+                        // Only reschedule backups if auto backup is enabled
+                        if (AppPreferences.autoBackupEnabled) {
+                            // Reschedule backups with new frequency
+                            BackupScheduler.scheduleBackup(requireContext())
+                        }
                     }
-                    exportLauncher.launch(intent)
                     true
                 }
 
@@ -440,6 +465,9 @@ class SettingsActivity : AppCompatActivity() {
                                     AppPreferences.dataStore.edit { preferences ->
                                         preferences[AppPreferences.PreferenceKeys.BACKUP_RETENTION_COUNT] = retention
                                     }
+
+                                    // Run cleanup immediately with new retention value
+                                    BackupScheduler.scheduleImmediateCleanup(requireContext())
                                 }
                                 true
                             } else {
@@ -456,6 +484,7 @@ class SettingsActivity : AppCompatActivity() {
                 findPreference<Preference>("manual_backup")?.setOnPreferenceClickListener {
                     if (AppPreferences.backupLocationUri == null) {
                         Toast.makeText(context, R.string.select_backup_location_first, Toast.LENGTH_SHORT).show()
+                        promptForBackupLocation()
                         return@setOnPreferenceClickListener true
                     }
 
@@ -469,33 +498,67 @@ class SettingsActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     val enabled = AppPreferences.autoBackupEnabled
                     findPreference<SwitchPreferenceCompat>("auto_backup_enabled")?.isChecked = enabled
-                    findPreference<Preference>("backup_location")?.isEnabled = enabled
+
+                    // Only enable backup frequency and retention if auto backup is enabled
                     findPreference<ListPreference>("backup_frequency")?.isEnabled = enabled
-                    findPreference<EditTextPreference>("backup_retention")?.isEnabled = enabled
+                    findPreference<EditTextPreference>("backup_retention_count")?.isEnabled = enabled
+
+                    // Backup location and manual backup always enabled
+                    findPreference<Preference>("backup_location")?.isEnabled = true
+                    findPreference<Preference>("manual_backup")?.isEnabled = true
 
                     updateBackupLocationSummary(AppPreferences.backupLocationUri?.toUri())
                 }
             }
 
-            private suspend fun updateBackupLocationSummary(uri: Uri?) {
-                if (uri == null) return
-
-                // Persist the URI permission
-                requireContext().contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                )
-
-                AppPreferences.dataStore.edit { preferences ->
-                    preferences[AppPreferences.PreferenceKeys.BACKUP_LOCATION_URI] = uri.toString()
+            private fun promptForBackupLocation() {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
+                            Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
                 }
-
-                // Update summary to show the location
-                findPreference<Preference>("backup_location")?.summary =
-                    uri.lastPathSegment ?: getString(R.string.backup_location_not_set)
+                exportLauncher.launch(intent)
             }
 
-            private fun export(uri: Uri) {
+            private suspend fun updateBackupLocationSummary(uri: Uri?) {
+                if (uri == null) {
+                    findPreference<Preference>("backup_location")?.summary = getString(R.string.backup_location_not_set)
+                    return
+                }
+
+                try {
+                    // Persist the URI permission
+                    requireContext().contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    )
+
+                    AppPreferences.dataStore.edit { preferences ->
+                        preferences[AppPreferences.PreferenceKeys.BACKUP_LOCATION_URI] = uri.toString()
+                    }
+
+                    // Try to extract user-friendly folder path
+                    val displayPath = DocumentsContract.getTreeDocumentId(uri)
+                        .substringAfter(':', "") // Get path after volume ID
+
+                    val displayName = if (displayPath.isNotEmpty()) {
+                        displayPath
+                    } else {
+                        getString(R.string.backup_location_set)
+                    }
+
+                    // Update summary to show the location
+                    findPreference<Preference>("backup_location")?.summary = displayName
+
+                    Log.d(TAG, "Backup location set to: $displayName (URI: $uri)")
+
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error setting backup location URI permissions", e)
+                    findPreference<Preference>("backup_location")?.summary = getString(R.string.backup_location_error)
+                }
+            }
+
+            private suspend fun export(uri: Uri) {
                 val db = Database.getInstance(requireContext())
                 try {
                     // Create a timestamped filename
@@ -522,7 +585,7 @@ class SettingsActivity : AppCompatActivity() {
                         Toast.makeText(context, R.string.cannot_create_file, Toast.LENGTH_SHORT).show()
                     }
                 } catch (ex: Exception) {
-                    Log.e("BackupPreference", "Cannot write file", ex)
+                    Log.e(TAG, "Cannot write file", ex)
                     Toast.makeText(context, getString(R.string.cannot_write_file), Toast.LENGTH_SHORT).show()
                 }
             }

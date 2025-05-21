@@ -112,4 +112,6 @@
     <string name="select_backup_location_first">Select backup location first</string>
     <string name="backup_retention_count">Number of backups to keep</string>
     <string name="backup_retention_count_summary">Keep this many recent backups (0 to keep all)</string>
+    <string name="backup_location_error">Backup location error</string>
+    <string name="backup_location_set">Backup location set</string>
 </resources>

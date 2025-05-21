@@ -18,8 +18,50 @@ import kotlinx.coroutines.delay
 
 object BackupScheduler {
     private const val TAG = "BackupScheduler"
-    private const val IMMEDIATE_WORK_NAME = "stepsy_immediate_backup"
-    private const val PERIODIC_WORK_NAME = "stepsy_periodic_backup"
+    private const val IMMEDIATE_BACKUP_WORK_NAME = "stepsy_immediate_backup"
+    private const val IMMEDIATE_CLEANUP_WORK_NAME = "stepsy_immediate_cleanup"
+    private const val PERIODIC_BACKUP_WORK_NAME = "stepsy_periodic_backup"
+    private const val PERIODIC_CLEANUP_WORK_NAME = "stepsy_periodic_cleanup"
+
+    // Call this when:
+    // 1. App starts (in MainActivity.onCreate or Application.onCreate)
+    // 2. After backup settings are changed
+    fun ensureBackupScheduled(context: Context) {
+        Log.d(TAG, "Ensuring backup is properly scheduled...")
+
+        // Check if auto backup is enabled
+        if (!AppPreferences.autoBackupEnabled) {
+            Log.d(TAG, "Auto backup disabled - cancelling all scheduled backups")
+            cancelBackup(context)
+            return
+        }
+
+        // Check if backup location is set
+        if (AppPreferences.backupLocationUri == null) {
+            Log.d(TAG, "Backup location not set - skipping scheduling")
+            return
+        }
+
+        // Get current scheduled work info to see if we need to reschedule
+        val workManager = WorkManager.getInstance(context)
+
+        // Check backup work states
+        val periodicBackupWorkInfos = workManager.getWorkInfosForUniqueWork(PERIODIC_BACKUP_WORK_NAME)
+            .get()
+
+        val needsReschedule = periodicBackupWorkInfos.isEmpty() ||
+                periodicBackupWorkInfos.all {
+                    it.state == WorkInfo.State.CANCELLED ||
+                            it.state == WorkInfo.State.FAILED
+                }
+
+        if (needsReschedule) {
+            Log.d(TAG, "Backup needs to be rescheduled")
+            scheduleBackup(context)
+        } else {
+            Log.d(TAG, "Backup already scheduled properly")
+        }
+    }
 
     fun scheduleBackup(context: Context, immediate: Boolean = false) {
         Log.d(TAG, "Scheduling backup...")
@@ -30,21 +72,28 @@ object BackupScheduler {
             return
         }
 
+        if (AppPreferences.backupLocationUri == null) {
+            Log.d(TAG, "Backup location not set - cannot schedule backup")
+            return
+        }
+
         val backupIntervalDays = AppPreferences.backupFrequency.toLong()
-        val initialDelay = calculateTimeToMidnight()
+
+        // Calculate initial delay based on interval days
+        val initialDelay = calculateNextBackupTime(backupIntervalDays)
 
         // Calculate and log the next run time
         val nextRunMillis = System.currentTimeMillis() + initialDelay
         val nextRunTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             .format(Date(nextRunMillis))
 
-        Log.d(TAG, "Next backup scheduled for: $nextRunTime")
+        Log.d(TAG, "Next backup scheduled for: $nextRunTime (every $backupIntervalDays days)")
 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
             .build()
 
-        // Create a chain: backup -> cleanup
+        // Create separate workers for backup and cleanup
         val backupWork = OneTimeWorkRequestBuilder<BackupWorker>()
             .setConstraints(constraints)
             .addTag("backup")
@@ -56,9 +105,10 @@ object BackupScheduler {
             .build()
 
         if (immediate) {
+            // Schedule immediate backup followed by cleanup
             WorkManager.getInstance(context)
                 .beginUniqueWork(
-                    IMMEDIATE_WORK_NAME,
+                    IMMEDIATE_BACKUP_WORK_NAME,
                     ExistingWorkPolicy.REPLACE,
                     backupWork
                 )
@@ -66,50 +116,96 @@ object BackupScheduler {
                 .enqueue()
         }
 
-        // Schedule periodic work with the same chain
-        // Schedule periodic work
-        val periodicWork = PeriodicWorkRequestBuilder<BackupWorker>(
+        // Schedule periodic backup work
+        val periodicBackupWork = PeriodicWorkRequestBuilder<BackupWorker>(
             backupIntervalDays, TimeUnit.DAYS
         )
             .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .setConstraints(constraints)
             .addTag("backup")
-            .addTag("cleanup")  // Add both tags to periodic work
             .build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            PERIODIC_WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
-            periodicWork
+            PERIODIC_BACKUP_WORK_NAME,
+            ExistingPeriodicWorkPolicy.REPLACE, // Use REPLACE to ensure period changes take effect
+            periodicBackupWork
         )
 
-        // Also schedule a one-time cleanup after periodic work
-        WorkManager.getInstance(context)
-            .beginUniqueWork(
-                "$PERIODIC_WORK_NAME-cleanup",
-                ExistingWorkPolicy.KEEP,
-                cleanupWork
-            )
-            .enqueue()
+        // Schedule periodic cleanup work to run after backup
+        val periodicCleanupWork = PeriodicWorkRequestBuilder<BackupWorker>(
+            backupIntervalDays, TimeUnit.DAYS
+        )
+            .setInitialDelay(initialDelay + 5000, TimeUnit.MILLISECONDS) // Run 5 seconds after backup
+            .setConstraints(constraints)
+            .addTag("cleanup")
+            .build()
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            PERIODIC_CLEANUP_WORK_NAME,
+            ExistingPeriodicWorkPolicy.REPLACE, // Use REPLACE to ensure period changes take effect
+            periodicCleanupWork
+        )
     }
 
-    private fun calculateTimeToMidnight(): Long {
+    /**
+     * Calculate the time to next backup based on the interval days
+     * If interval is 1, schedule for next midnight
+     * If interval is > 1, schedule for midnight + interval-1 days
+     */
+    private fun calculateNextBackupTime(intervalDays: Long): Long {
         val now = System.currentTimeMillis()
         val calendar = Calendar.getInstance().apply {
             timeInMillis = now
+            // Set to next midnight
             add(Calendar.DAY_OF_MONTH, 1)
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 10)
+            set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
+
+            // Add extra days for intervals > 1
+            // For daily backups (interval=1), we keep it at next midnight
+            // For intervals > 1, we add (interval-1) days
+            if (intervalDays > 1) {
+                add(Calendar.DAY_OF_MONTH, intervalDays.toInt() - 1)
+            }
         }
-        return calendar.timeInMillis - now
+
+        val nextBackupTime = calendar.timeInMillis - now
+        Log.d(TAG, "Next backup in ${nextBackupTime / (1000 * 60 * 60)} hours")
+        return nextBackupTime
+    }
+
+    fun scheduleImmediateCleanup(context: Context) {
+        if (!AppPreferences.autoBackupEnabled) {
+            Log.d(TAG, "Auto backup disabled - cannot schedule cleanup")
+            return
+        }
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+            .build()
+
+        val cleanupWork = OneTimeWorkRequestBuilder<BackupWorker>()
+            .setConstraints(constraints)
+            .addTag("cleanup")
+            .build()
+
+        WorkManager.getInstance(context)
+            .enqueueUniqueWork(
+                IMMEDIATE_CLEANUP_WORK_NAME,
+                ExistingWorkPolicy.REPLACE,
+                cleanupWork
+            )
     }
 
     fun cancelBackup(context: Context) {
         Log.d(TAG, "Cancelling all backup work")
-        WorkManager.getInstance(context).cancelUniqueWork(IMMEDIATE_WORK_NAME)
-        WorkManager.getInstance(context).cancelUniqueWork(PERIODIC_WORK_NAME)
+        // Cancel all backup and cleanup work
+        WorkManager.getInstance(context).cancelUniqueWork(IMMEDIATE_BACKUP_WORK_NAME)
+        WorkManager.getInstance(context).cancelUniqueWork(IMMEDIATE_CLEANUP_WORK_NAME)
+        WorkManager.getInstance(context).cancelUniqueWork(PERIODIC_BACKUP_WORK_NAME)
+        WorkManager.getInstance(context).cancelUniqueWork(PERIODIC_CLEANUP_WORK_NAME)
     }
 }
 
@@ -120,8 +216,8 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         Log.d(TAG, "Starting backup work at ${Date(System.currentTimeMillis())}...")
         Log.d(TAG, "Tags: ${tags}")
 
-        if (!AppPreferences.autoBackupEnabled) {
-            Log.d(TAG, "Auto backup disabled - skipping")
+        if (!AppPreferences.autoBackupEnabled && tags.contains("backup")) {
+            Log.d(TAG, "Auto backup disabled - skipping backup task")
             return Result.success()
         }
 
@@ -132,9 +228,13 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                     cleanupOldBackups()
                     Result.success()
                 }
-                else -> {
+                tags.contains("backup") -> {
                     Log.d(TAG, "Running backup task")
                     performBackup()
+                }
+                else -> {
+                    Log.w(TAG, "Worker running with no recognized tags")
+                    Result.success()
                 }
             }
         } catch (e: Exception) {
