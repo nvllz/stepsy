@@ -30,8 +30,8 @@ object BackupScheduler {
         Log.d(TAG, "Ensuring backup is properly scheduled...")
 
         // Check if auto backup is enabled
-        if (!AppPreferences.autoBackupEnabled) {
-            Log.d(TAG, "Auto backup disabled - cancelling all scheduled backups")
+        if (AppPreferences.backupFrequency == 0) {
+            Log.d(TAG, "Backup disabled - cancelling all scheduled backups")
             cancelBackup(context)
             return
         }
@@ -67,7 +67,7 @@ object BackupScheduler {
         Log.d(TAG, "Scheduling backup...")
         cancelBackup(context)
 
-        if (!AppPreferences.autoBackupEnabled) {
+        if (AppPreferences.backupFrequency == 0) {
             Log.d(TAG, "Auto backup disabled - backup cancelled")
             return
         }
@@ -177,7 +177,7 @@ object BackupScheduler {
     }
 
     fun scheduleImmediateCleanup(context: Context) {
-        if (!AppPreferences.autoBackupEnabled) {
+        if (AppPreferences.backupFrequency == 0) {
             Log.d(TAG, "Auto backup disabled - cannot schedule cleanup")
             return
         }
@@ -216,7 +216,7 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         Log.d(TAG, "Starting backup work at ${Date(System.currentTimeMillis())}...")
         Log.d(TAG, "Tags: ${tags}")
 
-        if (!AppPreferences.autoBackupEnabled && tags.contains("backup")) {
+        if (AppPreferences.backupFrequency == 0 && tags.contains("backup")) {
             Log.d(TAG, "Auto backup disabled - skipping backup task")
             return Result.success()
         }

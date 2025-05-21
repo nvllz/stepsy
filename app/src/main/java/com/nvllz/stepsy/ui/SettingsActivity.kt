@@ -399,34 +399,6 @@ class SettingsActivity : AppCompatActivity() {
                     }
                 }
 
-                // Set up automatic backup switch
-                findPreference<SwitchPreferenceCompat>("auto_backup_enabled")?.setOnPreferenceChangeListener { _, newValue ->
-                    val enabled = newValue as Boolean
-                    lifecycleScope.launch {
-                        AppPreferences.dataStore.edit { preferences ->
-                            preferences[AppPreferences.PreferenceKeys.AUTO_BACKUP_ENABLED] = enabled
-                        }
-
-                        if (enabled) {
-                            // Check if backup location is set, if not prompt user
-                            if (AppPreferences.backupLocationUri == null) {
-                                promptForBackupLocation()
-                            } else {
-                                // Schedule backup immediately when enabling auto backup
-                                BackupScheduler.scheduleBackup(requireContext(), immediate = true)
-                            }
-                        } else {
-                            // Cancel all scheduled work when disabling
-                            BackupScheduler.cancelBackup(requireContext())
-                        }
-                    }
-
-                    // Only disable backup frequency and retention preferences, keep location and manual backup enabled
-                    findPreference<ListPreference>("backup_frequency")?.isEnabled = enabled
-                    findPreference<EditTextPreference>("backup_retention_count")?.isEnabled = enabled
-                    true
-                }
-
                 // Set up backup location preference
                 findPreference<Preference>("backup_location")?.setOnPreferenceClickListener {
                     promptForBackupLocation()
@@ -441,10 +413,14 @@ class SettingsActivity : AppCompatActivity() {
                             preferences[AppPreferences.PreferenceKeys.BACKUP_FREQUENCY] = frequency.toString()
                         }
 
-                        // Only reschedule backups if auto backup is enabled
-                        if (AppPreferences.autoBackupEnabled) {
-                            // Reschedule backups with new frequency
+                        // Enable/disable other preferences based on whether backup is enabled
+                        findPreference<EditTextPreference>("backup_retention_count")?.isEnabled = frequency > 0
+                        findPreference<Preference>("manual_backup")?.isEnabled = frequency > 0
+
+                        if (frequency > 0) {
                             BackupScheduler.scheduleBackup(requireContext())
+                        } else {
+                            BackupScheduler.cancelBackup(requireContext())
                         }
                     }
                     true
@@ -496,16 +472,12 @@ class SettingsActivity : AppCompatActivity() {
 
                 // Initialize preferences state
                 lifecycleScope.launch {
-                    val enabled = AppPreferences.autoBackupEnabled
-                    findPreference<SwitchPreferenceCompat>("auto_backup_enabled")?.isChecked = enabled
+                    val frequency = AppPreferences.backupFrequency
+                    findPreference<ListPreference>("backup_frequency")?.value = frequency.toString()
 
-                    // Only enable backup frequency and retention if auto backup is enabled
-                    findPreference<ListPreference>("backup_frequency")?.isEnabled = enabled
-                    findPreference<EditTextPreference>("backup_retention_count")?.isEnabled = enabled
-
-                    // Backup location and manual backup always enabled
-                    findPreference<Preference>("backup_location")?.isEnabled = true
-                    findPreference<Preference>("manual_backup")?.isEnabled = true
+                    // Enable/disable other preferences based on initial state
+                    findPreference<EditTextPreference>("backup_retention_count")?.isEnabled = frequency > 0
+                    findPreference<Preference>("manual_backup")?.isEnabled
 
                     updateBackupLocationSummary(AppPreferences.backupLocationUri?.toUri())
                 }

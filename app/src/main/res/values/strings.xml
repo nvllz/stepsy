@@ -99,11 +99,9 @@
     <string name="widget_pref_bg_opacity">Background Opacity</string>
     <string name="widget_pref_btn_save">Save</string>
 
-    <string name="auto_backup_enabled">Automatic backup</string>
-    <string name="auto_backup_summary">Enable periodic automatic backups</string>
     <string name="backup_location">Backup location</string>
     <string name="backup_location_not_set">Not set</string>
-    <string name="backup_frequency">Backup frequency</string>
+    <string name="backup_frequency">Automatic backup frequency</string>
     <string name="backup_retention">Backup retention (days)</string>
     <string name="backup_retention_summary">Number of days to keep backups</string>
     <string name="manual_backup">Manual backup</string>

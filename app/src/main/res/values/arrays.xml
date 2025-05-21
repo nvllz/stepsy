@@ -79,6 +79,7 @@
     </string-array>
 
     <string-array name="backup_frequency_entries">
+        <item>Disabled</item>
         <item>Daily</item>
         <item>Every 2 days</item>
         <item>Every 3 days</item>
@@ -88,6 +89,7 @@
     </string-array>
 
     <string-array name="backup_frequency_values">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
