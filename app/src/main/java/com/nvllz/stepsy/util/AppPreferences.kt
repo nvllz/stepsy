@@ -21,8 +21,6 @@ import androidx.core.text.HtmlCompat
 import androidx.preference.PreferenceManager
 import com.nvllz.stepsy.BuildConfig
 import com.nvllz.stepsy.R
-import com.nvllz.stepsy.util.AppPreferences.PreferenceKeys
-import com.nvllz.stepsy.util.AppPreferences.dataStore
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -45,7 +43,6 @@ object AppPreferences {
         val APP_VERSION_CODE = intPreferencesKey("app_version_code")
         val ALERTDIALOG_LAST_VERSION_CODE = intPreferencesKey("alertdialog_last")
 
-        val AUTO_BACKUP_ENABLED = booleanPreferencesKey("auto_backup_enabled")
         val BACKUP_LOCATION_URI = stringPreferencesKey("backup_location_uri")
         val BACKUP_FREQUENCY = stringPreferencesKey("backup_frequency")
         val BACKUP_RETENTION_COUNT = intPreferencesKey("backup_retention")
@@ -177,17 +174,6 @@ object AppPreferences {
             dataStore.edit { it[PreferenceKeys.FIRST_DAY_OF_WEEK] = value.toString() }
         }
 
-    // Auto Backup Enabled
-    fun autoBackupEnabledFlow(): Flow<Boolean> = dataStore.data.map {
-        it[PreferenceKeys.AUTO_BACKUP_ENABLED] ?: false
-    }
-
-    var autoBackupEnabled: Boolean
-        get() = runBlocking { autoBackupEnabledFlow().first() }
-        set(value) = runBlocking {
-            dataStore.edit { it[PreferenceKeys.AUTO_BACKUP_ENABLED] = value }
-        }
-
     // Backup Location URI
     fun backupLocationUriFlow(): Flow<String?> = dataStore.data.map {
         it[PreferenceKeys.BACKUP_LOCATION_URI]
@@ -207,7 +193,7 @@ object AppPreferences {
 
     // Backup Frequency
     fun backupFrequencyFlow(): Flow<Int> = dataStore.data.map {
-        it[PreferenceKeys.BACKUP_FREQUENCY]?.toIntOrNull() ?: 1
+        it[PreferenceKeys.BACKUP_FREQUENCY]?.toIntOrNull() ?: 0
     }
 
     var backupFrequency: Int

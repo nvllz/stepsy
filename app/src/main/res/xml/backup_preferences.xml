@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <Preference
-        android:key="backup_location"
-        android:title="@string/backup_location"
-        android:summary="@string/backup_location_not_set"
-        app:iconSpaceReserved="true" />
-
     <ListPreference
         android:key="backup_frequency"
         android:title="@string/backup_frequency"
         android:entries="@array/backup_frequency_entries"
         android:entryValues="@array/backup_frequency_values"
-        android:defaultValue="1"
+        android:defaultValue="0"
         app:useSimpleSummaryProvider="true"
         app:iconSpaceReserved="true" />
 
     <EditTextPreference
         android:key="backup_retention_count"
         android:title="@string/backup_retention_count"
-        android:summary="@string/backup_retention_count_summary"
+        android:summary=""
         android:defaultValue="5"
         android:inputType="number"
         app:useSimpleSummaryProvider="true"
         app:iconSpaceReserved="true" />
 
     <Preference
+        android:key="backup_location"
+        android:title="@string/backup_location"
+        android:summary="@string/backup_location_not_set"
+        app:iconSpaceReserved="true" />
+
+    <Preference
         android:key="manual_backup"
         android:title="@string/manual_backup"
-        android:summary="@string/manual_backup_summary"
         app:iconSpaceReserved="true"
         app:icon="@drawable/ic_export" />
-
 </PreferenceScreen>
