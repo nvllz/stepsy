@@ -78,6 +78,7 @@
         <item>zh</item>
     </string-array>
 
+    <!-- Backup Frequency -->
     <string-array name="backup_frequency_entries">
         <item>Disabled</item>
         <item>Daily</item>

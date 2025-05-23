@@ -19,4 +19,15 @@
         <item>Метрическая (км)</item>
         <item>Имперская (мили)</item>
     </string-array>
+
+    <!-- Backup Frequency -->
+    <string-array name="backup_frequency_entries">
+        <item>Отключено</item>
+        <item>Ежедневно</item>
+        <item>Каждые 2 дня</item>
+        <item>Каждые 3 дня</item>
+        <item>Еженедельно</item>
+        <item>Каждые 2 недели</item>
+        <item>Ежемесячно</item>
+    </string-array>
 </resources>
