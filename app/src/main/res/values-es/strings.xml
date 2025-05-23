@@ -68,6 +68,12 @@
     <string name="date_format">Formato de fecha</string>
     <string name="unit_system">Sistema de unidades</string>
     <string name="export_data">Exportar</string>
+    <string name="backup_frequency">Frecuencia de copia de seguridad automática</string>
+    <string name="backup_retention_count">Número de copias de seguridad a conservar</string>
+    <string name="backup_retention_hint">(0 para conservar todas)</string>
+    <string name="backup_location">Ubicación de la copia de seguridad</string>
+    <string name="backup_location_not_set">No establecido</string>
+    <string name="manual_backup">Copia de seguridad manual</string>
     <string name="import_data">Importar</string>
 
     <string name="header_about">Información de la app</string>
@@ -87,9 +93,9 @@
 
     <!-- Toasts -->
     <string name="enter_valid_value">Por favor, introduce un valor válido</string>
-    <string name="cannot_write_file">No se puede escribir el archivo</string>
     <string name="cannot_open_file">No se puede abrir el archivo</string>
-    <string name="export_result">Se exportaron %1$d entradas.</string>
+    <string name="manual_backup_successful">Copia de seguridad manual realizada con éxito</string>
+    <string name="select_backup_location_first">Selecciona primero la ubicación de la copia de seguridad</string>
     <string name="import_result">%1$d entradas importadas (%2$d fallidas). %3$s</string>
     <string name="today_steps_set">Los pasos de hoy se establecieron en %1$d.</string>
 

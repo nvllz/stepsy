@@ -67,6 +67,12 @@
     <string name="date_format">তারিখের ফরম্যাট</string>
     <string name="unit_system">একক পদ্ধতি</string>
     <string name="export_data">রপ্তানি</string>
+    <string name="backup_frequency">স্বয়ংক্রিয় ব্যাকআপের ফ্রিকোয়েন্সি</string>
+    <string name="backup_retention_count">রাখার জন্য ব্যাকআপের সংখ্যা</string>
+    <string name="backup_retention_hint">(সব রাখতে ০ দিন)</string>
+    <string name="backup_location">ব্যাকআপ লোকেশন</string>
+    <string name="backup_location_not_set">নির্ধারিত নয়</string>
+    <string name="manual_backup">ম্যানুয়াল ব্যাকআপ</string>
     <string name="import_data">আমদানি</string>
 
     <string name="header_about">অ্যাপ তথ্য</string>
@@ -86,9 +92,9 @@
 
     <!-- Toasts -->
     <string name="enter_valid_value">একটি বৈধ মান লিখুন</string>
-    <string name="cannot_write_file">ফাইল লেখা যাচ্ছে না</string>
     <string name="cannot_open_file">ফাইল খোলা যাচ্ছে না</string>
-    <string name="export_result">%1$d টি এন্ট্রি এক্সপোর্ট করা হয়েছে।</string>
+    <string name="manual_backup_successful">ম্যানুয়াল ব্যাকআপ সফল হয়েছে</string>
+    <string name="select_backup_location_first">প্রথমে ব্যাকআপ লোকেশন নির্বাচন করুন</string>
     <string name="import_result">%1$d টি এন্ট্রি ইমপোর্ট হয়েছে (%2$d ব্যর্থ)। %3$s</string>
     <string name="today_steps_set">আজকের পদক্ষেপ %1$d এ সেট করা হয়েছে।</string>
 

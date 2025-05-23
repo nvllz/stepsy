@@ -69,6 +69,12 @@
     <string name="date_format">Format daty</string>
     <string name="unit_system">System jednostek</string>
     <string name="export_data">Eksportuj</string>
+    <string name="backup_frequency">Częstotliwość automatycznych kopii zapasowych</string>
+    <string name="backup_retention_count">Liczba przechowywanych kopii</string>
+    <string name="backup_retention_hint">(0, aby zachować wszystkie)</string>
+    <string name="backup_location">Lokalizacja kopii zapasowej</string>
+    <string name="backup_location_not_set">Nie ustawiono</string>
+    <string name="manual_backup">Ręczna kopia zapasowa</string>
     <string name="import_data">Importuj</string>
 
     <string name="header_about">Informacje o aplikacji</string>
@@ -88,9 +94,9 @@
 
     <!-- Toasts -->
     <string name="enter_valid_value">Wprowadź poprawną wartość</string>
-    <string name="cannot_write_file">Nie można zapisać pliku</string>
     <string name="cannot_open_file">Nie można otworzyć pliku</string>
-    <string name="export_result">Wyeksportowano %1$d wpisów.</string>
+    <string name="manual_backup_successful">Ręczna kopia zapasowa została wykonana</string>
+    <string name="select_backup_location_first">Najpierw wybierz lokalizację kopii zapasowej</string>
     <string name="import_result">Zaimportowano %1$d wpisów (%2$d nieudanych). %3$s</string>
     <string name="today_steps_set">Dzisiejsze kroki ustawione na %1$d.</string>
 
