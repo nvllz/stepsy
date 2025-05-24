@@ -5,6 +5,7 @@
 package com.nvllz.stepsy.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -48,7 +49,8 @@ internal class MainActivity : AppCompatActivity() {
     private lateinit var mTextViewCalories: TextView
     private lateinit var mCalendarView: CalendarView
     private lateinit var mChart: Chart
-    private lateinit var mTextViewChart: TextView
+    private lateinit var mTextViewChartHeader: TextView
+    private lateinit var mTextViewChartWeekRange: TextView
     private var mCurrentSteps: Int = 0
     private var mSelectedMonth = Util.calendar
     private var isPaused = false
@@ -152,7 +154,8 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         mChart = findViewById(R.id.chart)
-        mTextViewChart = findViewById(R.id.textViewChart)
+        mTextViewChartHeader = findViewById(R.id.textViewChartHeader)
+        mTextViewChartWeekRange = findViewById(R.id.textViewChartWeekRange)
         mCalendarView = findViewById(R.id.calendar)
         mCalendarView.minDate = Database.getInstance(this).firstEntry.let {
             if (it == 0L)
@@ -640,6 +643,7 @@ internal class MainActivity : AppCompatActivity() {
         return entries.firstOrNull()
     }
 
+    @SuppressLint("StringFormatMatches")
     private fun updateChart() {
         val timeZone = getDeviceTimeZone()
 
@@ -687,7 +691,6 @@ internal class MainActivity : AppCompatActivity() {
         val monthSteps = Database.getInstance(this).getSumSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
         val avgSteps = Database.getInstance(this).avgSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
 
-        // Update month stats
         mTextViewMonthTotal.text = String.format(
             getString(R.string.steps_format),
             monthSteps.toString(),
@@ -702,39 +705,95 @@ internal class MainActivity : AppCompatActivity() {
             Util.getDistanceUnitString()
         )
 
-        val min = Calendar.getInstance().apply {
-            timeInMillis = mSelectedMonth.timeInMillis
-            firstDayOfWeek = AppPreferences.firstDayOfWeek
-            set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
+        val isToday = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-        }
+        }.timeInMillis == Calendar.getInstance().apply {
+            timeInMillis = mSelectedMonth.timeInMillis
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
 
-        val max = Calendar.getInstance().apply {
-            timeInMillis = min.timeInMillis
-            add(Calendar.DAY_OF_YEAR, 6)
-            set(Calendar.HOUR_OF_DAY, 1)
+        val min: Calendar
+        val max: Calendar
+
+        if (isToday) {
+            // Show past 7 days
+            min = Calendar.getInstance(timeZone).apply {
+                add(Calendar.DAY_OF_YEAR, -6) // Go back 6 days to include today as the 7th day
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+
+            max = Calendar.getInstance(timeZone).apply {
+                set(Calendar.HOUR_OF_DAY, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+                set(Calendar.MILLISECOND, 999)
+            }
+        } else {
+            // Show the week containing the selected date
+            min = Calendar.getInstance().apply {
+                timeInMillis = mSelectedMonth.timeInMillis
+                firstDayOfWeek = AppPreferences.firstDayOfWeek
+                set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+
+            max = Calendar.getInstance().apply {
+                timeInMillis = min.timeInMillis
+                add(Calendar.DAY_OF_YEAR, 6)
+                set(Calendar.HOUR_OF_DAY, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+                set(Calendar.MILLISECOND, 999)
+            }
         }
 
         mChart.clearDiagram()
+        mChart.setPast7DaysMode(isToday, min.timeInMillis)
 
         val startDateFormatted = formatToSelectedDateFormat(min.timeInMillis)
         val endDateFormatted = formatToSelectedDateFormat(max.timeInMillis)
 
-        mTextViewChart.text = String.format(
-            Locale.getDefault(),
-            getString(R.string.week_display_format),
-            min.get(Calendar.WEEK_OF_YEAR), startDateFormatted, endDateFormatted
-        )
+        if (isToday) {
+            mTextViewChartHeader.text = String.format(
+                Locale.getDefault(),
+                getString(R.string.header_7d)
+            ).uppercase()
+            mTextViewChartWeekRange.text = String.format(
+                Locale.getDefault(),
+                getString(R.string.week_display_range),
+                startDateFormatted, endDateFormatted
+            )
+        } else {
+            mTextViewChartHeader.text = String.format(
+                Locale.getDefault(),
+                getString(R.string.week_display_format),
+                min.get(Calendar.WEEK_OF_YEAR)
+            ).uppercase()
+            mTextViewChartWeekRange.text = String.format(
+                Locale.getDefault(),
+                getString(R.string.week_display_range),
+                startDateFormatted, endDateFormatted
+            )
+        }
 
         val entries = Database.getInstance(this).getEntries(min.timeInMillis, max.timeInMillis)
         for (entry in entries) {
             mChart.setDiagramEntry(entry)
         }
 
-        if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
+        if (isToday) {
             mChart.setCurrentSteps(mCurrentSteps)
         }
         mChart.update()

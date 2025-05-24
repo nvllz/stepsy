@@ -7,7 +7,8 @@
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
     <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">Semaine %1$d: %2$s - %3$s</string>
+    <string name="week_display_format">Semaine %1$d</string>
+    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Aucun enregistrement pour %1$s</string>
     <string name="calories">%1$d kcal</string>
     <string name="steps_month">Ce mois-ci</string>

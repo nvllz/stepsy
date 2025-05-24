@@ -215,12 +215,20 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textViewChart"
+                    android:id="@+id/textViewChartHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:layout_marginBottom="10sp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/open_sans_regular"/>
+
+                <TextView
+                    android:id="@+id/textViewChartWeekRange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="14sp"
                     android:fontFamily="@font/open_sans_regular"/>
 
                 <com.nvllz.stepsy.ui.Chart
