@@ -5,7 +5,6 @@
 package com.nvllz.stepsy.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -643,7 +642,6 @@ internal class MainActivity : AppCompatActivity() {
         return entries.firstOrNull()
     }
 
-    @SuppressLint("StringFormatMatches")
     private fun updateChart() {
         val timeZone = getDeviceTimeZone()
 
