@@ -55,6 +55,8 @@ internal class MainActivity : AppCompatActivity() {
     private var isPaused = false
     private var currentSelectedButton: MaterialButton? = null
     private var isTodaySelected = true
+    private var isChartInPast7DaysMode = true
+    private var currentWeekStartTime = 0L
 
     private lateinit var mTextViewDayHeader: TextView
     private lateinit var mTextViewDayDetails: TextView
@@ -155,6 +157,16 @@ internal class MainActivity : AppCompatActivity() {
         mChart = findViewById(R.id.chart)
         mTextViewChartHeader = findViewById(R.id.textViewChartHeader)
         mTextViewChartWeekRange = findViewById(R.id.textViewChartWeekRange)
+        mTextViewChartHeader.setOnClickListener {
+            if (!isChartInPast7DaysMode) {
+                isChartInPast7DaysMode = true
+                updateChart()
+            } else {
+                isChartInPast7DaysMode = false
+                updateChart()
+            }
+        }
+
         mCalendarView = findViewById(R.id.calendar)
         mCalendarView.minDate = Database.getInstance(this).firstEntry.let {
             if (it == 0L)
@@ -169,6 +181,7 @@ internal class MainActivity : AppCompatActivity() {
             mSelectedMonth.set(Calendar.MONTH, month)
             mSelectedMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
+            isChartInPast7DaysMode = false
             updateChart()
         }
 
@@ -703,24 +716,11 @@ internal class MainActivity : AppCompatActivity() {
             Util.getDistanceUnitString()
         )
 
-        val isToday = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis == Calendar.getInstance().apply {
-            timeInMillis = mSelectedMonth.timeInMillis
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis
-
         val min: Calendar
         val max: Calendar
 
-        if (isToday) {
-            // Show past 7 days
+        if (isChartInPast7DaysMode) {
+            // Always show past 7 days when in this mode
             min = Calendar.getInstance(timeZone).apply {
                 add(Calendar.DAY_OF_YEAR, -6) // Go back 6 days to include today as the 7th day
                 set(Calendar.HOUR_OF_DAY, 0)
@@ -755,15 +755,18 @@ internal class MainActivity : AppCompatActivity() {
                 set(Calendar.SECOND, 59)
                 set(Calendar.MILLISECOND, 999)
             }
+
+            // Store current week start time for potential toggle back to past 7 days
+            currentWeekStartTime = min.timeInMillis
         }
 
         mChart.clearDiagram()
-        mChart.setPast7DaysMode(isToday, min.timeInMillis)
+        mChart.setPast7DaysMode(isChartInPast7DaysMode, min.timeInMillis)
 
         val startDateFormatted = formatToSelectedDateFormat(min.timeInMillis)
         val endDateFormatted = formatToSelectedDateFormat(max.timeInMillis)
 
-        if (isToday) {
+        if (isChartInPast7DaysMode) {
             mTextViewChartHeader.text = String.format(
                 Locale.getDefault(),
                 getString(R.string.header_7d)
@@ -791,7 +794,12 @@ internal class MainActivity : AppCompatActivity() {
             mChart.setDiagramEntry(entry)
         }
 
-        if (isToday) {
+        // Only set current steps if we're showing past 7 days mode or if the selected week contains today
+        val isCurrentWeek = isChartInPast7DaysMode ||
+                (Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) == min.get(Calendar.WEEK_OF_YEAR) &&
+                        Calendar.getInstance().get(Calendar.YEAR) == min.get(Calendar.YEAR))
+
+        if (isCurrentWeek) {
             mChart.setCurrentSteps(mCurrentSteps)
         }
         mChart.update()

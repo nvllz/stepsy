@@ -219,7 +219,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:fontFamily="@font/open_sans_regular"/>
 
                 <TextView
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:textSize="14sp"
-                    android:layout_marginBottom="14sp"
+                    android:layout_marginBottom="12sp"
                     android:fontFamily="@font/open_sans_regular"/>
 
                 <com.nvllz.stepsy.ui.Chart
