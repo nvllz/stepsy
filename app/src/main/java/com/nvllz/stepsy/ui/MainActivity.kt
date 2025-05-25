@@ -616,8 +616,16 @@ internal class MainActivity : AppCompatActivity() {
             updateYearSummaryView(year)
         }
 
-        // If selected week is the current week, update the diagram and cards with today's stepsy
-        if (mSelectedMonth.get(Calendar.WEEK_OF_YEAR) == Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
+        // Always update chart with current steps when in past 7 days mode or current week
+        val currentWeekOfYear = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val selectedWeekOfYear = mSelectedMonth.get(Calendar.WEEK_OF_YEAR)
+        val selectedYear = mSelectedMonth.get(Calendar.YEAR)
+
+        val isCurrentWeek = isChartInPast7DaysMode ||
+                (currentWeekOfYear == selectedWeekOfYear && currentYear == selectedYear)
+
+        if (isCurrentWeek) {
             mChart.setCurrentSteps(steps)
             mChart.update()
         }
