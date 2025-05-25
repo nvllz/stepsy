@@ -69,6 +69,12 @@
     <string name="date_format">Formato data</string>
     <string name="unit_system">Sistema di unità</string>
     <string name="export_data">Esporta</string>
+    <string name="backup_frequency">Frequenza del backup automatico</string>
+    <string name="backup_retention_count">Numero di backup da conservare</string>
+    <string name="backup_retention_hint">(0 per conservarli tutti)</string>
+    <string name="backup_location">Posizione del backup</string>
+    <string name="backup_location_not_set">Non impostata</string>
+    <string name="manual_backup">Backup manuale</string>
     <string name="import_data">Importa</string>
 
     <string name="header_about">Informazioni sull\'app</string>
@@ -88,9 +94,9 @@
 
     <!-- Toasts -->
     <string name="enter_valid_value">Inserisci un valore valido</string>
-    <string name="cannot_write_file">Impossibile scrivere il file</string>
     <string name="cannot_open_file">Impossibile aprire il file</string>
-    <string name="export_result">Esportati %1$d elementi.</string>
+    <string name="manual_backup_successful">Backup manuale completato con successo</string>
+    <string name="select_backup_location_first">Seleziona prima la posizione del backup</string>
     <string name="import_result">Importati %1$d elementi (%2$d falliti). %3$s</string>
     <string name="today_steps_set">I passi di oggi sono impostati a %1$d.</string>
 

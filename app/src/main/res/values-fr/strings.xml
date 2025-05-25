@@ -69,6 +69,12 @@
     <string name="date_format">Format de date</string>
     <string name="unit_system">Système d\'unités</string>
     <string name="export_data">Exporter</string>
+    <string name="backup_frequency">Fréquence des sauvegardes automatiques</string>
+    <string name="backup_retention_count">Nombre de sauvegardes à conserver</string>
+    <string name="backup_retention_hint">(0 pour tout conserver)</string>
+    <string name="backup_location">Emplacement de la sauvegarde</string>
+    <string name="backup_location_not_set">Non défini</string>
+    <string name="manual_backup">Sauvegarde manuelle</string>
     <string name="import_data">Importer</string>
 
     <string name="header_about">Informations sur l\'application</string>
@@ -88,9 +94,9 @@
 
     <!-- Toasts -->
     <string name="enter_valid_value">Veuillez entrer une valeur valide</string>
-    <string name="cannot_write_file">Impossible d’écrire le fichier</string>
     <string name="cannot_open_file">Impossible d’ouvrir le fichier</string>
-    <string name="export_result">%1$d entrées exportées.</string>
+    <string name="manual_backup_successful">Sauvegarde manuelle réussie</string>
+    <string name="select_backup_location_first">Sélectionnez d\'abord l\'emplacement de la sauvegarde</string>
     <string name="import_result">%1$d entrées importées (%2$d échouées). %3$s</string>
     <string name="today_steps_set">Le nombre de pas aujourd\'hui est défini à %1$d.</string>
 

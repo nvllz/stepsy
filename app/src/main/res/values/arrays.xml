@@ -77,4 +77,25 @@
         <item>ru</item>
         <item>zh</item>
     </string-array>
+
+    <!-- Backup Frequency -->
+    <string-array name="backup_frequency_entries">
+        <item>Disabled</item>
+        <item>Daily</item>
+        <item>Every 2 days</item>
+        <item>Every 3 days</item>
+        <item>Weekly</item>
+        <item>Every 2 weeks</item>
+        <item>Monthly</item>
+    </string-array>
+
+    <string-array name="backup_frequency_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>7</item>
+        <item>14</item>
+        <item>30</item>
+    </string-array>
 </resources>

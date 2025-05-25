@@ -68,6 +68,12 @@
     <string name="date_format">Tarih biçimi</string>
     <string name="unit_system">Birim sistemi</string>
     <string name="export_data">Dışa aktar</string>
+    <string name="backup_frequency">Otomatik yedekleme sıklığı</string>
+    <string name="backup_retention_count">Saklanacak yedek sayısı</string>
+    <string name="backup_retention_hint">(Tümünü saklamak için 0)</string>
+    <string name="backup_location">Yedekleme konumu</string>
+    <string name="backup_location_not_set">Ayarlanmadı</string>
+    <string name="manual_backup">Manuel yedekleme</string>
     <string name="import_data">İçe aktar</string>
 
     <string name="header_about">Uygulama bilgisi</string>
@@ -87,9 +93,9 @@
 
     <!-- Toasts -->
     <string name="enter_valid_value">Lütfen geçerli bir değer girin</string>
-    <string name="cannot_write_file">Dosya yazılamıyor</string>
     <string name="cannot_open_file">Dosya açılamıyor</string>
-    <string name="export_result">%1$d giriş dışa aktarıldı.</string>
+    <string name="manual_backup_successful">Manuel yedekleme başarılı</string>
+    <string name="select_backup_location_first">Önce yedekleme konumunu seçin</string>
     <string name="import_result">%1$d giriş içe aktarıldı (%2$d başarısız). %3$s</string>
     <string name="today_steps_set">Bugünkü adımlar %1$d olarak ayarlandı.</string>
 

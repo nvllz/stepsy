@@ -70,6 +70,12 @@
     <string name="date_format">Формат даты</string>
     <string name="unit_system">Система измерений</string>
     <string name="export_data">Экспорт</string>
+    <string name="backup_frequency">Частота автоматического резервного копирования</string>
+    <string name="backup_retention_count">Количество хранимых резервных копий</string>
+    <string name="backup_retention_hint">(0 — хранить все)</string>
+    <string name="backup_location">Место резервной копии</string>
+    <string name="backup_location_not_set">Не задано</string>
+    <string name="manual_backup">Резервное копирование вручную</string>
     <string name="import_data">Импорт</string>
 
     <string name="header_about">Информация о приложении</string>
@@ -89,9 +95,9 @@
 
     <!-- Toasts -->
     <string name="enter_valid_value">Пожалуйста, введите допустимое значение</string>
-    <string name="cannot_write_file">Не удаётся записать файл</string>
     <string name="cannot_open_file">Не удаётся открыть файл</string>
-    <string name="export_result">Экспортировано записей: %1$d.</string>
+    <string name="manual_backup_successful">Резервное копирование вручную выполнено успешно</string>
+    <string name="select_backup_location_first">Сначала выберите место для резервной копии</string>
     <string name="import_result">Импортировано: %1$d записей (%2$d не удалось). %3$s</string>
     <string name="today_steps_set">Сегодняшние шаги установлены на %1$d.</string>
 

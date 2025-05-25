@@ -68,6 +68,12 @@
     <string name="date_format">Date format</string>
     <string name="unit_system">Unit system</string>
     <string name="export_data">Export</string>
+    <string name="backup_frequency">Automatic backup frequency</string>
+    <string name="backup_retention_count">Number of backups to keep</string>
+    <string name="backup_retention_hint">(0 to keep all)</string>
+    <string name="backup_location">Backup location</string>
+    <string name="backup_location_not_set">Not set</string>
+    <string name="manual_backup">Manual backup</string>
     <string name="import_data">Import</string>
 
     <string name="header_about">App info</string>
@@ -87,9 +93,9 @@
 
     <!-- Toasts -->
     <string name="enter_valid_value">Please enter a valid value</string>
-    <string name="cannot_write_file">Cannot write file</string>
     <string name="cannot_open_file">Cannot open file</string>
-    <string name="export_result">Exported %1$d entries.</string>
+    <string name="manual_backup_successful">Manual backup successful</string>
+    <string name="select_backup_location_first">Select backup location first</string>
     <string name="import_result">Imported %1$d entries (%2$d failed). %3$s</string>
     <string name="today_steps_set">Today\'s steps set to %1$d.</string>
 

@@ -19,4 +19,15 @@
         <item>Metrisch (Kilometer)</item>
         <item>Imperial (Meilen)</item>
     </string-array>
+
+    <!-- Backup Frequency -->
+    <string-array name="backup_frequency_entries">
+        <item>Deaktiviert</item>
+        <item>Täglich</item>
+        <item>Alle 2 Tage</item>
+        <item>Alle 3 Tage</item>
+        <item>Wöchentlich</item>
+        <item>Alle 2 Wochen</item>
+        <item>Monatlich</item>
+    </string-array>
 </resources>
