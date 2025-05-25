@@ -34,6 +34,7 @@ import com.google.android.material.button.MaterialButton
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
 import com.nvllz.stepsy.util.AppPreferences
+import com.nvllz.stepsy.util.BackupScheduler
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.text.SimpleDateFormat
@@ -74,6 +75,8 @@ internal class MainActivity : AppCompatActivity() {
         Util.applyTheme(AppPreferences.theme)
 
         super.onCreate(savedInstanceState)
+
+        BackupScheduler.ensureBackupScheduled(applicationContext)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
