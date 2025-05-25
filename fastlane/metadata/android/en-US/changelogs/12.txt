@@ -1,0 +1,5 @@
+New:
+- Periodic backups: You can now specify a directory and set the app to automatically create backup files at midnight
+
+Changes:
+- Weekly bar chart now shows the past seven days by default
