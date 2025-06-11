@@ -306,16 +306,6 @@ internal class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, BackupActivity::class.java))
                 true
             }
-
-            // Handle additional menu items here if you add them
-            // R.id.action_export -> {
-            //     // Handle export action
-            //     true
-            // }
-            // R.id.action_about -> {
-            //     // Handle about action
-            //     true
-            // }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -432,7 +422,6 @@ internal class MainActivity : AppCompatActivity() {
             }
             "ALL TIME" -> {
                 mTextViewTopHeader.text = getString(R.string.header_all_time)
-                // Include the very first and last moments
                 Pair(db.firstEntry, db.lastEntry)
             }
             else -> return

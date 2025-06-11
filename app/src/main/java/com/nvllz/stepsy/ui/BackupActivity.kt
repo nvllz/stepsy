@@ -79,7 +79,7 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
 
         importLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                result.data?.data?.let { uri -> importData(uri) } // Fixed: now calls importData
+                result.data?.data?.let { uri -> importData(uri) }
             }
         }
 
@@ -159,7 +159,6 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
         }
     }
 
-    // Import function moved here and renamed
     private fun importData(uri: Uri) {
         val db = Database.getInstance(requireContext())
         val today = Util.calendar.timeInMillis
@@ -224,7 +223,6 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
         }
     }
 
-    // restartApp function moved here too
     private fun restartApp() {
         val intent = Intent(requireContext(), MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
