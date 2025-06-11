@@ -2,11 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_backup"
-        android:title="@string/header_data_backup"
-        android:icon="@drawable/ic_import" />
+        android:title="@string/header_data_backup" />
 
     <item
         android:id="@+id/action_settings"
-        android:title="@string/settings"
-        android:icon="@drawable/ic_settings" />
+        android:title="@string/settings" />
 </menu>
