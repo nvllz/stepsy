@@ -90,12 +90,6 @@ class SettingsActivity : AppCompatActivity() {
                 summary = "${getString(R.string.about_version)}: $version\n${getString(R.string.about_license)}: GPL-3.0"
             }
 
-            importLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    result.data?.data?.let { uri -> import(uri) }
-                }
-            }
-
             val currentLocales = AppCompatDelegate.getApplicationLocales()
             val currentLanguage = when {
                 currentLocales.isEmpty -> "system"
@@ -285,7 +279,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
 
                 AlertDialog.Builder(requireContext())
-                    .setTitle("About")
+                    .setTitle(R.string.about_stepsy)
                     .setView(textView)
                     .setPositiveButton(android.R.string.ok, null)
                     .show()
@@ -294,73 +288,10 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun import(uri: Uri) {
-            val db = Database.getInstance(requireContext())
-            val today = Util.calendar.timeInMillis
-            var todaySteps = 0
-            var entries = 0
-            var failed = 0
-
-            try {
-                requireContext().contentResolver.openFileDescriptor(uri, "r")?.use {
-                    FileInputStream(it.fileDescriptor).bufferedReader().use { reader ->
-                        for (line in reader.readLines()) {
-                            entries++
-                            try {
-                                val split = line.split(",")
-                                val timestamp = split[0].toLong()
-                                val steps = split[1].toInt()
-                                if (DateUtils.isToday(timestamp)) {
-                                    todaySteps = steps
-                                }
-                                db.addEntry(timestamp, steps)
-                            } catch (ex: Exception) {
-                                Log.e("SettingsFragment", "Cannot import entry", ex)
-                                failed++
-                            }
-                        }
-                    }
-
-                    val overridingTodaySteps = todaySteps > 0 && todaySteps > AppPreferences.steps
-
-                    if (overridingTodaySteps) {
-                        lifecycleScope.launch {
-                            AppPreferences.dataStore.edit { preferences ->
-                                preferences[AppPreferences.PreferenceKeys.STEPS] = todaySteps
-                                preferences[AppPreferences.PreferenceKeys.DATE] = today
-                            }
-
-                            val intent = Intent(requireContext(), MotionService::class.java).apply {
-                                putExtra("FORCE_UPDATE", true)
-                                putExtra(KEY_STEPS, todaySteps)
-                                putExtra(KEY_DATE, today)
-                            }
-                            requireContext().startService(intent)
-                        }
-                    }
-
-                    val successCount = entries - failed
-                    val todaySetText = if (overridingTodaySteps) {
-                        getString(R.string.today_steps_set, todaySteps)
-                    } else {
-                        ""
-                    }
-
-                    val resultText = getString(R.string.import_result, successCount, failed, todaySetText)
-
-                    Toast.makeText(context, resultText, Toast.LENGTH_LONG).show()
-
-                    restartApp()
-                }
-            } catch (ex: Exception) {
-                Log.e("SettingsFragment", "Cannot open file", ex)
-                Toast.makeText(context, getString(R.string.cannot_open_file), Toast.LENGTH_SHORT).show()
-            }
-        }
-
         class BackupPreferenceFragment : PreferenceFragmentCompat() {
             private lateinit var backupLocationLauncher: ActivityResultLauncher<Intent>
             private val TAG = "BackupPreferenceFragment"
+            private lateinit var importLauncher: ActivityResultLauncher<Intent>
 
             override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
                 setPreferencesFromResource(R.xml.backup_preferences, rootKey)
@@ -370,7 +301,6 @@ class SettingsActivity : AppCompatActivity() {
                         result.data?.data?.let { uri ->
                             lifecycleScope.launch {
                                 updateBackupLocationSummary(uri)
-
                                 BackupScheduler.ensureBackupScheduled(requireContext())
                             }
                         }
@@ -379,6 +309,21 @@ class SettingsActivity : AppCompatActivity() {
 
                 lifecycleScope.launch {
                     initializePreferences()
+                }
+
+                importLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                    if (result.resultCode == RESULT_OK) {
+                        result.data?.data?.let { uri -> importData(uri) } // Fixed: now calls importData
+                    }
+                }
+
+                findPreference<Preference>("import")?.setOnPreferenceClickListener {
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                        addCategory(Intent.CATEGORY_OPENABLE)
+                        type = "text/*"
+                    }
+                    importLauncher.launch(intent)
+                    true
                 }
 
                 findPreference<Preference>("backup_location")?.setOnPreferenceClickListener {
@@ -448,6 +393,80 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
 
+            // Import function moved here and renamed
+            private fun importData(uri: Uri) {
+                val db = Database.getInstance(requireContext())
+                val today = Util.calendar.timeInMillis
+                var todaySteps = 0
+                var entries = 0
+                var failed = 0
+
+                try {
+                    requireContext().contentResolver.openFileDescriptor(uri, "r")?.use {
+                        FileInputStream(it.fileDescriptor).bufferedReader().use { reader ->
+                            for (line in reader.readLines()) {
+                                entries++
+                                try {
+                                    val split = line.split(",")
+                                    val timestamp = split[0].toLong()
+                                    val steps = split[1].toInt()
+                                    if (DateUtils.isToday(timestamp)) {
+                                        todaySteps = steps
+                                    }
+                                    db.addEntry(timestamp, steps)
+                                } catch (ex: Exception) {
+                                    Log.e("BackupPreferenceFragment", "Cannot import entry", ex)
+                                    failed++
+                                }
+                            }
+                        }
+
+                        val overridingTodaySteps = todaySteps > 0 && todaySteps > AppPreferences.steps
+
+                        if (overridingTodaySteps) {
+                            lifecycleScope.launch {
+                                AppPreferences.dataStore.edit { preferences ->
+                                    preferences[AppPreferences.PreferenceKeys.STEPS] = todaySteps
+                                    preferences[AppPreferences.PreferenceKeys.DATE] = today
+                                }
+
+                                val intent = Intent(requireContext(), MotionService::class.java).apply {
+                                    putExtra("FORCE_UPDATE", true)
+                                    putExtra(KEY_STEPS, todaySteps)
+                                    putExtra(KEY_DATE, today)
+                                }
+                                requireContext().startService(intent)
+                            }
+                        }
+
+                        val successCount = entries - failed
+                        val todaySetText = if (overridingTodaySteps) {
+                            getString(R.string.today_steps_set, todaySteps)
+                        } else {
+                            ""
+                        }
+
+                        val resultText = getString(R.string.import_result, successCount, failed, todaySetText)
+
+                        Toast.makeText(context, resultText, Toast.LENGTH_LONG).show()
+
+                        restartApp()
+                    }
+                } catch (ex: Exception) {
+                    Log.e("BackupPreferenceFragment", "Cannot open file", ex)
+                    Toast.makeText(context, getString(R.string.cannot_open_file), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            // restartApp function moved here too
+            private fun restartApp() {
+                val intent = Intent(requireContext(), MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                }
+                startActivity(intent)
+                activity?.finishAffinity()
+            }
+
             private suspend fun initializePreferences() {
                 val frequency = AppPreferences.backupFrequency
                 findPreference<ListPreference>("backup_frequency")?.value = frequency.toString()
@@ -463,10 +482,10 @@ class SettingsActivity : AppCompatActivity() {
             private fun updateDependentPreferences(frequency: Int) {
                 val isBackupEnabled = frequency > 0
                 findPreference<ListPreference>("backup_frequency")?.isEnabled =
-                        AppPreferences.backupLocationUri != null
+                    AppPreferences.backupLocationUri != null
                 findPreference<EditTextPreference>("backup_retention_count")?.isEnabled = isBackupEnabled
                 findPreference<Preference>("manual_backup")?.isEnabled =
-                        AppPreferences.backupLocationUri != null
+                    AppPreferences.backupLocationUri != null
             }
 
             private fun promptForBackupLocation() {

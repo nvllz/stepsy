@@ -75,6 +75,7 @@
     <string name="backup_location_not_set">Ayarlanmadı</string>
     <string name="manual_backup">Manuel yedekleme</string>
     <string name="import_data">İçe aktar</string>
+    <string name="import_data_summary">Adım verilerini bir dosyadan geri yükle</string>
 
     <string name="header_about">Uygulama bilgisi</string>
     <string name="about_stepsy">Hakkında</string>

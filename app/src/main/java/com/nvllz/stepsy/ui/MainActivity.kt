@@ -39,6 +39,9 @@ import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.text.SimpleDateFormat
 import java.util.*
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.graphics.drawable.toDrawable
 
 /**
  * The main activity for the UI of the step counter.
@@ -76,6 +79,11 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 //        Util.init(applicationContext)
         Util.applyTheme(AppPreferences.theme)
+        supportActionBar?.let { actionBar ->
+            actionBar.setBackgroundDrawable(android.graphics.Color.TRANSPARENT.toDrawable())
+            actionBar.setDisplayShowTitleEnabled(false)
+            actionBar.elevation = 0f
+        }
 
         super.onCreate(savedInstanceState)
 
@@ -142,11 +150,6 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewTopHeader = findViewById(R.id.textViewTopHeader)
         mTextAvgPerDayHeader = findViewById(R.id.textAvgPerDayHeader)
         mTextAvgPerDayValue = findViewById(R.id.textAvgPerDayValue)
-
-        val gearButton = findViewById<ImageButton>(R.id.gearButton)
-        gearButton.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
 
         val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
         if (isPaused) {
@@ -285,6 +288,36 @@ internal class MainActivity : AppCompatActivity() {
         button.setTypeface(null, Typeface.BOLD)
         button.strokeWidth = 6
         button.setTextColor(ContextCompat.getColor(this, R.color.colorOnSurface))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+
+            R.id.action_backup -> {
+                startActivity(Intent(this, BackupActivity::class.java))
+                true
+            }
+
+            // Handle additional menu items here if you add them
+            // R.id.action_export -> {
+            //     // Handle export action
+            //     true
+            // }
+            // R.id.action_about -> {
+            //     // Handle about action
+            //     true
+            // }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun loadYearButtons() {

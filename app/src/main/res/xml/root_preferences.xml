@@ -84,21 +84,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/header_data_backup"
-        app:iconSpaceReserved="false">
-
-        <Preference
-            android:key="import"
-            android:title="@string/import_data"
-            app:icon="@drawable/ic_import" />
-
-        <Preference
-            android:key="backup_settings"
-            android:title="@string/export_data"
-            app:icon="@drawable/ic_export" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/header_about"
         app:iconSpaceReserved="false">
 

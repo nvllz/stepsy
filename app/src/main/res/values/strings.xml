@@ -75,6 +75,7 @@
     <string name="backup_location_not_set">Not set</string>
     <string name="manual_backup">Manual backup</string>
     <string name="import_data">Import</string>
+    <string name="import_data_summary">Restore step data from a file</string>
 
     <string name="header_about">App info</string>
     <string name="about_stepsy">About</string>

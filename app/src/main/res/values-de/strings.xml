@@ -75,6 +75,7 @@
     <string name="backup_location_not_set">Nicht festgelegt</string>
     <string name="manual_backup">Manuelles Backup</string>
     <string name="import_data">Importieren</string>
+    <string name="import_data_summary">Schrittdaten aus einer Datei wiederherstellen</string>
 
     <string name="header_about">App-Informationen</string>
     <string name="about_stepsy">Über</string>

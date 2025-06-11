@@ -74,6 +74,7 @@
     <string name="backup_location_not_set">未设置</string>
     <string name="manual_backup">手动备份</string>
     <string name="import_data">导入</string>
+    <string name="import_data_summary">从文件中恢复步数数据</string>
 
     <string name="header_about">应用信息</string>
     <string name="about_stepsy">关于应用</string>

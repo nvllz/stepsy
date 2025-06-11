@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base theme -->
-    <style name="Theme.stepsy" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.stepsy" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorSurface">@color/colorSurface</item>

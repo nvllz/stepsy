@@ -77,6 +77,7 @@
     <string name="backup_location_not_set">Nie ustawiono</string>
     <string name="manual_backup">Ręczna kopia zapasowa</string>
     <string name="import_data">Importuj</string>
+    <string name="import_data_summary">Przywróć dane kroków z pliku</string>
 
     <string name="header_about">Informacje o aplikacji</string>
     <string name="about_stepsy">O aplikacji</string>
