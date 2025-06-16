@@ -13,11 +13,12 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 - Visualize your data with dynamic, interactive charts
 - Export your data to a CSV file for backup and easy analysis
 - Display your today's step count with a widget
+- Analyze the progress with dedicated Achievements screen
 
 ## Screenshots
 
-| ![Screenshot 1](images/stepsy-scr-1.png) | ![Screenshot 2](images/stepsy-scr-2.png) | ![Screenshot 3](images/stepsy-scr-3.png) | ![Screenshot 4](images/stepsy-scr-4.png) |
-|:--:|:--:|:--:|:--:|
+| ![Screenshot 1](images/1.png) | ![Screenshot 2](images/2.png) | ![Screenshot 3](images/3.png) | ![Screenshot 4](images/6.png) |
+|:-----------------------------:|:-----------------------------:|:-----------------------------:|:-----------------------------:|
 
 ## Download
 
