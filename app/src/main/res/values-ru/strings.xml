@@ -37,10 +37,10 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
-        <item quantity="one">%1$d шаг</item>
-        <item quantity="few">%1$d шага</item>
-        <item quantity="many">%1$d шагов</item>
-        <item quantity="other">%1$d шага</item>
+        <item quantity="one">%1$s шаг</item>
+        <item quantity="few">%1$s шага</item>
+        <item quantity="many">%1$s шагов</item>
+        <item quantity="other">%1$s шага</item>
     </plurals>
 
     <!-- Notifications -->
@@ -108,4 +108,39 @@
     <string name="widget_pref_text_scale">Масштаб текста</string>
     <string name="widget_pref_bg_opacity">Прозрачность фона</string>
     <string name="widget_pref_btn_save">Сохранить</string>
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">Достижения</string>
+    <string name="milestone_achievements">Вехи</string>
+    <string name="no_milestones_reached">Вехи ещё не достигнуты. Продолжайте прогулку!</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">Загрузка данных…\n</string>
+    <string name="no_data_available">Данные отсутствуют\n</string>
+    <string name="error_loading_data">Ошибка при загрузке данных\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">Ежедневная цель</string>
+    <string name="daily_goal_notification">Оповещать при достижении</string>
+    <string name="daily_goal_target">Цель по шагам в день</string>
+    <string name="daily_goal_hint">Введите вашу дневную цель шагов</string>
+
+    <!-- Records -->
+    <string name="personal_records">Личные рекорды</string>
+    <string name="most_steps_day">Максимум шагов за день</string>
+    <string name="most_walked_month">Самый активный месяц</string>
+    <string name="since_date">С %1$s</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">Оповещения о ежедневной цели</string>
+    <string name="daily_goal_notification_channel_desc">Получайте уведомления о достижении суточной нормы шагов</string>
+    <string name="goal_achieved_title">🎉 Цель достигнута!</string>
+    <string name="goal_achieved_message">Вы достигли цели в %,d шагов!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d шагов / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d тыс. шагов / %2$s</string>
+    <string name="million_steps_with_distance">%1$d млн шагов / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f млн шагов / %2$s</string>
 </resources>

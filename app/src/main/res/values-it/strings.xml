@@ -37,9 +37,9 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
-        <item quantity="one">%1$d passo</item>
-        <item quantity="many">%1$d passi</item>
-        <item quantity="other">%1$d passi</item>
+        <item quantity="one">%1$s passo</item>
+        <item quantity="many">%1$s passi</item>
+        <item quantity="other">%1$s passi</item>
     </plurals>
 
     <!-- Notifications -->
@@ -107,4 +107,39 @@
     <string name="widget_pref_text_scale">Scala del testo</string>
     <string name="widget_pref_bg_opacity">Opacità dello sfondo</string>
     <string name="widget_pref_btn_save">Salva</string>
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">Risultati</string>
+    <string name="milestone_achievements">Traguardi</string>
+    <string name="no_milestones_reached">Nessun traguardo raggiunto. Continua a camminare!</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">Caricamento dati…\n</string>
+    <string name="no_data_available">Nessun dato disponibile\n</string>
+    <string name="error_loading_data">Errore nel caricamento dati\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">Obiettivo giornaliero</string>
+    <string name="daily_goal_notification">Avvisa al raggiungimento</string>
+    <string name="daily_goal_target">Obiettivo passi giornaliero</string>
+    <string name="daily_goal_hint">Inserisci il tuo obiettivo di passi giornaliero</string>
+
+    <!-- Records -->
+    <string name="personal_records">Record personali</string>
+    <string name="most_steps_day">Massimo numero di passi in un giorno</string>
+    <string name="most_walked_month">Mese più attivo</string>
+    <string name="since_date">Dal %1$s</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">Avvisi obiettivo giornaliero</string>
+    <string name="daily_goal_notification_channel_desc">Ricevi aggiornamenti sui tuoi progressi giornalieri</string>
+    <string name="goal_achieved_title">🎉 Hai raggiunto l’obiettivo!</string>
+    <string name="goal_achieved_message">Hai raggiunto il tuo obiettivo di %,d passi!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d passi / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d mila passi / %2$s</string>
+    <string name="million_steps_with_distance">%1$d milioni passi / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f milioni passi / %2$s</string>
 </resources>

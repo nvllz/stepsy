@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="?attr/selectableItemBackground"
+    android:paddingVertical="16dp"
+    android:gravity="center_vertical">
+
+    <!-- Achievement Badge -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:cardCornerRadius="24dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/colorPrimary"
+        app:cardElevation="0.75dp">
+
+        <TextView
+            android:id="@+id/achievement_badge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/colorOnPrimary"
+            android:textStyle="bold"
+            android:text="🎯"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Achievement Details -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/achievement_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="100k steps"
+            android:fontFamily="@font/open_sans_family"
+            android:textColor="@color/colorOnSurface" />
+
+        <TextView
+            android:id="@+id/achievement_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2022-01-22"
+            android:textSize="14sp"
+            android:paddingStart="5dp"
+            android:fontFamily="@font/open_sans_family"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="2dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

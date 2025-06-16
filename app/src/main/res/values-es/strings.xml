@@ -37,9 +37,9 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
-        <item quantity="one">%1$d paso</item>
-        <item quantity="many">%1$d pasos</item>
-        <item quantity="other">%1$d pasos</item>
+        <item quantity="one">%1$s paso</item>
+        <item quantity="many">%1$s pasos</item>
+        <item quantity="other">%1$s pasos</item>
     </plurals>
 
     <!-- Notifications -->
@@ -107,4 +107,39 @@
     <string name="widget_pref_text_scale">Escala de texto</string>
     <string name="widget_pref_bg_opacity">Opacidad de fondo</string>
     <string name="widget_pref_btn_save">Guardar</string>
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">Logros</string>
+    <string name="milestone_achievements">Hitos</string>
+    <string name="no_milestones_reached">Aún no alcanzas ningún hito. ¡Sigue caminando!</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">Cargando datos…\n</string>
+    <string name="no_data_available">No hay datos disponibles\n</string>
+    <string name="error_loading_data">Error al cargar los datos\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">Meta diaria</string>
+    <string name="daily_goal_notification">Notificar al alcanzar</string>
+    <string name="daily_goal_target">Meta de pasos diaria</string>
+    <string name="daily_goal_hint">Ingresa tu meta de pasos diaria</string>
+
+    <!-- Records -->
+    <string name="personal_records">Récords personales</string>
+    <string name="most_steps_day">Mayor número de pasos en un día</string>
+    <string name="most_walked_month">Mes más activo</string>
+    <string name="since_date">Desde %1$s</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">Alertas de meta diaria</string>
+    <string name="daily_goal_notification_channel_desc">Recibe actualizaciones sobre tu avance diario</string>
+    <string name="goal_achieved_title">🎉 ¡Meta alcanzada!</string>
+    <string name="goal_achieved_message">¡Has alcanzado tu meta de %,d pasos!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d pasos / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d mil pasos / %2$s</string>
+    <string name="million_steps_with_distance">%1$dM pasos / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM pasos / %2$s</string>
 </resources>

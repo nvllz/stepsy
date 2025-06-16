@@ -62,6 +62,18 @@
                 android:value="com.nvllz.stepsy.ui.MainActivity" />
         </activity>
 
+        <!-- Goals Activity -->
+        <activity
+            android:name=".ui.AchievementsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.stepsySettings"
+            android:label="@string/achievements_title"
+            android:parentActivityName="com.nvllz.stepsy.ui.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nvllz.stepsy.ui.MainActivity" />
+        </activity>
+
         <!-- Widget Config Activities -->
         <activity
             android:name=".ui.WidgetIconConfigureActivity"

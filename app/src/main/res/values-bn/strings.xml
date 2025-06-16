@@ -37,8 +37,8 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
-        <item quantity="one">%1$d পদক্ষেপ</item>
-        <item quantity="other">%1$d পদক্ষেপ</item>
+        <item quantity="one">%1$s পদক্ষেপ</item>
+        <item quantity="other">%1$s পদক্ষেপ</item>
     </plurals>
 
     <!-- Notifications -->
@@ -106,4 +106,39 @@
     <string name="widget_pref_text_scale">টেক্সট স্কেল</string>
     <string name="widget_pref_bg_opacity">পটভূমির অস্পষ্টতা</string>
     <string name="widget_pref_btn_save">সংরক্ষণ করুন</string>
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">সাফল্য</string>
+    <string name="milestone_achievements">মাইলস্টোন</string>
+    <string name="no_milestones_reached">এখনো কোনো মাইলস্টোন ছুঁইনি। হাঁটতে থাকুন!</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">তথ্য লোড হচ্ছে…\n</string>
+    <string name="no_data_available">তথ্য পাওয়া যায়নি\n</string>
+    <string name="error_loading_data">তথ্য লোড করতে সমস্যা\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">দৈনিক লক্ষ্য</string>
+    <string name="daily_goal_notification">লক্ষ্য পেলে নোটিশ দাও</string>
+    <string name="daily_goal_target">দৈনিক পদচারণার লক্ষ্য</string>
+    <string name="daily_goal_hint">আপনার দৈনিক পদচারণার লক্ষ্য লিখুন</string>
+
+    <!-- Records -->
+    <string name="personal_records">ব্যক্তিগত রেকর্ড</string>
+    <string name="most_steps_day">সর্বোচ্চ পদক্ষেপ একদিনে</string>
+    <string name="most_walked_month">সর্বাধিক সক্রিয় মাস</string>
+    <string name="since_date">%1$s থেকে পর থেকে</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">দৈনিক পদক্ষেপের লক্ষ্যের বিজ্ঞপ্তি</string>
+    <string name="daily_goal_notification_channel_desc">দৈনিক পদক্ষেপের লক্ষ্য অগ্রগতি সম্পর্কে আপডেট পান</string>
+    <string name="goal_achieved_title">🎉 আপনি লক্ষ্য পূরণ করলেন!</string>
+    <string name="goal_achieved_message">আপনি %,d ধাপের লক্ষ্য পূরণ করেছেন!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d ধাপ / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$dk ধাপ / %2$s</string>
+    <string name="million_steps_with_distance">%1$dM ধাপ / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM ধাপ / %2$s</string>
 </resources>

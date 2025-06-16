@@ -37,10 +37,10 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
-        <item quantity="one">%1$d krok</item>
-        <item quantity="few">%1$d kroki</item>
-        <item quantity="many">%1$d kroków</item>
-        <item quantity="other">%1$d kroków</item>
+        <item quantity="one">%1$s krok</item>
+        <item quantity="few">%1$s kroki</item>
+        <item quantity="many">%1$s kroków</item>
+        <item quantity="other">%1$s kroków</item>
     </plurals>
 
     <!-- Notifications -->
@@ -108,4 +108,39 @@
     <string name="widget_pref_text_scale">Skala tekstu</string>
     <string name="widget_pref_bg_opacity">Przezroczystość tła</string>
     <string name="widget_pref_btn_save">Zapisz</string>
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">Osiągnięcia</string>
+    <string name="milestone_achievements">Kamienie milowe</string>
+    <string name="no_milestones_reached">Brak kamieni milowych.</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">Ładowanie danych…\n</string>
+    <string name="no_data_available">Brak danych\n</string>
+    <string name="error_loading_data">Błąd ładowania danych\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">Cel dzienny</string>
+    <string name="daily_goal_notification">Powiadom gdy osiągnięto</string>
+    <string name="daily_goal_target">Dzienny cel kroków</string>
+    <string name="daily_goal_hint">Wprowadź dzienny cel kroków</string>
+
+    <!-- Records -->
+    <string name="personal_records">Rekordy osobiste</string>
+    <string name="most_steps_day">Najwięcej kroków w ciągu dnia</string>
+    <string name="most_walked_month">Najbardziej aktywny miesiąc</string>
+    <string name="since_date">Od %1$s</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">Alerty dziennego celu kroków</string>
+    <string name="daily_goal_notification_channel_desc">Otrzymuj aktualizacje postępów celu kroków</string>
+    <string name="goal_achieved_title">🎉 Cel osiągnięty!</string>
+    <string name="goal_achieved_message">Osiągnięto cel %,d kroków!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d kroków / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d tys. kroków / %2$s</string>
+    <string name="million_steps_with_distance">%1$d mln kroków / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f mln kroków / %2$s</string>
 </resources>

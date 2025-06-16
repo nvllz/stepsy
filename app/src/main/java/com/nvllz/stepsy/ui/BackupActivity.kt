@@ -44,6 +44,7 @@ class BackupActivity : AppCompatActivity() {
 
         val color = ContextCompat.getColor(this, R.color.colorBackground)
         supportActionBar?.setBackgroundDrawable(color.toDrawable())
+        supportActionBar?.elevation = 0f
 
         if (savedInstanceState == null) {
             supportFragmentManager

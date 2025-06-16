@@ -35,8 +35,10 @@ import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import java.util.*
 import com.nvllz.stepsy.util.AppPreferences
+import com.nvllz.stepsy.util.GoalNotificationWorker
 import com.nvllz.stepsy.util.Util.getDistanceUnitString
 import com.nvllz.stepsy.util.WidgetManager
+import java.text.NumberFormat
 
 internal class MotionService : Service() {
     private var mTodaysSteps: Int = 0
@@ -47,6 +49,7 @@ internal class MotionService : Service() {
     private lateinit var mNotificationManager: NotificationManager
     private lateinit var mBuilder: NotificationCompat.Builder
     private var isCountingPaused = false
+    private var goalReachedToday = false
 
     private val pauseChannelId = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
     private val pauseNotificationId = 3844
@@ -62,6 +65,9 @@ internal class MotionService : Service() {
         mCurrentDate = AppPreferences.date
         mTodaysSteps = AppPreferences.steps
         isCountingPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean(KEY_IS_PAUSED, false)
+        goalReachedToday = AppPreferences.dailyGoalNotification
+                && AppPreferences.dailyGoalTarget > 0
+                && mTodaysSteps >= AppPreferences.dailyGoalTarget
 
         val mSensorManager = getSystemService(SENSOR_SERVICE) as? SensorManager
             ?: throw IllegalStateException("Could not get sensor service")
@@ -109,12 +115,18 @@ internal class MotionService : Service() {
             mTodaysSteps += delta
             mLastSteps = value
 
+            // Check if goal was just reached
+            val target = AppPreferences.dailyGoalTarget
+            if (target > 0 && mTodaysSteps >= target && !goalReachedToday) {
+                goalReachedToday = true
+                GoalNotificationWorker.showDailyGoalNotification(this, target)
+            }
+
             handleStepUpdate()
 
             // reset the delayed write runnable
             handler.removeCallbacks(delayedWriteRunnable)
             handler.postDelayed(delayedWriteRunnable, dbWriteInterval)
-
         } else {
             mLastSteps = value
         }
@@ -140,6 +152,7 @@ internal class MotionService : Service() {
             mTodaysSteps = 0
             mCurrentDate = currentDate
             mLastSteps = -1
+            goalReachedToday = false
             AppPreferences.date = mCurrentDate
             AppPreferences.steps = mTodaysSteps
             lastSharedPrefsWriteTime = currentTime.also { lastDbWriteTime = it }
@@ -183,10 +196,16 @@ internal class MotionService : Service() {
             dismissPauseNotification()
         }
 
+        val formattedSteps = if (mTodaysSteps >= 10_000) {
+            NumberFormat.getIntegerInstance().format(mTodaysSteps)
+        } else {
+            mTodaysSteps.toString()
+        }
+
         val stepsPlural = resources.getQuantityString(
             R.plurals.steps_text,
             mTodaysSteps,
-            mTodaysSteps
+            formattedSteps
         )
 
         val notificationText = String.format(

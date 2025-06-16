@@ -37,8 +37,8 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
-        <item quantity="one">%1$d adım</item>
-        <item quantity="other">%1$d adım</item>
+        <item quantity="one">%1$s adım</item>
+        <item quantity="other">%1$s adım</item>
     </plurals>
 
     <!-- Notifications -->
@@ -106,4 +106,39 @@
     <string name="widget_pref_text_scale">Metin Ölçeği</string>
     <string name="widget_pref_bg_opacity">Arka Plan Opaklığı</string>
     <string name="widget_pref_btn_save">Kaydet</string>
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">Başarılar</string>
+    <string name="milestone_achievements">Dönüm Noktaları</string>
+    <string name="no_milestones_reached">Henüz dönüm noktasına ulaşılmadı. Devam et!</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">Veri yükleniyor…\n</string>
+    <string name="no_data_available">Veri yok\n</string>
+    <string name="error_loading_data">Veri yüklenirken hata oluştu\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">Günlük Hedef</string>
+    <string name="daily_goal_notification">Ulaşıldığında bildir</string>
+    <string name="daily_goal_target">Günlük adım hedefi</string>
+    <string name="daily_goal_hint">Günlük adım hedefinizi girin</string>
+
+    <!-- Records -->
+    <string name="personal_records">Kişisel Rekorlar</string>
+    <string name="most_steps_day">En Fazla Günlük Adım</string>
+    <string name="most_walked_month">En Hareketli Ay</string>
+    <string name="since_date">%1$s tarihinden beri</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">Günlük Adım Hedefi Uyarıları</string>
+    <string name="daily_goal_notification_channel_desc">Günlük adım hedef ilerlemeniz hakkında güncellemeler alın</string>
+    <string name="goal_achieved_title">🎉 Hedefe ulaştınız!</string>
+    <string name="goal_achieved_message">%,d adımlık hedefinizi tamamladınız!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d adım / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d bin adım / %2$s</string>
+    <string name="million_steps_with_distance">%1$dM adım / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM adım / %2$s</string>
 </resources>

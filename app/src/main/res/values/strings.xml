@@ -37,8 +37,8 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
-        <item quantity="one">%1$d step</item>
-        <item quantity="other">%1$d steps</item>
+        <item quantity="one">%1$s step</item>
+        <item quantity="other">%1$s steps</item>
     </plurals>
 
     <!-- Notifications -->
@@ -106,4 +106,40 @@
     <string name="widget_pref_text_scale">Text Scale</string>
     <string name="widget_pref_bg_opacity">Background Opacity</string>
     <string name="widget_pref_btn_save">Save</string>
+
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">Achievements</string>
+    <string name="milestone_achievements">Milestones</string>
+    <string name="no_milestones_reached">No milestones reached yet. Keep walking!</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">Loading data…\n</string>
+    <string name="no_data_available">No data available\n</string>
+    <string name="error_loading_data">Error loading data\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">Daily Goal</string>
+    <string name="daily_goal_notification">Notify when reached</string>
+    <string name="daily_goal_target">Daily step goal</string>
+    <string name="daily_goal_hint">Enter your daily step goal</string>
+
+    <!-- Records -->
+    <string name="personal_records">Personal Records</string>
+    <string name="most_steps_day">Highest Step Count</string>
+    <string name="most_walked_month">Most Active Month</string>
+    <string name="since_date">Since %1$s</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">Daily Step Goal Alerts</string>
+    <string name="daily_goal_notification_channel_desc">Get updates on your daily step goal progress</string>
+    <string name="goal_achieved_title">🎉 You Hit Your Goal!</string>
+    <string name="goal_achieved_message">You reached your step goal of %,d steps!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d steps / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$dk steps / %2$s</string>
+    <string name="million_steps_with_distance">%1$dM steps / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM steps / %2$s</string>
 </resources>

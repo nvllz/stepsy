@@ -37,8 +37,8 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
-        <item quantity="one">%1$d Schritt</item>
-        <item quantity="other">%1$d Schritte</item>
+        <item quantity="one">%1$s Schritt</item>
+        <item quantity="other">%1$s Schritte</item>
     </plurals>
 
     <!-- Notifications -->
@@ -106,4 +106,39 @@
     <string name="widget_pref_text_scale">Textskalierung</string>
     <string name="widget_pref_bg_opacity">Hintergrunddeckkraft</string>
     <string name="widget_pref_btn_save">Speichern</string>
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">Erfolge</string>
+    <string name="milestone_achievements">Meilensteine</string>
+    <string name="no_milestones_reached">Noch keine Meilensteine erreicht. Weiter geht’s!</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">Daten werden geladen…\n</string>
+    <string name="no_data_available">Keine Daten verfügbar\n</string>
+    <string name="error_loading_data">Fehler beim Laden der Daten\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">Tagesziel</string>
+    <string name="daily_goal_notification">Bei Zielerreichung benachrichtigen</string>
+    <string name="daily_goal_target">Tägliches Schrittziel</string>
+    <string name="daily_goal_hint">Geben Sie Ihr tägliches Schrittziel ein</string>
+
+    <!-- Records -->
+    <string name="personal_records">Persönliche Rekorde</string>
+    <string name="most_steps_day">Tagesrekord Schritte</string>
+    <string name="most_walked_month">Aktivster Monat</string>
+    <string name="since_date">Seit %1$s</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">Benachrichtigungen Tagesziel</string>
+    <string name="daily_goal_notification_channel_desc">Erhalten Sie Updates zu Ihrem Fortschritt beim Schrittziel</string>
+    <string name="goal_achieved_title">🎉 Ziel erreicht!</string>
+    <string name="goal_achieved_message">Sie haben Ihr Schrittziel von %,d Schritten erreicht!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d Schritte / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d Tsd. Schritte / %2$s</string>
+    <string name="million_steps_with_distance">%1$d Mio. Schritte / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f Mio. Schritte / %2$s</string>
 </resources>

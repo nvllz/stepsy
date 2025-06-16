@@ -37,7 +37,7 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
-        <item quantity="other">%1$d 步</item>
+        <item quantity="other">%1$s 步</item>
     </plurals>
 
     <!-- Notifications -->
@@ -105,4 +105,39 @@
     <string name="widget_pref_text_scale">文字缩放</string>
     <string name="widget_pref_bg_opacity">背景不透明度</string>
     <string name="widget_pref_btn_save">保存</string>
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">成就</string>
+    <string name="milestone_achievements">里程碑</string>
+    <string name="no_milestones_reached">尚未达成任何里程碑，继续加油！</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">正在加载数据…\n</string>
+    <string name="no_data_available">暂无数据\n</string>
+    <string name="error_loading_data">加载数据出错\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">每日目标</string>
+    <string name="daily_goal_notification">达成时提醒</string>
+    <string name="daily_goal_target">每日步数目标</string>
+    <string name="daily_goal_hint">请输入你的每日步数目标</string>
+
+    <!-- Records -->
+    <string name="personal_records">个人记录</string>
+    <string name="most_steps_day">单日最高步数</string>
+    <string name="most_walked_month">最活跃的月份</string>
+    <string name="since_date">自 %1$s 起</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">每日步数提醒</string>
+    <string name="daily_goal_notification_channel_desc">获取每日步数目标的进度更新</string>
+    <string name="goal_achieved_title">🎉 达成目标！</string>
+    <string name="goal_achieved_message">你已达成 %,d 步的目标！</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d 步 / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d 万步 / %2$s</string>
+    <string name="million_steps_with_distance">%1$d 百万步 / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f 百万步 / %2$s</string>
 </resources>

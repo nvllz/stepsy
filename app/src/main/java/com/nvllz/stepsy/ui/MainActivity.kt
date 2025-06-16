@@ -5,6 +5,7 @@
 package com.nvllz.stepsy.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -41,7 +42,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.graphics.drawable.toDrawable
+import com.nvllz.stepsy.util.GoalNotificationWorker
+import java.text.NumberFormat
 
 /**
  * The main activity for the UI of the step counter.
@@ -77,7 +81,6 @@ internal class MainActivity : AppCompatActivity() {
     private var currentSelectedYearButton: MaterialButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        Util.init(applicationContext)
         Util.applyTheme(AppPreferences.theme)
         supportActionBar?.let { actionBar ->
             actionBar.setBackgroundDrawable(android.graphics.Color.TRANSPARENT.toDrawable())
@@ -88,6 +91,7 @@ internal class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         BackupScheduler.ensureBackupScheduled(applicationContext)
+        GoalNotificationWorker.createNotificationChannels(this)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
@@ -290,8 +294,14 @@ internal class MainActivity : AppCompatActivity() {
         button.setTextColor(ContextCompat.getColor(this, R.color.colorOnSurface))
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+
+        if (menu is MenuBuilder) {
+            menu.setOptionalIconsVisible(true)
+        }
+
         return true
     }
 
@@ -304,6 +314,11 @@ internal class MainActivity : AppCompatActivity() {
 
             R.id.action_backup -> {
                 startActivity(Intent(this, BackupActivity::class.java))
+                true
+            }
+
+            R.id.action_goals -> {
+                startActivity(Intent(this, AchievementsActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -429,8 +444,26 @@ internal class MainActivity : AppCompatActivity() {
 
         val totalSteps = db.getSumSteps(startTime, endTime)
         val avgSteps = db.avgSteps(startTime, endTime)
+        val avgStepsFormatted = if (avgSteps >= 10_000) {
+            NumberFormat.getIntegerInstance().format(avgSteps)
+        } else {
+            avgSteps.toString()
+        }
 
-        mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, totalSteps, totalSteps)
+
+        val formattedSteps = if (totalSteps >= 10_000) {
+            NumberFormat.getIntegerInstance().format(totalSteps)
+        } else {
+            totalSteps.toString()
+        }
+
+        val stepsPlural = resources.getQuantityString(
+            R.plurals.steps_text,
+            totalSteps,
+            formattedSteps
+        )
+
+        mTextViewSteps.text = stepsPlural
         mTextViewMeters.text = String.format(getString(R.string.distance_today),
             Util.stepsToDistance(totalSteps),
             Util.getDistanceUnitString())
@@ -441,7 +474,7 @@ internal class MainActivity : AppCompatActivity() {
         mTextAvgPerDayHeader.text = getString(R.string.avg_distance)
         mTextAvgPerDayValue.text = String.format(
             getString(R.string.steps_format),
-            avgSteps.toString(),
+            avgStepsFormatted,
             Util.stepsToDistance(avgSteps),
             Util.getDistanceUnitString()
         )
@@ -509,8 +542,25 @@ internal class MainActivity : AppCompatActivity() {
 
         val yearSteps = Database.getInstance(this).getSumSteps(startOfYear, endOfYear)
         val avgSteps = Database.getInstance(this).avgSteps(startOfYear, endOfYear)
+        val avgStepsFormatted = if (avgSteps >= 10_000) {
+            NumberFormat.getIntegerInstance().format(avgSteps)
+        } else {
+            avgSteps.toString()
+        }
 
-        mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, yearSteps, yearSteps)
+        val formattedSteps = if (yearSteps >= 10_000) {
+            NumberFormat.getIntegerInstance().format(yearSteps)
+        } else {
+            yearSteps.toString()
+        }
+
+        val stepsPlural = resources.getQuantityString(
+            R.plurals.steps_text,
+            yearSteps,
+            formattedSteps
+        )
+
+        mTextViewSteps.text = stepsPlural
         mTextViewMeters.text = String.format(getString(R.string.distance_today),
             Util.stepsToDistance(yearSteps),
             Util.getDistanceUnitString())
@@ -521,7 +571,7 @@ internal class MainActivity : AppCompatActivity() {
         mTextAvgPerDayHeader.text = getString(R.string.avg_distance)
         mTextAvgPerDayValue.text = String.format(
             getString(R.string.steps_format),
-            avgSteps.toString(),
+            avgStepsFormatted,
             Util.stepsToDistance(avgSteps),
             Util.getDistanceUnitString()
         )
@@ -615,10 +665,21 @@ internal class MainActivity : AppCompatActivity() {
         if (isTodaySelected) {
             // Only update today's steps if "Today" is selected
 
+            val formattedSteps = if (steps >= 10_000) {
+                NumberFormat.getIntegerInstance().format(steps)
+            } else {
+                steps.toString()
+            }
+            val stepsPlural = resources.getQuantityString(
+                R.plurals.steps_text,
+                steps,
+                formattedSteps
+            )
+
             mTextViewMeters.text = String.format(getString(R.string.distance_today),
                 Util.stepsToDistance(steps),
                 Util.getDistanceUnitString())
-            mTextViewSteps.text = resources.getQuantityString(R.plurals.steps_text, steps, steps)
+            mTextViewSteps.text = stepsPlural
             mTextViewCalories.text = String.format(getString(R.string.calories),
                 Util.stepsToCalories(steps))
             mTextAvgPerDayHeader.visibility = View.GONE
@@ -696,10 +757,16 @@ internal class MainActivity : AppCompatActivity() {
         val dayEntry = getDayEntry(mSelectedMonth.timeInMillis)
 
         val stepsPlural = dayEntry?.let {
+            val formattedSteps = if (it.steps >= 10_000) {
+                NumberFormat.getIntegerInstance().format(it.steps)
+            } else {
+                it.steps.toString()
+            }
+
             resources.getQuantityString(
                 R.plurals.steps_text,
                 it.steps,
-                it.steps
+                formattedSteps
             )
         }
 
@@ -733,18 +800,29 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         val monthSteps = Database.getInstance(this).getSumSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
+        val monthStepsFormatted = if (monthSteps >= 10_000) {
+            NumberFormat.getIntegerInstance().format(monthSteps)
+        } else {
+            monthSteps.toString()
+        }
+
         val avgSteps = Database.getInstance(this).avgSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
+        val avgStepsFormatted = if (avgSteps >= 10_000) {
+            NumberFormat.getIntegerInstance().format(avgSteps)
+        } else {
+            avgSteps.toString()
+        }
 
         mTextViewMonthTotal.text = String.format(
             getString(R.string.steps_format),
-            monthSteps.toString(),
+            monthStepsFormatted,
             Util.stepsToDistance(monthSteps),
             Util.getDistanceUnitString()
         )
 
         mTextViewMonthAverage.text = String.format(
             getString(R.string.steps_format),
-            avgSteps.toString(),
+            avgStepsFormatted,
             Util.stepsToDistance(avgSteps),
             Util.getDistanceUnitString()
         )

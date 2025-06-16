@@ -18,3 +18,18 @@
 
 -keep class androidx.datastore.** { *; }
 -keep class * implements androidx.datastore.core.Serializer { *; }
+
+-dontobfuscate
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+
+# Keep data classes used for serialization
+-keep class com.nvllz.stepsy.ui.AchievementsActivity$MilestoneAchievement { *; }
+-keep class com.nvllz.stepsy.ui.AchievementsActivity$ComputedResults { *; }
+
+# Keep Gson related classes
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer

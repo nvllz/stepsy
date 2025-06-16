@@ -46,6 +46,9 @@ object AppPreferences {
         val BACKUP_LOCATION_URI = stringPreferencesKey("backup_location_uri")
         val BACKUP_FREQUENCY = stringPreferencesKey("backup_frequency")
         val BACKUP_RETENTION_COUNT = intPreferencesKey("backup_retention")
+
+        val DAILY_GOAL_NOTIFICATION = booleanPreferencesKey("daily_goal_notification")
+        val DAILY_GOAL_TARGET = intPreferencesKey("daily_goal_target")
     }
 
     lateinit var dataStore: DataStore<Preferences>
@@ -211,6 +214,28 @@ object AppPreferences {
         get() = runBlocking { backupRetentionFlow().first() }
         set(value) = runBlocking {
             dataStore.edit { it[PreferenceKeys.BACKUP_RETENTION_COUNT] = value }
+        }
+
+    // Daily Goal Notification
+    fun dailyGoalNotificationFlow(): Flow<Boolean> = dataStore.data.map {
+        it[PreferenceKeys.DAILY_GOAL_NOTIFICATION] == true
+    }
+
+    var dailyGoalNotification: Boolean
+        get() = runBlocking { dailyGoalNotificationFlow().first() }
+        set(value) = runBlocking {
+            dataStore.edit { it[PreferenceKeys.DAILY_GOAL_NOTIFICATION] = value }
+        }
+
+    // Daily Goal Target
+    fun dailyGoalTargetFlow(): Flow<Int> = dataStore.data.map {
+        it[PreferenceKeys.DAILY_GOAL_TARGET] ?: 10000
+    }
+
+    var dailyGoalTarget: Int
+        get() = runBlocking { dailyGoalTargetFlow().first() }
+        set(value) = runBlocking {
+            dataStore.edit { it[PreferenceKeys.DAILY_GOAL_TARGET] = value }
         }
 
     @OptIn(DelicateCoroutinesApi::class)
