@@ -109,6 +109,7 @@
                         app:flexWrap="wrap"
                         app:alignItems="center"
                         app:justifyContent="center"
+                        android:paddingHorizontal="10dp"
                         android:animateLayoutChanges="true">
 
                         <com.google.android.material.button.MaterialButton
