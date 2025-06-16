@@ -184,10 +184,12 @@
         <!-- Divider -->
         <View
             android:layout_width="match_parent"
+            android:layout_marginVertical="4dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_height="1dp"
-            android:background="#333333"
-            android:layout_margin="15dp"
-            android:layout_marginVertical="4dp"/>
+            android:background="@color/colorAccent"
+            android:alpha="0.3" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
