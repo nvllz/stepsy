@@ -1,0 +1,14 @@
+New:
+- Achievements screen to showcase your milestones
+- Daily goal: receive an alert when you reach your step target
+- Big numbers separator
+
+Changes:
+- The settings gear icon has been replaced with a three-dot menu
+- Backup section moved out of Settings screen
+- Autohide the pause/resume floating button
+- Various interface tweaks
+
+Fixes:
+- Improved filter button grouping
+- Resolved chart inconsistencies
