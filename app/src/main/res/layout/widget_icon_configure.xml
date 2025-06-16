@@ -81,6 +81,9 @@
         android:textAppearance="?attr/textAppearanceBodyLarge"
         android:checked="false"
         android:textColor="@color/colorOnSurface"
+        app:thumbTint="@color/colorOnPrimary"
+        app:trackTint="@color/colorPrimary"
+        app:rippleColor="@color/colorAccent"
         android:paddingTop="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -108,6 +111,11 @@
             android:textAppearance="?attr/textAppearanceBodyLarge"
             android:checked="true"
             android:textColor="@color/colorOnSurface"
+            app:thumbTint="@color/colorOnPrimary"
+            app:trackTint="@color/colorPrimary"
+            app:rippleColor="@color/colorAccent"
+            app:thumbIcon="@drawable/ic_tick"
+            app:thumbIconTint="@color/colorPrimary"
             android:layout_marginBottom="30dp"
             android:text="@string/widget_pref_dynamic_colors"/>
 
