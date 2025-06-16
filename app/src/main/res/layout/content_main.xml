@@ -184,7 +184,7 @@
         <!-- Divider -->
         <View
             android:layout_width="match_parent"
-            android:layout_marginVertical="4dp"
+            android:layout_marginVertical="15dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_height="1dp"
