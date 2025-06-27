@@ -61,6 +61,7 @@
         <item>Polski</item>
         <item>Türkçe</item>
         <item>Россия</item>
+        <item>Svenska</item>
         <item>中文（中国）</item>
     </string-array>
 
@@ -75,6 +76,7 @@
         <item>pl</item>
         <item>tr</item>
         <item>ru</item>
+        <item>sv</item>
         <item>zh</item>
     </string-array>
 

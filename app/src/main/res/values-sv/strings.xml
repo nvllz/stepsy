@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
+    <string name="week_display_format">Vecka%1$d</string>
+    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
+    <string name="no_entry">Ingen data för %1$s</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="steps_month">Denna månad</string>
+    <string name="avg_distance">Dagligt genomsnitt</string>
+    <string name="total_distance">Sammanlagt avstånd</string>
+
+    <string name="no_sensor">Din enhet har ingen sensor för stegräkning</string>
+    <string name="no_activity_permission">Saknar tillåtelse för ACTIVITY_RECOGNITION</string>
+
+    <!-- Header section -->
+    <string name="expand_collapse">Utvidga/Slå ihop</string>
+    <string name="header_today">Idag</string>
+    <string name="header_week">Denna vecka</string>
+    <string name="header_month">Denna månad</string>
+    <string name="header_7d">Senaste 7 dagar</string>
+    <string name="header_30d">Senaste 30 dagar</string>
+    <string name="header_all_time">Överlag</string>
+    <string name="header_year">År %1$d</string>
+
+    <string name="label_today">Idag</string>
+    <string name="label_week">Vecka</string>
+    <string name="label_month">Månad</string>
+    <string name="label_7d">7 dagar</string>
+    <string name="label_30d">30 dagar</string>
+    <string name="label_all_time">Överlag</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="one">%1$s steg</item>
+        <item quantity="other">%1$s steg</item>
+    </plurals>
+
+    <plurals name="streak_record_count">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">Räkning pausad</string>
+    <string name="notification_category_steps_day">Stegdata</string>
+    <string name="notification_description_paused">Avisera när stegräkning är pausad</string>
+    <string name="notification_description_steps_day">Steg idag</string>
+    <string name="notification_step_counting_paused">Stegräkning är pausad</string>
+    <string name="step_counting_paused">Pausat stegräkning</string>
+    <string name="step_counting_resumed">Återupptagit stegräkning</string>
+    <string name="action_pause">Pausa</string>
+    <string name="action_resume">Återuppta</string>
+
+    <!-- Preferences -->
+    <string name="settings">Inställningar</string>
+    <string name="header_personal_data">Personlig data</string>
+    <string name="header_appearance">Utseende</string>
+    <string name="header_data_backup">Säkerhetskopiering</string>
+
+    <string name="preference_system">System</string>
+    <string name="height_cm">Höjd (cm)</string>
+    <string name="step_length">Steglängd</string>
+    <string name="weight_kg">Vikt (kg)</string>
+    <string name="first_day_of_the_week">Första veckodagen</string>
+    <string name="app_language">Språk</string>
+    <string name="theme">Tema</string>
+    <string name="date_format">Datumformat</string>
+    <string name="unit_system">Enhetssystem</string>
+    <string name="export_data">Exportera</string>
+    <string name="backup_frequency">Automatisk säkerhetskopieringsfrekvens</string>
+    <string name="backup_retention_count">Antal säkerhetskopior att behålla</string>
+    <string name="backup_retention_hint">(0 för att behålla alla)</string>
+    <string name="backup_location">Plats för säkerhetskopiering</string>
+    <string name="backup_location_not_set">Ej angivet</string>
+    <string name="manual_backup">Manuell säkerhetskopiering</string>
+    <string name="import_data">Importera</string>
+    <string name="import_data_summary">Återställ stegdata från en fil</string>
+
+    <string name="header_about">Appinfo</string>
+    <string name="about_stepsy">Om</string>
+    <string name="about_version">Version</string>
+    <string name="about_license">Licens</string>
+    <string name="about_html">
+    <![CDATA[
+        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
+        Underhållen av <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
+        Baserad på <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> by <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
+        <a href="https://github.com/nvllz/stepsy/issues">Rapportera en bugg</a><br><br>
+        <a href="https://github.com/nvllz/stepsy">Projektets webbsida</a><br>
+        <a href="https://www.gnu.org/licenses/gpl-3.0.html">Licens GPL-3.0</a>
+    ]]>
+    </string>
+
+    <!-- Toasts -->
+    <string name="enter_valid_value">Vänligen ange ett giltigt värde</string>
+    <string name="cannot_open_file">Kan ej öppna fil</string>
+    <string name="manual_backup_successful">Manuell säkerhetskopiering framgångsrik</string>
+    <string name="select_backup_location_first">Välj plats för säkerhetskopiering först</string>
+    <string name="import_result">Importerade %1$d inmatningar (%2$d misslyckades). %3$s</string>
+    <string name="today_steps_set">Dagens steg satta på %1$d.</string>
+
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">Invertera bakgrundsfärg</string>
+    <string name="widget_pref_dynamic_colors">Dynamiska färger</string>
+    <string name="widget_pref_text_scale">Textstorlek</string>
+    <string name="widget_pref_bg_opacity">Bakgrundsgenomskinlighet</string>
+    <string name="widget_pref_btn_save">Spara</string>
+
+
+
+    <!-- Achievements -->
+    <string name="achievements_title">Bedrifter</string>
+    <string name="milestone_achievements">Milstolpar</string>
+    <string name="no_milestones_reached">Inga milstolpar uppnådda än. Fortsätt gå!</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">Laddar data…\n</string>
+    <string name="no_data_available">Ingen data tillgänglig\n</string>
+    <string name="error_loading_data">Fel vid dataladdning\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">Dagligt mål</string>
+    <string name="daily_goal_notification">Avisera vid uppnåelse</string>
+    <string name="daily_goal_target">Dagligt stegmål</string>
+    <string name="daily_goal_hint">Ange ditt dagliga stegmål</string>
+
+    <!-- Records -->
+    <string name="personal_records">Personliga mål</string>
+    <string name="most_steps_day">Högsta stegantal</string>
+    <string name="most_walked_month">Mest aktiva månad</string>
+    <string name="streak_record">Längsta serien med 10 000+ steg</string>
+    <string name="since_date">Sedan %1$s</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">Dagliga stegmålsavsieringar</string>
+    <string name="daily_goal_notification_channel_desc">Få uppdateringar om din dagliga stegmålsutveckling</string>
+    <string name="goal_achieved_title">🎉 Du nådde ditt mål!</string>
+    <string name="goal_achieved_message">Du nådde ditt stegmål om %,d steg!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d steg / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$dk steg / %2$s</string>
+    <string name="million_steps_with_distance">%1$dM steg / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM steg / %2$s</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>@string/preference_system</item>
+        <item>Ljust</item>
+        <item>Mörkt</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>Söndag</item>
+        <item>Måndag</item>
+        <item>Lördag</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>Metriskt (km)</item>
+        <item>Brittiskt (miles)</item>
+    </string-array>
+
+    <!-- Backup Frequency -->
+    <string-array name="backup_frequency_entries">
+        <item>Avaktiverad</item>
+        <item>Dagligen</item>
+        <item>Varannan dag</item>
+        <item>Var 3:e dag</item>
+        <item>Veckovis</item>
+        <item>Varannan vecka</item>
+        <item>Månadsvis</item>
+    </string-array>
+</resources>
