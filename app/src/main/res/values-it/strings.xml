@@ -44,6 +44,7 @@
 
     <plurals name="streak_record_count">
         <item quantity="one">%d giorno</item>
+        <item quantity="many">%d giorni</item>
         <item quantity="other">%d giorni</item>
     </plurals>
 
