@@ -15,6 +15,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import androidx.core.net.toUri
 import kotlinx.coroutines.delay
+import androidx.core.content.edit
 
 object BackupScheduler {
     private const val TAG = "BackupScheduler"
@@ -56,6 +57,14 @@ object BackupScheduler {
         }
     }
 
+    fun getNextBackupTime(context: Context): Long {
+        val frequency = AppPreferences.backupFrequency
+        if (frequency <= 0) return 0L
+
+        val prefs = context.getSharedPreferences("backup_prefs", Context.MODE_PRIVATE)
+        return prefs.getLong("next_backup_time", 0L)
+    }
+
     fun scheduleBackup(context: Context, immediate: Boolean = false) {
         Log.d(TAG, "Scheduling backup...")
         cancelBackup(context)
@@ -78,6 +87,11 @@ object BackupScheduler {
             .format(Date(nextRunMillis))
 
         Log.d(TAG, "Next backup scheduled for: $nextRunTime (every $backupIntervalDays days)")
+
+        val prefs = context.getSharedPreferences("backup_prefs", Context.MODE_PRIVATE)
+        prefs.edit {
+            putLong("next_backup_time", nextRunMillis)
+        }
 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)

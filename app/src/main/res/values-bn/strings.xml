@@ -81,6 +81,7 @@
     <string name="manual_backup">ম্যানুয়াল ব্যাকআপ</string>
     <string name="import_data">আমদানি</string>
     <string name="import_data_summary">একটি ফাইল থেকে পদক্ষেপের ডেটা পুনরুদ্ধার করুন</string>
+    <string name="next_backup_scheduled">পরবর্তী স্বয়ংক্রিয় ব্যাকআপ\n%1$s %2$s-এ</string>
 
     <string name="header_about">অ্যাপ তথ্য</string>
     <string name="about_stepsy">সম্পর্কে</string>

@@ -83,6 +83,7 @@
     <string name="manual_backup">Copia de seguridad manual</string>
     <string name="import_data">Importar</string>
     <string name="import_data_summary">Restaurar datos de pasos desde un archivo</string>
+    <string name="next_backup_scheduled">Próxima copia de seguridad automática\n%1$s a las %2$s</string>
 
     <string name="header_about">Información de la app</string>
     <string name="about_stepsy">Acerca de</string>

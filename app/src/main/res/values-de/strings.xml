@@ -81,6 +81,7 @@
     <string name="manual_backup">Manuelles Backup</string>
     <string name="import_data">Importieren</string>
     <string name="import_data_summary">Schrittdaten aus einer Datei wiederherstellen</string>
+    <string name="next_backup_scheduled">Nächstes automatisches Backup\n%1$s um %2$s</string>
 
     <string name="header_about">App-Informationen</string>
     <string name="about_stepsy">Über</string>

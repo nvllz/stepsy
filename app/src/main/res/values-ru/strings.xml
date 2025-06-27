@@ -85,6 +85,7 @@
     <string name="manual_backup">Резервное копирование вручную</string>
     <string name="import_data">Импорт</string>
     <string name="import_data_summary">Восстановить данные шагов из файла</string>
+    <string name="next_backup_scheduled">Следующее автоматическое резервное копирование\n%1$s в %2$s</string>
 
     <string name="header_about">Информация о приложении</string>
     <string name="about_stepsy">О программе</string>

@@ -9,6 +9,10 @@ import android.text.InputType
 import android.text.format.DateUtils
 import android.text.method.DigitsKeyListener
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -33,6 +37,9 @@ import com.nvllz.stepsy.util.Util
 import kotlinx.coroutines.launch
 import java.io.FileInputStream
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class BackupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +64,7 @@ class BackupActivity : AppCompatActivity() {
 
 class BackupPreferenceFragment : PreferenceFragmentCompat() {
     private lateinit var backupLocationLauncher: ActivityResultLauncher<Intent>
+    private lateinit var nextBackupTextView: TextView
     private val TAG = "BackupPreferenceFragment"
     private lateinit var importLauncher: ActivityResultLauncher<Intent>
 
@@ -110,6 +118,8 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
                 BackupScheduler.cancelBackup(requireContext())
                 BackupScheduler.scheduleBackup(requireContext())
 
+                updateNextBackupInfo()
+
                 Log.d(TAG, "Backup rescheduled with new frequency: $frequency days")
             }
             true
@@ -157,6 +167,46 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
             BackupScheduler.scheduleManualExport(requireContext())
             Toast.makeText(context, R.string.manual_backup_successful, Toast.LENGTH_SHORT).show()
             true
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+
+        val footer = inflater.inflate(R.layout.backup_preferences_footer, container, false)
+        nextBackupTextView = footer.findViewById(R.id.nextBackupTextView)
+
+        (view as? ViewGroup)?.addView(footer)
+
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateNextBackupInfo()
+    }
+
+    private fun updateNextBackupInfo() {
+        lifecycleScope.launch {
+            val frequency = AppPreferences.backupFrequency
+            val locationSet = AppPreferences.backupLocationUri != null
+
+            if (frequency > 0 && locationSet) {
+                val nextBackupTime = BackupScheduler.getNextBackupTime(requireContext())
+                val dateFormat = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
+                val formattedDate = dateFormat.format(Date(nextBackupTime))
+                val formattedTime = android.text.format.DateFormat.getTimeFormat(requireContext()).format(nextBackupTime)
+
+                val text = getString(R.string.next_backup_scheduled, formattedDate, formattedTime)
+                nextBackupTextView.text = text
+                nextBackupTextView.visibility = View.VISIBLE
+            } else {
+                nextBackupTextView.visibility = View.GONE
+            }
         }
     }
 
@@ -269,6 +319,7 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
             locationPref.summary = getString(R.string.backup_location_not_set)
             findPreference<ListPreference>("backup_frequency")?.isEnabled = false
             findPreference<Preference>("manual_backup")?.isEnabled = false
+            updateNextBackupInfo()
             return
         }
 

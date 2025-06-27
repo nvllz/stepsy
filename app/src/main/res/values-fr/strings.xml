@@ -83,6 +83,7 @@
     <string name="manual_backup">Sauvegarde manuelle</string>
     <string name="import_data">Importer</string>
     <string name="import_data_summary">Restaurer les données de pas à partir d\'un fichier</string>
+    <string name="next_backup_scheduled">Prochaine sauvegarde automatique\n%1$s à %2$s</string>
 
     <string name="header_about">Informations sur l\'application</string>
     <string name="about_stepsy">À propos</string>

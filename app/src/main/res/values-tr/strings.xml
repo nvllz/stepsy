@@ -81,6 +81,7 @@
     <string name="manual_backup">Manuel yedekleme</string>
     <string name="import_data">İçe aktar</string>
     <string name="import_data_summary">Adım verilerini bir dosyadan geri yükle</string>
+    <string name="next_backup_scheduled">Sonraki otomatik yedekleme\n%1$s - %2$s</string>
 
     <string name="header_about">Uygulama bilgisi</string>
     <string name="about_stepsy">Hakkında</string>

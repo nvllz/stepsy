@@ -81,6 +81,7 @@
     <string name="manual_backup">Manual backup</string>
     <string name="import_data">Import</string>
     <string name="import_data_summary">Restore step data from a file</string>
+    <string name="next_backup_scheduled">Next automatic backup\n%1$s at %2$s</string>
 
     <string name="header_about">App info</string>
     <string name="about_stepsy">About</string>
@@ -111,7 +112,6 @@
     <string name="widget_pref_text_scale">Text Scale</string>
     <string name="widget_pref_bg_opacity">Background Opacity</string>
     <string name="widget_pref_btn_save">Save</string>
-
 
 
     <!-- Achievements -->

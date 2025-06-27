@@ -81,6 +81,7 @@
     <string name="manual_backup">Manuell säkerhetskopiering</string>
     <string name="import_data">Importera</string>
     <string name="import_data_summary">Återställ stegdata från en fil</string>
+    <string name="next_backup_scheduled">Nästa automatiska säkerhetskopiering\n%1$s kl. %2$s</string>
 
     <string name="header_about">Appinfo</string>
     <string name="about_stepsy">Om</string>
