@@ -64,7 +64,7 @@ class BackupActivity : AppCompatActivity() {
 
 class BackupPreferenceFragment : PreferenceFragmentCompat() {
     private lateinit var backupLocationLauncher: ActivityResultLauncher<Intent>
-    private lateinit var nextBackupTextView: TextView
+    private var nextBackupTextView: TextView? = null
     private val TAG = "BackupPreferenceFragment"
     private lateinit var importLauncher: ActivityResultLauncher<Intent>
 
@@ -179,10 +179,17 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
 
         val footer = inflater.inflate(R.layout.backup_preferences_footer, container, false)
         nextBackupTextView = footer.findViewById(R.id.nextBackupTextView)
-
         (view as? ViewGroup)?.addView(footer)
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        lifecycleScope.launch {
+            initializePreferences()
+        }
     }
 
     override fun onResume() {
@@ -191,21 +198,23 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
     }
 
     private fun updateNextBackupInfo() {
-        lifecycleScope.launch {
-            val frequency = AppPreferences.backupFrequency
-            val locationSet = AppPreferences.backupLocationUri != null
+        nextBackupTextView?.let { textView ->
+            lifecycleScope.launch {
+                val frequency = AppPreferences.backupFrequency
+                val locationSet = AppPreferences.backupLocationUri != null
 
-            if (frequency > 0 && locationSet) {
-                val nextBackupTime = BackupScheduler.getNextBackupTime(requireContext())
-                val dateFormat = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
-                val formattedDate = dateFormat.format(Date(nextBackupTime))
-                val formattedTime = android.text.format.DateFormat.getTimeFormat(requireContext()).format(nextBackupTime)
+                if (frequency > 0 && locationSet) {
+                    val nextBackupTime = BackupScheduler.getNextBackupTime(requireContext())
+                    val dateFormat = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
+                    val formattedDate = dateFormat.format(Date(nextBackupTime))
+                    val formattedTime = android.text.format.DateFormat.getTimeFormat(requireContext()).format(nextBackupTime)
 
-                val text = getString(R.string.next_backup_scheduled, formattedDate, formattedTime)
-                nextBackupTextView.text = text
-                nextBackupTextView.visibility = View.VISIBLE
-            } else {
-                nextBackupTextView.visibility = View.GONE
+                    val text = getString(R.string.next_backup_scheduled, formattedDate, formattedTime)
+                    textView.text = text
+                    textView.visibility = View.VISIBLE
+                } else {
+                    textView.visibility = View.GONE
+                }
             }
         }
     }
