@@ -40,6 +40,10 @@
         <item quantity="other">%1$s 步</item>
     </plurals>
 
+    <plurals name="streak_record_count">
+        <item quantity="other">%d 天</item>
+    </plurals>
+
     <!-- Notifications -->
     <string name="notification_category_counting_paused">暂停计步</string>
     <string name="notification_category_steps_day">步数</string>
@@ -127,6 +131,7 @@
     <string name="personal_records">个人记录</string>
     <string name="most_steps_day">单日最高步数</string>
     <string name="most_walked_month">最活跃的月份</string>
+    <string name="streak_record">最长连续10,000+步记录</string>
     <string name="since_date">自 %1$s 起</string>
 
     <!-- Daily Goal Notifications -->

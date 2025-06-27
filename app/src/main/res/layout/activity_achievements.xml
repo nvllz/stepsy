@@ -206,6 +206,36 @@
 
                     </LinearLayout>
 
+                    <!-- 10k+ Streak Record -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/streak_record"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/open_sans_family"
+                            android:textColor="@color/colorOnSurface" />
+
+                        <TextView
+                            android:id="@+id/streak_record_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/loading_data"
+                            android:textSize="14sp"
+                            android:paddingStart="5dp"
+                            android:fontFamily="@font/open_sans_family"
+                            android:textColor="@color/colorAccent"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
                     <!-- Total Distance -->
                     <LinearLayout
                         android:layout_width="match_parent"

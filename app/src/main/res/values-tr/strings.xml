@@ -41,6 +41,11 @@
         <item quantity="other">%1$s adım</item>
     </plurals>
 
+    <plurals name="streak_record_count">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+
     <!-- Notifications -->
     <string name="notification_category_counting_paused">Sayım duraklatıldı</string>
     <string name="notification_category_steps_day">Adım verisi</string>
@@ -128,6 +133,7 @@
     <string name="personal_records">Kişisel Rekorlar</string>
     <string name="most_steps_day">En Fazla Günlük Adım</string>
     <string name="most_walked_month">En Hareketli Ay</string>
+    <string name="streak_record">En Uzun 10.000+ Adım Serisi</string>
     <string name="since_date">%1$s tarihinden beri</string>
 
     <!-- Daily Goal Notifications -->

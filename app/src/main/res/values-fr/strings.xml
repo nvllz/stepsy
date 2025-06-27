@@ -42,6 +42,12 @@
         <item quantity="other">%1$s pas</item>
     </plurals>
 
+    <plurals name="streak_record_count">
+        <item quantity="one">%d jour</item>
+        <item quantity="many">%d jours</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
+
     <!-- Notifications -->
     <string name="notification_category_counting_paused">Comptage en pause</string>
     <string name="notification_category_steps_day">Données de pas</string>
@@ -129,6 +135,7 @@
     <string name="personal_records">Records personnels</string>
     <string name="most_steps_day">Plus grand nombre de pas en un jour</string>
     <string name="most_walked_month">Mois le plus actif</string>
+    <string name="streak_record">Plus longue série de 10 000+ pas</string>
     <string name="since_date">Depuis le %1$s</string>
 
     <!-- Daily Goal Notifications -->

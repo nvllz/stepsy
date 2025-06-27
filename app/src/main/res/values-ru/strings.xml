@@ -43,6 +43,13 @@
         <item quantity="other">%1$s шага</item>
     </plurals>
 
+    <plurals name="streak_record_count">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+
     <!-- Notifications -->
     <string name="notification_category_counting_paused">Подсчёт приостановлен</string>
     <string name="notification_category_steps_day">Данные о шагах</string>
@@ -130,6 +137,7 @@
     <string name="personal_records">Личные рекорды</string>
     <string name="most_steps_day">Максимум шагов за день</string>
     <string name="most_walked_month">Самый активный месяц</string>
+    <string name="streak_record">Самая длинная серия из 10 000+ шагов</string>
     <string name="since_date">С %1$s</string>
 
     <!-- Daily Goal Notifications -->

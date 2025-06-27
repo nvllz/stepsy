@@ -41,6 +41,7 @@ class AchievementsActivity : AppCompatActivity() {
     data class ComputedResults(
         val mostStepsDay: String,
         val mostWalkedMonth: String,
+        val streakRecord: String,
         val totalDistance: String,
         val milestones: List<MilestoneAchievement>
     )
@@ -156,6 +157,7 @@ class AchievementsActivity : AppCompatActivity() {
         AchievementsCacheUtil.loadCachedResults(this)?.let { cached ->
             updatePersonalRecord(R.id.most_steps_day_value, cached.mostStepsDay)
             updatePersonalRecord(R.id.most_walked_month_value, cached.mostWalkedMonth)
+            updatePersonalRecord(R.id.streak_record_value, cached.streakRecord)
             updatePersonalRecord(R.id.total_distance_value, cached.totalDistance)
 
             if (cached.milestones != null && cached.milestones.isNotEmpty()) {
@@ -175,6 +177,7 @@ class AchievementsActivity : AppCompatActivity() {
                 if (firstEntry == 0L || lastEntry == 0L) {
                     updatePersonalRecord(R.id.most_steps_day_value, getString(R.string.no_data_available))
                     updatePersonalRecord(R.id.most_walked_month_value, getString(R.string.no_data_available))
+                    updatePersonalRecord(R.id.streak_record_value, getString(R.string.error_loading_data))
                     updatePersonalRecord(R.id.total_distance_value, getString(R.string.no_data_available))
                     showNoMilestones()
                     return@launch
@@ -188,6 +191,7 @@ class AchievementsActivity : AppCompatActivity() {
 
                 updatePersonalRecord(R.id.most_steps_day_value, results.mostStepsDay)
                 updatePersonalRecord(R.id.most_walked_month_value, results.mostWalkedMonth)
+                updatePersonalRecord(R.id.streak_record_value, results.streakRecord)
                 updatePersonalRecord(R.id.total_distance_value, results.totalDistance)
 
                 if (results.milestones.isNotEmpty()) {
@@ -199,6 +203,7 @@ class AchievementsActivity : AppCompatActivity() {
             } catch (_: Exception) {
                 updatePersonalRecord(R.id.most_steps_day_value, getString(R.string.error_loading_data))
                 updatePersonalRecord(R.id.most_walked_month_value, getString(R.string.error_loading_data))
+                updatePersonalRecord(R.id.streak_record_value, getString(R.string.error_loading_data))
                 updatePersonalRecord(R.id.total_distance_value, getString(R.string.error_loading_data))
                 showNoMilestones()
             }
@@ -210,7 +215,7 @@ class AchievementsActivity : AppCompatActivity() {
 
         if (entries.isNullOrEmpty()) {
             val noData = getString(R.string.no_data_available)
-            return ComputedResults(noData, noData, noData, emptyList())
+            return ComputedResults(noData, noData, noData, noData, emptyList())
         }
 
         var minStepsEntry = entries[0]
@@ -218,6 +223,7 @@ class AchievementsActivity : AppCompatActivity() {
         var totalSteps = 0
         val monthlySteps = mutableMapOf<String, Int>()
         val milestones = calculateMilestoneAchievementsOptimized(entries)
+        val (longestStreak, streakRange) = calculateLongestStreak(entries)
 
         for (entry in entries) {
             totalSteps += entry.steps
@@ -240,10 +246,21 @@ class AchievementsActivity : AppCompatActivity() {
             getString(R.string.no_data_available)
         }
 
+        val streakRecord = if (longestStreak > 0 && streakRange != null) {
+            val dateText = if (longestStreak == 1) {
+                "${dateFormat.format(Date(streakRange.second))}\n"
+            } else {
+                "${dateFormat.format(Date(streakRange.first))} — ${dateFormat.format(Date(streakRange.second))}"
+            }
+            resources.getQuantityString(R.plurals.streak_record_count, longestStreak, longestStreak) + "\n$dateText"
+        } else {
+            "${resources.getQuantityString(R.plurals.streak_record_count, 0, 0)}\n"
+        }
+
         val totalDistance = "${formatStepsWithDistance(totalSteps)}\n" +
                 getString(R.string.since_date, dateFormat.format(Date(minStepsEntry.timestamp)))
 
-        return ComputedResults(mostStepsDay, mostWalkedMonth, totalDistance, milestones)
+        return ComputedResults(mostStepsDay, mostWalkedMonth, streakRecord, totalDistance, milestones)
     }
 
     private fun calculateMilestoneAchievementsOptimized(entries: List<Database.Entry>): List<MilestoneAchievement> {
@@ -274,6 +291,35 @@ class AchievementsActivity : AppCompatActivity() {
         }
 
         return achievements
+    }
+
+    private fun calculateLongestStreak(entries: List<Database.Entry>): Pair<Int, Pair<Long, Long>?> {
+        if (entries.isEmpty()) return Pair(0, null)
+
+        val sortedEntries = entries.sortedBy { it.timestamp }
+        var currentStreak = 0
+        var longestStreak = 0
+        var streakStart: Long? = null
+        var longestStreakRange: Pair<Long, Long>? = null
+
+        for (entry in sortedEntries) {
+            if (entry.steps >= 10000) {
+                currentStreak++
+                if (streakStart == null) {
+                    streakStart = entry.timestamp
+                }
+
+                if (currentStreak > longestStreak) {
+                    longestStreak = currentStreak
+                    longestStreakRange = Pair(streakStart, entry.timestamp)
+                }
+            } else {
+                currentStreak = 0
+                streakStart = null
+            }
+        }
+
+        return Pair(longestStreak, longestStreakRange)
     }
 
     private fun formatStepsWithDistance(steps: Int): String {

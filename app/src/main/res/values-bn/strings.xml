@@ -41,6 +41,11 @@
         <item quantity="other">%1$s পদক্ষেপ</item>
     </plurals>
 
+    <plurals name="streak_record_count">
+        <item quantity="one">%d দিন</item>
+        <item quantity="other">%d দিন</item>
+    </plurals>
+
     <!-- Notifications -->
     <string name="notification_category_counting_paused">গণনা বন্ধ</string>
     <string name="notification_category_steps_day">পদক্ষেপের তথ্য</string>
@@ -128,6 +133,7 @@
     <string name="personal_records">ব্যক্তিগত রেকর্ড</string>
     <string name="most_steps_day">সর্বোচ্চ পদক্ষেপ একদিনে</string>
     <string name="most_walked_month">সর্বাধিক সক্রিয় মাস</string>
+    <string name="streak_record">সর্বাধিক ১০ হাজার+ পদক্ষেপের ধারাবাহিকতা</string>
     <string name="since_date">%1$s থেকে পর থেকে</string>
 
     <!-- Daily Goal Notifications -->

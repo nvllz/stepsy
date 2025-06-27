@@ -41,6 +41,11 @@
         <item quantity="other">%1$s steps</item>
     </plurals>
 
+    <plurals name="streak_record_count">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+
     <!-- Notifications -->
     <string name="notification_category_counting_paused">Counting paused</string>
     <string name="notification_category_steps_day">Step data</string>
@@ -129,6 +134,7 @@
     <string name="personal_records">Personal Records</string>
     <string name="most_steps_day">Highest Step Count</string>
     <string name="most_walked_month">Most Active Month</string>
+    <string name="streak_record">Longest 10k+ Steps Streak</string>
     <string name="since_date">Since %1$s</string>
 
     <!-- Daily Goal Notifications -->
