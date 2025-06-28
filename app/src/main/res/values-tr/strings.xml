@@ -148,4 +148,11 @@
     <string name="thousand_steps_with_distance">%1$d bin adım / %2$s</string>
     <string name="million_steps_with_distance">%1$dM adım / %2$s</string>
     <string name="million_steps_decimal_with_distance">%.1fM adım / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">Bugünün adım sayısını ayarla</string>
+    <string name="confirm_decrease_title">Daha Düşük Adım Sayısı</string>
+    <string name="confirm_decrease_message">Bu değer mevcut adım sayısından daha düşük. Devam etmek istediğinizden emin misiniz?</string>
+    <string name="invalid_step_count">Lütfen geçerli bir sayı girin</string>
+    <string name="steps_updated">Adım sayısı güncellendi</string>
 </resources>

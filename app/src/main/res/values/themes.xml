@@ -16,6 +16,7 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
 
         <item name="alertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
     </style>
 
     <!-- Settings activity theme -->
@@ -33,6 +34,7 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
 
         <item name="alertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
     </style>
 
     <!-- Calendar view style -->
@@ -46,16 +48,35 @@
     <!-- Dialog Button Styles -->
     <style name="DialogButton.Positive" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorOnSurface</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/colorAccent</item>
     </style>
 
     <style name="DialogButton.Negative" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorAccent</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/colorAccent</item>
     </style>
 
     <!-- Dialog Theme -->
     <style name="ThemeOverlay.stepsy.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="buttonBarPositiveButtonStyle">@style/DialogButton.Positive</item>
         <item name="buttonBarNegativeButtonStyle">@style/DialogButton.Negative</item>
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">@color/colorSurface</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="android:textColorPrimary">@color/colorOnSurface</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="editTextStyle">@style/Widget.stepsy.EditText</item>
+    </style>
+
+    <!-- Custom EditText style for dialogs -->
+    <style name="Widget.stepsy.EditText" parent="Widget.Material3.TextInputEditText.FilledBox">
+        <item name="android:textColor">@color/colorOnSurface</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="backgroundTint">@color/colorSurface</item>
+        <item name="android:background">@drawable/edit_text_background</item>
     </style>
 </resources>

@@ -152,4 +152,11 @@
     <string name="thousand_steps_with_distance">%1$d тыс. шагов / %2$s</string>
     <string name="million_steps_with_distance">%1$d млн шагов / %2$s</string>
     <string name="million_steps_decimal_with_distance">%.1f млн шагов / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">Изменить количество шагов за сегодня</string>
+    <string name="confirm_decrease_title">Снижение количества шагов</string>
+    <string name="confirm_decrease_message">Это значение меньше текущего количества шагов. Вы уверены, что хотите продолжить?</string>
+    <string name="invalid_step_count">Пожалуйста, введите корректное число</string>
+    <string name="steps_updated">Количество шагов обновлено</string>
 </resources>

@@ -152,4 +152,11 @@
     <string name="thousand_steps_with_distance">%1$d tys. kroków / %2$s</string>
     <string name="million_steps_with_distance">%1$d mln kroków / %2$s</string>
     <string name="million_steps_decimal_with_distance">%.1f mln kroków / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">Dostosuj dzisiejszą liczbę kroków</string>
+    <string name="confirm_decrease_title">Zmniejszenie liczby kroków</string>
+    <string name="confirm_decrease_message">Ta wartość jest niższa niż obecna liczba kroków. Czy na pewno chcesz kontynuować?</string>
+    <string name="invalid_step_count">Wprowadź poprawną liczbę</string>
+    <string name="steps_updated">Zaktualizowano liczbę kroków</string>
 </resources>

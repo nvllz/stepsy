@@ -46,6 +46,17 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.graphics.drawable.toDrawable
 import com.nvllz.stepsy.util.GoalNotificationWorker
 import java.text.NumberFormat
+import android.text.InputType
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.datastore.preferences.core.edit
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
+import java.util.Date
 
 /**
  * The main activity for the UI of the step counter.
@@ -247,6 +258,8 @@ internal class MainActivity : AppCompatActivity() {
         updateChart()
 
         checkPermissions()
+
+        setupStepCountModification()
     }
 
     override fun onResume() {
@@ -942,6 +955,101 @@ internal class MainActivity : AppCompatActivity() {
 
     private fun isYearSelected(): Boolean {
         return getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getBoolean(KEY_IS_YEAR_SELECTED, false)
+    }
+
+    private fun setupStepCountModification() {
+        val textViewSteps = findViewById<TextView>(R.id.textViewSteps)
+
+        textViewSteps.setOnLongClickListener { view ->
+            if (isTodaySelected) {
+                val currentStepsText = textViewSteps.text.toString()
+                val stepsNumber = currentStepsText.replace(Regex("[^0-9]"), "")
+                showStepCountDialog(stepsNumber.toString())
+            }
+            true
+        }
+    }
+
+    private fun showStepCountDialog(currentSteps: String) {
+        val input = EditText(this).apply {
+            setText(currentSteps)
+            inputType = InputType.TYPE_CLASS_NUMBER
+            setSelection(text.length)
+            requestFocus()
+        }
+
+        val paddingPx = (24 * resources.displayMetrics.density).toInt()
+        val container = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(paddingPx, paddingPx/2, paddingPx, paddingPx/2)
+            addView(input)
+        }
+
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.edit_step_count)
+            .setView(container)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                hideKeyboard(input)
+                handleStepCountUpdate(input.text.toString())
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
+                hideKeyboard(input)
+            }
+            .create()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        dialog.show()
+    }
+
+    private fun hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun handleStepCountUpdate(newStepsText: String) {
+        try {
+            val newSteps = newStepsText.toInt()
+            val textViewSteps = findViewById<TextView>(R.id.textViewSteps)
+            val currentStepsText = textViewSteps.text.toString()
+            val currentSteps = currentStepsText.replace(Regex("[^0-9]"), "").toInt()
+
+            if (newSteps < currentSteps) {
+                showDecreaseConfirmationDialog(newSteps)
+            } else {
+                updateStepCount(newSteps)
+            }
+        } catch (_: NumberFormatException) {
+            Toast.makeText(this, R.string.invalid_step_count, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showDecreaseConfirmationDialog(newSteps: Int) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.confirm_decrease_title)
+            .setMessage(R.string.confirm_decrease_message)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                updateStepCount(newSteps)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun updateStepCount(newSteps: Int) {
+        lifecycleScope.launch {
+            AppPreferences.dataStore.edit { preferences ->
+                preferences[AppPreferences.PreferenceKeys.STEPS] = newSteps
+            }
+        }
+
+        val intent = Intent(this, MotionService::class.java).apply {
+            putExtra("MANUAL_STEP_COUNT_CHANGE", true)
+            putExtra(MotionService.KEY_STEPS, newSteps)
+            putExtra(MotionService.KEY_DATE, AppPreferences.date)
+        }
+
+        ContextCompat.startForegroundService(this, intent)
+
+        Toast.makeText(this, R.string.steps_updated, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

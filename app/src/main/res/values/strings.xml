@@ -148,4 +148,11 @@
     <string name="thousand_steps_with_distance">%1$dk steps / %2$s</string>
     <string name="million_steps_with_distance">%1$dM steps / %2$s</string>
     <string name="million_steps_decimal_with_distance">%.1fM steps / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">Adjust Today\'s Step Count</string>
+    <string name="confirm_decrease_title">Lower Step Count</string>
+    <string name="confirm_decrease_message">"This value is lower than the current step count. Are you sure you want to proceed?"</string>
+    <string name="invalid_step_count">Please enter a valid number</string>
+    <string name="steps_updated">Step count updated</string>
 </resources>

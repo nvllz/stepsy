@@ -146,4 +146,11 @@
     <string name="thousand_steps_with_distance">%1$d 万步 / %2$s</string>
     <string name="million_steps_with_distance">%1$d 百万步 / %2$s</string>
     <string name="million_steps_decimal_with_distance">%.1f 百万步 / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">调整今天的步数</string>
+    <string name="confirm_decrease_title">步数减少确认</string>
+    <string name="confirm_decrease_message">该数值低于当前记录的步数。确定要继续吗？</string>
+    <string name="invalid_step_count">请输入有效数字</string>
+    <string name="steps_updated">步数已更新</string>
 </resources>

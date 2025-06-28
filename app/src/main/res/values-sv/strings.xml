@@ -149,4 +149,11 @@
     <string name="thousand_steps_with_distance">%1$dk steg / %2$s</string>
     <string name="million_steps_with_distance">%1$dM steg / %2$s</string>
     <string name="million_steps_decimal_with_distance">%.1fM steg / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">Justera dagens stegräkning</string>
+    <string name="confirm_decrease_title">Lägre stegräkning</string>
+    <string name="confirm_decrease_message">Detta värde är lägre än det aktuella stegtalet. Vill du fortsätta?</string>
+    <string name="invalid_step_count">Ange ett giltigt nummer</string>
+    <string name="steps_updated">Stegräkning uppdaterad</string>
 </resources>

@@ -150,4 +150,11 @@
     <string name="thousand_steps_with_distance">%1$d mila passi / %2$s</string>
     <string name="million_steps_with_distance">%1$d milioni passi / %2$s</string>
     <string name="million_steps_decimal_with_distance">%.1f milioni passi / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">Modifica il conteggio dei passi di oggi</string>
+    <string name="confirm_decrease_title">Riduzione del conteggio dei passi</string>
+    <string name="confirm_decrease_message">Questo valore è inferiore al conteggio attuale dei passi. Vuoi procedere?</string>
+    <string name="invalid_step_count">Inserisci un numero valido</string>
+    <string name="steps_updated">Conteggio dei passi aggiornato</string>
 </resources>

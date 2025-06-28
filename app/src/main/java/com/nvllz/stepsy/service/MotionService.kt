@@ -143,10 +143,10 @@ internal class MotionService : Service() {
     private val widgetsUpdateInterval: Long
         get() = if (isBatterySavingEnabled(this)) 15_000L else 7_500L
 
-    private fun handleStepUpdate(delayedTrigger: Boolean = false) {
+    private fun handleStepUpdate(manualStepCountChange: Boolean = false, delayedTrigger: Boolean = false) {
         val currentTime = System.currentTimeMillis()
 
-        if (!DateUtils.isToday(mCurrentDate)) {
+        if (!DateUtils.isToday(mCurrentDate) && !manualStepCountChange) {
             val currentDate = Util.calendar.timeInMillis
             Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
             mTodaysSteps = 0
@@ -158,17 +158,17 @@ internal class MotionService : Service() {
             lastSharedPrefsWriteTime = currentTime.also { lastDbWriteTime = it }
         }
 
-        if (currentTime - lastSharedPrefsWriteTime >= dataStoreWriteInterval) {
+        if (currentTime - lastSharedPrefsWriteTime >= dataStoreWriteInterval && !manualStepCountChange) {
             AppPreferences.steps = mTodaysSteps
             lastSharedPrefsWriteTime = currentTime
         }
 
-        if (currentTime - lastDbWriteTime >= dbWriteInterval) {
+        if (currentTime - lastDbWriteTime >= dbWriteInterval || manualStepCountChange) {
             Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
             lastDbWriteTime = currentTime
         }
 
-        if (currentTime - lastWidgetUpdateTime >= widgetsUpdateInterval || delayedTrigger) {
+        if (currentTime - lastWidgetUpdateTime >= widgetsUpdateInterval || delayedTrigger || manualStepCountChange) {
             updateAllWidgets()
             lastWidgetUpdateTime = currentTime
         }
@@ -301,7 +301,7 @@ internal class MotionService : Service() {
                 )
             }
 
-            // handle forced update with new values
+            // handle forced update
             if (it.hasExtra("FORCE_UPDATE")) {
                 mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
                 mCurrentDate = it.getLongExtra(KEY_DATE, mCurrentDate)
@@ -309,6 +309,16 @@ internal class MotionService : Service() {
                 AppPreferences.steps = mTodaysSteps
                 AppPreferences.date = mCurrentDate
                 handleStepUpdate()
+            }
+
+            // handle manual step count update
+            if (it.hasExtra("MANUAL_STEP_COUNT_CHANGE")) {
+                mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
+                mCurrentDate = it.getLongExtra(KEY_DATE, mCurrentDate)
+                mLastSteps = -1 // reset step counter to avoid incorrect delta calculations
+                AppPreferences.steps = mTodaysSteps
+                AppPreferences.date = mCurrentDate
+                handleStepUpdate(manualStepCountChange = true)
             }
 
             sendUpdate()

@@ -148,4 +148,11 @@
     <string name="thousand_steps_with_distance">%1$d Tsd. Schritte / %2$s</string>
     <string name="million_steps_with_distance">%1$d Mio. Schritte / %2$s</string>
     <string name="million_steps_decimal_with_distance">%.1f Mio. Schritte / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">Heutige Schrittzahl anpassen</string>
+    <string name="confirm_decrease_title">Niedrigere Schrittzahl</string>
+    <string name="confirm_decrease_message">Dieser Wert ist niedriger als die aktuelle Schrittzahl. Möchten Sie fortfahren?</string>
+    <string name="invalid_step_count">Bitte geben Sie eine gültige Zahl ein</string>
+    <string name="steps_updated">Schrittzahl aktualisiert</string>
 </resources>

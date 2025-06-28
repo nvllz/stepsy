@@ -148,4 +148,11 @@
     <string name="thousand_steps_with_distance">%1$dk ধাপ / %2$s</string>
     <string name="million_steps_with_distance">%1$dM ধাপ / %2$s</string>
     <string name="million_steps_decimal_with_distance">%.1fM ধাপ / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">আজকের পদক্ষেপ সংখ্যা সমন্বয় করুন</string>
+    <string name="confirm_decrease_title">কম পদক্ষেপ সংখ্যা</string>
+    <string name="confirm_decrease_message">এই মানটি বর্তমান পদক্ষেপ সংখ্যার চেয়ে কম। আপনি কি নিশ্চিতভাবে এগিয়ে যেতে চান?</string>
+    <string name="invalid_step_count">অনুগ্রহ করে একটি বৈধ সংখ্যা লিখুন</string>
+    <string name="steps_updated">পদক্ষেপ সংখ্যা আপডেট হয়েছে</string>
 </resources>
