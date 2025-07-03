@@ -56,6 +56,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
+import java.text.DateFormat
 import java.util.Date
 
 /**
@@ -457,7 +458,12 @@ internal class MainActivity : AppCompatActivity() {
                 Pair(start, calendar.timeInMillis)
             }
             "ALL TIME" -> {
-                mTextViewTopHeader.text = getString(R.string.header_all_time)
+                val earliestTimestamp = db.firstEntry
+                val dateFormat: DateFormat = SimpleDateFormat(AppPreferences.dateFormatString,
+                    Locale.getDefault())
+
+                mTextViewTopHeader.text = getString(R.string.since_date,
+                    dateFormat.format(Date(earliestTimestamp)))
                 Pair(db.firstEntry, db.lastEntry)
             }
             else -> return
