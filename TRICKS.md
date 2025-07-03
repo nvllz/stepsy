@@ -5,11 +5,13 @@ Stepsy is built with simplicity in mind: it counts your steps and presents your 
 ## Adjust Today's Step Count
 
 You can manually adjust today's step count by long-pressing the **Today's Count** label and entering a custom value. This is useful if your phone wasn’t with you during a walk or if you forgot to pause tracking during an activity like a morning run.  
+
 ![Adjust Today Steps GIF](resources/gif_adjust_today_steps.gif)
 
 ## Toggle Chart Range Views
 
 Tap the **"Past 7 Days"** or **"Week #"** label above the chart to switch between different time views. This lets you quickly compare a rolling 7-day summary with calendar-based weekly stats.
+
 ![Toggle Chart Header](resources/gif_toggle_chart_header.gif)
 
 ## Step Goal Reached Notification

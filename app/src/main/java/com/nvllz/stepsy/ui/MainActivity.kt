@@ -336,7 +336,7 @@ internal class MainActivity : AppCompatActivity() {
             }
 
             R.id.action_help -> {
-                val url = "https://github.com/nvllz/stepsy"
+                val url = "https://github.com/nvllz/stepsy/blob/master/TRICKS.md"
                 val intent = Intent(Intent.ACTION_VIEW, url.toUri())
                 startActivity(intent)
                 true
