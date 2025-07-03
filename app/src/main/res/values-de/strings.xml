@@ -14,6 +14,7 @@
     <string name="steps_month">Diesen Monat</string>
     <string name="avg_distance">Durchschnitt pro Tag</string>
     <string name="total_distance">Gesamtstrecke</string>
+    <string name="tips_and_tricks">Tipps &amp; Tricks</string>
 
     <string name="no_sensor">Ihr Gerät hat keinen Schrittzähler-Sensor</string>
     <string name="no_activity_permission">ACTIVITY_RECOGNITION-Berechtigung fehlt</string>
@@ -112,7 +113,6 @@
     <string name="widget_pref_text_scale">Textskalierung</string>
     <string name="widget_pref_bg_opacity">Hintergrunddeckkraft</string>
     <string name="widget_pref_btn_save">Speichern</string>
-
 
     <!-- Achievements -->
     <string name="achievements_title">Erfolge</string>

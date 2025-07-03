@@ -14,6 +14,7 @@
     <string name="steps_month">এই মাসে</string>
     <string name="avg_distance">প্রতিদিনের গড়</string>
     <string name="total_distance">মোট দূরত্ব</string>
+    <string name="tips_and_tricks">টিপস ও ট্রিকস</string>
 
     <string name="no_sensor">আপনার ডিভাইসে পদক্ষেপ গণনার সেন্সর নেই</string>
     <string name="no_activity_permission">ACTIVITY_RECOGNITION অনুমতি নেই</string>
@@ -112,7 +113,6 @@
     <string name="widget_pref_text_scale">টেক্সট স্কেল</string>
     <string name="widget_pref_bg_opacity">পটভূমির অস্পষ্টতা</string>
     <string name="widget_pref_btn_save">সংরক্ষণ করুন</string>
-
 
     <!-- Achievements -->
     <string name="achievements_title">সাফল্য</string>

@@ -14,6 +14,7 @@
     <string name="steps_month">Этот месяц</string>
     <string name="avg_distance">Среднее за день</string>
     <string name="total_distance">Общее расстояние</string>
+    <string name="tips_and_tricks">Советы и трюки</string>
 
     <string name="no_sensor">Ваше устройство не имеет датчика подсчёта шагов</string>
     <string name="no_activity_permission">Не хватает разрешения ACTIVITY_RECOGNITION</string>
@@ -116,7 +117,6 @@
     <string name="widget_pref_text_scale">Масштаб текста</string>
     <string name="widget_pref_bg_opacity">Прозрачность фона</string>
     <string name="widget_pref_btn_save">Сохранить</string>
-
 
     <!-- Achievements -->
     <string name="achievements_title">Достижения</string>

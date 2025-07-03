@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_goals"
         android:icon="@drawable/ic_small_trophy"
@@ -14,4 +15,10 @@
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_small_settings"
         android:title="@string/settings" />
+
+    <item
+        android:id="@+id/action_help"
+        android:icon="@drawable/ic_small_wand"
+        android:title="@string/tips_and_tricks"
+        app:showAsAction="never" />
 </menu>

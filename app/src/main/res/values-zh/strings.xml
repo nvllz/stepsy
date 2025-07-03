@@ -5,15 +5,16 @@
 
     <!-- General UI Labels -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
+    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d 千卡</string>
     <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">Week %1$d</string>
+    <string name="week_display_format">第 %1$d 周</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">No record for %1$s</string>
-    <string name="calories">%1$d kcal</string>
-    <string name="steps_month">This month</string>
-    <string name="avg_distance">Average per day</string>
-    <string name="total_distance">Total distance</string>
+    <string name="no_entry">%1$s 没有记录</string>
+    <string name="calories">%1$d 千卡</string>
+    <string name="steps_month">本月</string>
+    <string name="avg_distance">每日平均</string>
+    <string name="total_distance">总距离</string>
+    <string name="tips_and_tricks">技巧提示</string>
 
     <string name="no_sensor">Your device does not have a step counting sensor</string>
     <string name="no_activity_permission">Missing ACTIVITY_RECOGNITION permission</string>
@@ -110,7 +111,6 @@
     <string name="widget_pref_text_scale">文字缩放</string>
     <string name="widget_pref_bg_opacity">背景不透明度</string>
     <string name="widget_pref_btn_save">保存</string>
-
 
     <!-- Achievements -->
     <string name="achievements_title">成就</string>

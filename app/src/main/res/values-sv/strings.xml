@@ -14,6 +14,7 @@
     <string name="steps_month">Denna månad</string>
     <string name="avg_distance">Dagligt genomsnitt</string>
     <string name="total_distance">Sammanlagt avstånd</string>
+    <string name="tips_and_tricks">Tips</string>
 
     <string name="no_sensor">Din enhet har ingen sensor för stegräkning</string>
     <string name="no_activity_permission">Saknar tillåtelse för ACTIVITY_RECOGNITION</string>
@@ -112,8 +113,6 @@
     <string name="widget_pref_text_scale">Textstorlek</string>
     <string name="widget_pref_bg_opacity">Bakgrundsgenomskinlighet</string>
     <string name="widget_pref_btn_save">Spara</string>
-
-
 
     <!-- Achievements -->
     <string name="achievements_title">Bedrifter</string>

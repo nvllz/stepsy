@@ -15,6 +15,8 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 - Display your today's step count with a widget
 - Analyze the progress with dedicated Achievements screen
 
+[Tricks you may want to know](TRICKS.md)
+
 ## Screenshots
 
 | ![Screenshot 1](images/1.png) | ![Screenshot 2](images/2.png) | ![Screenshot 3](images/3.png) | ![Screenshot 4](images/6.png) |

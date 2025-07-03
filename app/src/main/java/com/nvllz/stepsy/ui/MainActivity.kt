@@ -334,6 +334,14 @@ internal class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, AchievementsActivity::class.java))
                 true
             }
+
+            R.id.action_help -> {
+                val url = "https://github.com/nvllz/stepsy"
+                val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+                startActivity(intent)
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

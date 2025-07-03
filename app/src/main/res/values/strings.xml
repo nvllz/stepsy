@@ -14,6 +14,7 @@
     <string name="steps_month">This month</string>
     <string name="avg_distance">Average per day</string>
     <string name="total_distance">Total distance</string>
+    <string name="tips_and_tricks">Tips &amp; Tricks</string>
 
     <string name="no_sensor">Your device does not have a step counting sensor</string>
     <string name="no_activity_permission">Missing ACTIVITY_RECOGNITION permission</string>
@@ -112,7 +113,6 @@
     <string name="widget_pref_text_scale">Text Scale</string>
     <string name="widget_pref_bg_opacity">Background Opacity</string>
     <string name="widget_pref_btn_save">Save</string>
-
 
     <!-- Achievements -->
     <string name="achievements_title">Achievements</string>

@@ -14,6 +14,7 @@
     <string name="steps_month">Ce mois-ci</string>
     <string name="avg_distance">Moyenne par jour</string>
     <string name="total_distance">Distance totale</string>
+    <string name="tips_and_tricks">Astuces</string>
 
     <string name="no_sensor">Votre appareil ne possède pas de capteur de pas</string>
     <string name="no_activity_permission">Permission ACTIVITY_RECOGNITION manquante</string>
@@ -114,7 +115,6 @@
     <string name="widget_pref_text_scale">Échelle du texte</string>
     <string name="widget_pref_bg_opacity">Opacité de l\’arrière-plan</string>
     <string name="widget_pref_btn_save">Enregistrer</string>
-
 
     <!-- Achievements -->
     <string name="achievements_title">Réalisations</string>

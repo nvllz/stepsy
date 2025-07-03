@@ -14,6 +14,7 @@
     <string name="steps_month">Questo mese</string>
     <string name="avg_distance">Media giornaliera</string>
     <string name="total_distance">Distanza totale</string>
+    <string name="tips_and_tricks">Consigli rapidi</string>
 
     <string name="no_sensor">Il tuo dispositivo non ha un sensore per contare i passi</string>
     <string name="no_activity_permission">Permesso ACTIVITY_RECOGNITION mancante</string>
@@ -114,7 +115,6 @@
     <string name="widget_pref_text_scale">Scala del testo</string>
     <string name="widget_pref_bg_opacity">Opacità dello sfondo</string>
     <string name="widget_pref_btn_save">Salva</string>
-
 
     <!-- Achievements -->
     <string name="achievements_title">Risultati</string>
