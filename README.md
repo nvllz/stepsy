@@ -22,18 +22,18 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 ## Screenshots
 
 <p align="middle">
-  <img src="images/1.png" width="22.5%" alt="screenshot_1" />
-  <img src="images/2.png" width="22.5%" alt="screenshot_2" />
-  <img src="images/3.png" width="22.5%" alt="screenshot_3" />
-  <img src="images/6.png" width="22.5%" alt="screenshot_4" />
+  <img src="images/1.png" width="23%" alt="screenshot_1" />
+  <img src="images/2.png" width="23%" alt="screenshot_2" />
+  <img src="images/3.png" width="23%" alt="screenshot_3" />
+  <img src="images/6.png" width="23%" alt="screenshot_4" />
 </p>
 
 ## Download
 
 <p align="middle">
-  <a href="https://github.com/nvllz/stepsy/releases"><img src="images/badge_github.png" width="25%" alt="GitHub" /></a>
-  <a href="https://apt.izzysoft.de/packages/com.nvllz.stepsy"><img src="images/badge_izzyondroid.png" width="25%" alt="IzzyOnDroid" /></a>
-  <a href="https://f-droid.org/packages/com.nvllz.stepsy/"><img src="images/badge_fdroid.png" width="25%" alt="F-Droid" /></a>
+  <a href="https://github.com/nvllz/stepsy/releases"><img src="images/badge_github.png" width="31%" alt="GitHub" /></a>
+  <a href="https://apt.izzysoft.de/packages/com.nvllz.stepsy"><img src="images/badge_izzyondroid.png" width="31%" alt="IzzyOnDroid" /></a>
+  <a href="https://f-droid.org/packages/com.nvllz.stepsy/"><img src="images/badge_fdroid.png" width="31%" alt="F-Droid" /></a>
 </p>
 
 ## Dependencies
