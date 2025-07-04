@@ -39,7 +39,7 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 <div align=center>
   <a href="https://apt.izzysoft.de/packages/com.nvllz.stepsy"><img src="images/badge_izzyondroid.png" width="31%" alt="IzzyOnDroid" /></a>
   <a href="https://f-droid.org/packages/com.nvllz.stepsy/"><img src="images/badge_fdroid.png" width="31%" alt="F-Droid" /></a>
-  <a href="obtainium://add/github.com/nvllz/stepsy"><img src="https://raw.githubusercontent.com/ImranR98/Obtainium/b1c8ac6f2ab08497189721a788a5763e28ff64cd/assets/graphics/badge_obtainium.png" alt="Obtainium" width="31%"></a>
+  <a href="https://intradeus.github.io/http-protocol-redirector?r=obtainium://add/github.com/nvllz/stepsy"><img src="https://raw.githubusercontent.com/ImranR98/Obtainium/b1c8ac6f2ab08497189721a788a5763e28ff64cd/assets/graphics/badge_obtainium.png" alt="Obtainium" width="31%"></a>
 </div>
 
 ## Dependencies
