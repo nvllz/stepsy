@@ -1,11 +1,17 @@
-<p align="middle">
+<div align="center">
   <img src="images/github-banner.png" alt="stepsy banner"/>
-</p>
+</div>
 
 #
 
-[![GitHub release](https://img.shields.io/github/v/release/nvllz/stepsy.svg)](https://github.com/nvllz/stepsy/releases)
-[![GitHub](https://img.shields.io/github/license/0xf4b1/motionmate.svg)](LICENSE)
+<div align="center">
+  
+  [![GitHub latest ver](https://img.shields.io/github/v/release/nvllz/stepsy.svg?label=latest&logo=GitHub&labelColor=A41E84&color=C51684&style=for-the-badge)](https://github.com/nvllz/stepsy/releases/latest)
+  [![F-Droid latest ver](https://img.shields.io/f-droid/v/com.nvllz.stepsy?labelColor=A41E84&color=C51684&label=f-droid&logo=f-droid&style=for-the-badge)](https://f-droid.org/packages/com.nvllz.stepsy)
+  [![Downloads](https://img.shields.io/github/downloads/nvllz/stepsy/total?label=downloads&link=https%3A%2F%2Fgithub.com%2Fnvllz%2Fstepsy%2Freleases&labelColor=A41E84&color=C51684&style=for-the-badge)](https://github.com/nvllz/stepsy/releases)
+  [![License](https://img.shields.io/github/license/nvllz/stepsy.svg?labelColor=A41E84&color=C51684&style=for-the-badge)](LICENSE)
+  
+</div>
 
 Stepsy is a lightweight Android app for tracking your daily steps using your phone’s built-in sensors. It focuses on simplicity, battery efficiency, and full local data storage.
 
@@ -30,11 +36,11 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 
 ## Download
 
-<p align="middle">
-  <a href="https://github.com/nvllz/stepsy/releases"><img src="images/badge_github.png" width="31%" alt="GitHub" /></a>
+<div align=center>
   <a href="https://apt.izzysoft.de/packages/com.nvllz.stepsy"><img src="images/badge_izzyondroid.png" width="31%" alt="IzzyOnDroid" /></a>
   <a href="https://f-droid.org/packages/com.nvllz.stepsy/"><img src="images/badge_fdroid.png" width="31%" alt="F-Droid" /></a>
-</p>
+  <a href="obtainium://add/github.com/nvllz/stepsy"><img src="https://raw.githubusercontent.com/ImranR98/Obtainium/b1c8ac6f2ab08497189721a788a5763e28ff64cd/assets/graphics/badge_obtainium.png" alt="Obtainium" width="31%"></a>
+</div>
 
 ## Dependencies
 
