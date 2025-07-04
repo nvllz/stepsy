@@ -538,6 +538,9 @@ internal class MainActivity : AppCompatActivity() {
                     setSelectedButton(button)
                     handleTimeRangeSelection(range, button)
                 }
+            } else {
+                val todayButton = findViewById<MaterialButton>(R.id.button_today)
+                handleTimeRangeSelection("TODAY", todayButton)
             }
         }
     }
