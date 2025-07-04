@@ -28,6 +28,8 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 <img src="images/badge_github.png" height="80" alt="Get it on Github"/></a>
 <a href="https://apt.izzysoft.de/packages/com.nvllz.stepsy">
 <img src="images/badge_izzyondroid.png" height="80" alt="Get it on IzzyOnDroid"/></a>
+<a href="https://f-droid.org/packages/com.nvllz.stepsy/">
+<img src="images/badge_fdroid.png" height="80" alt="Get it on F-Droid"/></a>
 
 ## Dependencies
 
