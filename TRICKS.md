@@ -16,7 +16,7 @@ Tap the **"Past 7 Days"** or **"Week #"** label above the chart to switch betwee
 
 ## Step Goal Reached Notification
 
-Enable a notification to be alerted when you reach your custom daily step goal. You can set your target step count and get notified as soon as it's achieved—perfect for focused sessions like walking pad workouts or structured training goals.
+Enable a notification to be alerted when you reach your custom daily step goal. You can set your target step count and get notified as soon as it's achieved, which is perfect for focused sessions like walking pad workouts or structured training goals.
 
 To enable or disable this feature, go to **Three-dot menu › Achievements**.
 
@@ -30,6 +30,6 @@ Access this feature via **Three-dot menu › Backup**.
 
 By default, the app estimates your step length using your height (`height × 0.414`) to calculate distance. However, you can manually override this value in the **Step Length** setting.
 
-This is helpful if you've measured your actual stride length or if your walking style differs from average—due to training routines, physical differences, or personal calibration needs.
+This is helpful if you've measured your actual stride length or if your walking style differs from average due to training routines, physical differences, or personal calibration needs.
 
 Find this option under **Three-dot menu › Settings**.
