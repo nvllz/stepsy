@@ -1,4 +1,6 @@
-<img src="images/github-banner.png" alt="stepsy banner"/>
+<p align="middle">
+  <img src="images/github-banner.png" alt="stepsy banner"/>
+</p>
 
 #
 
@@ -15,21 +17,24 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 - Display your today's step count with a widget
 - Analyze the progress with dedicated Achievements screen
 
-[Tricks you may want to know](TRICKS.md)
+🌟 [Tricks you may want to know](TRICKS.md)
 
 ## Screenshots
 
-| ![Screenshot 1](images/1.png) | ![Screenshot 2](images/2.png) | ![Screenshot 3](images/3.png) | ![Screenshot 4](images/6.png) |
-|:-----------------------------:|:-----------------------------:|:-----------------------------:|:-----------------------------:|
+<p align="middle">
+  <img src="images/1.png" width="22.5%" alt="screenshot_1" />
+  <img src="images/2.png" width="22.5%" alt="screenshot_2" />
+  <img src="images/3.png" width="22.5%" alt="screenshot_3" />
+  <img src="images/6.png" width="22.5%" alt="screenshot_4" />
+</p>
 
 ## Download
 
-<a href="https://github.com/nvllz/stepsy/releases">
-<img src="images/badge_github.png" height="80" alt="Get it on Github"/></a>
-<a href="https://apt.izzysoft.de/packages/com.nvllz.stepsy">
-<img src="images/badge_izzyondroid.png" height="80" alt="Get it on IzzyOnDroid"/></a>
-<a href="https://f-droid.org/packages/com.nvllz.stepsy/">
-<img src="images/badge_fdroid.png" height="80" alt="Get it on F-Droid"/></a>
+<p align="middle">
+  <a href="https://github.com/nvllz/stepsy/releases"><img src="images/badge_github.png" width="25%" alt="GitHub" /></a>
+  <a href="https://apt.izzysoft.de/packages/com.nvllz.stepsy"><img src="images/badge_izzyondroid.png" width="25%" alt="IzzyOnDroid" /></a>
+  <a href="https://f-droid.org/packages/com.nvllz.stepsy/"><img src="images/badge_fdroid.png" width="25%" alt="F-Droid" /></a>
+</p>
 
 ## Dependencies
 
