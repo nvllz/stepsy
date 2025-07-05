@@ -1,0 +1,16 @@
+Don't forget to leave a star on the app's Github repo!
+
+New:
+- Tips and Tricks menu item
+- Swedish translation (@gummyhulk)
+- Achievements: 10k+ step streaks
+- Next backup date label
+- Edit today's steps: Long press on the top label to adjust today's step count
+
+Changes:
+- Replaced "Overall" with "Since" for the ALL TIME filter header
+- Main screen UI tweaks
+
+Fixes:
+- Missing default filter header
+- Manual step changes overwriting yesterday's data (rare)
