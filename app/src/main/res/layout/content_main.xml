@@ -20,20 +20,24 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
 
+                <!-- Header -->
                 <TextView
                     android:id="@+id/textViewTopHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     android:textAllCaps="true"
                     android:textAlignment="center"
                     android:fontFamily="@font/open_sans_semibold"
-                    android:fontWeight="700" />
+                    android:fontWeight="700"
+                    android:layout_marginBottom="6dp" />
 
+                <!-- Main Step Counter -->
                 <TextView
                     android:id="@+id/textViewSteps"
                     android:layout_width="wrap_content"
@@ -43,41 +47,67 @@
                     android:textStyle="bold"
                     android:textColor="@color/colorOnSurface"
                     android:fontFamily="@font/open_sans_semibold"
-                    android:fontWeight="700" />
+                    android:fontWeight="700"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="4dp" />
 
-                <TextView
-                    android:id="@+id/textViewMeters"
+                <!-- Secondary stats -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="22sp"
-                    android:fontFamily="@font/open_sans_regular"/>
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="14dp">
 
-                <TextView
-                    android:id="@+id/textViewCalories"
+                    <TextView
+                        android:id="@+id/textViewMeters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorAccent"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:textAlignment="center"
+                        android:drawablePadding="6dp"
+                        app:drawableStartCompat="@drawable/ic_steps" />
+
+                    <TextView
+                        android:id="@+id/textViewCalories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorAccent"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:textAlignment="center"
+                        android:drawablePadding="3dp"
+                        app:drawableStartCompat="@drawable/ic_calories" />
+                </LinearLayout>
+
+                <!-- Average Per Day Section -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/open_sans_regular"/>
+                    android:orientation="vertical"
+                    android:gravity="center">
 
-                <TextView
-                    android:id="@+id/textAvgPerDayHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/open_sans_regular"
-                    android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/textAvgPerDayHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorAccent"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/textAvgPerDayValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/open_sans_regular"
-                    android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/textAvgPerDayValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorAccent"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:visibility="gone" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -117,6 +147,7 @@
                             android:id="@+id/button_today"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
                             android:text="@string/label_today"
                             android:textColor="@color/colorAccent"
                             android:fontFamily="@font/open_sans_regular"/>
@@ -126,6 +157,7 @@
                             android:id="@+id/button_this_week"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
                             android:text="@string/label_week"
                             android:textColor="@color/colorAccent"
                             android:fontFamily="@font/open_sans_regular"/>
@@ -135,6 +167,7 @@
                             android:id="@+id/button_this_month"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
                             android:text="@string/label_month"
                             android:textColor="@color/colorAccent"
                             android:fontFamily="@font/open_sans_regular"/>
@@ -144,6 +177,7 @@
                             android:id="@+id/button_7days"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
                             android:text="@string/label_7d"
                             android:textColor="@color/colorAccent"
                             android:fontFamily="@font/open_sans_regular"/>
@@ -153,6 +187,7 @@
                             android:id="@+id/button_30days"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
                             android:text="@string/label_30d"
                             android:textColor="@color/colorAccent"
                             android:fontFamily="@font/open_sans_regular"/>
@@ -162,6 +197,7 @@
                             android:id="@+id/button_alltime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
                             android:text="@string/label_all_time"
                             android:textColor="@color/colorAccent"
                             android:fontFamily="@font/open_sans_regular"/>

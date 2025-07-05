@@ -495,7 +495,7 @@ internal class MainActivity : AppCompatActivity() {
             Util.stepsToDistance(totalSteps),
             Util.getDistanceUnitString())
 
-        mTextViewCalories.text = ""
+        mTextViewCalories.visibility = View.GONE
         mTextAvgPerDayHeader.visibility = View.VISIBLE
         mTextAvgPerDayValue.visibility = View.VISIBLE
         mTextAvgPerDayHeader.text = getString(R.string.avg_distance)
@@ -595,7 +595,7 @@ internal class MainActivity : AppCompatActivity() {
             Util.stepsToDistance(yearSteps),
             Util.getDistanceUnitString())
 
-        mTextViewCalories.text = ""
+        mTextViewCalories.visibility = View.GONE
         mTextAvgPerDayHeader.visibility = View.VISIBLE
         mTextAvgPerDayValue.visibility = View.VISIBLE
         mTextAvgPerDayHeader.text = getString(R.string.avg_distance)
@@ -712,6 +712,7 @@ internal class MainActivity : AppCompatActivity() {
             mTextViewSteps.text = stepsPlural
             mTextViewCalories.text = String.format(getString(R.string.calories),
                 Util.stepsToCalories(steps))
+            mTextViewCalories.visibility = View.VISIBLE
             mTextAvgPerDayHeader.visibility = View.GONE
             mTextAvgPerDayValue.visibility = View.GONE
             mTextAvgPerDayHeader.text = ""
