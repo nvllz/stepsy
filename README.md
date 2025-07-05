@@ -27,12 +27,12 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 
 ## Screenshots
 
-<p align="middle">
+<div align="center">
   <img src="images/1.png" width="23%" alt="screenshot_1" />
   <img src="images/2.png" width="23%" alt="screenshot_2" />
   <img src="images/3.png" width="23%" alt="screenshot_3" />
-  <img src="images/6.png" width="23%" alt="screenshot_4" />
-</p>
+  <img src="images/7.png" width="23%" alt="screenshot_4" />
+</div>
 
 ## Download
 
