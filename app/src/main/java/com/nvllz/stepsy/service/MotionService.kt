@@ -146,10 +146,14 @@ internal class MotionService : Service() {
     private fun handleStepUpdate(manualStepCountChange: Boolean = false, delayedTrigger: Boolean = false) {
         val currentTime = System.currentTimeMillis()
 
-        if (!DateUtils.isToday(mCurrentDate) && !manualStepCountChange) {
+        if (!DateUtils.isToday(mCurrentDate)) {
             val currentDate = Util.calendar.timeInMillis
-            Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
-            mTodaysSteps = 0
+
+            if (!manualStepCountChange) {
+                Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
+                mTodaysSteps = 0
+            }
+
             mCurrentDate = currentDate
             mLastSteps = -1
             goalReachedToday = false
