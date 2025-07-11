@@ -70,6 +70,19 @@ class AchievementsActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@AchievementsActivity)
             isNestedScrollingEnabled = false
         }
+
+        updateStreakRecordTitle()
+    }
+
+    private fun updateStreakRecordTitle() {
+        val streakRecordContainer = findViewById<View>(R.id.streak_record_container)
+        val streakRecordTitle = streakRecordContainer?.findViewById<TextView>(R.id.streak_record_title)
+
+        if (streakRecordTitle != null) {
+            val goalTarget = AppPreferences.dailyGoalTarget
+            val formattedGoal = NumberFormat.getIntegerInstance().format(goalTarget)
+            streakRecordTitle.text = getString(R.string.streak_record, formattedGoal)
+        }
     }
 
     private fun loadCachedResultsIfAny() {
@@ -220,9 +233,10 @@ class AchievementsActivity : AppCompatActivity() {
         var longestStreak = 0
         var streakStart: Long? = null
         var longestStreakRange: Pair<Long, Long>? = null
+        val dailyGoal = AppPreferences.dailyGoalTarget
 
         for (entry in sortedEntries) {
-            if (entry.steps >= 10000) {
+            if (entry.steps >= dailyGoal) {
                 currentStreak++
                 if (streakStart == null) {
                     streakStart = entry.timestamp

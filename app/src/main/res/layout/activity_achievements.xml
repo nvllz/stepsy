@@ -109,6 +109,7 @@
 
                     <!-- 10k+ Streak Record -->
                     <LinearLayout
+                        android:id="@+id/streak_record_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -117,6 +118,7 @@
                         android:paddingVertical="12dp">
 
                         <TextView
+                            android:id="@+id/streak_record_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/streak_record"

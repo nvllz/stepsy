@@ -137,7 +137,7 @@
     <string name="personal_records">Personal Records</string>
     <string name="most_steps_day">Highest Step Count</string>
     <string name="most_walked_month">Most Active Month</string>
-    <string name="streak_record">Longest 10k+ Steps Streak</string>
+    <string name="streak_record">Longest %1$s+ Steps Streak</string>
     <string name="since_date">Since %1$s</string>
 
     <!-- Daily Goal Notifications -->

@@ -137,7 +137,7 @@
     <string name="personal_records">Kişisel Rekorlar</string>
     <string name="most_steps_day">En Fazla Günlük Adım</string>
     <string name="most_walked_month">En Hareketli Ay</string>
-    <string name="streak_record">En Uzun 10.000+ Adım Serisi</string>
+    <string name="streak_record">En Uzun %1$s+ Adım Serisi</string>
     <string name="since_date">%1$s tarihinden beri</string>
 
     <!-- Daily Goal Notifications -->

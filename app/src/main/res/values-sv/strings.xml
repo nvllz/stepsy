@@ -137,7 +137,7 @@
     <string name="personal_records">Personliga mål</string>
     <string name="most_steps_day">Högsta stegantal</string>
     <string name="most_walked_month">Mest aktiva månad</string>
-    <string name="streak_record">Längsta serien med 10 000+ steg</string>
+    <string name="streak_record">Längsta serien med %1$s+ steg</string>
     <string name="since_date">Sedan %1$s</string>
 
     <!-- Daily Goal Notifications -->

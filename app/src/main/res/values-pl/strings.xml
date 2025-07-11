@@ -141,7 +141,7 @@
     <string name="personal_records">Rekordy osobiste</string>
     <string name="most_steps_day">Najwięcej kroków w ciągu dnia</string>
     <string name="most_walked_month">Najbardziej aktywny miesiąc</string>
-    <string name="streak_record">Najdłuższa seria 10 000+ kroków</string>
+    <string name="streak_record">Najdłuższa seria %1$s+ kroków</string>
     <string name="since_date">Od %1$s</string>
 
     <!-- Daily Goal Notifications -->

@@ -139,7 +139,7 @@
     <string name="personal_records">Récords personales</string>
     <string name="most_steps_day">Mayor número de pasos en un día</string>
     <string name="most_walked_month">Mes más activo</string>
-    <string name="streak_record">Racha más larga de más de 10 000 pasos</string>
+    <string name="streak_record">Racha más larga de más de %1$s pasos</string>
     <string name="since_date">Desde %1$s</string>
 
     <!-- Daily Goal Notifications -->
