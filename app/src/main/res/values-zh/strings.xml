@@ -51,6 +51,8 @@
     <string name="notification_description_paused">计步暂停时将提醒</string>
     <string name="notification_description_steps_day">今日步数</string>
     <string name="notification_step_counting_paused">计步已暂停</string>
+    <string name="notification_step_goal_progress">你已完成 %1$d%% 的 %2$s 步数目标</string>
+    <string name="notification_step_goal_completed">你已达成每日步数目标！</string>
     <string name="step_counting_paused">暂停计步</string>
     <string name="step_counting_resumed">恢复计步</string>
     <string name="action_pause">暂停</string>
@@ -125,6 +127,7 @@
     <!-- Daily Goals -->
     <string name="daily_goals">每日目标</string>
     <string name="daily_goal_notification">达成时提醒</string>
+    <string name="progress_in_notification">在通知中显示进度</string>
     <string name="daily_goal_target">每日步数目标</string>
     <string name="daily_goal_hint">请输入你的每日步数目标</string>
 

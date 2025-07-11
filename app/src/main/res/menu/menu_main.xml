@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_goals"
+        android:id="@+id/action_achievements"
         android:icon="@drawable/ic_small_trophy"
         android:title="@string/achievements_title" />
 
@@ -10,6 +10,11 @@
         android:id="@+id/action_backup"
         android:icon="@drawable/ic_small_backup"
         android:title="@string/header_data_backup" />
+
+    <item
+        android:id="@+id/action_daily_goals"
+        android:icon="@drawable/ic_small_target"
+        android:title="@string/daily_goals" />
 
     <item
         android:id="@+id/action_settings"

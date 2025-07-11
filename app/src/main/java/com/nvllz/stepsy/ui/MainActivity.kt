@@ -321,8 +321,13 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
+            R.id.action_achievements -> {
+                startActivity(Intent(this, AchievementsActivity::class.java))
+                true
+            }
+
+            R.id.action_daily_goals -> {
+                startActivity(Intent(this, DailyGoalsActivity::class.java))
                 true
             }
 
@@ -331,8 +336,8 @@ internal class MainActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.action_goals -> {
-                startActivity(Intent(this, AchievementsActivity::class.java))
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
 

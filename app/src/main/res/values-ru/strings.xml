@@ -57,6 +57,8 @@
     <string name="notification_description_paused">Уведомлять при приостановке подсчёта шагов</string>
     <string name="notification_description_steps_day">Шаги за сегодня</string>
     <string name="notification_step_counting_paused">Подсчёт шагов приостановлен</string>
+    <string name="notification_step_goal_progress">Вы достигли %1$d%% вашей цели шагов (%2$s)</string>
+    <string name="notification_step_goal_completed">Вы достигли своей дневной цели шагов!</string>
     <string name="step_counting_paused">Подсчёт шагов приостановлен</string>
     <string name="step_counting_resumed">Подсчёт шагов возобновлён</string>
     <string name="action_pause">Пауза</string>
@@ -131,6 +133,7 @@
     <!-- Daily Goals -->
     <string name="daily_goals">Ежедневная цель</string>
     <string name="daily_goal_notification">Оповещать при достижении</string>
+    <string name="progress_in_notification">Показать прогресс в уведомлении</string>
     <string name="daily_goal_target">Цель по шагам в день</string>
     <string name="daily_goal_hint">Введите вашу дневную цель шагов</string>
 

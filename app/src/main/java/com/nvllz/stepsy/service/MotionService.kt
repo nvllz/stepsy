@@ -44,6 +44,8 @@ internal class MotionService : Service() {
     private var mTodaysSteps: Int = 0
     private var mLastSteps = -1
     private var mCurrentDate: Long = 0
+    private var mCachedDailyTarget: Int = 0
+    private var mCachedShowProgressbar: Boolean = false
     private var receiver: ResultReceiver? = null
     private lateinit var mListener: SensorEventListener
     private lateinit var mNotificationManager: NotificationManager
@@ -64,6 +66,8 @@ internal class MotionService : Service() {
 
         mCurrentDate = AppPreferences.date
         mTodaysSteps = AppPreferences.steps
+        mCachedDailyTarget = AppPreferences.dailyGoalTarget
+        mCachedShowProgressbar = AppPreferences.dailyGoalNotificationProgressbar
         isCountingPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean(KEY_IS_PAUSED, false)
         goalReachedToday = AppPreferences.dailyGoalNotification
                 && AppPreferences.dailyGoalTarget > 0
@@ -200,31 +204,61 @@ internal class MotionService : Service() {
             dismissPauseNotification()
         }
 
-        val formattedSteps = if (mTodaysSteps >= 10_000) {
-            NumberFormat.getIntegerInstance().format(mTodaysSteps)
-        } else {
-            mTodaysSteps.toString()
-        }
-
-        val stepsPlural = resources.getQuantityString(
-            R.plurals.steps_text,
-            mTodaysSteps,
-            formattedSteps
-        )
-
-        val notificationText = String.format(
-            Locale.getDefault(),
-            getString(R.string.steps_format),
-            stepsPlural,
-            Util.stepsToDistance(mTodaysSteps),
-            getDistanceUnitString()
-
-        )
-
-        mBuilder.setContentText(notificationText)
-        mNotificationManager.notify(FOREGROUND_ID, mBuilder.build())
+        val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
+        mNotificationManager.notify(FOREGROUND_ID, builder.build())
 
         sendBundleUpdate(isCountingPaused)
+    }
+
+    private fun createStepsNotification(
+        showProgressbar: Boolean = AppPreferences.dailyGoalNotificationProgressbar,
+        dailyTarget: Int = AppPreferences.dailyGoalTarget
+    ): NotificationCompat.Builder {
+
+        fun formatNumber(number: Int) = if (number >= 10_000) {
+            NumberFormat.getIntegerInstance(Locale.getDefault()).format(number)
+        } else {
+            number.toString()
+        }
+
+        val formattedSteps = formatNumber(mTodaysSteps)
+        val formattedTarget = formatNumber(dailyTarget)
+
+        val stepsPlural = resources.getQuantityString(R.plurals.steps_text, mTodaysSteps, formattedSteps)
+        val stepGoalPercentage = (mTodaysSteps.toFloat() / dailyTarget * 100).toInt()
+
+        val notificationTextProgress = getString(R.string.notification_step_goal_progress)
+            .format(Locale.getDefault(), stepGoalPercentage, formattedTarget)
+
+        val notificationTextRaw = getString(R.string.steps_format)
+            .format(Locale.getDefault(), stepsPlural, Util.stepsToDistance(mTodaysSteps), getDistanceUnitString())
+
+        val pausePendingIntent = PendingIntent.getService(
+            this, 1,
+            Intent(this, MotionService::class.java).apply { action = ACTION_PAUSE_COUNTING },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        return NotificationCompat.Builder(this, STEP_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setOnlyAlertOnce(true)
+            .setSilent(true)
+            .addAction(R.drawable.ic_notification, getString(R.string.action_pause), pausePendingIntent)
+            .apply {
+                if (showProgressbar) {
+                    val progress = stepGoalPercentage.coerceIn(0, 100)
+                    if (progress < 100) {
+                        setStyle(NotificationCompat.BigTextStyle().bigText(notificationTextProgress))
+                        setContentText(notificationTextProgress)
+                        setProgress(100, progress, false)
+                    } else {
+                        setContentText(getString(R.string.notification_step_goal_completed))
+                    }
+                    setContentTitle(notificationTextRaw)
+                } else {
+                    setContentText(notificationTextRaw)
+                }
+            }
     }
 
     private fun sendBundleUpdate(paused: Boolean = false) {
@@ -295,6 +329,13 @@ internal class MotionService : Service() {
                 ACTION_RESUME_COUNTING -> {
                     isCountingPaused = false
                     Toast.makeText(this, R.string.step_counting_resumed, Toast.LENGTH_SHORT).show()
+                }
+                "UPDATE_NOTIFICATION" -> {
+                    mCachedShowProgressbar = intent.getBooleanExtra("show_progressbar", mCachedShowProgressbar)
+                    mCachedDailyTarget = intent.getIntExtra("daily_target", mCachedDailyTarget)
+
+                    val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
+                    mNotificationManager.notify(FOREGROUND_ID, builder.build())
                 }
             }
 

@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -19,104 +18,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
-
-            <!-- Goals Section -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:strokeWidth="0dp"
-                app:cardBackgroundColor="@color/colorSurface">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/daily_goals"
-                        android:textSize="22sp"
-                        android:fontFamily="@font/open_sans_family"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorOnSurface"
-                        android:layout_marginBottom="16dp" />
-
-                    <!-- Notification Switch -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="12dp">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            tools:ignore="UselessParent">
-
-                            <com.google.android.material.materialswitch.MaterialSwitch
-                                android:id="@+id/notification_switch"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="18sp"
-                                android:fontFamily="@font/open_sans_family"
-                                android:textColor="@color/colorOnSurface"
-                                app:thumbTint="@color/colorOnPrimary"
-                                app:trackTint="@color/colorPrimary"
-                                app:rippleColor="@color/colorAccent"
-                                app:thumbIcon="@drawable/ic_tick"
-                                app:thumbIconTint="@color/colorPrimary"
-                                android:text="@string/daily_goal_notification"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <!-- Goal Target Input -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/goal_target_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/daily_goal_target"
-                        app:hintTextColor="@color/colorAccent"
-                        app:helperTextTextColor="@color/colorAccent"
-                        app:boxStrokeWidth="1dp"
-                        app:boxStrokeWidthFocused="2dp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        app:boxCornerRadiusTopStart="8dp"
-                        app:boxCornerRadiusTopEnd="8dp"
-                        app:boxCornerRadiusBottomStart="8dp"
-                        app:boxCornerRadiusBottomEnd="8dp"
-                        app:boxStrokeColor="@color/colorAccent"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/goal_target_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:maxLines="1" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_height="1dp"
-                android:background="@color/colorAccent"
-                android:alpha="0.3" />
 
             <!-- Personal Records Section -->
             <com.google.android.material.card.MaterialCardView

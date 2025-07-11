@@ -53,6 +53,8 @@
     <string name="notification_description_paused">Avisera när stegräkning är pausad</string>
     <string name="notification_description_steps_day">Steg idag</string>
     <string name="notification_step_counting_paused">Stegräkning är pausad</string>
+    <string name="notification_step_goal_progress">Du har nått %1$d%% av ditt steg-mål på %2$s</string>
+    <string name="notification_step_goal_completed">Du har nått ditt dagliga stegmål!</string>
     <string name="step_counting_paused">Pausat stegräkning</string>
     <string name="step_counting_resumed">Återupptagit stegräkning</string>
     <string name="action_pause">Pausa</string>
@@ -127,6 +129,7 @@
     <!-- Daily Goals -->
     <string name="daily_goals">Dagligt mål</string>
     <string name="daily_goal_notification">Avisera vid uppnåelse</string>
+    <string name="progress_in_notification">Visa framsteg i aviseringen</string>
     <string name="daily_goal_target">Dagligt stegmål</string>
     <string name="daily_goal_hint">Ange ditt dagliga stegmål</string>
 

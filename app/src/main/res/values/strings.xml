@@ -53,6 +53,8 @@
     <string name="notification_description_paused">Notify when step counting is paused</string>
     <string name="notification_description_steps_day">Steps today</string>
     <string name="notification_step_counting_paused">Step counting is paused</string>
+    <string name="notification_step_goal_progress">You\'ve reached %1$d%% of your %2$s step goal</string>
+    <string name="notification_step_goal_completed">You reached your daily step goal!</string>
     <string name="step_counting_paused">Paused step counting</string>
     <string name="step_counting_resumed">Resumed step counting</string>
     <string name="action_pause">Pause</string>
@@ -127,6 +129,7 @@
     <!-- Daily Goals -->
     <string name="daily_goals">Daily Goal</string>
     <string name="daily_goal_notification">Notify when reached</string>
+    <string name="progress_in_notification">Show progress in notification</string>
     <string name="daily_goal_target">Daily step goal</string>
     <string name="daily_goal_hint">Enter your daily step goal</string>
 

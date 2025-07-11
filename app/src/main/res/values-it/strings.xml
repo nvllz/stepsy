@@ -55,6 +55,8 @@
     <string name="notification_description_paused">Notifica quando il conteggio passi è sospeso</string>
     <string name="notification_description_steps_day">Passi oggi</string>
     <string name="notification_step_counting_paused">Il conteggio passi è sospeso</string>
+    <string name="notification_step_goal_progress">Hai raggiunto il %1$d%% del tuo obiettivo di %2$s passi</string>
+    <string name="notification_step_goal_completed">Hai raggiunto il tuo obiettivo giornaliero di passi!</string>
     <string name="step_counting_paused">Conteggio passi sospeso</string>
     <string name="step_counting_resumed">Conteggio passi ripreso</string>
     <string name="action_pause">Pausa</string>
@@ -129,6 +131,7 @@
     <!-- Daily Goals -->
     <string name="daily_goals">Obiettivo giornaliero</string>
     <string name="daily_goal_notification">Avvisa al raggiungimento</string>
+    <string name="progress_in_notification">Mostra il progresso nella notifica</string>
     <string name="daily_goal_target">Obiettivo passi giornaliero</string>
     <string name="daily_goal_hint">Inserisci il tuo obiettivo di passi giornaliero</string>
 

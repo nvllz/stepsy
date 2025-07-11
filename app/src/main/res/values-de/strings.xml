@@ -53,6 +53,8 @@
     <string name="notification_description_paused">Benachrichtigung bei pausierter Schrittzählung</string>
     <string name="notification_description_steps_day">Schritte heute</string>
     <string name="notification_step_counting_paused">Schrittzählung pausiert</string>
+    <string name="notification_step_goal_progress">Du hast %1$d%% deines %2$s-Schrittziels erreicht</string>
+    <string name="notification_step_goal_completed">Du hast dein tägliches Schrittziel erreicht!</string>
     <string name="step_counting_paused">Schrittzählung pausiert</string>
     <string name="step_counting_resumed">Schrittzählung fortgesetzt</string>
     <string name="action_pause">Pausieren</string>
@@ -127,6 +129,7 @@
     <!-- Daily Goals -->
     <string name="daily_goals">Tagesziel</string>
     <string name="daily_goal_notification">Bei Zielerreichung benachrichtigen</string>
+    <string name="progress_in_notification">Fortschritt in Benachrichtigung anzeigen</string>
     <string name="daily_goal_target">Tägliches Schrittziel</string>
     <string name="daily_goal_hint">Geben Sie Ihr tägliches Schrittziel ein</string>
 

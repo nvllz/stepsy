@@ -53,6 +53,8 @@
     <string name="notification_description_paused">Adım sayımı duraklatıldığında bilgilendir</string>
     <string name="notification_description_steps_day">Bugünkü adımlar</string>
     <string name="notification_step_counting_paused">Adım sayımı duraklatıldı</string>
+    <string name="notification_step_goal_progress">%2$s adım hedefinin %1$d%%\'sine ulaştınız</string>
+    <string name="notification_step_goal_completed">Günlük adım hedefinize ulaştınız!</string>
     <string name="step_counting_paused">Adım sayımı duraklatıldı</string>
     <string name="step_counting_resumed">Adım sayımı devam ediyor</string>
     <string name="action_pause">Duraklat</string>
@@ -127,6 +129,7 @@
     <!-- Daily Goals -->
     <string name="daily_goals">Günlük Hedef</string>
     <string name="daily_goal_notification">Ulaşıldığında bildir</string>
+    <string name="progress_in_notification">Bildirimde ilerlemeyi göster</string>
     <string name="daily_goal_target">Günlük adım hedefi</string>
     <string name="daily_goal_hint">Günlük adım hedefinizi girin</string>
 

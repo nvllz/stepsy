@@ -62,12 +62,24 @@
                 android:value="com.nvllz.stepsy.ui.MainActivity" />
         </activity>
 
-        <!-- Goals Activity -->
+        <!-- Achievements Activity -->
         <activity
             android:name=".ui.AchievementsActivity"
             android:exported="false"
             android:theme="@style/Theme.stepsySettings"
             android:label="@string/achievements_title"
+            android:parentActivityName="com.nvllz.stepsy.ui.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nvllz.stepsy.ui.MainActivity" />
+        </activity>
+
+        <!-- Goals Activity -->
+        <activity
+            android:name=".ui.DailyGoalsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.stepsySettings"
+            android:label="@string/daily_goals"
             android:parentActivityName="com.nvllz.stepsy.ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

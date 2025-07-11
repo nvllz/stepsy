@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorSurface">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorSurface"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- Goals Section -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@color/colorSurface">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Goal Target Input -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/goal_target_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/daily_goal_target"
+                        app:hintTextColor="@color/colorOnSurface"
+                        app:helperTextTextColor="@color/colorOnSurface"
+                        app:placeholderTextColor="@color/colorOnSurface"
+                        app:boxStrokeWidth="1dp"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        android:layout_marginBottom="14dp"
+                        app:boxStrokeColor="@color/colorOnSurface"
+                        style="@style/Widget.Material3.TextInputLayout.FilledBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/goal_target_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLines="1" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="8dp"
+                        android:background="@color/colorAccent"
+                        android:alpha="0.3" />
+
+                    <!-- Notification Switch -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            tools:ignore="UselessParent">
+
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/notification_switch"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="4dp"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/open_sans_family"
+                                android:textColor="@color/colorOnSurface"
+                                app:thumbTint="@color/colorOnPrimary"
+                                app:trackTint="@color/colorPrimary"
+                                app:rippleColor="@color/colorAccent"
+                                app:thumbIcon="@drawable/ic_tick"
+                                app:thumbIconTint="@color/colorPrimary"
+                                android:text="@string/daily_goal_notification"/>
+
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/notification_progressbar_switch"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="4dp"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/open_sans_family"
+                                android:textColor="@color/colorOnSurface"
+                                app:thumbTint="@color/colorOnPrimary"
+                                app:trackTint="@color/colorPrimary"
+                                app:rippleColor="@color/colorAccent"
+                                app:thumbIcon="@drawable/ic_tick"
+                                app:thumbIconTint="@color/colorPrimary"
+                                android:text="@string/progress_in_notification"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
