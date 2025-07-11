@@ -222,7 +222,7 @@ class AchievementsActivity : AppCompatActivity() {
         var longestStreakRange: Pair<Long, Long>? = null
 
         for (entry in sortedEntries) {
-            if (entry.steps >= AppPreferences.dailyGoalTarget) {
+            if (entry.steps >= 10000) {
                 currentStreak++
                 if (streakStart == null) {
                     streakStart = entry.timestamp
