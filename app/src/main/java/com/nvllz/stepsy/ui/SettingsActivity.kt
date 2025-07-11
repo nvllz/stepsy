@@ -232,9 +232,8 @@ class SettingsActivity : AppCompatActivity() {
                     AppPreferences.dataStore.edit { preferences ->
                         preferences[AppPreferences.PreferenceKeys.THEME] = newValue.toString()
                     }
-
                     Util.applyTheme(newValue.toString())
-                    activity?.recreate()
+                    restartApp()
                 }
                 true
             }

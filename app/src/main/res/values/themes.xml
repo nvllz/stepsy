@@ -11,7 +11,8 @@
         <item name="fontFamily">@font/open_sans_family</item>
         <item name="popupMenuBackground">@color/colorSurface</item>
 
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/colorSurface</item>
+        <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
 
@@ -29,7 +30,8 @@
         <item name="android:fontFamily">@font/open_sans_family</item>
         <item name="fontFamily">@font/open_sans_family</item>
 
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/colorSurface</item>
+        <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
         <item name="android:statusBarColor">@color/colorBackground</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
 

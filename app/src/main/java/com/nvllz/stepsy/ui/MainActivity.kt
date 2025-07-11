@@ -6,6 +6,7 @@ package com.nvllz.stepsy.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -52,6 +53,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -174,6 +177,14 @@ internal class MainActivity : AppCompatActivity() {
         } else {
             fab.setImageResource(android.R.drawable.ic_media_pause)
             fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fab)) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val layoutParams = view.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.bottomMargin = 16.dpToPx(view.context) + systemBars.bottom
+            view.layoutParams = layoutParams
+            insets
         }
 
         mChart = findViewById(R.id.chart)
@@ -1073,6 +1084,10 @@ internal class MainActivity : AppCompatActivity() {
         ContextCompat.startForegroundService(this, intent)
 
         Toast.makeText(this, R.string.steps_updated, Toast.LENGTH_SHORT).show()
+    }
+
+    fun Int.dpToPx(context: Context): Int {
+        return (this * context.resources.displayMetrics.density).toInt()
     }
 
     companion object {
