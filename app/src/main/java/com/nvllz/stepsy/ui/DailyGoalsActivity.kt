@@ -27,6 +27,7 @@ class DailyGoalsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_daily_goals)
 
         supportActionBar?.apply {
+            title = getString(R.string.daily_goals)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
             setBackgroundDrawable(

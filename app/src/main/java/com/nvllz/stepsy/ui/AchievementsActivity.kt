@@ -44,6 +44,7 @@ class AchievementsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_achievements)
 
         supportActionBar?.apply {
+            title = getString(R.string.achievements_title)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
             setBackgroundDrawable(ContextCompat.getColor(this@AchievementsActivity, R.color.colorBackground).toDrawable())
