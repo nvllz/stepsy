@@ -36,14 +36,20 @@
 
     <!-- Plurals -->
     <plurals name="steps_text">
+        <item quantity="zero">%1$s خطوة</item>
         <item quantity="one">%1$s خطوة</item>
-        <item quantity="many">%1$s خطوات</item>
+        <item quantity="two">%1$s خطوتان</item>
+        <item quantity="few">%1$s خطوات</item>
+        <item quantity="many">%1$s خطوة</item>
         <item quantity="other">%1$s خطوة</item>
     </plurals>
 
     <plurals name="streak_record_count">
+        <item quantity="zero">%d يوم</item>
         <item quantity="one">%d يوم</item>
-        <item quantity="many">%d أيام</item>
+        <item quantity="two">%d يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يوماً</item>
         <item quantity="other">%d يوم</item>
     </plurals>
 
