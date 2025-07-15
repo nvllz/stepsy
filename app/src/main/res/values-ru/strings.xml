@@ -57,8 +57,9 @@
     <string name="notification_description_paused">Уведомлять при приостановке подсчёта шагов</string>
     <string name="notification_description_steps_day">Шаги за сегодня</string>
     <string name="notification_step_counting_paused">Подсчёт шагов приостановлен</string>
-    <string name="notification_step_goal_progress">Вы достигли %1$d%% вашей цели шагов (%2$s)</string>
-    <string name="notification_step_goal_completed">Вы достигли своей дневной цели шагов!</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
+    <string name="notification_step_goal_progress">Цель: %1$s — осталось %2$s</string>
+    <string name="notification_step_goal_completed">Цель по шагам достигнута!</string>
     <string name="step_counting_paused">Подсчёт шагов приостановлен</string>
     <string name="step_counting_resumed">Подсчёт шагов возобновлён</string>
     <string name="action_pause">Пауза</string>

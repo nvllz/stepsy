@@ -55,8 +55,9 @@
     <string name="notification_description_paused">Notificar cuando el conteo de pasos está pausado</string>
     <string name="notification_description_steps_day">Pasos hoy</string>
     <string name="notification_step_counting_paused">El conteo de pasos está pausado</string>
-    <string name="notification_step_goal_progress">Has alcanzado el %1$d%% de tu objetivo de pasos de %2$s</string>
-    <string name="notification_step_goal_completed">¡Has alcanzado tu objetivo diario de pasos!</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
+    <string name="notification_step_goal_progress">Meta: %1$s — faltan %2$s</string>
+    <string name="notification_step_goal_completed">¡Meta de pasos alcanzada!</string>
     <string name="step_counting_paused">Conteo de pasos pausado</string>
     <string name="step_counting_resumed">Conteo de pasos reanudado</string>
     <string name="action_pause">Pausar</string>

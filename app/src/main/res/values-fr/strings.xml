@@ -55,8 +55,9 @@
     <string name="notification_description_paused">Notifier lorsque le comptage est en pause</string>
     <string name="notification_description_steps_day">Pas aujourd\'hui</string>
     <string name="notification_step_counting_paused">Le comptage des pas est en pause</string>
-    <string name="notification_step_goal_progress">Vous avez atteint %1$d%% de votre objectif de pas %2$s</string>
-    <string name="notification_step_goal_completed">Vous avez atteint votre objectif de pas quotidien !</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
+    <string name="notification_step_goal_progress">Objectif : %1$s — reste %2$s</string>
+    <string name="notification_step_goal_completed">Objectif de pas atteint !</string>
     <string name="step_counting_paused">Comptage des pas en pause</string>
     <string name="step_counting_resumed">Comptage des pas repris</string>
     <string name="action_pause">Pause</string>

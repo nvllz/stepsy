@@ -9,6 +9,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -30,6 +31,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.nvllz.stepsy.R
+import com.nvllz.stepsy.ui.DailyGoalsActivity
 import com.nvllz.stepsy.ui.MainActivity
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
@@ -226,12 +228,17 @@ internal class MotionService : Service() {
 
         val stepsPlural = resources.getQuantityString(R.plurals.steps_text, mTodaysSteps, formattedSteps)
         val stepGoalPercentage = (mTodaysSteps.toFloat() / dailyTarget * 100).toInt()
+        val stepGoalLeft = dailyTarget - mTodaysSteps
 
         val notificationTextProgress = getString(R.string.notification_step_goal_progress)
-            .format(Locale.getDefault(), stepGoalPercentage, formattedTarget)
+            .format(Locale.getDefault(), formattedTarget, stepGoalLeft)
 
-        val notificationTextRaw = getString(R.string.steps_format)
+        val notificationTitleRaw = getString(R.string.steps_format)
             .format(Locale.getDefault(), stepsPlural, Util.stepsToDistance(mTodaysSteps), getDistanceUnitString())
+
+        val notificationTitleProgress = getString(R.string.notification_step_goal_progress_title)
+            .format(Locale.getDefault(), stepsPlural, Util.stepsToDistance(mTodaysSteps),
+                getDistanceUnitString(), stepGoalPercentage)
 
         val pausePendingIntent = PendingIntent.getService(
             this, 1,
@@ -239,24 +246,40 @@ internal class MotionService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        val notificationClickIntent = if (showProgressbar) {
+            Intent(this, DailyGoalsActivity::class.java)
+        } else {
+            Intent(this, MainActivity::class.java)
+        }
+
+        val notificationPendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            notificationClickIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         return NotificationCompat.Builder(this, STEP_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setOnlyAlertOnce(true)
             .setSilent(true)
+            .setContentIntent(notificationPendingIntent)
+            .setAutoCancel(false)
             .addAction(R.drawable.ic_notification, getString(R.string.action_pause), pausePendingIntent)
             .apply {
                 if (showProgressbar) {
                     val progress = stepGoalPercentage.coerceIn(0, 100)
                     if (progress < 100) {
-                        setStyle(NotificationCompat.BigTextStyle().bigText(notificationTextProgress))
+                        setContentTitle(notificationTitleProgress)
                         setContentText(notificationTextProgress)
                         setProgress(100, progress, false)
                     } else {
+                        setContentTitle(notificationTitleRaw)
                         setContentText(getString(R.string.notification_step_goal_completed))
                     }
-                    setContentTitle(notificationTextRaw)
+
                 } else {
-                    setContentText(notificationTextRaw)
+                    setContentText(notificationTitleRaw)
                 }
             }
     }

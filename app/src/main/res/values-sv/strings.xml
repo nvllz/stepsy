@@ -53,8 +53,9 @@
     <string name="notification_description_paused">Avisera när stegräkning är pausad</string>
     <string name="notification_description_steps_day">Steg idag</string>
     <string name="notification_step_counting_paused">Stegräkning är pausad</string>
-    <string name="notification_step_goal_progress">Du har nått %1$d%% av ditt steg-mål på %2$s</string>
-    <string name="notification_step_goal_completed">Du har nått ditt dagliga stegmål!</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
+    <string name="notification_step_goal_progress">Mål: %1$s — %2$s kvar</string>
+    <string name="notification_step_goal_completed">Stegmål uppnått!</string>
     <string name="step_counting_paused">Pausat stegräkning</string>
     <string name="step_counting_resumed">Återupptagit stegräkning</string>
     <string name="action_pause">Pausa</string>

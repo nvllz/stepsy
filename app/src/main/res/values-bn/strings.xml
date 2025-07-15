@@ -53,8 +53,9 @@
     <string name="notification_description_paused">পদক্ষেপ গণনা বন্ধ হলে জানান</string>
     <string name="notification_description_steps_day">আজকের পদক্ষেপ</string>
     <string name="notification_step_counting_paused">পদক্ষেপ গণনা বন্ধ আছে</string>
-    <string name="notification_step_goal_progress">আপনি আপনার %2$s ধাপের লক্ষ্যর %1$d%% অর্জন করেছেন</string>
-    <string name="notification_step_goal_completed">আপনি আপনার দৈনিক ধাপের লক্ষ্য অর্জন করেছেন!</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
+    <string name="notification_step_goal_progress">লক্ষ্য: %1$s — বাকি %2$s</string>
+    <string name="notification_step_goal_completed">পদক্ষেপের লক্ষ্য পূরণ হয়েছে!</string>
     <string name="step_counting_paused">পদক্ষেপ গণনা বন্ধ</string>
     <string name="step_counting_resumed">পদক্ষেপ গণনা পুনরায় শুরু</string>
     <string name="action_pause">বিরতি</string>

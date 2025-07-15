@@ -53,6 +53,9 @@
     <string name="notification_description_paused">إشعار عند إيقاف عد الخطوات</string>
     <string name="notification_description_steps_day">خطوات اليوم</string>
     <string name="notification_step_counting_paused">تم إيقاف عد الخطوات</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
+    <string name="notification_step_goal_progress">الهدف: %1$s — تبقّى %2$s</string>
+    <string name="notification_step_goal_completed">تم الوصول لهدف الخطوات!</string>
     <string name="step_counting_paused">إيقاف عد الخطوات</string>
     <string name="step_counting_resumed">استئناف عد الخطوات</string>
     <string name="action_pause">إيقاف مؤقت</string>

@@ -57,8 +57,9 @@
     <string name="notification_description_paused">Powiadamiaj gdy liczenie kroków jest wstrzymane</string>
     <string name="notification_description_steps_day">Kroki dzisiaj</string>
     <string name="notification_step_counting_paused">Liczenie kroków jest wstrzymane</string>
-    <string name="notification_step_goal_progress">Osiągnąłeś %1$d%% swojego celu kroków: %2$s</string>
-    <string name="notification_step_goal_completed">Osiągnąłeś swój dzienny cel kroków!</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
+    <string name="notification_step_goal_progress">Cel: %1$s — zostało %2$s</string>
+    <string name="notification_step_goal_completed">Cel kroków osiągnięty!</string>
     <string name="step_counting_paused">Wstrzymano liczenie kroków</string>
     <string name="step_counting_resumed">Wznowiono liczenie kroków</string>
     <string name="action_pause">Wstrzymaj</string>

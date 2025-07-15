@@ -53,8 +53,9 @@
     <string name="notification_description_paused">Notify when step counting is paused</string>
     <string name="notification_description_steps_day">Steps today</string>
     <string name="notification_step_counting_paused">Step counting is paused</string>
-    <string name="notification_step_goal_progress">You\'ve reached %1$d%% of your %2$s step goal</string>
-    <string name="notification_step_goal_completed">You reached your daily step goal!</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
+    <string name="notification_step_goal_progress">Goal: %1$s — %2$s to go</string>
+    <string name="notification_step_goal_completed">Step goal reached!</string>
     <string name="step_counting_paused">Paused step counting</string>
     <string name="step_counting_resumed">Resumed step counting</string>
     <string name="action_pause">Pause</string>
