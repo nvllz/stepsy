@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>@string/preference_system</item>
+        <item>فاتح</item>
+        <item>داكن</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>الأحد</item>
+        <item>الاثنين</item>
+        <item>السبت</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>متري (كم)</item>
+        <item>إنجليزي (ميل)</item>
+    </string-array>
+
+    <!-- Backup Frequency -->
+    <string-array name="backup_frequency_entries">
+        <item>معطل</item>
+        <item>يومي</item>
+        <item>كل يومين</item>
+        <item>كل 3 أيام</item>
+        <item>أسبوعي</item>
+        <item>كل أسبوعين</item>
+        <item>شهري</item>
+    </string-array>
+</resources>

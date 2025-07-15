@@ -52,32 +52,34 @@
     <!-- Languages -->
     <string-array name="language_names">
         <item>@string/preference_system</item>
-        <item>বাংলা</item>
-        <item>Deutsch</item>
-        <item>English</item>
-        <item>Español</item>
-        <item>Français</item>
-        <item>Italiano</item>
-        <item>Polski</item>
-        <item>Türkçe</item>
-        <item>Россия</item>
-        <item>Svenska</item>
-        <item>中文（中国）</item>
+	<item>Arabic (العربية)</item>
+	<item>বাংলা</item>
+	<item>Deutsch</item>
+	<item>English</item>
+	<item>Español</item>
+	<item>Français</item>
+	<item>Italiano</item>
+	<item>Polski</item>
+	<item>Россия</item>
+	<item>Svenska</item>
+	<item>Türkçe</item>
+	<item>中文（中国）</item>
     </string-array>
 
     <string-array name="language_values">
         <item>system</item>
-        <item>bn</item>
-        <item>de</item>
-        <item>en</item>
-        <item>es</item>
-        <item>fr</item>
-        <item>it</item>
-        <item>pl</item>
-        <item>tr</item>
-        <item>ru</item>
-        <item>sv</item>
-        <item>zh</item>
+	<item>ar</item>
+	<item>bn</item>
+	<item>de</item>
+	<item>en</item>
+	<item>es</item>
+	<item>fr</item>
+	<item>it</item>
+	<item>pl</item>
+	<item>ru</item>
+	<item>sv</item>
+	<item>tr</item>
+	<item>zh</item>
     </string-array>
 
     <!-- Backup Frequency -->

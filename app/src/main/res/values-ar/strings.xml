@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
+
+    <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
+    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d سعرة حرارية</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
+    <string name="week_display_format">الأسبوع %1$d</string>
+    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
+    <string name="no_entry">لا يوجد سجل لـ %1$s</string>
+    <string name="calories">%1$d سعرة حرارية</string>
+    <string name="steps_month">هذا الشهر</string>
+    <string name="avg_distance">المعدل اليومي</string>
+    <string name="total_distance">المسافة الكلية</string>
+    <string name="tips_and_tricks">نصائح وحيل</string>
+    <string name="no_sensor">جهازك لا يحتوي على حساس عد الخطوات</string>
+    <string name="no_activity_permission">إذن ACTIVITY_RECOGNITION مفقود</string>
+
+    <!-- Header section -->
+    <string name="expand_collapse">توسيع/تصغير</string>
+    <string name="header_today">اليوم</string>
+    <string name="header_week">هذا الأسبوع</string>
+    <string name="header_month">هذا الشهر</string>
+    <string name="header_7d">آخر ٧ أيام</string>
+    <string name="header_30d">آخر ٣٠ يومًا</string>
+    <string name="header_all_time">الإجمالي</string>
+    <string name="header_year">سنة %1$d</string>
+    <string name="label_today">اليوم</string>
+    <string name="label_week">الأسبوع</string>
+    <string name="label_month">الشهر</string>
+    <string name="label_7d">٧ أيام</string>
+    <string name="label_30d">٣٠ يوم</string>
+    <string name="label_all_time">كل الوقت</string>
+
+    <!-- Plurals -->
+    <plurals name="steps_text">
+        <item quantity="one">%1$s خطوة</item>
+        <item quantity="many">%1$s خطوات</item>
+        <item quantity="other">%1$s خطوة</item>
+    </plurals>
+
+    <plurals name="streak_record_count">
+        <item quantity="one">%d يوم</item>
+        <item quantity="many">%d أيام</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <string name="notification_category_counting_paused">تم إيقاف العد</string>
+    <string name="notification_category_steps_day">بيانات الخطوات</string>
+    <string name="notification_description_paused">إشعار عند إيقاف عد الخطوات</string>
+    <string name="notification_description_steps_day">خطوات اليوم</string>
+    <string name="notification_step_counting_paused">تم إيقاف عد الخطوات</string>
+    <string name="step_counting_paused">إيقاف عد الخطوات</string>
+    <string name="step_counting_resumed">استئناف عد الخطوات</string>
+    <string name="action_pause">إيقاف مؤقت</string>
+    <string name="action_resume">استئناف</string>
+
+    <!-- Preferences -->
+    <string name="settings">الإعدادات</string>
+    <string name="header_personal_data">البيانات الشخصية</string>
+    <string name="header_appearance">المظهر</string>
+    <string name="header_data_backup">النسخ الاحتياطي</string>
+    <string name="preference_system">النظام</string>
+    <string name="height_cm">الطول (سم)</string>
+    <string name="step_length">طول الخطوة</string>
+    <string name="weight_kg">الوزن (كجم)</string>
+    <string name="first_day_of_the_week">أول يوم في الأسبوع</string>
+    <string name="app_language">اللغة</string>
+    <string name="theme">الثيم</string>
+    <string name="date_format">تنسيق التاريخ</string>
+    <string name="unit_system">نظام الوحدات</string>
+    <string name="export_data">تصدير</string>
+    <string name="backup_frequency">تكرار النسخ الاحتياطي التلقائي</string>
+    <string name="backup_retention_count">عدد النسخ الاحتياطية للاحتفاظ بها</string>
+    <string name="backup_retention_hint">(0 للاحتفاظ بالجميع)</string>
+    <string name="backup_location">موقع النسخة الاحتياطية</string>
+    <string name="backup_location_not_set">غير محدد</string>
+    <string name="manual_backup">نسخ احتياطي يدوي</string>
+    <string name="import_data">استيراد</string>
+    <string name="import_data_summary">استعادة بيانات الخطوات من ملف</string>
+    <string name="next_backup_scheduled">النسخ الاحتياطي التلقائي القادم\n%1$s في %2$s</string>
+    <string name="header_about">عن التطبيق</string>
+    <string name="about_stepsy">حول</string>
+    <string name="about_version">الإصدار</string>
+    <string name="about_license">الرخصة</string>
+    <string name="about_html">
+    <![CDATA[
+        Stepsy <a href="https://github.com/nvllz/stepsy/releases">الإصدار v%s</a><br><br>
+        مشروع يُدار بواسطة <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
+        مبني على <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> لـ <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
+        <a href="https://github.com/nvllz/stepsy/issues">الإبلاغ عن مشكلة</a><br><br>
+        <a href="https://github.com/nvllz/stepsy">صفحة المشروع</a><br>
+        <a href="https://www.gnu.org/licenses/gpl-3.0.html">رخصة GPL-3.0</a>
+    ]]>
+    </string>
+
+    <!-- Toasts -->
+    <string name="enter_valid_value">يرجى إدخال قيمة صحيحة</string>
+    <string name="cannot_open_file">لا يمكن فتح الملف</string>
+    <string name="manual_backup_successful">تم النسخ الاحتياطي اليدوي بنجاح</string>
+    <string name="select_backup_location_first">يرجى تحديد موقع النسخ الاحتياطي أولاً</string>
+    <string name="import_result">%1$d مدخلات تم استيرادها (%2$d فشل). %3$s</string>
+    <string name="today_steps_set">تم تعيين خطوات اليوم إلى %1$d.</string>
+
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">عكس لون الخلفية</string>
+    <string name="widget_pref_dynamic_colors">ألوان ديناميكية</string>
+    <string name="widget_pref_text_scale">مقياس النص</string>
+    <string name="widget_pref_bg_opacity">شفافية الخلفية</string>
+    <string name="widget_pref_btn_save">حفظ</string>
+
+    <!-- Achievements -->
+    <string name="achievements_title">الإنجازات</string>
+    <string name="milestone_achievements">الإنجازات الكبرى</string>
+    <string name="no_milestones_reached">لم تحقق أي إنجاز بعد. واصل المشي!</string>
+
+    <!-- Data Placeholders -->
+    <string name="loading_data">جار تحميل البيانات…\n</string>
+    <string name="no_data_available">لا توجد بيانات متاحة\n</string>
+    <string name="error_loading_data">حدث خطأ أثناء تحميل البيانات\n</string>
+
+    <!-- Daily Goals -->
+    <string name="daily_goals">الهدف اليومي</string>
+    <string name="daily_goal_notification">إشعار عند تحقيق الهدف</string>
+    <string name="progress_in_notification">عرض التقدم في الإشعارت</string>
+    <string name="daily_goal_target">هدف الخطوات اليومي</string>
+    <string name="daily_goal_hint">أدخل هدفك اليومي للخطوات</string>
+
+    <!-- Records -->
+    <string name="personal_records">الأرقام القياسية الشخصية</string>
+    <string name="most_steps_day">أكبر عدد خطوات في يوم واحد</string>
+    <string name="most_walked_month">أكثر شهر نشاطًا</string>
+    <string name="streak_record">أطول سلسلة تتجاوز %1$s خطوة</string>
+    <string name="since_date">منذ %1$s</string>
+
+    <!-- Daily Goal Notifications -->
+    <string name="daily_goal_notifications">تنبيهات الهدف اليومي</string>
+    <string name="daily_goal_notification_channel_desc">استلم تحديثات حول تقدمك اليومي</string>
+    <string name="goal_achieved_title">🎉 تم تحقيق الهدف!</string>
+    <string name="goal_achieved_message">لقد وصلت إلى هدفك %,.d خطوة!</string>
+
+    <!-- Step Count Details -->
+    <string name="steps_count_with_distance">%1$d خطوة / %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d ألف خطوة / %2$s</string>
+    <string name="million_steps_with_distance">%1$d مليون خطوة / %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f مليون خطوة / %2$s</string>
+
+    <!-- Step Count Adjustment -->
+    <string name="edit_step_count">تعديل عدد خطوات اليوم</string>
+    <string name="confirm_decrease_title">تقليل عدد الخطوات</string>
+    <string name="confirm_decrease_message">هذه القيمة أقل من العدد الحالي للخطوات. هل تريد المتابعة؟</string>
+    <string name="invalid_step_count">يرجى إدخال رقم صحيح</string>
+    <string name="steps_updated">تم تحديث عدد الخطوات</string>
+</resources>
