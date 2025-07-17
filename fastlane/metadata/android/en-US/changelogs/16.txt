@@ -1,0 +1,13 @@
+New:
+- Arabic translation (@moayad-star)
+- Daily Goal configuration screen
+- Live notification progress bar
+- Daily Goal streak label on the main screen
+
+Changes:
+- Replaced static "10k+" with custom step goal value in Achievements streak section
+
+Fixed:
+- App bar text localization for RTL locales (@moayad-star)
+- Navigation bar overlaying the floating action bar
+... and various smaller bugs.
