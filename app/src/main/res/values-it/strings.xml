@@ -135,6 +135,7 @@
     <string name="progress_in_notification">Mostra il progresso nella notifica</string>
     <string name="daily_goal_target">Obiettivo passi giornaliero</string>
     <string name="daily_goal_hint">Inserisci il tuo obiettivo di passi giornaliero</string>
+    <string name="encouraging_notifications">Notifiche incoraggianti</string>
 
     <!-- Records -->
     <string name="personal_records">Record personali</string>
@@ -147,7 +148,7 @@
     <string name="daily_goal_notifications">Avvisi obiettivo giornaliero</string>
     <string name="daily_goal_notification_channel_desc">Ricevi aggiornamenti sui tuoi progressi giornalieri</string>
     <string name="goal_achieved_title">🎉 Hai raggiunto l’obiettivo!</string>
-    <string name="goal_achieved_message">Hai raggiunto il tuo obiettivo di %,d passi!</string>
+    <string name="goal_achieved_message">Hai raggiunto il tuo obiettivo di %1$s!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d passi / %2$s</string>
@@ -161,4 +162,17 @@
     <string name="confirm_decrease_message">Questo valore è inferiore al conteggio attuale dei passi. Vuoi procedere?</string>
     <string name="invalid_step_count">Inserisci un numero valido</string>
     <string name="steps_updated">Conteggio dei passi aggiornato</string>
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">Continua così!</string>
+    <string name="encouraging_notification_15_percent">Ottimo inizio! Hai fatto il %1$d%% del tuo obiettivo. Mancano solo %2$d passi!</string>
+    <string name="encouraging_notification_75_percent">Ci sei quasi! %1$d%% completato. Solo %2$d passi al traguardo!</string>
+
+    <string name="encouraging_notification_15_percent_alt1">Bel progresso! Hai fatto il %1$d%%. Continua a muoverti!</string>
+    <string name="encouraging_notification_15_percent_alt2">Sei sulla strada giusta! %1$d%% fatto. Mancano %2$d passi!</string>
+    <string name="encouraging_notification_15_percent_alt3">Ottimo lavoro! Hai già fatto il %1$d%%. Resta attivo!</string>
+
+    <string name="encouraging_notification_75_percent_alt1">Quasi finito! Sei al %1$d%%. Solo %2$d passi alla meta!</string>
+    <string name="encouraging_notification_75_percent_alt2">Ultimo sforzo! %1$d%% fatto. Ce la puoi fare — solo %2$d passi!</string>
+    <string name="encouraging_notification_75_percent_alt3">Traguardo in vista! %1$d%% completato. %2$d passi per vincere!</string>
 </resources>

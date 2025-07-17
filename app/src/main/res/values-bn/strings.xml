@@ -133,6 +133,7 @@
     <string name="progress_in_notification">বিজ্ঞপ্তিতে অগ্রগতি দেখান</string>
     <string name="daily_goal_target">দৈনিক পদচারণার লক্ষ্য</string>
     <string name="daily_goal_hint">আপনার দৈনিক পদচারণার লক্ষ্য লিখুন</string>
+    <string name="encouraging_notifications">উৎসাহজনক বিজ্ঞপ্তি</string>
 
     <!-- Records -->
     <string name="personal_records">ব্যক্তিগত রেকর্ড</string>
@@ -145,7 +146,7 @@
     <string name="daily_goal_notifications">দৈনিক পদক্ষেপের লক্ষ্যের বিজ্ঞপ্তি</string>
     <string name="daily_goal_notification_channel_desc">দৈনিক পদক্ষেপের লক্ষ্য অগ্রগতি সম্পর্কে আপডেট পান</string>
     <string name="goal_achieved_title">🎉 আপনি লক্ষ্য পূরণ করলেন!</string>
-    <string name="goal_achieved_message">আপনি %,d ধাপের লক্ষ্য পূরণ করেছেন!</string>
+    <string name="goal_achieved_message">আপনি %1$s লক্ষ্য পূরণ করেছেন!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d ধাপ / %2$s</string>
@@ -159,4 +160,17 @@
     <string name="confirm_decrease_message">এই মানটি বর্তমান পদক্ষেপ সংখ্যার চেয়ে কম। আপনি কি নিশ্চিতভাবে এগিয়ে যেতে চান?</string>
     <string name="invalid_step_count">অনুগ্রহ করে একটি বৈধ সংখ্যা লিখুন</string>
     <string name="steps_updated">পদক্ষেপ সংখ্যা আপডেট হয়েছে</string>
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">চলেই যাও!</string>
+    <string name="encouraging_notification_15_percent">দারুণ শুরু! %1$d%% সম্পন্ন হয়েছে। আর মাত্র %2$d পা চলতে হবে!</string>
+    <string name="encouraging_notification_75_percent">প্রায় হয়ে গেছে! %1$d%% শেষ। মাত্র %2$d পা বাকি!</string>
+
+    <string name="encouraging_notification_15_percent_alt1">ভালোই এগিয়ে যাচ্ছো! %1$d%% শেষ হয়েছে। চালিয়ে যাও!</string>
+    <string name="encouraging_notification_15_percent_alt2">তুমি ঠিক পথেই আছো! %1$d%% শেষ। %2$d পা বাকি!</string>
+    <string name="encouraging_notification_15_percent_alt3">চমৎকার কাজ! %1$d%% শেষ হয়েছে। সক্রিয় থেকো!</string>
+
+    <string name="encouraging_notification_75_percent_alt1">একদম কাছাকাছি! %1$d%% শেষ। মাত্র %2$d পা বাকি!</string>
+    <string name="encouraging_notification_75_percent_alt2">শেষ ধাপ! %1$d%% সম্পন্ন। পারবে—আর %2$d পা!</string>
+    <string name="encouraging_notification_75_percent_alt3">শেষ প্রান্তে পৌঁছে গেছো! %1$d%% শেষ। %2$d পা এগিয়ে জয় করো!</string>
 </resources>

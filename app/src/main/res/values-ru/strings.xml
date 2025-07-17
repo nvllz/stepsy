@@ -137,6 +137,7 @@
     <string name="progress_in_notification">Показать прогресс в уведомлении</string>
     <string name="daily_goal_target">Цель по шагам в день</string>
     <string name="daily_goal_hint">Введите вашу дневную цель шагов</string>
+    <string name="encouraging_notifications">Мотивирующие уведомления</string>
 
     <!-- Records -->
     <string name="personal_records">Личные рекорды</string>
@@ -149,7 +150,7 @@
     <string name="daily_goal_notifications">Оповещения о ежедневной цели</string>
     <string name="daily_goal_notification_channel_desc">Получайте уведомления о достижении суточной нормы шагов</string>
     <string name="goal_achieved_title">🎉 Цель достигнута!</string>
-    <string name="goal_achieved_message">Вы достигли цели в %,d шагов!</string>
+    <string name="goal_achieved_message">Вы достигли цели в %1$s!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d шагов / %2$s</string>
@@ -163,4 +164,17 @@
     <string name="confirm_decrease_message">Это значение меньше текущего количества шагов. Вы уверены, что хотите продолжить?</string>
     <string name="invalid_step_count">Пожалуйста, введите корректное число</string>
     <string name="steps_updated">Количество шагов обновлено</string>
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">Так держать!</string>
+    <string name="encouraging_notification_15_percent">Отличное начало! Выполнено %1$d%% от цели. Осталось всего %2$d шагов!</string>
+    <string name="encouraging_notification_75_percent">Ты почти у цели! %1$d%% сделано. Осталось %2$d шагов!</string>
+
+    <string name="encouraging_notification_15_percent_alt1">Хороший прогресс! %1$d%% цели выполнено. Продолжай идти!</string>
+    <string name="encouraging_notification_15_percent_alt2">Ты на верном пути! %1$d%% завершено. Осталось %2$d шагов!</string>
+    <string name="encouraging_notification_15_percent_alt3">Молодец! Уже %1$d%% сделано. Оставайся активным!</string>
+
+    <string name="encouraging_notification_75_percent_alt1">Почти финиш! %1$d%% достигнуто. Всего %2$d шагов!</string>
+    <string name="encouraging_notification_75_percent_alt2">Финальный рывок! %1$d%% готово. Ты сможешь — %2$d шагов до цели!</string>
+    <string name="encouraging_notification_75_percent_alt3">Финишная прямая! %1$d%% позади. %2$d шагов до победы!</string>
 </resources>

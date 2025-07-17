@@ -133,6 +133,7 @@
     <string name="progress_in_notification">Visa framsteg i aviseringen</string>
     <string name="daily_goal_target">Dagligt stegmål</string>
     <string name="daily_goal_hint">Ange ditt dagliga stegmål</string>
+    <string name="encouraging_notifications">Uppmuntrande aviseringar</string>
 
     <!-- Records -->
     <string name="personal_records">Personliga mål</string>
@@ -145,7 +146,7 @@
     <string name="daily_goal_notifications">Dagliga stegmålsavsieringar</string>
     <string name="daily_goal_notification_channel_desc">Få uppdateringar om din dagliga stegmålsutveckling</string>
     <string name="goal_achieved_title">🎉 Du nådde ditt mål!</string>
-    <string name="goal_achieved_message">Du nådde ditt stegmål om %,d steg!</string>
+    <string name="goal_achieved_message">Du nådde ditt stegmål om %1$s!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d steg / %2$s</string>
@@ -159,4 +160,17 @@
     <string name="confirm_decrease_message">Detta värde är lägre än det aktuella stegtalet. Vill du fortsätta?</string>
     <string name="invalid_step_count">Ange ett giltigt nummer</string>
     <string name="steps_updated">Stegräkning uppdaterad</string>
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">Fortsätt så!</string>
+    <string name="encouraging_notification_15_percent">Bra start! Du har gjort %1$d%% av ditt mål. Bara %2$d steg kvar!</string>
+    <string name="encouraging_notification_75_percent">Snart framme! %1$d%% klart. Bara %2$d steg till mål!</string>
+
+    <string name="encouraging_notification_15_percent_alt1">Snyggt jobbat! Du är %1$d%% klar. Fortsätt gå!</string>
+    <string name="encouraging_notification_15_percent_alt2">Du är på gång! %1$d%% klart. %2$d steg kvar!</string>
+    <string name="encouraging_notification_15_percent_alt3">Bra jobbat! %1$d%% klart. Håll igång!</string>
+
+    <string name="encouraging_notification_75_percent_alt1">Nästan där! %1$d%% gjort. Bara %2$d steg kvar!</string>
+    <string name="encouraging_notification_75_percent_alt2">Sista rycket! %1$d%% klart. Du fixar det — %2$d steg kvar!</string>
+    <string name="encouraging_notification_75_percent_alt3">Målet är nära! %1$d%% klart. Bara %2$d steg till seger!</string>
 </resources>

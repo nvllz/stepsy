@@ -133,6 +133,7 @@
     <string name="progress_in_notification">Bildirimde ilerlemeyi göster</string>
     <string name="daily_goal_target">Günlük adım hedefi</string>
     <string name="daily_goal_hint">Günlük adım hedefinizi girin</string>
+    <string name="encouraging_notifications">Teşvik edici bildirimler</string>
 
     <!-- Records -->
     <string name="personal_records">Kişisel Rekorlar</string>
@@ -145,7 +146,7 @@
     <string name="daily_goal_notifications">Günlük Adım Hedefi Uyarıları</string>
     <string name="daily_goal_notification_channel_desc">Günlük adım hedef ilerlemeniz hakkında güncellemeler alın</string>
     <string name="goal_achieved_title">🎉 Hedefe ulaştınız!</string>
-    <string name="goal_achieved_message">%,d adımlık hedefinizi tamamladınız!</string>
+    <string name="goal_achieved_message">%1$s hedefinizi tamamladınız!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d adım / %2$s</string>
@@ -159,4 +160,17 @@
     <string name="confirm_decrease_message">Bu değer mevcut adım sayısından daha düşük. Devam etmek istediğinizden emin misiniz?</string>
     <string name="invalid_step_count">Lütfen geçerli bir sayı girin</string>
     <string name="steps_updated">Adım sayısı güncellendi</string>
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">Devam et!</string>
+    <string name="encouraging_notification_15_percent">Harika bir başlangıç! Hedefinin %1$d%%\'ini tamamladın. Sadece %2$d adım kaldı!</string>
+    <string name="encouraging_notification_75_percent">Neredeyse bitti! %1$d%% tamamlandı. Hedefe sadece %2$d adım!</string>
+
+    <string name="encouraging_notification_15_percent_alt1">İyi gidiyorsun! Günlük hedefinin %1$d%%’ini yaptın. Hareket etmeye devam et!</string>
+    <string name="encouraging_notification_15_percent_alt2">Doğru yoldasın! %1$d%% tamam. %2$d adım kaldı!</string>
+    <string name="encouraging_notification_15_percent_alt3">Aferin! Hedefinin %1$d%%’i tamamlandı. Aktif kal!</string>
+
+    <string name="encouraging_notification_75_percent_alt1">Çok az kaldı! %1$d%% bitti. Sadece %2$d adım!</string>
+    <string name="encouraging_notification_75_percent_alt2">Son adımlar! %1$d%% tamamlandı. Yapabilirsin — sadece %2$d adım!</string>
+    <string name="encouraging_notification_75_percent_alt3">Hedef çok yakın! %1$d%% bitti. Zafer için %2$d adım kaldı!</string>
 </resources>

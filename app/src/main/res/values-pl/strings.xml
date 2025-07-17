@@ -137,6 +137,7 @@
     <string name="progress_in_notification">Pokaż postęp w powiadomieniu</string>
     <string name="daily_goal_target">Dzienny cel kroków</string>
     <string name="daily_goal_hint">Wprowadź dzienny cel kroków</string>
+    <string name="encouraging_notifications">Motywujące powiadomienia</string>
 
     <!-- Records -->
     <string name="personal_records">Rekordy osobiste</string>
@@ -149,7 +150,7 @@
     <string name="daily_goal_notifications">Alerty dziennego celu kroków</string>
     <string name="daily_goal_notification_channel_desc">Otrzymuj aktualizacje postępów celu kroków</string>
     <string name="goal_achieved_title">🎉 Cel osiągnięty!</string>
-    <string name="goal_achieved_message">Osiągnięto cel %,d kroków!</string>
+    <string name="goal_achieved_message">Osiągnięto cel: %1$s!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d kroków / %2$s</string>
@@ -163,4 +164,18 @@
     <string name="confirm_decrease_message">Ta wartość jest niższa niż obecna liczba kroków. Czy na pewno chcesz kontynuować?</string>
     <string name="invalid_step_count">Wprowadź poprawną liczbę</string>
     <string name="steps_updated">Zaktualizowano liczbę kroków</string>
+
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">Tak trzymaj!</string>
+    <string name="encouraging_notification_15_percent">Świetny początek! Masz już %1$d%% celu. Zostało tylko %2$d kroków!</string>
+    <string name="encouraging_notification_75_percent">Prawie meta! %1$d%% wykonane. Tylko %2$d kroków do końca!</string>
+
+    <string name="encouraging_notification_15_percent_alt1">Dobrze ci idzie! %1$d%% wykonane. Nie przestawaj się ruszać!</string>
+    <string name="encouraging_notification_15_percent_alt2">Jesteś na dobrej drodze! %1$d%% za tobą. Zostało %2$d kroków!</string>
+    <string name="encouraging_notification_15_percent_alt3">Brawo! Zrobiłeś %1$d%% planu. Bądź aktywny!</string>
+
+    <string name="encouraging_notification_75_percent_alt1">Już prawie! %1$d%% zrobione. Jeszcze tylko %2$d kroków!</string>
+    <string name="encouraging_notification_75_percent_alt2">Ostatnia prosta! %1$d%% zrobione. Dasz radę — tylko %2$d kroków!</string>
+    <string name="encouraging_notification_75_percent_alt3">Meta tuż-tuż! %1$d%% osiągnięte. %2$d kroków do zwycięstwa!</string>
 </resources>

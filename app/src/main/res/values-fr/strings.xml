@@ -135,6 +135,7 @@
     <string name="progress_in_notification">Afficher la progression dans la notification</string>
     <string name="daily_goal_target">Objectif de pas quotidien</string>
     <string name="daily_goal_hint">Entrez votre objectif de pas quotidien</string>
+    <string name="encouraging_notifications">Notifications encourageantes</string>
 
     <!-- Records -->
     <string name="personal_records">Records personnels</string>
@@ -146,8 +147,8 @@
     <!-- Daily Goal Notifications -->
     <string name="daily_goal_notifications">Alertes objectif quotidien</string>
     <string name="daily_goal_notification_channel_desc">Recevez des mises à jour sur votre progression quotidienne</string>
-    <string name="goal_achieved_title">🎉 Objectif atteint !</string>
-    <string name="goal_achieved_message">Vous avez atteint votre objectif de %,d pas !</string>
+    <string name="goal_achieved_title">🎉 Objectif atteint !</string>
+    <string name="goal_achieved_message">Vous avez atteint votre objectif de %1$s !</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d pas / %2$s</string>
@@ -161,4 +162,17 @@
     <string name="confirm_decrease_message">Cette valeur est inférieure au nombre de pas actuel. Voulez-vous continuer?</string>
     <string name="invalid_step_count">Veuillez entrer un nombre valide</string>
     <string name="steps_updated">Nombre de pas mis à jour</string>
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">Continue comme ça !</string>
+    <string name="encouraging_notification_15_percent">Beau début ! Tu as fait %1$d%% de ton objectif. Plus que %2$d pas !</string>
+    <string name="encouraging_notification_75_percent">Tu y es presque ! %1$d%% atteint. Encore %2$d pas à faire !</string>
+
+    <string name="encouraging_notification_15_percent_alt1">Joli progrès ! %1$d%% de l’objectif. Continue à bouger !</string>
+    <string name="encouraging_notification_15_percent_alt2">T’es sur la bonne voie ! %1$d%% fait. %2$d pas restants.</string>
+    <string name="encouraging_notification_15_percent_alt3">Bravo ! %1$d%% atteint. Reste actif !</string>
+
+    <string name="encouraging_notification_75_percent_alt1">Presque fini ! %1$d%% fait. Il ne reste que %2$d pas !</string>
+    <string name="encouraging_notification_75_percent_alt2">Dernier effort ! %1$d%% complet. Tu peux le faire — encore %2$d pas !</string>
+    <string name="encouraging_notification_75_percent_alt3">Tu touches au but ! %1$d%% fait. %2$d pas avant la victoire !</string>
 </resources>

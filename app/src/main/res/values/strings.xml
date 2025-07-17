@@ -130,9 +130,10 @@
     <!-- Daily Goals -->
     <string name="daily_goals">Daily Goal</string>
     <string name="daily_goal_notification">Notify when reached</string>
-    <string name="progress_in_notification">Show progress in notification</string>
+    <string name="progress_in_notification">Show progress in live notification</string>
     <string name="daily_goal_target">Daily step goal</string>
     <string name="daily_goal_hint">Enter your daily step goal</string>
+    <string name="encouraging_notifications">Encouraging notifications</string>
 
     <!-- Records -->
     <string name="personal_records">Personal Records</string>
@@ -145,7 +146,7 @@
     <string name="daily_goal_notifications">Daily Step Goal Alerts</string>
     <string name="daily_goal_notification_channel_desc">Get updates on your daily step goal progress</string>
     <string name="goal_achieved_title">🎉 You Hit Your Goal!</string>
-    <string name="goal_achieved_message">You reached your step goal of %,d steps!</string>
+    <string name="goal_achieved_message">You reached your step goal of %1$s steps!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d steps / %2$s</string>
@@ -159,4 +160,17 @@
     <string name="confirm_decrease_message">"This value is lower than the current step count. Are you sure you want to proceed?"</string>
     <string name="invalid_step_count">Please enter a valid number</string>
     <string name="steps_updated">Step count updated</string>
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">Keep Going!</string>
+    <string name="encouraging_notification_15_percent">Great start! You\'ve completed %1$d%% of your daily goal. Only %2$d more steps to go!</string>
+    <string name="encouraging_notification_75_percent">You\'re almost there! %1$d%% complete. Just %2$d more steps to reach your goal!</string>
+
+    <string name="encouraging_notification_15_percent_alt1">Nice progress! You\'ve walked %1$d%% of your daily goal. Keep moving!</string>
+    <string name="encouraging_notification_15_percent_alt2">You\'re on your way! %1$d%% done. %2$d steps left to reach your goal!</string>
+    <string name="encouraging_notification_15_percent_alt3">Good job! You\'ve completed %1$d%% of your daily target. Stay active!</string>
+
+    <string name="encouraging_notification_75_percent_alt1">So close! You\'ve reached %1$d%% of your goal. Only %2$d steps remaining!</string>
+    <string name="encouraging_notification_75_percent_alt2">Final push! %1$d%% complete. You can do it — just %2$d more steps!</string>
+    <string name="encouraging_notification_75_percent_alt3">Almost at the finish line! %1$d%% done. %2$d steps to victory!</string>
 </resources>

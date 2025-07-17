@@ -131,6 +131,7 @@
     <string name="progress_in_notification">在通知中显示进度</string>
     <string name="daily_goal_target">每日步数目标</string>
     <string name="daily_goal_hint">请输入你的每日步数目标</string>
+    <string name="encouraging_notifications">激励性通知</string>
 
     <!-- Records -->
     <string name="personal_records">个人记录</string>
@@ -143,7 +144,7 @@
     <string name="daily_goal_notifications">每日步数提醒</string>
     <string name="daily_goal_notification_channel_desc">获取每日步数目标的进度更新</string>
     <string name="goal_achieved_title">🎉 达成目标！</string>
-    <string name="goal_achieved_message">你已达成 %,d 步的目标！</string>
+    <string name="goal_achieved_message">你已达成 %1$s 目标！</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d 步 / %2$s</string>
@@ -157,4 +158,17 @@
     <string name="confirm_decrease_message">该数值低于当前记录的步数。确定要继续吗？</string>
     <string name="invalid_step_count">请输入有效数字</string>
     <string name="steps_updated">步数已更新</string>
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">继续加油！</string>
+    <string name="encouraging_notification_15_percent">不错的开始！你已完成 %1$d%% 的目标。还有 %2$d 步就达标！</string>
+    <string name="encouraging_notification_75_percent">快完成啦！已完成 %1$d%%。只差 %2$d 步！</string>
+
+    <string name="encouraging_notification_15_percent_alt1">进展不错！你已完成 %1$d%%。继续走下去！</string>
+    <string name="encouraging_notification_15_percent_alt2">你走在正确的路上！%1$d%% 已完成，还有 %2$d 步！</string>
+    <string name="encouraging_notification_15_percent_alt3">做得好！目标已达成 %1$d%%。保持活力！</string>
+
+    <string name="encouraging_notification_75_percent_alt1">快到了！%1$d%% 完成。剩下 %2$d 步！</string>
+    <string name="encouraging_notification_75_percent_alt2">最后冲刺！%1$d%% 完成了。你可以的 — 只差 %2$d 步！</string>
+    <string name="encouraging_notification_75_percent_alt3">终点在望！%1$d%% 已完成。%2$d 步就胜利了！</string>
 </resources>

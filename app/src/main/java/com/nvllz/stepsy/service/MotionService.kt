@@ -9,7 +9,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -128,6 +127,12 @@ internal class MotionService : Service() {
                 GoalNotificationWorker.showDailyGoalNotification(this, target)
             }
 
+            // Check if the threshold for sending encouraging messages has been reached
+            val encouragingNotifications = AppPreferences.encouragingNotifications
+            if (encouragingNotifications && !goalReachedToday && target > 0) {
+                GoalNotificationWorker.showEncouragingNotification(this, target, mTodaysSteps)
+            }
+
             handleStepUpdate()
 
             // reset the delayed write runnable
@@ -163,6 +168,7 @@ internal class MotionService : Service() {
             mCurrentDate = currentDate
             mLastSteps = -1
             goalReachedToday = false
+            GoalNotificationWorker.resetEncouragingNotificationFlags()
             AppPreferences.date = mCurrentDate
             AppPreferences.steps = mTodaysSteps
             lastSharedPrefsWriteTime = currentTime.also { lastDbWriteTime = it }

@@ -17,6 +17,7 @@ import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.Database
+import com.nvllz.stepsy.util.GoalNotificationWorker
 import kotlinx.coroutines.launch
 
 class DailyGoalsActivity : AppCompatActivity() {
@@ -93,6 +94,18 @@ class DailyGoalsActivity : AppCompatActivity() {
                 }
             }
         }
+
+        val encouragingNotificationsSwitch = findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications)
+
+        encouragingNotificationsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            lifecycleScope.launch {
+                AppPreferences.dataStore.edit { preferences ->
+                    preferences[AppPreferences.PreferenceKeys.ENCOURAGING_NOTIFICATIONS] = isChecked
+                }
+                GoalNotificationWorker.showEncouragingNotification(applicationContext,
+                    AppPreferences.dailyGoalTarget, AppPreferences.steps)
+            }
+        }
     }
 
     private fun saveGoalTargetIfValid(text: String) {
@@ -113,9 +126,11 @@ class DailyGoalsActivity : AppCompatActivity() {
     private fun initializePreferences() {
         val notificationEnabled = AppPreferences.dailyGoalNotification
         val notificationProgressbar = AppPreferences.dailyGoalNotificationProgressbar
+        val encouragingNotifications = AppPreferences.encouragingNotifications
 
         findViewById<MaterialSwitch>(R.id.notification_switch).isChecked = notificationEnabled
         findViewById<MaterialSwitch>(R.id.notification_progressbar_switch).isChecked = notificationProgressbar
+        findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications).isChecked = encouragingNotifications
 
         val dailyTarget = AppPreferences.dailyGoalTarget
         findViewById<TextInputEditText>(R.id.goal_target_input).setText(dailyTarget.toString())

@@ -137,6 +137,7 @@
     <string name="progress_in_notification">عرض التقدم في الإشعارت</string>
     <string name="daily_goal_target">هدف الخطوات اليومي</string>
     <string name="daily_goal_hint">أدخل هدفك اليومي للخطوات</string>
+    <string name="encouraging_notifications">إشعارات مشجعة</string>
 
     <!-- Records -->
     <string name="personal_records">الأرقام القياسية الشخصية</string>
@@ -149,7 +150,7 @@
     <string name="daily_goal_notifications">تنبيهات الهدف اليومي</string>
     <string name="daily_goal_notification_channel_desc">استلم تحديثات حول تقدمك اليومي</string>
     <string name="goal_achieved_title">🎉 تم تحقيق الهدف!</string>
-    <string name="goal_achieved_message">لقد وصلت إلى هدفك %,.d خطوة!</string>
+    <string name="goal_achieved_message">لقد وصلت إلى هدفك %1$s!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d خطوة / %2$s</string>
@@ -163,4 +164,17 @@
     <string name="confirm_decrease_message">هذه القيمة أقل من العدد الحالي للخطوات. هل تريد المتابعة؟</string>
     <string name="invalid_step_count">يرجى إدخال رقم صحيح</string>
     <string name="steps_updated">تم تحديث عدد الخطوات</string>
+
+    <!-- Encouraging notification strings -->
+    <string name="encouraging_notification_title">استمر في المشي!</string>
+    <string name="encouraging_notification_15_percent">بداية ممتازة! أنجزت %1$d%% من هدفك اليومي. تبقّى %2$d خطوة فقط!</string>
+    <string name="encouraging_notification_75_percent">شارفت على إنهاء هدفك! %1$d%% منجز. تبقّى %2$d خطوة فقط!</string>
+
+    <string name="encouraging_notification_15_percent_alt1">تقدّم رائع! أنجزت %1$d%% من هدفك اليومي. واصل الحركة!</string>
+    <string name="encouraging_notification_15_percent_alt2">في الطريق الصحيح! أنجزت %1$d%%. تبقّى %2$d خطوة!</string>
+    <string name="encouraging_notification_15_percent_alt3">عمل ممتاز! أتممت %1$d%% من هدفك. حافظ على نشاطك!</string>
+
+    <string name="encouraging_notification_75_percent_alt1">قريب جداً! أنجزت %1$d%% من هدفك. فقط %2$d خطوة تفصلك!</string>
+    <string name="encouraging_notification_75_percent_alt2">الدفعة الأخيرة! أنجزت %1$d%%. تقدر تكمل — تبقّى %2$d خطوة فقط!</string>
+    <string name="encouraging_notification_75_percent_alt3">قربت توصل! %1$d%% منجز. %2$d خطوة تفصلك عن الانتصار!</string>
 </resources>

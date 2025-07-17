@@ -71,7 +71,6 @@
                         android:background="@color/colorAccent"
                         android:alpha="0.3" />
 
-                    <!-- Notification Switch -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -115,6 +114,21 @@
                                 app:thumbIcon="@drawable/ic_tick"
                                 app:thumbIconTint="@color/colorPrimary"
                                 android:text="@string/progress_in_notification"/>
+
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/streaks_encouraging_notifications"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="4dp"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/open_sans_family"
+                                android:textColor="@color/colorOnSurface"
+                                app:thumbTint="@color/colorOnPrimary"
+                                app:trackTint="@color/colorPrimary"
+                                app:rippleColor="@color/colorAccent"
+                                app:thumbIcon="@drawable/ic_tick"
+                                app:thumbIconTint="@color/colorPrimary"
+                                android:text="@string/encouraging_notifications"/>
 
                         </LinearLayout>
 
