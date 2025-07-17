@@ -58,6 +58,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.nvllz.stepsy.util.StreakCalculator
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.util.Date
@@ -154,6 +155,7 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         loadYearButtons()
+        updateGoalStreakUI()
 
         val todayButton = findViewById<MaterialButton>(R.id.button_today)
         setSelectedButton(todayButton)
@@ -501,7 +503,7 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         val stepsPlural = resources.getQuantityString(
-            R.plurals.steps_text,
+            R.plurals.steps_formatted,
             totalSteps,
             formattedSteps
         )
@@ -601,7 +603,7 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         val stepsPlural = resources.getQuantityString(
-            R.plurals.steps_text,
+            R.plurals.steps_formatted,
             yearSteps,
             formattedSteps
         )
@@ -717,7 +719,7 @@ internal class MainActivity : AppCompatActivity() {
                 steps.toString()
             }
             val stepsPlural = resources.getQuantityString(
-                R.plurals.steps_text,
+                R.plurals.steps_formatted,
                 steps,
                 formattedSteps
             )
@@ -811,7 +813,7 @@ internal class MainActivity : AppCompatActivity() {
             }
 
             resources.getQuantityString(
-                R.plurals.steps_text,
+                R.plurals.steps_formatted,
                 it.steps,
                 formattedSteps
             )
@@ -828,7 +830,7 @@ internal class MainActivity : AppCompatActivity() {
         } else {
             mTextViewDayDetails.text = String.format(
                 getString(R.string.steps_day_display),
-                resources.getQuantityString(R.plurals.steps_text,0,0),
+                resources.getQuantityString(R.plurals.steps_formatted,0,0),
                 0.0,
                 Util.getDistanceUnitString(),
                 0
@@ -1084,6 +1086,43 @@ internal class MainActivity : AppCompatActivity() {
         ContextCompat.startForegroundService(this, intent)
 
         Toast.makeText(this, R.string.steps_updated, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun updateGoalStreakUI() {
+        val textDailyGoalStreak = findViewById<TextView>(R.id.textDailyGoalStreak)
+        val database = Database.getInstance(this)
+        val dailyGoalTarget = AppPreferences.dailyGoalTarget
+
+        val streakResult = StreakCalculator.calculateGoalStreak(
+            context = this,
+            database = database,
+            dailyGoalTarget = dailyGoalTarget
+        )
+
+        if (streakResult != null) {
+            val (_, streakText) = streakResult
+            textDailyGoalStreak.text = streakText
+
+            textDailyGoalStreak.setTypeface(null, Typeface.BOLD)
+            textDailyGoalStreak.setTextColor(ContextCompat.getColor(this, R.color.colorSpecial))
+        } else {
+            val dailyGoalTargetFormatted = if (dailyGoalTarget >= 10_000) {
+                NumberFormat.getIntegerInstance(Locale.getDefault()).format(dailyGoalTarget)
+            } else {
+                dailyGoalTarget.toString()
+            }
+
+            val goalText = getString(R.string.goal_streak_dead_line,
+                resources.getQuantityString(
+                    R.plurals.steps_formatted,
+                    dailyGoalTarget,
+                    dailyGoalTargetFormatted
+                ))
+            textDailyGoalStreak.text = goalText
+
+            textDailyGoalStreak.setTypeface(null, Typeface.NORMAL)
+            textDailyGoalStreak.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+        }
     }
 
     fun Int.dpToPx(context: Context): Int {

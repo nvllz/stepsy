@@ -15,6 +15,9 @@
     <string name="avg_distance">المعدل اليومي</string>
     <string name="total_distance">المسافة الكلية</string>
     <string name="tips_and_tricks">نصائح وحيل</string>
+    <string name="goal_streak_line">الهدف: %1$s · %2$s %3$s متتالية</string>
+    <string name="goal_streak_dead_line">الهدف اليومي: %1$s</string>
+
     <string name="no_sensor">جهازك لا يحتوي على حساس عد الخطوات</string>
     <string name="no_activity_permission">إذن ACTIVITY_RECOGNITION مفقود</string>
 
@@ -35,7 +38,7 @@
     <string name="label_all_time">كل الوقت</string>
 
     <!-- Plurals -->
-    <plurals name="steps_text">
+    <plurals name="steps_formatted">
         <item quantity="zero">%1$s خطوة</item>
         <item quantity="one">%1$s خطوة</item>
         <item quantity="two">%1$s خطوتان</item>
@@ -51,6 +54,15 @@
         <item quantity="few">%d أيام</item>
         <item quantity="many">%d يوماً</item>
         <item quantity="other">%d يوم</item>
+    </plurals>
+
+    <plurals name="days_word_only">
+        <item quantity="zero">يوم</item>
+        <item quantity="one">يوم</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">أيام</item>
+        <item quantity="many">يوماً</item>
+        <item quantity="other">يوم</item>
     </plurals>
 
     <!-- Notifications -->

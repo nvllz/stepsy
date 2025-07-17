@@ -265,7 +265,7 @@ class AchievementsActivity : AppCompatActivity() {
         }
 
         val stepsPlural = resources.getQuantityString(
-            R.plurals.steps_text,
+            R.plurals.steps_formatted,
             steps,
             formattedSteps
         )

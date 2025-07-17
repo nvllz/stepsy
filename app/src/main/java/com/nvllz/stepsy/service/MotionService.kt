@@ -232,7 +232,7 @@ internal class MotionService : Service() {
         val formattedSteps = formatNumber(mTodaysSteps)
         val formattedTarget = formatNumber(dailyTarget)
 
-        val stepsPlural = resources.getQuantityString(R.plurals.steps_text, mTodaysSteps, formattedSteps)
+        val stepsPlural = resources.getQuantityString(R.plurals.steps_formatted, mTodaysSteps, formattedSteps)
         val stepGoalPercentage = (mTodaysSteps.toFloat() / dailyTarget * 100).toInt()
         val stepGoalLeft = dailyTarget - mTodaysSteps
 

@@ -46,7 +46,7 @@ class WidgetPlainConfigureActivity : Activity() {
         // Create dynamic preview string
         val stepsText = findViewById<TextView>(R.id.preview_widget_plain_steps)
         val stepsPreviewStr = resources.getQuantityString(
-            R.plurals.steps_text,
+            R.plurals.steps_formatted,
             12345,
             12345
         )

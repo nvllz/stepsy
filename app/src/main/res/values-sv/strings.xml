@@ -15,6 +15,8 @@
     <string name="avg_distance">Dagligt genomsnitt</string>
     <string name="total_distance">Sammanlagt avstånd</string>
     <string name="tips_and_tricks">Tips</string>
+    <string name="goal_streak_line">Mål: %1$s · %2$s %3$s streak</string>
+    <string name="goal_streak_dead_line">Dagsmål: %1$s</string>
 
     <string name="no_sensor">Din enhet har ingen sensor för stegräkning</string>
     <string name="no_activity_permission">Saknar tillåtelse för ACTIVITY_RECOGNITION</string>
@@ -37,7 +39,7 @@
     <string name="label_all_time">Överlag</string>
 
     <!-- Plurals -->
-    <plurals name="steps_text">
+    <plurals name="steps_formatted">
         <item quantity="one">%1$s steg</item>
         <item quantity="other">%1$s steg</item>
     </plurals>
@@ -45,6 +47,11 @@
     <plurals name="streak_record_count">
         <item quantity="one">%d dag</item>
         <item quantity="other">%d dagar</item>
+    </plurals>
+
+    <plurals name="days_word_only">
+        <item quantity="one">dag</item>
+        <item quantity="other">dagar</item>
     </plurals>
 
     <!-- Notifications -->

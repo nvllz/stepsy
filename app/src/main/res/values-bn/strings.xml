@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
@@ -15,6 +15,8 @@
     <string name="avg_distance">প্রতিদিনের গড়</string>
     <string name="total_distance">মোট দূরত্ব</string>
     <string name="tips_and_tricks">টিপস ও ট্রিকস</string>
+    <string name="goal_streak_line">লক্ষ্য: %1$s · %2$s %3$s স্ট্রিক</string>
+    <string name="goal_streak_dead_line">দৈনিক লক্ষ্য: %1$s</string>
 
     <string name="no_sensor">আপনার ডিভাইসে পদক্ষেপ গণনার সেন্সর নেই</string>
     <string name="no_activity_permission">ACTIVITY_RECOGNITION অনুমতি নেই</string>
@@ -37,7 +39,7 @@
     <string name="label_all_time">সর্বমোট</string>
 
     <!-- Plurals -->
-    <plurals name="steps_text">
+    <plurals name="steps_formatted">
         <item quantity="one">%1$s পদক্ষেপ</item>
         <item quantity="other">%1$s পদক্ষেপ</item>
     </plurals>
@@ -45,6 +47,11 @@
     <plurals name="streak_record_count">
         <item quantity="one">%d দিন</item>
         <item quantity="other">%d দিন</item>
+    </plurals>
+
+    <plurals name="days_word_only">
+        <item quantity="one" tools:ignore="ImpliedQuantity">দিন</item>
+        <item quantity="other">দিন</item>
     </plurals>
 
     <!-- Notifications -->

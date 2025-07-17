@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
@@ -15,6 +15,8 @@
     <string name="avg_distance">Среднее за день</string>
     <string name="total_distance">Общее расстояние</string>
     <string name="tips_and_tricks">Советы и трюки</string>
+    <string name="goal_streak_line">Цель: %1$s · %2$s серия из %3$s</string>
+    <string name="goal_streak_dead_line">Ежедневная цель: %1$s</string>
 
     <string name="no_sensor">Ваше устройство не имеет датчика подсчёта шагов</string>
     <string name="no_activity_permission">Не хватает разрешения ACTIVITY_RECOGNITION</string>
@@ -37,7 +39,7 @@
     <string name="label_all_time">Всё время</string>
 
     <!-- Plurals -->
-    <plurals name="steps_text">
+    <plurals name="steps_formatted">
         <item quantity="one">%1$s шаг</item>
         <item quantity="few">%1$s шага</item>
         <item quantity="many">%1$s шагов</item>
@@ -49,6 +51,13 @@
         <item quantity="few">%d дня</item>
         <item quantity="many">%d дней</item>
         <item quantity="other">%d дня</item>
+    </plurals>
+
+    <plurals name="days_word_only" tools:ignore="ImpliedQuantity">
+        <item quantity="one">день</item>
+        <item quantity="few">дня</item>
+        <item quantity="many">дней</item>
+        <item quantity="other">дня</item>
     </plurals>
 
     <!-- Notifications -->

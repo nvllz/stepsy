@@ -26,7 +26,7 @@ class WidgetPlainProvider : AppWidgetProvider() {
 
             // Update text content
             val stepsStr = context.resources.getQuantityString(
-                R.plurals.steps_text,
+                R.plurals.steps_formatted,
                 steps,
                 steps
             )

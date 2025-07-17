@@ -61,7 +61,7 @@ object GoalNotificationWorker {
 
         val targetFormatted = formatNumber(target)
         val targetString = context.resources.getQuantityString(
-            R.plurals.steps_text,
+            R.plurals.steps_formatted,
             target,
             targetFormatted
         )
