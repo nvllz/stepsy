@@ -7,7 +7,7 @@ New:
 Changes:
 - Replaced static "10k+" with custom step goal value in Achievements streak section
 
-Fixed:
+Fixes:
 - App bar text localization for RTL locales (@moayad-star)
 - Navigation bar overlaying the floating action bar
 ... and various smaller bugs.
