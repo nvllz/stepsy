@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>@string/preference_system</item>
+        <item>Светла</item>
+        <item>Тъмна</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>Неделя</item>
+        <item>Понеделник</item>
+        <item>Събота</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>Метрична (км)</item>
+        <item>Имперска (мили)</item>
+    </string-array>
+
+    <!-- Backup Frequency -->
+    <string-array name="backup_frequency_entries">
+        <item>Изключено</item>
+        <item>Всеки ден</item>
+        <item>Всеки 2 дни</item>
+        <item>Всеки 3 дни</item>
+        <item>Всяка седмица</item>
+        <item>Всеки 2 седмици</item>
+        <item>Всеки месец</item>
+    </string-array>
+</resources>
