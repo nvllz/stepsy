@@ -153,7 +153,7 @@
     <string name="daily_goal_notifications">Daily Step Goal Alerts</string>
     <string name="daily_goal_notification_channel_desc">Get updates on your daily step goal progress</string>
     <string name="goal_achieved_title">🎉 You Hit Your Goal!</string>
-    <string name="goal_achieved_message">You reached your step goal of %1$s steps!</string>
+    <string name="goal_achieved_message">You reached your step goal of %1$s!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d steps / %2$s</string>
