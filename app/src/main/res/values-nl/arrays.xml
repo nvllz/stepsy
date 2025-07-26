@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>@string/preference_system</item>
+        <item>Licht</item>
+        <item>Donker</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>Zondag</item>
+        <item>Maandag</item>
+        <item>Zaterdag</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>Metrisch (km)</item>
+        <item>Imperiaal (mijl)</item>
+    </string-array>
+
+    <!-- Backup Frequency -->
+    <string-array name="backup_frequency_entries">
+        <item>Uitgeschakeld</item>
+        <item>Dagelijks</item>
+        <item>Iedere 2 dagen</item>
+        <item>Iedere 3 dagen</item>
+        <item>Wekelijks</item>
+        <item>Iedere 2 weken</item>
+        <item>Maandelijks</item>
+    </string-array>
+</resources>
