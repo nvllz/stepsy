@@ -25,6 +25,8 @@ Stay active, monitor your progress, and reach your fitness goals — all through
 
 🌟 [Tricks you may want to know](TRICKS.md)
 
+💾 [Paseo database to Stepsy migration](https://github.com/nvllz/stepsy/issues/51#issuecomment-3140281948)
+
 ## Screenshots
 
 <div align="center">
