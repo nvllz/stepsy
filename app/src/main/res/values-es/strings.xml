@@ -183,4 +183,16 @@
     <string name="encouraging_notification_75_percent_alt1">¡Muy cerca! Has hecho el %1$d%%. ¡Solo %2$d pasos más!</string>
     <string name="encouraging_notification_75_percent_alt2">¡Último esfuerzo! %1$d%% completado. ¡Tú puedes — solo %2$d pasos!</string>
     <string name="encouraging_notification_75_percent_alt3">¡Ya casi lo logras! %1$d%% hecho. %2$d pasos para ganar.</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">Reanudar a la hora indicada</string>
+    <string name="pause_when_to_resume">Elige cuándo reanudar el conteo</string>
+    <string name="pause_step_counting">Pausar conteo de pasos</string>
+    <string name="pause_30_minutes">30 minutos</string>
+    <string name="pause_1_hour">1 hora</string>
+    <string name="pause_2_hours">2 horas</string>
+    <string name="pause_custom_time">Hora personalizada</string>
+    <string name="pause_indefinitely">Hasta que lo active de nuevo</string>
+    <string name="step_counting_paused_until">Conteo de pasos pausado hasta %s</string>
+    <string name="step_counting_resumed_auto">Conteo de pasos reanudado automáticamente</string>
 </resources>

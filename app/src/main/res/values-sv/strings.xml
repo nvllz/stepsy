@@ -180,4 +180,16 @@
     <string name="encouraging_notification_75_percent_alt1">Nästan där! %1$d%% gjort. Bara %2$d steg kvar!</string>
     <string name="encouraging_notification_75_percent_alt2">Sista rycket! %1$d%% klart. Du fixar det — %2$d steg kvar!</string>
     <string name="encouraging_notification_75_percent_alt3">Målet är nära! %1$d%% klart. Bara %2$d steg till seger!</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">Återuppta vid vald tid</string>
+    <string name="pause_when_to_resume">Välj när stegräkningen ska återupptas</string>
+    <string name="pause_step_counting">Pausa stegräkning</string>
+    <string name="pause_30_minutes">30 minuter</string>
+    <string name="pause_1_hour">1 timme</string>
+    <string name="pause_2_hours">2 timmar</string>
+    <string name="pause_custom_time">Anpassad tid</string>
+    <string name="pause_indefinitely">Tills jag slår på igen</string>
+    <string name="step_counting_paused_until">Stegräkning pausad till %s</string>
+    <string name="step_counting_resumed_auto">Stegräkning återupptagen automatiskt</string>
 </resources>

@@ -48,6 +48,7 @@ import androidx.core.graphics.drawable.toDrawable
 import com.nvllz.stepsy.util.GoalNotificationWorker
 import java.text.NumberFormat
 import android.text.InputType
+import android.util.Log
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -62,6 +63,10 @@ import com.nvllz.stepsy.util.StreakCalculator
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.util.Date
+import android.widget.TimePicker
+import androidx.appcompat.app.AlertDialog
+import com.nvllz.stepsy.util.TimedPauseManager
+import java.util.concurrent.TimeUnit
 
 /**
  * The main activity for the UI of the step counter.
@@ -245,10 +250,17 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.fab).let {
+            // Set up long press listener
+            setupFabLongPress()
+
+            // Existing click listener
             it.setOnClickListener {
                 val fab = it as com.google.android.material.floatingactionbutton.FloatingActionButton
 
                 if (isPaused) {
+                    // Clear any timed pause when manually resuming
+                    TimedPauseManager.clearPauseEndTime(this)
+
                     val intent = Intent(this, MotionService::class.java)
                     intent.action = MotionService.ACTION_RESUME_COUNTING
                     startService(intent)
@@ -256,6 +268,9 @@ internal class MainActivity : AppCompatActivity() {
                     fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
                     getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit { putBoolean(MotionService.KEY_IS_PAUSED, false) }
                 } else {
+                    // Regular pause (indefinite)
+                    TimedPauseManager.clearPauseEndTime(this)
+
                     val intent = Intent(this, MotionService::class.java)
                     intent.action = MotionService.ACTION_PAUSE_COUNTING
                     startService(intent)
@@ -954,7 +969,6 @@ internal class MainActivity : AppCompatActivity() {
             mChart.setDiagramEntry(entry)
         }
 
-        // Only set current steps if we're showing past 7 days mode or if the selected week contains today
         val isCurrentWeek = isChartInPast7DaysMode ||
                 (Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) == min.get(Calendar.WEEK_OF_YEAR) &&
                         Calendar.getInstance().get(Calendar.YEAR) == min.get(Calendar.YEAR))
@@ -1123,6 +1137,132 @@ internal class MainActivity : AppCompatActivity() {
             textDailyGoalStreak.setTypeface(null, Typeface.NORMAL)
             textDailyGoalStreak.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
         }
+    }
+
+    private fun setupFabLongPress() {
+        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
+
+        fab.setOnLongClickListener {
+            if (!isPaused) {
+                showTimedPauseDialog()
+            }
+            true
+        }
+    }
+
+    private fun showTimedPauseDialog() {
+        val options = arrayOf(
+            getString(R.string.pause_30_minutes),
+            getString(R.string.pause_1_hour),
+            getString(R.string.pause_2_hours),
+            getString(R.string.pause_custom_time),
+            getString(R.string.pause_indefinitely)
+        )
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.pause_step_counting))
+            .setItems(options) { dialog, which ->
+                when (which) {
+                    0 -> pauseForDuration(30)
+                    1 -> pauseForDuration(60)
+                    2 -> pauseForDuration(120)
+                    3 -> showCustomDurationDialog()
+                    4 -> pauseIndefinitely()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    private fun showCustomDurationDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_custom_duration, null)
+        val timePicker = dialogView.findViewById<TimePicker>(R.id.timePicker)
+
+        val calendar = Calendar.getInstance()
+        timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
+        timePicker.minute = calendar.get(Calendar.MINUTE) + 1
+        timePicker.setIs24HourView(true)
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.resume_at_time))
+            .setView(dialogView)
+            .setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                val selectedHour =
+                    timePicker.hour
+                val selectedMinute =
+                    timePicker.minute
+
+                val now = Calendar.getInstance()
+                val resumeTime = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, selectedHour)
+                    set(Calendar.MINUTE, selectedMinute)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+
+                    if (before(now)) {
+                        add(Calendar.DAY_OF_MONTH, 1)
+                    }
+                }
+
+                val durationMinutes = ((resumeTime.timeInMillis - now.timeInMillis) / (1000 * 60)).toInt()
+                pauseForDuration(durationMinutes, resumeTime.timeInMillis)
+            }
+            .setNegativeButton(getString(android.R.string.cancel), null)
+            .create()
+            .show()
+    }
+
+    private fun pauseIndefinitely() {
+        Log.d("MainActivity", "Pausing counting indefinitely")
+
+        val intent = Intent(this, MotionService::class.java).apply {
+            action = MotionService.ACTION_PAUSE_COUNTING
+            putExtra("TIMED_PAUSE", false)
+        }
+        startService(intent)
+
+        isPaused = true
+        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
+        fab.setImageResource(android.R.drawable.ic_media_play)
+        fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
+        getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
+            putBoolean(MotionService.KEY_IS_PAUSED, true)
+        }
+
+        Toast.makeText(this, R.string.step_counting_paused, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun pauseForDuration(durationMinutes: Int, specificEndTime: Long = 0L) {
+        val endTime = if (specificEndTime > 0L) {
+            specificEndTime
+        } else {
+            System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(durationMinutes.toLong())
+        }
+
+        Log.d("MainActivity", "Requesting pause for ${durationMinutes}m until ${Date(endTime)}")
+
+        val intent = Intent(this, MotionService::class.java).apply {
+            action = MotionService.ACTION_PAUSE_COUNTING
+            putExtra("TIMED_PAUSE", true)
+            putExtra("END_TIME", endTime)
+            putExtra("DURATION_MINUTES", durationMinutes)
+        }
+        startService(intent)
+
+        isPaused = true
+        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
+        fab.setImageResource(android.R.drawable.ic_media_play)
+        fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
+        getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
+            putBoolean(MotionService.KEY_IS_PAUSED, true)
+        }
+
+        val endTimeFormatted = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(endTime))
+        Toast.makeText(this, getString(R.string.step_counting_paused_until, endTimeFormatted), Toast.LENGTH_LONG).show()
     }
 
     fun Int.dpToPx(context: Context): Int {

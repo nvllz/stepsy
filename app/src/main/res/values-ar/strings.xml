@@ -189,4 +189,16 @@
     <string name="encouraging_notification_75_percent_alt1">قريب جداً! أنجزت %1$d%% من هدفك. فقط %2$d خطوة تفصلك!</string>
     <string name="encouraging_notification_75_percent_alt2">الدفعة الأخيرة! أنجزت %1$d%%. تقدر تكمل — تبقّى %2$d خطوة فقط!</string>
     <string name="encouraging_notification_75_percent_alt3">قربت توصل! %1$d%% منجز. %2$d خطوة تفصلك عن الانتصار!</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">استئناف في وقت محدد</string>
+    <string name="pause_when_to_resume">اختر متى يتم استئناف عدّ الخطوات</string>
+    <string name="pause_step_counting">إيقاف عدّ الخطوات مؤقتًا</string>
+    <string name="pause_30_minutes">30 دقيقة</string>
+    <string name="pause_1_hour">ساعة واحدة</string>
+    <string name="pause_2_hours">ساعتان</string>
+    <string name="pause_custom_time">وقت مخصص</string>
+    <string name="pause_indefinitely">حتى أعيد تشغيله</string>
+    <string name="step_counting_paused_until">تم إيقاف عدّ الخطوات حتى %s</string>
+    <string name="step_counting_resumed_auto">تم استئناف عدّ الخطوات تلقائيًا</string>
 </resources>

@@ -187,4 +187,16 @@
     <string name="encouraging_notification_75_percent_alt1">Już prawie! %1$d%% zrobione. Jeszcze tylko %2$d kroków!</string>
     <string name="encouraging_notification_75_percent_alt2">Ostatnia prosta! %1$d%% zrobione. Dasz radę — tylko %2$d kroków!</string>
     <string name="encouraging_notification_75_percent_alt3">Meta tuż-tuż! %1$d%% osiągnięte. %2$d kroków do zwycięstwa!</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">Wznów o wybranej godzinie</string>
+    <string name="pause_when_to_resume">Wybierz, kiedy wznowić liczenie kroków</string>
+    <string name="pause_step_counting">Wstrzymaj liczenie kroków</string>
+    <string name="pause_30_minutes">Na 30 minut</string>
+    <string name="pause_1_hour">Na 1 godzinę</string>
+    <string name="pause_2_hours">Na 2 godziny</string>
+    <string name="pause_custom_time">Inny czas</string>
+    <string name="pause_indefinitely">Do czasu ponownego włączenia</string>
+    <string name="step_counting_paused_until">Liczenie kroków wstrzymane do %s</string>
+    <string name="step_counting_resumed_auto">Liczenie kroków wznowiono automatycznie</string>
 </resources>

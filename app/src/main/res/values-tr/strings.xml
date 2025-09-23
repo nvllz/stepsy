@@ -180,4 +180,16 @@
     <string name="encouraging_notification_75_percent_alt1">Çok az kaldı! %1$d%% bitti. Sadece %2$d adım!</string>
     <string name="encouraging_notification_75_percent_alt2">Son adımlar! %1$d%% tamamlandı. Yapabilirsin — sadece %2$d adım!</string>
     <string name="encouraging_notification_75_percent_alt3">Hedef çok yakın! %1$d%% bitti. Zafer için %2$d adım kaldı!</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">Belirtilen saatte devam et</string>
+    <string name="pause_when_to_resume">Adım sayımı ne zaman devam etsin?</string>
+    <string name="pause_step_counting">Adım sayımını duraklat</string>
+    <string name="pause_30_minutes">30 dakika</string>
+    <string name="pause_1_hour">1 saat</string>
+    <string name="pause_2_hours">2 saat</string>
+    <string name="pause_custom_time">Özel süre</string>
+    <string name="pause_indefinitely">Ben açana kadar</string>
+    <string name="step_counting_paused_until">Adım sayımı %s kadar duraklatıldı</string>
+    <string name="step_counting_resumed_auto">Adım sayımı otomatik devam etti</string>
 </resources>
