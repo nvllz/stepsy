@@ -37,6 +37,7 @@ import com.nvllz.stepsy.util.Util
 import java.util.*
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.GoalNotificationWorker
+import com.nvllz.stepsy.util.TimedPauseManager
 import com.nvllz.stepsy.util.Util.getDistanceUnitString
 import com.nvllz.stepsy.util.WidgetManager
 import java.text.NumberFormat
@@ -53,6 +54,8 @@ internal class MotionService : Service() {
     private lateinit var mBuilder: NotificationCompat.Builder
     private var isCountingPaused = false
     private var goalReachedToday = false
+    private var timedPauseHandler = Handler(Looper.getMainLooper())
+    private var timedPauseRunnable: Runnable? = null
 
     private val pauseChannelId = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
     private val pauseNotificationId = 3844
@@ -64,6 +67,8 @@ internal class MotionService : Service() {
     override fun onCreate() {
         Log.d(TAG, "Creating MotionService")
         startService()
+
+        checkForExistingTimedPause()
 
         mCurrentDate = AppPreferences.date
         mTodaysSteps = AppPreferences.steps
@@ -120,14 +125,12 @@ internal class MotionService : Service() {
             mTodaysSteps += delta
             mLastSteps = value
 
-            // Check if goal was just reached
             val target = AppPreferences.dailyGoalTarget
             if (target > 0 && mTodaysSteps >= target && !goalReachedToday) {
                 goalReachedToday = true
                 GoalNotificationWorker.showDailyGoalNotification(this, target)
             }
 
-            // Check if the threshold for sending encouraging messages has been reached
             val encouragingNotifications = AppPreferences.encouragingNotifications
             if (encouragingNotifications && !goalReachedToday && target > 0) {
                 GoalNotificationWorker.showEncouragingNotification(this, target, mTodaysSteps)
@@ -135,7 +138,6 @@ internal class MotionService : Service() {
 
             handleStepUpdate()
 
-            // reset the delayed write runnable
             handler.removeCallbacks(delayedWriteRunnable)
             handler.postDelayed(delayedWriteRunnable, dbWriteInterval)
         } else {
@@ -315,12 +317,21 @@ internal class MotionService : Service() {
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
 
+        val notificationText = if (TimedPauseManager.isTimedPauseActive(this)) {
+            val timedText = TimedPauseManager.getRemainingTimeText(this)
+            timedText ?: getString(R.string.notification_step_counting_paused)
+        } else {
+            getString(R.string.notification_step_counting_paused)
+        }
+
         val pauseNotification = NotificationCompat.Builder(this, pauseChannelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(getString(R.string.app_name))
-            .setContentText(getString(R.string.notification_step_counting_paused))
+            .setContentText(notificationText)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(notificationText))
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setOnlyAlertOnce(true)
             .addAction(
                 R.drawable.ic_notification,
                 getString(R.string.action_resume),
@@ -353,10 +364,29 @@ internal class MotionService : Service() {
                 }
                 ACTION_PAUSE_COUNTING -> {
                     isCountingPaused = true
-                    Toast.makeText(this, R.string.step_counting_paused, Toast.LENGTH_SHORT).show()
+
+                    val isTimedPause = it.getBooleanExtra("TIMED_PAUSE", false)
+                    if (isTimedPause) {
+                        val endTime = it.getLongExtra("END_TIME", 0L)
+                        val durationMinutes = it.getIntExtra("DURATION_MINUTES", 0)
+
+                        if (endTime > System.currentTimeMillis()) {
+                            TimedPauseManager.setPauseEndTime(this, endTime, durationMinutes)
+                            startTimedPauseMonitoring()
+                        } else {
+                            stopTimedPauseMonitoring()
+                            TimedPauseManager.clearPauseEndTime(this)
+                        }
+                    } else {
+                        stopTimedPauseMonitoring()
+                        TimedPauseManager.clearPauseEndTime(this)
+                        Toast.makeText(this, R.string.step_counting_paused, Toast.LENGTH_SHORT).show()
+                    }
                 }
                 ACTION_RESUME_COUNTING -> {
                     isCountingPaused = false
+                    stopTimedPauseMonitoring()
+                    TimedPauseManager.clearPauseEndTime(this)
                     Toast.makeText(this, R.string.step_counting_resumed, Toast.LENGTH_SHORT).show()
                 }
                 "UPDATE_NOTIFICATION" -> {
@@ -375,21 +405,19 @@ internal class MotionService : Service() {
                 )
             }
 
-            // handle forced update
             if (it.hasExtra("FORCE_UPDATE")) {
                 mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
                 mCurrentDate = it.getLongExtra(KEY_DATE, mCurrentDate)
-                mLastSteps = -1 // reset step counter to avoid incorrect delta calculations
+                mLastSteps = -1
                 AppPreferences.steps = mTodaysSteps
                 AppPreferences.date = mCurrentDate
                 handleStepUpdate()
             }
 
-            // handle manual step count update
             if (it.hasExtra("MANUAL_STEP_COUNT_CHANGE")) {
                 mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
                 mCurrentDate = it.getLongExtra(KEY_DATE, mCurrentDate)
-                mLastSteps = -1 // reset step counter to avoid incorrect delta calculations
+                mLastSteps = -1
                 AppPreferences.steps = mTodaysSteps
                 AppPreferences.date = mCurrentDate
                 handleStepUpdate(manualStepCountChange = true)
@@ -458,6 +486,68 @@ internal class MotionService : Service() {
             pauseNotificationChannel.description = getString(R.string.notification_description_paused)
             mNotificationManager.createNotificationChannel(pauseNotificationChannel)
         }
+    }
+
+    private fun startTimedPauseMonitoring() {
+        stopTimedPauseMonitoring()
+
+        val endTime = TimedPauseManager.getPauseEndTime(this)
+        val now = System.currentTimeMillis()
+
+        if (endTime <= now) {
+            resumeCountingAutomatically()
+            return
+        }
+
+        val delayMillis = endTime - now
+
+        timedPauseRunnable = Runnable { resumeCountingAutomatically() }
+
+        timedPauseHandler.postDelayed(timedPauseRunnable!!, delayMillis)
+
+        val safetyCheckDelay = delayMillis + 30000L
+        timedPauseHandler.postDelayed({
+            if (TimedPauseManager.isTimedPauseActive(this@MotionService)) {
+                Log.w(TAG, "Safety check: pause should have ended but didn't - forcing resume")
+                resumeCountingAutomatically()
+            }
+        }, safetyCheckDelay)
+    }
+
+    private fun resumeCountingAutomatically() {
+        TimedPauseManager.clearPauseEndTime(this@MotionService)
+        isCountingPaused = false
+
+        getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
+            putBoolean(KEY_IS_PAUSED, false)
+        }
+
+        sendUpdate()
+        Toast.makeText(this@MotionService, R.string.step_counting_resumed_auto, Toast.LENGTH_SHORT).show()
+
+        stopTimedPauseMonitoring()
+    }
+
+    private fun stopTimedPauseMonitoring() {
+        timedPauseRunnable?.let { runnable ->
+            timedPauseHandler.removeCallbacks(runnable)
+            timedPauseRunnable = null
+        }
+        timedPauseHandler.removeCallbacksAndMessages(null)
+    }
+
+    private fun checkForExistingTimedPause() {
+        if (TimedPauseManager.isTimedPauseActive(this)) {
+            isCountingPaused = true
+            startTimedPauseMonitoring()
+        } else if (TimedPauseManager.shouldResumeCounting(this)) {
+            resumeCountingAutomatically()
+        }
+    }
+
+    override fun onDestroy() {
+        stopTimedPauseMonitoring()
+        super.onDestroy()
     }
 
     companion object {

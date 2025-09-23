@@ -177,4 +177,16 @@
     <string name="encouraging_notification_75_percent_alt1">快到了！%1$d%% 完成。剩下 %2$d 步！</string>
     <string name="encouraging_notification_75_percent_alt2">最后冲刺！%1$d%% 完成了。你可以的 — 只差 %2$d 步！</string>
     <string name="encouraging_notification_75_percent_alt3">终点在望！%1$d%% 已完成。%2$d 步就胜利了！</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">在指定时间恢复</string>
+    <string name="pause_when_to_resume">选择何时恢复计步</string>
+    <string name="pause_step_counting">暂停计步</string>
+    <string name="pause_30_minutes">30分钟</string>
+    <string name="pause_1_hour">1小时</string>
+    <string name="pause_2_hours">2小时</string>
+    <string name="pause_custom_time">自定义时间</string>
+    <string name="pause_indefinitely">直到我重新开启</string>
+    <string name="step_counting_paused_until">计步暂停至 %s</string>
+    <string name="step_counting_resumed_auto">计步已自动恢复</string>
 </resources>

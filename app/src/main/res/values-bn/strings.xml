@@ -180,4 +180,16 @@
     <string name="encouraging_notification_75_percent_alt1">একদম কাছাকাছি! %1$d%% শেষ। মাত্র %2$d পা বাকি!</string>
     <string name="encouraging_notification_75_percent_alt2">শেষ ধাপ! %1$d%% সম্পন্ন। পারবে—আর %2$d পা!</string>
     <string name="encouraging_notification_75_percent_alt3">শেষ প্রান্তে পৌঁছে গেছো! %1$d%% শেষ। %2$d পা এগিয়ে জয় করো!</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">নির্বাচিত সময়ে আবার শুরু করুন</string>
+    <string name="pause_when_to_resume">কবে আবার ধাপ গণনা শুরু হবে তা নির্বাচন করুন</string>
+    <string name="pause_step_counting">ধাপ গণনা বিরতি দিন</string>
+    <string name="pause_30_minutes">৩০ মিনিট</string>
+    <string name="pause_1_hour">১ ঘণ্টা</string>
+    <string name="pause_2_hours">২ ঘণ্টা</string>
+    <string name="pause_custom_time">নিজস্ব সময়</string>
+    <string name="pause_indefinitely">আমি আবার চালু না করা পর্যন্ত</string>
+    <string name="step_counting_paused_until">ধাপ গণনা %s পর্যন্ত বিরতিতে আছে</string>
+    <string name="step_counting_resumed_auto">ধাপ গণনা স্বয়ংক্রিয়ভাবে আবার শুরু হয়েছে</string>
 </resources>

@@ -180,4 +180,16 @@
     <string name="encouraging_notification_75_percent_alt1">So close! You\'ve reached %1$d%% of your goal. Only %2$d steps remaining!</string>
     <string name="encouraging_notification_75_percent_alt2">Final push! %1$d%% complete. You can do it — just %2$d more steps!</string>
     <string name="encouraging_notification_75_percent_alt3">Almost at the finish line! %1$d%% done. %2$d steps to victory!</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">Resume at time</string>
+    <string name="pause_when_to_resume">Select when to resume step counting</string>
+    <string name="pause_step_counting">Pause step counting</string>
+    <string name="pause_30_minutes">30 minutes</string>
+    <string name="pause_1_hour">1 hour</string>
+    <string name="pause_2_hours">2 hours</string>
+    <string name="pause_custom_time">Custom time</string>
+    <string name="pause_indefinitely">Until I turn back on</string>
+    <string name="step_counting_paused_until">Step counting paused until %s</string>
+    <string name="step_counting_resumed_auto">Step counting resumed automatically</string>
 </resources>

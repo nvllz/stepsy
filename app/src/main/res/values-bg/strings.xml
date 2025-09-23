@@ -180,4 +180,16 @@
     <string name="encouraging_notification_75_percent_alt1">Толкова сте близо! %1$d%% от целта. Остават %2$d крачки!</string>
     <string name="encouraging_notification_75_percent_alt2">Финален спринт! %1$d%% готови. Можете го – остава още %2$d крачки!</string>
     <string name="encouraging_notification_75_percent_alt3">На финалната праве сте! %1$d%% завършени. %2$d крачки до завършване!</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">Възобнови в избран час</string>
+    <string name="pause_when_to_resume">Изберете кога да се възобнови броенето</string>
+    <string name="pause_step_counting">Пауза на броенето на стъпки</string>
+    <string name="pause_30_minutes">30 минути</string>
+    <string name="pause_1_hour">1 час</string>
+    <string name="pause_2_hours">2 часа</string>
+    <string name="pause_custom_time">Друг час</string>
+    <string name="pause_indefinitely">Докато не го включа отново</string>
+    <string name="step_counting_paused_until">Броенето е спряно до %s</string>
+    <string name="step_counting_resumed_auto">Броенето на стъпки е възобновено автоматично</string>
 </resources>

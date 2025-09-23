@@ -186,4 +186,16 @@
     <string name="encouraging_notification_75_percent_alt1">Почти финиш! %1$d%% достигнуто. Всего %2$d шагов!</string>
     <string name="encouraging_notification_75_percent_alt2">Финальный рывок! %1$d%% готово. Ты сможешь — %2$d шагов до цели!</string>
     <string name="encouraging_notification_75_percent_alt3">Финишная прямая! %1$d%% позади. %2$d шагов до победы!</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">Возобновить в указанное время</string>
+    <string name="pause_when_to_resume">Выберите, когда возобновить подсчёт шагов</string>
+    <string name="pause_step_counting">Приостановить подсчёт шагов</string>
+    <string name="pause_30_minutes">30 минут</string>
+    <string name="pause_1_hour">1 час</string>
+    <string name="pause_2_hours">2 часа</string>
+    <string name="pause_custom_time">Другое время</string>
+    <string name="pause_indefinitely">Пока не включу снова</string>
+    <string name="step_counting_paused_until">Подсчёт шагов приостановлен до %s</string>
+    <string name="step_counting_resumed_auto">Подсчёт шагов возобновлён автоматически</string>
 </resources>

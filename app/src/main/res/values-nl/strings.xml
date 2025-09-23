@@ -180,4 +180,16 @@
     <string name="encouraging_notification_75_percent_alt1">Zo dichtbij! Je hebt %1$d% van je doel bereikt. Nog maar %2$d stappen te gaan!</string>
     <string name="encouraging_notification_75_percent_alt2">Laatste zetje! %1$d%% voltooid, je kunt het! Nog maar %2$d stappen!</string>
     <string name="encouraging_notification_75_percent_alt3">Bijna bij de finish! Je bent op %1$d%%. Nog %2$d stappen naar de overwinning!</string>
+
+    <!-- Pause step counting -->
+    <string name="resume_at_time">Hervatten om</string>
+    <string name="pause_when_to_resume">Kies wanneer het tellen wordt hervat</string>
+    <string name="pause_step_counting">Pauzeer stappentellen</string>
+    <string name="pause_30_minutes">30 minuten</string>
+    <string name="pause_1_hour">1 uur</string>
+    <string name="pause_2_hours">2 uur</string>
+    <string name="pause_custom_time">Aangepaste tijd</string>
+    <string name="pause_indefinitely">Totdat ik het weer aanzet</string>
+    <string name="step_counting_paused_until">Stappentellen gepauzeerd tot %s</string>
+    <string name="step_counting_resumed_auto">Stappentellen automatisch hervat</string>
 </resources>
