@@ -58,7 +58,7 @@
     <string name="notification_category_counting_paused">Stappenteller onderbroken</string>
     <string name="notification_category_steps_day">Statistieken</string>
     <string name="notification_description_paused">Melding wanneer de stappenteller is onderbroken</string>
-    <string name="notification_description_steps_day">Stappen vandaag</string>
+    <string name="notification_description_steps_day">Aantal stappen vandaag</string>
     <string name="notification_step_counting_paused">Stappenteller is onderbroken</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
     <string name="notification_step_goal_progress">Doel: %1$s — %2$s resterend</string>
@@ -136,7 +136,7 @@
 
     <!-- Daily Goals -->
     <string name="daily_goals">Dagelijks doel</string>
-    <string name="daily_goal_notification">Melden wanneer bereikt</string>
+    <string name="daily_goal_notification">Melden wanneer doel is bereikt</string>
     <string name="progress_in_notification">Vooruitgang live in melding tonen</string>
     <string name="daily_goal_target">Dagelijks doel</string>
     <string name="daily_goal_hint">Voer je doelstelling in</string>
@@ -150,7 +150,7 @@
     <string name="since_date">Sinds %1$s</string>
 
     <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">Dagelijkse meldingen voor doelen</string>
+    <string name="daily_goal_notifications">Meldingen over doelen</string>
     <string name="daily_goal_notification_channel_desc">Ontvang updates over de voortgang van je dagelijkse doel</string>
     <string name="goal_achieved_title">🎉 Doel bereikt!</string>
     <string name="goal_achieved_message">Je hebt je doel van %1$s stappen bereikt!</string>
@@ -184,12 +184,12 @@
     <!-- Pause step counting -->
     <string name="resume_at_time">Hervatten om</string>
     <string name="pause_when_to_resume">Kies wanneer het tellen wordt hervat</string>
-    <string name="pause_step_counting">Pauzeer stappentellen</string>
+    <string name="pause_step_counting">Stappenteller onderbreken</string>
     <string name="pause_30_minutes">30 minuten</string>
     <string name="pause_1_hour">1 uur</string>
     <string name="pause_2_hours">2 uur</string>
     <string name="pause_custom_time">Aangepaste tijd</string>
     <string name="pause_indefinitely">Totdat ik het weer aanzet</string>
-    <string name="step_counting_paused_until">Stappentellen gepauzeerd tot %s</string>
-    <string name="step_counting_resumed_auto">Stappentellen automatisch hervat</string>
+    <string name="step_counting_paused_until">Stappenteller onderbroken tot %s</string>
+    <string name="step_counting_resumed_auto">Stappenteller automatisch hervat</string>
 </resources>
