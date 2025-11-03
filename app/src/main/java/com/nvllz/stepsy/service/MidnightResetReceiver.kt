@@ -19,8 +19,6 @@ class MidnightResetReceiver : BroadcastReceiver() {
 
         val serviceIntent = Intent(context, MotionService::class.java).apply {
             putExtra("FORCE_UPDATE", true)
-            putExtra(MotionService.KEY_STEPS, 0)
-            putExtra(MotionService.KEY_DATE, System.currentTimeMillis())
         }
         context.startService(serviceIntent)
 
