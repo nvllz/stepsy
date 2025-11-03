@@ -157,6 +157,11 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".service.MidnightResetReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
         <!-- Widgets -->
         <receiver
             android:name=".ui.WidgetIconProvider"

@@ -68,6 +68,7 @@ internal class MotionService : Service() {
         Log.d(TAG, "Creating MotionService")
         startService()
 
+        MidnightResetReceiver.scheduleNextMidnightAlarm(this)
         checkForExistingTimedPause()
 
         mCurrentDate = AppPreferences.date
@@ -547,6 +548,7 @@ internal class MotionService : Service() {
 
     override fun onDestroy() {
         stopTimedPauseMonitoring()
+        MidnightResetReceiver.cancelMidnightAlarm(this)
         super.onDestroy()
     }
 
