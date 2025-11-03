@@ -115,7 +115,20 @@ internal class Chart : BarChart {
     }
 
     private fun getDayIndexForPast7Days(timestamp: Long): Int {
-        val daysDiff = ((timestamp - past7DaysStartTime) / (24 * 60 * 60 * 1000)).toInt()
+        val startCal = Calendar.getInstance().apply { timeInMillis = past7DaysStartTime }
+        val entryCal = Calendar.getInstance().apply { timeInMillis = timestamp }
+
+        startCal.set(Calendar.HOUR_OF_DAY, 0)
+        startCal.set(Calendar.MINUTE, 0)
+        startCal.set(Calendar.SECOND, 0)
+        startCal.set(Calendar.MILLISECOND, 0)
+
+        entryCal.set(Calendar.HOUR_OF_DAY, 0)
+        entryCal.set(Calendar.MINUTE, 0)
+        entryCal.set(Calendar.SECOND, 0)
+        entryCal.set(Calendar.MILLISECOND, 0)
+
+        val daysDiff = ((entryCal.timeInMillis - startCal.timeInMillis) / (24 * 60 * 60 * 1000)).toInt()
         return if (daysDiff in 0..6) daysDiff else -1
     }
 
@@ -232,7 +245,8 @@ internal class Chart : BarChart {
             return if (isPast7DaysMode) {
                 // For past 7 days, show actual day names based on the chronological order
                 val cal = Calendar.getInstance()
-                cal.timeInMillis = past7DaysStartTime + (value.toInt() * 24 * 60 * 60 * 1000L)
+                cal.timeInMillis = past7DaysStartTime
+                cal.add(Calendar.DAY_OF_YEAR, value.toInt())
                 cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()) ?: ""
             } else {
                 // Original logic for week view
