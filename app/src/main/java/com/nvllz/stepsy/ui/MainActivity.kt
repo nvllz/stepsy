@@ -202,6 +202,7 @@ internal class MainActivity : AppCompatActivity() {
             getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit {
                 putBoolean("is_chart_past_7_days", isChartInPast7DaysMode)
             }
+            updateCalendarToToday()
             updateChart()
         }
 
