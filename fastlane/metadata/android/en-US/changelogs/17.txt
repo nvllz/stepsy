@@ -1,0 +1,14 @@
+New:
+- Custom step counting pause duration
+- Bulgarian translation (@StoyanDimitrov)
+- dd-mm-yyyy date format (@ltguillaume)
+- Dutch translation (@ltguillaume)
+
+Changes:
+- Background step count reset at midnight
+- Remember chart state (past 7 days/this week)
+- Select today in Calendar widget on chart range toggle
+
+Fixes:
+- "steps steps" (@cloudrac3r)
+- DST time shift breaking the chart
