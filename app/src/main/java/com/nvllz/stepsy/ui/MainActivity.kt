@@ -200,6 +200,7 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewChartHeader.setOnClickListener {
             if (!isChartInPast7DaysMode) {
                 isChartInPast7DaysMode = true
+                updateCalendarToToday()
                 updateChart()
             } else {
                 isChartInPast7DaysMode = false
@@ -422,10 +423,21 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateCalendarToToday() {
+        mCalendarView.date = Util.calendar.timeInMillis
+        mSelectedMonth.timeInMillis = Util.calendar.timeInMillis
+    }
+
     private fun handleTimeRangeSelection(range: String, button: MaterialButton) {
         setSelectedButton(button)
         isTodaySelected = range == "TODAY"
         saveSelectedRange(range)
+
+        if (range == "7 DAYS") {
+            updateCalendarToToday()
+            isChartInPast7DaysMode = true
+            updateChart()
+        }
 
         if (isTodaySelected) {
             mTextViewTopHeader.text = getString(R.string.header_today)
