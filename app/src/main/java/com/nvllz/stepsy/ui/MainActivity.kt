@@ -198,14 +198,11 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewChartHeader = findViewById(R.id.textViewChartHeader)
         mTextViewChartWeekRange = findViewById(R.id.textViewChartWeekRange)
         mTextViewChartHeader.setOnClickListener {
-            if (!isChartInPast7DaysMode) {
-                isChartInPast7DaysMode = true
-                updateCalendarToToday()
-                updateChart()
-            } else {
-                isChartInPast7DaysMode = false
-                updateChart()
+            isChartInPast7DaysMode = !isChartInPast7DaysMode
+            getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit {
+                putBoolean("is_chart_past_7_days", isChartInPast7DaysMode)
             }
+            updateChart()
         }
 
         mCalendarView = findViewById(R.id.calendar)
@@ -285,6 +282,8 @@ internal class MainActivity : AppCompatActivity() {
 
         restoreSelectionState()
 
+        isChartInPast7DaysMode = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+            .getBoolean("is_chart_past_7_days", true)
         updateChart()
 
         checkPermissions()
