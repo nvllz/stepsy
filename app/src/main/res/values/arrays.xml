@@ -55,6 +55,7 @@
     <string-array name="language_names">
         <item>@string/preference_system</item>
 	<item>Arabic (العربية)</item>
+	<item>България</item>
 	<item>বাংলা</item>
 	<item>Deutsch</item>
 	<item>English</item>
@@ -72,6 +73,7 @@
     <string-array name="language_values">
         <item>system</item>
 	<item>ar</item>
+	<item>bg</item>
 	<item>bn</item>
 	<item>de</item>
 	<item>en</item>
