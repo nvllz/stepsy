@@ -169,16 +169,16 @@
     <string name="steps_updated">Aantal stappen bijgewerkt</string>
 
     <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">Blijven gaan!</string>
-    <string name="encouraging_notification_15_percent">Geweldig begin! Je hebt %1$d% van je dagelijkse doel bereikt. Nog maar %2$d stappen te gaan!</string>
-    <string name="encouraging_notification_75_percent">Je bent er bijna! %1$d%% voltooid. Nog maar %2$d stappen om je doel te bereiken!</string>
+    <string name="encouraging_notification_title">Ga zo door!</string>
+    <string name="encouraging_notification_15_percent">Dit is een geweldig begin! Je hebt %1$d% van je doel bereikt. Nog %2$d stappen te gaan!</string>
+    <string name="encouraging_notification_75_percent">Je zit al op %1$d%%! Nog maar %2$d stappen om je doel te bereiken!</string>
 
-    <string name="encouraging_notification_15_percent_alt1">Prima vooruitgang! Je hebt %1$d% van je dagelijkse doel gelopen. Blijf in beweging!</string>
-    <string name="encouraging_notification_15_percent_alt2">Je bent al goed op weg! %1$d%% gedaan. %2$d stappen over om je doel te bereiken!</string>
-    <string name="encouraging_notification_15_percent_alt3">Goed gedaan! Je hebt %1$d% van je dagelijkse doel bereikt. Blijf actief!</string>
+    <string name="encouraging_notification_15_percent_alt1">Je bent prima bezig! Je hebt %1$d% van je doel bereikt. Blijf in beweging!</string>
+    <string name="encouraging_notification_15_percent_alt2">Je bent al goed op weg! Nu je op %1$d%% zit, zijn er nog maar %2$d stappen te gaan!</string>
+    <string name="encouraging_notification_15_percent_alt3">Goed gedaan! Je hebt %1$d% van je doel bereikt. Blijf actief!</string>
 
     <string name="encouraging_notification_75_percent_alt1">Zo dichtbij! Je hebt %1$d% van je doel bereikt. Nog maar %2$d stappen te gaan!</string>
-    <string name="encouraging_notification_75_percent_alt2">Laatste zetje! %1$d%% voltooid, je kunt het! Nog maar %2$d stappen!</string>
+    <string name="encouraging_notification_75_percent_alt2">Laatste zetje! Je hebt al %1$d%% van je doel bereikt, Nog maar %2$d stappen, je kunt het!</string>
     <string name="encouraging_notification_75_percent_alt3">Bijna bij de finish! Je bent op %1$d%%. Nog %2$d stappen naar de overwinning!</string>
 
     <!-- Pause step counting -->
