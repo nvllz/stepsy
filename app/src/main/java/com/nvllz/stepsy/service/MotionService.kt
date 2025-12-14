@@ -30,7 +30,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.nvllz.stepsy.R
-import com.nvllz.stepsy.ui.DailyGoalsActivity
 import com.nvllz.stepsy.ui.MainActivity
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
@@ -255,11 +254,7 @@ internal class MotionService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notificationClickIntent = if (showProgressbar) {
-            Intent(this, DailyGoalsActivity::class.java)
-        } else {
-            Intent(this, MainActivity::class.java)
-        }
+        val notificationClickIntent = Intent(this, MainActivity::class.java)
 
         val notificationPendingIntent = PendingIntent.getActivity(
             this,
