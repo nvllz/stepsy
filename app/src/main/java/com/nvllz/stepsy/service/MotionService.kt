@@ -50,7 +50,6 @@ internal class MotionService : Service() {
     private var receiver: ResultReceiver? = null
     private lateinit var mListener: SensorEventListener
     private lateinit var mNotificationManager: NotificationManager
-    private lateinit var mBuilder: NotificationCompat.Builder
     private var isCountingPaused = false
     private var goalReachedToday = false
     private var timedPauseHandler = Handler(Looper.getMainLooper())
@@ -299,47 +298,19 @@ internal class MotionService : Service() {
     }
 
     private fun sendPauseNotification() {
-        val resumeIntent = Intent(this, MotionService::class.java).apply {
-            action = ACTION_RESUME_COUNTING
-        }
+        val pauseNotification = createPauseNotificationBuilder().build()
 
-        val resumePendingIntent = PendingIntent.getService(
-            this,
-            0,
-            resumeIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val notificationIntent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
-
-        val notificationText = if (TimedPauseManager.isTimedPauseActive(this)) {
-            val timedText = TimedPauseManager.getRemainingTimeText(this)
-            timedText ?: getString(R.string.notification_step_counting_paused)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(pauseNotificationId, pauseNotification,
+                android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH)
         } else {
-            getString(R.string.notification_step_counting_paused)
+            startForeground(pauseNotificationId, pauseNotification)
         }
-
-        val pauseNotification = NotificationCompat.Builder(this, pauseChannelId)
-            .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(getString(R.string.app_name))
-            .setContentText(notificationText)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(notificationText))
-            .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setOnlyAlertOnce(true)
-            .addAction(
-                R.drawable.ic_notification,
-                getString(R.string.action_resume),
-                resumePendingIntent
-            )
-            .build()
-
-        mNotificationManager.notify(pauseNotificationId, pauseNotification)
     }
 
     private fun dismissPauseNotification() {
-        mNotificationManager.cancel(pauseNotificationId)
+        val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
+        startForeground(FOREGROUND_ID, builder.build())
     }
 
     fun isBatterySavingEnabled(context: Context): Boolean {
@@ -389,16 +360,16 @@ internal class MotionService : Service() {
                     mCachedShowProgressbar = intent.getBooleanExtra("show_progressbar", mCachedShowProgressbar)
                     mCachedDailyTarget = intent.getIntExtra("daily_target", mCachedDailyTarget)
 
-                    val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
-                    mNotificationManager.notify(FOREGROUND_ID, builder.build())
+                    if (!isCountingPaused) {
+                        val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
+                        startForeground(FOREGROUND_ID, builder.build())
+                    }
+                    return START_STICKY
                 }
             }
 
             getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-                putBoolean(
-                    KEY_IS_PAUSED,
-                    isCountingPaused
-                )
+                putBoolean(KEY_IS_PAUSED, isCountingPaused)
             }
 
             if (it.hasExtra("FORCE_UPDATE")) {
@@ -426,38 +397,65 @@ internal class MotionService : Service() {
     }
 
     private fun startService() {
-        val pauseIntent = Intent(this, MotionService::class.java).apply {
-            action = ACTION_PAUSE_COUNTING
-        }
-
-        val pausePendingIntent = PendingIntent.getService(
-            this,
-            1,
-            pauseIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
         mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as? NotificationManager
             ?: throw IllegalStateException("Could not get notification service")
-
-        val notificationIntent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
 
         createStepNotificationChannel()
         createPauseNotificationChannel()
 
-        mBuilder = NotificationCompat.Builder(this, STEP_CHANNEL_ID)
+        if (isCountingPaused) {
+            val pauseNotification = createPauseNotificationBuilder().build()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(pauseNotificationId, pauseNotification,
+                    android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH)
+            } else {
+                startForeground(pauseNotificationId, pauseNotification)
+            }
+        } else {
+            val stepNotification = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget).build()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(FOREGROUND_ID, stepNotification,
+                    android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH)
+            } else {
+                startForeground(FOREGROUND_ID, stepNotification)
+            }
+        }
+    }
+
+    private fun createPauseNotificationBuilder(): NotificationCompat.Builder {
+        val resumeIntent = Intent(this, MotionService::class.java).apply {
+            action = ACTION_RESUME_COUNTING
+        }
+
+        val resumePendingIntent = PendingIntent.getService(
+            this,
+            0,
+            resumeIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notificationIntent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
+
+        val notificationText = if (TimedPauseManager.isTimedPauseActive(this)) {
+            val timedText = TimedPauseManager.getRemainingTimeText(this)
+            timedText ?: getString(R.string.notification_step_counting_paused)
+        } else {
+            getString(R.string.notification_step_counting_paused)
+        }
+
+        return NotificationCompat.Builder(this, pauseChannelId)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(getString(R.string.app_name))
+            .setContentText(notificationText)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(notificationText))
             .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_MIN)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setOnlyAlertOnce(true)
             .addAction(
                 R.drawable.ic_notification,
-                getString(R.string.action_pause),
-                pausePendingIntent
+                getString(R.string.action_resume),
+                resumePendingIntent
             )
-        startForeground(FOREGROUND_ID, mBuilder.build())
     }
 
     private fun createStepNotificationChannel() {
