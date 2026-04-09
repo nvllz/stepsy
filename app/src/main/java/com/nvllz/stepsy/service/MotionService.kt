@@ -24,7 +24,6 @@ import android.os.Looper
 import android.os.PowerManager
 import android.os.ResultReceiver
 import androidx.core.app.NotificationCompat
-import android.text.format.DateUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -44,7 +43,7 @@ import java.text.NumberFormat
 internal class MotionService : Service() {
     private var mTodaysSteps: Int = 0
     private var mLastSteps = -1
-    private var mCurrentDate: Long = 0
+    private var mCurrentDate: String = ""
     private var mCachedDailyTarget: Int = 0
     private var mCachedShowProgressbar: Boolean = false
     private var receiver: ResultReceiver? = null
@@ -77,6 +76,11 @@ internal class MotionService : Service() {
         goalReachedToday = AppPreferences.dailyGoalNotification
                 && AppPreferences.dailyGoalTarget > 0
                 && mTodaysSteps >= AppPreferences.dailyGoalTarget
+
+        if (mCurrentDate.isEmpty()) {
+            mCurrentDate = Util.todayDateString()
+            AppPreferences.date = mCurrentDate
+        }
 
         val mSensorManager = getSystemService(SENSOR_SERVICE) as? SensorManager
             ?: throw IllegalStateException("Could not get sensor service")
@@ -157,19 +161,31 @@ internal class MotionService : Service() {
 
     private fun handleStepUpdate(manualStepCountChange: Boolean = false, delayedTrigger: Boolean = false) {
         val currentTime = System.currentTimeMillis()
+        val todayStr = Util.todayDateString()
 
-        if (!DateUtils.isToday(mCurrentDate)) {
-            val currentDate = Util.calendar.timeInMillis
+        if (todayStr != mCurrentDate) {
+            Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
 
-            if (!manualStepCountChange) {
-                Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
-                mTodaysSteps = 0
+            val existingSteps = Database.getInstance(this).getSumSteps(todayStr, todayStr)
+            val isNewDay = existingSteps == 0
+
+            mTodaysSteps = existingSteps
+            mLastSteps = -1
+
+            if (todayStr > mCurrentDate) {
+                if (isNewDay) {
+                    goalReachedToday = false
+                    GoalNotificationWorker.resetEncouragingNotificationFlags()
+                } else {
+                    val target = AppPreferences.dailyGoalTarget
+                    goalReachedToday = target > 0 && mTodaysSteps >= target
+                }
+            } else {
+                val target = AppPreferences.dailyGoalTarget
+                goalReachedToday = target > 0 && mTodaysSteps >= target
             }
 
-            mCurrentDate = currentDate
-            mLastSteps = -1
-            goalReachedToday = false
-            GoalNotificationWorker.resetEncouragingNotificationFlags()
+            mCurrentDate = todayStr
             AppPreferences.date = mCurrentDate
             AppPreferences.steps = mTodaysSteps
             lastSharedPrefsWriteTime = currentTime.also { lastDbWriteTime = it }
@@ -200,7 +216,6 @@ internal class MotionService : Service() {
             immediate = true
         )
     }
-
 
     private fun sendUpdate() {
         sendBroadcast(Intent("com.nvllz.stepsy.STATE_UPDATE"))
@@ -253,12 +268,9 @@ internal class MotionService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notificationClickIntent = Intent(this, MainActivity::class.java)
-
         val notificationPendingIntent = PendingIntent.getActivity(
-            this,
-            0,
-            notificationClickIntent,
+            this, 0,
+            Intent(this, MainActivity::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
@@ -280,7 +292,6 @@ internal class MotionService : Service() {
                         setContentTitle(notificationTitleRaw)
                         setContentText(getString(R.string.notification_step_goal_completed))
                     }
-
                 } else {
                     setContentText(notificationTitleRaw)
                 }
@@ -299,7 +310,6 @@ internal class MotionService : Service() {
 
     private fun sendPauseNotification() {
         val pauseNotification = createPauseNotificationBuilder().build()
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(pauseNotificationId, pauseNotification,
                 android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH)
@@ -374,7 +384,8 @@ internal class MotionService : Service() {
 
             if (it.hasExtra("FORCE_UPDATE")) {
                 mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
-                mCurrentDate = it.getLongExtra(KEY_DATE, mCurrentDate)
+                val dateExtra = it.getStringExtra(KEY_DATE)
+                if (!dateExtra.isNullOrEmpty()) mCurrentDate = dateExtra
                 mLastSteps = -1
                 AppPreferences.steps = mTodaysSteps
                 AppPreferences.date = mCurrentDate
@@ -383,10 +394,8 @@ internal class MotionService : Service() {
 
             if (it.hasExtra("MANUAL_STEP_COUNT_CHANGE")) {
                 mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
-                mCurrentDate = it.getLongExtra(KEY_DATE, mCurrentDate)
                 mLastSteps = -1
                 AppPreferences.steps = mTodaysSteps
-                AppPreferences.date = mCurrentDate
                 handleStepUpdate(manualStepCountChange = true)
             }
 
@@ -428,18 +437,17 @@ internal class MotionService : Service() {
         }
 
         val resumePendingIntent = PendingIntent.getService(
-            this,
-            0,
-            resumeIntent,
+            this, 0, resumeIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notificationIntent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, Intent(this, MainActivity::class.java),
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
         val notificationText = if (TimedPauseManager.isTimedPauseActive(this)) {
-            val timedText = TimedPauseManager.getRemainingTimeText(this)
-            timedText ?: getString(R.string.notification_step_counting_paused)
+            TimedPauseManager.getRemainingTimeText(this) ?: getString(R.string.notification_step_counting_paused)
         } else {
             getString(R.string.notification_step_counting_paused)
         }
@@ -451,11 +459,7 @@ internal class MotionService : Service() {
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setOnlyAlertOnce(true)
-            .addAction(
-                R.drawable.ic_notification,
-                getString(R.string.action_resume),
-                resumePendingIntent
-            )
+            .addAction(R.drawable.ic_notification, getString(R.string.action_resume), resumePendingIntent)
     }
 
     private fun createStepNotificationChannel() {
@@ -494,18 +498,15 @@ internal class MotionService : Service() {
         }
 
         val delayMillis = endTime - now
-
         timedPauseRunnable = Runnable { resumeCountingAutomatically() }
-
         timedPauseHandler.postDelayed(timedPauseRunnable!!, delayMillis)
 
-        val safetyCheckDelay = delayMillis + 30000L
         timedPauseHandler.postDelayed({
             if (TimedPauseManager.isTimedPauseActive(this@MotionService)) {
                 Log.w(TAG, "Safety check: pause should have ended but didn't - forcing resume")
                 resumeCountingAutomatically()
             }
-        }, safetyCheckDelay)
+        }, delayMillis + 30000L)
     }
 
     private fun resumeCountingAutomatically() {

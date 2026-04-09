@@ -26,13 +26,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 private val Context.appDataStore: DataStore<Preferences> by preferencesDataStore(name = "app_preferences")
 
 object AppPreferences {
     object PreferenceKeys {
         val STEPS = intPreferencesKey("STEPS")
-        val DATE = longPreferencesKey("DATE")
+        val DATE = stringPreferencesKey("DATE")
         val THEME = stringPreferencesKey("theme")
         val HEIGHT = stringPreferencesKey("height")
         val WEIGHT = stringPreferencesKey("weight")
@@ -85,9 +88,21 @@ object AppPreferences {
         }
 
     // Date
-    fun dateFlow(): Flow<Long> = dataStore.data.map { it[PreferenceKeys.DATE] ?: Util.calendar.timeInMillis }
+    fun dateFlow(): Flow<String> = dataStore.data.map { prefs ->
+        val raw = prefs.asMap()
+            .entries
+            .firstOrNull { it.key.name == PreferenceKeys.DATE.name }
+            ?.value
 
-    var date: Long
+        when (raw) {
+            is String -> raw
+            is Long -> SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(Date(raw))
+            else -> ""
+        }
+    }
+
+    var date: String
         get() = runBlocking { dateFlow().first() }
         set(value) = runBlocking {
             dataStore.edit { it[PreferenceKeys.DATE] = value }
@@ -295,14 +310,14 @@ object AppPreferences {
 
             val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
             val sharedPrefsSteps = sharedPrefs.getInt("STEPS", 0)
-            val sharedPrefsDate = sharedPrefs.getLong("DATE", 0)
+            val sharedPrefsDate = sharedPrefs.getString("DATE", "")
 
             if (sharedPrefsSteps > currentDataStoreSteps) {
                 dataStore.edit { preferences ->
                     preferences[PreferenceKeys.STEPS] = sharedPrefsSteps
                 }
                 dataStore.edit { preferences ->
-                    preferences[PreferenceKeys.DATE] = sharedPrefsDate
+                    preferences[PreferenceKeys.DATE] = sharedPrefsDate as String
                 }
                 sharedPrefs.edit().clear().apply()
             }

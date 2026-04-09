@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.text.InputType
-import android.text.format.DateUtils
 import android.text.method.DigitsKeyListener
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,7 +35,6 @@ import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import kotlinx.coroutines.launch
 import java.io.FileInputStream
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -210,8 +208,7 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
                     val formattedDate = dateFormat.format(Date(nextBackupTime))
                     val formattedTime = android.text.format.DateFormat.getTimeFormat(requireContext()).format(nextBackupTime)
 
-                    val text = getString(R.string.next_backup_scheduled, formattedDate, formattedTime)
-                    textView.text = text
+                    textView.text = getString(R.string.next_backup_scheduled, formattedDate, formattedTime)
                     textView.visibility = View.VISIBLE
                 } else {
                     textView.visibility = View.GONE
@@ -222,65 +219,76 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
 
     private fun importData(uri: Uri) {
         val db = Database.getInstance(requireContext())
-        val today = Util.calendar.timeInMillis
-        var todaySteps = 0
-        var entries = 0
+        val today = Util.todayDateString()
+        var importedTodaySteps = 0
+        var successCount = 0
         var failed = 0
 
         try {
-            requireContext().contentResolver.openFileDescriptor(uri, "r")?.use {
-                FileInputStream(it.fileDescriptor).bufferedReader().use { reader ->
+            requireContext().contentResolver.openFileDescriptor(uri, "r")?.use { pfd ->
+                FileInputStream(pfd.fileDescriptor).bufferedReader().use { reader ->
                     for (line in reader.readLines()) {
-                        entries++
+                        if (line.isBlank()) continue
                         try {
                             val split = line.split(",")
-                            val timestamp = split[0].toLong()
-                            val steps = split[1].toInt()
-                            if (DateUtils.isToday(timestamp)) {
-                                todaySteps = steps
+                            if (split.size < 2) {
+                                failed++
+                                continue
                             }
-                            db.addEntry(timestamp, steps)
+
+                            val steps = split[1].trim().toInt()
+                            val dateStr = parseImportDate(split[0].trim())
+
+                            db.mergeOrAddEntry(dateStr, steps)
+                            successCount++
+
+                            if (dateStr == today) {
+                                importedTodaySteps += steps
+                            }
                         } catch (ex: Exception) {
-                            Log.e("BackupPreferenceFragment", "Cannot import entry", ex)
+                            Log.e(TAG, "Cannot import line: $line", ex)
                             failed++
                         }
                     }
                 }
+            }
 
-                val overridingTodaySteps = todaySteps > 0 && todaySteps > AppPreferences.steps
+            if (importedTodaySteps > 0 && importedTodaySteps > AppPreferences.steps) {
+                lifecycleScope.launch {
+                    AppPreferences.dataStore.edit { preferences ->
+                        preferences[AppPreferences.PreferenceKeys.STEPS] = importedTodaySteps
+                        preferences[AppPreferences.PreferenceKeys.DATE] = today
+                    }
 
-                if (overridingTodaySteps) {
-                    lifecycleScope.launch {
-                        AppPreferences.dataStore.edit { preferences ->
-                            preferences[AppPreferences.PreferenceKeys.STEPS] = todaySteps
-                            preferences[AppPreferences.PreferenceKeys.DATE] = today
-                        }
-
-                        val intent = Intent(requireContext(), MotionService::class.java).apply {
+                    requireContext().startService(
+                        Intent(requireContext(), MotionService::class.java).apply {
                             putExtra("FORCE_UPDATE", true)
-                            putExtra(KEY_STEPS, todaySteps)
+                            putExtra(KEY_STEPS, importedTodaySteps)
                             putExtra(KEY_DATE, today)
                         }
-                        requireContext().startService(intent)
-                    }
+                    )
                 }
-
-                val successCount = entries - failed
-                val todaySetText = if (overridingTodaySteps) {
-                    getString(R.string.today_steps_set, todaySteps)
-                } else {
-                    ""
-                }
-
-                val resultText = getString(R.string.import_result, successCount, failed, todaySetText)
-
-                Toast.makeText(context, resultText, Toast.LENGTH_LONG).show()
-
-                restartApp()
             }
+
+            val todayNote = if (importedTodaySteps > 0 && importedTodaySteps > AppPreferences.steps) {
+                getString(R.string.today_steps_set, importedTodaySteps)
+            } else {
+                ""
+            }
+            Toast.makeText(context, getString(R.string.import_result, successCount, failed, todayNote), Toast.LENGTH_LONG).show()
+
+            restartApp()
         } catch (ex: Exception) {
-            Log.e("BackupPreferenceFragment", "Cannot open file", ex)
+            Log.e(TAG, "Cannot open file", ex)
             Toast.makeText(context, getString(R.string.cannot_open_file), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun parseImportDate(raw: String): String {
+        return if (raw.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))) {
+            raw
+        } else {
+            Database.snapTimestampToDate(raw.toLong())
         }
     }
 
@@ -344,25 +352,17 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
             }
 
             val displayPath = try {
-                DocumentsContract.getTreeDocumentId(uri)
-                    .substringAfter(':', "")
+                DocumentsContract.getTreeDocumentId(uri).substringAfter(':', "")
             } catch (_: Exception) {
                 ""
             }
 
-            val displayName = if (displayPath.isNotEmpty()) {
-                displayPath
-            } else {
-                ""
-            }
-
-            locationPref.summary = displayName
+            locationPref.summary = displayPath
 
             findPreference<ListPreference>("backup_frequency")?.isEnabled = true
             findPreference<Preference>("manual_backup")?.isEnabled = true
 
-            Log.d(TAG, "Backup location set to: $displayName (URI: $uri)")
-
+            Log.d(TAG, "Backup location set to: $displayPath (URI: $uri)")
         } catch (e: Exception) {
             Log.e(TAG, "Error setting backup location URI permissions", e)
             locationPref.summary = getString(R.string.backup_location_not_set)

@@ -49,7 +49,7 @@ internal class AppTest {
         cal.add(Calendar.DAY_OF_MONTH, -101)
         for (i in 0..98) {
             cal.add(Calendar.DAY_OF_MONTH, 1)
-            database.addEntry(cal.timeInMillis, random.nextInt(8000))
+            database.addEntry(Util.millisToDateString(cal.timeInMillis), random.nextInt(8000))
         }
 
         Assert.assertEquals(99, database.getEntries(database.firstEntry, database.lastEntry).size)

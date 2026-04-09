@@ -7,14 +7,6 @@ import java.util.*
 
 internal object StreakCalculator {
 
-    /**
-     * Calculates the current goal streak for the user
-     * @param context Context for resources
-     * @param database Database instance
-     * @param dailyGoalTarget Target steps per day
-     * @return Pair of (streak count, formatted string) or null if no streak
-     */
-
     internal fun calculateGoalStreak(
         context: Context,
         database: Database,
@@ -43,28 +35,25 @@ internal object StreakCalculator {
     private fun calculateCurrentStreak(database: Database, dailyGoalTarget: Int): Int {
         val calendar = Calendar.getInstance()
         var streakCount = 0
-        var includedToday = false
-
-        val todayStart = getDayStart(calendar)
-        val todayEnd = getDayEnd(calendar)
 
         try {
-            val todaySteps = database.getSumSteps(todayStart, todayEnd)
+            // Start from today
+            var dateStr = Util.calendarToDateString(calendar)
+
+            val todaySteps = database.getSumSteps(dateStr, dateStr)
             if (todaySteps >= dailyGoalTarget) {
                 streakCount++
-                includedToday = true
+            } else {
+                // No streak if today doesn't meet goal
+                return 0
             }
-        } catch (_: Exception) {
-        }
 
-        calendar.add(Calendar.DAY_OF_YEAR, -1)
+            // Move to previous days
+            calendar.add(Calendar.DAY_OF_YEAR, -1)
 
-        while (true) {
-            val dayStart = getDayStart(calendar)
-            val dayEnd = getDayEnd(calendar)
-
-            try {
-                val daySteps = database.getSumSteps(dayStart, dayEnd)
+            while (true) {
+                dateStr = Util.calendarToDateString(calendar)
+                val daySteps = database.getSumSteps(dateStr, dateStr)
 
                 if (daySteps >= dailyGoalTarget) {
                     streakCount++
@@ -72,33 +61,16 @@ internal object StreakCalculator {
                 } else {
                     break
                 }
-            } catch (_: Exception) {
-                break
+
+                // Safety check
+                if (streakCount > 10000) break
             }
 
-            // Safety check to avoid infinite loops
-            if (streakCount > 10000) break
+        } catch (_: Exception) {
+            return 0
         }
 
         return streakCount
-    }
-
-    private fun getDayStart(calendar: Calendar): Long {
-        val cal = calendar.clone() as Calendar
-        cal.set(Calendar.HOUR_OF_DAY, 0)
-        cal.set(Calendar.MINUTE, 0)
-        cal.set(Calendar.SECOND, 0)
-        cal.set(Calendar.MILLISECOND, 0)
-        return cal.timeInMillis
-    }
-
-    private fun getDayEnd(calendar: Calendar): Long {
-        val cal = calendar.clone() as Calendar
-        cal.set(Calendar.HOUR_OF_DAY, 23)
-        cal.set(Calendar.MINUTE, 59)
-        cal.set(Calendar.SECOND, 59)
-        cal.set(Calendar.MILLISECOND, 999)
-        return cal.timeInMillis
     }
 
     private fun formatNumber(number: Int): String {

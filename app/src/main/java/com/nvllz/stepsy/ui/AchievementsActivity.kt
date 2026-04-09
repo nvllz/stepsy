@@ -93,7 +93,7 @@ class AchievementsActivity : AppCompatActivity() {
             updatePersonalRecord(R.id.streak_record_value, cached.streakRecord)
             updatePersonalRecord(R.id.total_distance_value, cached.totalDistance)
 
-            if (cached.milestones != null && cached.milestones.isNotEmpty()) {
+            if (cached.milestones.isNotEmpty()) {
                 showMilestones(cached.milestones)
             } else {
                 showNoMilestones()
@@ -107,7 +107,7 @@ class AchievementsActivity : AppCompatActivity() {
                 val firstEntry = database.firstEntry
                 val lastEntry = database.lastEntry
 
-                if (firstEntry == 0L || lastEntry == 0L) {
+                if (firstEntry == "" || lastEntry == "") {
                     updatePersonalRecord(R.id.most_steps_day_value, getString(R.string.no_data_available))
                     updatePersonalRecord(R.id.most_walked_month_value, getString(R.string.no_data_available))
                     updatePersonalRecord(R.id.streak_record_value, getString(R.string.error_loading_data))
@@ -143,15 +143,15 @@ class AchievementsActivity : AppCompatActivity() {
         }
     }
 
-    private fun computeAllResults(firstEntry: Long, lastEntry: Long): ComputedResults {
+    private fun computeAllResults(firstEntry: String?, lastEntry: String?): ComputedResults {
         val entries = database.getEntries(firstEntry, lastEntry)
 
-        if (entries.isNullOrEmpty()) {
+        if (entries.isEmpty()) {
             val noData = getString(R.string.no_data_available)
             return ComputedResults(noData, noData, noData, noData, emptyList())
         }
 
-        var minStepsEntry = entries[0]
+        val minStepsEntry = entries[0]
         var maxStepsEntry = entries[0]
         var totalSteps = 0
         val monthlySteps = mutableMapOf<String, Int>()
@@ -197,7 +197,7 @@ class AchievementsActivity : AppCompatActivity() {
     }
 
     private fun calculateMilestoneAchievementsOptimized(entries: List<Database.Entry>): List<MilestoneAchievement> {
-        if (entries.isNullOrEmpty()) return emptyList()
+        if (entries.isEmpty()) return emptyList()
 
         val milestoneTargets = listOf(
             10_000, 50_000, 100_000, 500_000, 1_000_000, 2_000_000, 3_000_000, 4_000_000, 5_000_000,

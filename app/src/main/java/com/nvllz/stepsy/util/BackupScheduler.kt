@@ -160,11 +160,6 @@ object BackupScheduler {
         Log.d(TAG, "Manual export scheduled")
     }
 
-    /**
-     * Calculate the time to next backup based on the interval days
-     * If interval is 1, schedule for next midnight
-     * If interval is > 1, schedule for midnight + interval-1 days
-     */
     private fun calculateNextBackupTime(intervalDays: Long): Long {
         val now = System.currentTimeMillis()
         val calendar = Calendar.getInstance().apply {
@@ -280,7 +275,6 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
 
         return try {
             withContext(Dispatchers.IO) {
-                // 1. Verify and take permissions
                 try {
                     applicationContext.contentResolver.takePersistableUriPermission(
                         uri,
@@ -290,7 +284,6 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                     Log.w(TAG, "Permission check failed, trying to proceed anyway: ${e.message}")
                 }
 
-                // 2. Verify directory exists and is writable
                 val documentDir = DocumentFile.fromTreeUri(applicationContext, uri) ?: run {
                     Log.e(TAG, "Cannot access backup directory")
                     return@withContext Result.failure()
@@ -306,12 +299,10 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                     return@withContext Result.failure()
                 }
 
-                // 3. Create unique filename with timestamp
                 val dateFormat = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault())
                 val fileName = "stepsy_${dateFormat.format(Date())}.csv"
                 Log.d(TAG, "Attempting to create backup file: $fileName")
 
-                // 4. Try to create the file with retry logic
                 var backupFile: DocumentFile? = null
                 var attempts = 0
                 while (backupFile == null && attempts < 3) {
@@ -334,12 +325,16 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                     return@withContext Result.retry()
                 }
 
-                // 5. Write the backup data
                 try {
+                    val firstDate = db.firstEntry
+                    val lastDate = db.lastEntry
+
                     applicationContext.contentResolver.openOutputStream(backupFile.uri)?.use { outputStream ->
                         outputStream.bufferedWriter().use { writer ->
-                            for (entry in db.getEntries(db.firstEntry, db.lastEntry)) {
-                                writer.write("${entry.timestamp},${entry.steps}\r\n")
+                            if (firstDate != null && lastDate != null) {
+                                for (entry in db.getEntries(firstDate, lastDate)) {
+                                    writer.write("${entry.date},${entry.steps}\r\n")
+                                }
                             }
                             writer.flush()
                             Log.d(TAG, "Backup completed successfully: ${backupFile.name}")

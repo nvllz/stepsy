@@ -68,9 +68,6 @@ import androidx.appcompat.app.AlertDialog
 import com.nvllz.stepsy.util.TimedPauseManager
 import java.util.concurrent.TimeUnit
 
-/**
- * The main activity for the UI of the step counter.
- */
 internal class MainActivity : AppCompatActivity() {
     private lateinit var mTextViewMeters: TextView
     private lateinit var mTextViewSteps: TextView
@@ -207,11 +204,12 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         mCalendarView = findViewById(R.id.calendar)
-        mCalendarView.minDate = Database.getInstance(this).firstEntry.let {
-            if (it == 0L)
-                Util.calendar.timeInMillis
-            else
-                it
+        val db = Database.getInstance(this)
+        val firstEntryDate = db.firstEntry
+        mCalendarView.minDate = if (firstEntryDate != null) {
+            Util.dateStringToCalendarMillis(firstEntryDate)
+        } else {
+            Util.calendar.timeInMillis
         }
         mCalendarView.maxDate = Util.calendar.timeInMillis
         mCalendarView.firstDayOfWeek = AppPreferences.firstDayOfWeek
@@ -249,15 +247,12 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.fab).let {
-            // Set up long press listener
             setupFabLongPress()
 
-            // Existing click listener
             it.setOnClickListener {
                 val fab = it as com.google.android.material.floatingactionbutton.FloatingActionButton
 
                 if (isPaused) {
-                    // Clear any timed pause when manually resuming
                     TimedPauseManager.clearPauseEndTime(this)
 
                     val intent = Intent(this, MotionService::class.java)
@@ -267,7 +262,6 @@ internal class MainActivity : AppCompatActivity() {
                     fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
                     getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit { putBoolean(MotionService.KEY_IS_PAUSED, false) }
                 } else {
-                    // Regular pause (indefinite)
                     TimedPauseManager.clearPauseEndTime(this)
 
                     val intent = Intent(this, MotionService::class.java)
@@ -383,31 +377,15 @@ internal class MainActivity : AppCompatActivity() {
 
     private fun loadYearButtons() {
         val db = Database.getInstance(this)
-        val firstYear = Calendar.getInstance().apply {
-            timeInMillis = db.firstEntry
-        }.get(Calendar.YEAR)
+        val firstDateStr = db.firstEntry ?: return
+        val firstYear = firstDateStr.substring(0, 4).toIntOrNull() ?: return
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         mRangeDynamicBox.removeAllViews()
 
         for (year in firstYear..currentYear) {
-            val startOfYear = Calendar.getInstance(getDeviceTimeZone()).apply {
-                set(Calendar.YEAR, year)
-                set(Calendar.MONTH, Calendar.JANUARY)
-                set(Calendar.DAY_OF_MONTH, 1)
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-            }.timeInMillis
-
-            val endOfYear = Calendar.getInstance(getDeviceTimeZone()).apply {
-                set(Calendar.YEAR, year)
-                set(Calendar.MONTH, Calendar.DECEMBER)
-                set(Calendar.DAY_OF_MONTH, 31)
-                set(Calendar.HOUR_OF_DAY, 23)
-                set(Calendar.MINUTE, 59)
-                set(Calendar.SECOND, 59)
-            }.timeInMillis
+            val startOfYear = "%04d-01-01".format(year)
+            val endOfYear = "%04d-12-31".format(year)
 
             val hasData = db.getSumSteps(startOfYear, endOfYear) > 0
 
@@ -449,79 +427,56 @@ internal class MainActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance(timeZone)
         val db = Database.getInstance(this)
 
-        val (startTime, endTime) = when (range) {
+        val (startDate, endDate) = when (range) {
             "WEEK" -> {
                 mTextViewTopHeader.text = getString(R.string.header_week)
                 calendar.firstDayOfWeek = AppPreferences.firstDayOfWeek
                 calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
-                calendar.set(Calendar.HOUR_OF_DAY, 0)
-                calendar.set(Calendar.MINUTE, 0)
-                calendar.set(Calendar.SECOND, 0)
-                calendar.set(Calendar.MILLISECOND, 0)
-                val start = calendar.timeInMillis
+                val start = Util.calendarToDateString(calendar)
                 calendar.add(Calendar.DAY_OF_YEAR, 6)
-                calendar.set(Calendar.HOUR_OF_DAY, 23)
-                calendar.set(Calendar.MINUTE, 59)
-                calendar.set(Calendar.SECOND, 59)
-                calendar.set(Calendar.MILLISECOND, 999)
-                Pair(start, calendar.timeInMillis)
+                Pair(start, Util.calendarToDateString(calendar))
             }
             "MONTH" -> {
                 mTextViewTopHeader.text = getString(R.string.header_month)
                 calendar.set(Calendar.DAY_OF_MONTH, 1)
-                calendar.set(Calendar.HOUR_OF_DAY, 0)
-                calendar.set(Calendar.MINUTE, 0)
-                calendar.set(Calendar.SECOND, 0)
-                calendar.set(Calendar.MILLISECOND, 0)
-                val start = calendar.timeInMillis
+                val start = Util.calendarToDateString(calendar)
                 calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-                calendar.set(Calendar.HOUR_OF_DAY, 1)
-                Pair(start, calendar.timeInMillis)
+                Pair(start, Util.calendarToDateString(calendar))
             }
             "7 DAYS" -> {
                 mTextViewTopHeader.text = getString(R.string.header_7d)
                 calendar.add(Calendar.DAY_OF_YEAR, -6)
-                calendar.set(Calendar.HOUR_OF_DAY, 0)
-                calendar.set(Calendar.MINUTE, 0)
-                calendar.set(Calendar.SECOND, 0)
-                calendar.set(Calendar.MILLISECOND, 0)
-                val start = calendar.timeInMillis
+                val start = Util.calendarToDateString(calendar)
                 calendar.add(Calendar.DAY_OF_YEAR, 6)
-                calendar.set(Calendar.HOUR_OF_DAY, 1)
-                Pair(start, calendar.timeInMillis)
+                Pair(start, Util.calendarToDateString(calendar))
             }
             "30 DAYS" -> {
                 mTextViewTopHeader.text = getString(R.string.header_30d)
                 calendar.add(Calendar.DAY_OF_YEAR, -29)
-                calendar.set(Calendar.HOUR_OF_DAY, 0)
-                calendar.set(Calendar.MINUTE, 0)
-                calendar.set(Calendar.SECOND, 0)
-                calendar.set(Calendar.MILLISECOND, 0)
-                val start = calendar.timeInMillis
+                val start = Util.calendarToDateString(calendar)
                 calendar.add(Calendar.DAY_OF_YEAR, 29)
-                calendar.set(Calendar.HOUR_OF_DAY, 1)
-                Pair(start, calendar.timeInMillis)
+                Pair(start, Util.calendarToDateString(calendar))
             }
             "ALL TIME" -> {
-                val earliestTimestamp = db.firstEntry
-                val dateFormat: DateFormat = SimpleDateFormat(AppPreferences.dateFormatString,
-                    Locale.getDefault())
-
-                mTextViewTopHeader.text = getString(R.string.since_date,
-                    dateFormat.format(Date(earliestTimestamp)))
-                Pair(db.firstEntry, db.lastEntry)
+                val earliestDate = db.firstEntry ?: Util.todayDateString()
+                val latestDate = db.lastEntry ?: Util.todayDateString()
+                val dateFormat: DateFormat = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
+                mTextViewTopHeader.text = getString(
+                    R.string.since_date,
+                    dateFormat.format(Date(Util.dateStringToCalendarMillis(earliestDate)))
+                )
+                Pair(earliestDate, latestDate)
             }
             else -> return
         }
 
-        val totalSteps = db.getSumSteps(startTime, endTime)
-        val avgSteps = db.avgSteps(startTime, endTime)
+        val totalSteps = db.getSumSteps(startDate, endDate)
+        val avgSteps = db.avgSteps(startDate, endDate)
         val avgStepsFormatted = if (avgSteps >= 10_000) {
             NumberFormat.getIntegerInstance().format(avgSteps)
         } else {
             avgSteps.toString()
         }
-
 
         val formattedSteps = if (totalSteps >= 10_000) {
             NumberFormat.getIntegerInstance().format(totalSteps)
@@ -536,9 +491,11 @@ internal class MainActivity : AppCompatActivity() {
         )
 
         mTextViewSteps.text = stepsPlural
-        mTextViewMeters.text = String.format(getString(R.string.distance_today),
+        mTextViewMeters.text = String.format(
+            getString(R.string.distance_today),
             Util.stepsToDistance(totalSteps),
-            Util.getDistanceUnitString())
+            Util.getDistanceUnitString()
+        )
 
         mTextViewCalories.visibility = View.GONE
         mTextAvgPerDayHeader.visibility = View.VISIBLE
@@ -594,26 +551,10 @@ internal class MainActivity : AppCompatActivity() {
         saveSelectedYear(year)
         currentSelectedButton = null
 
-        val timeZone = getDeviceTimeZone()
-        val startOfYear = Calendar.getInstance(timeZone).apply {
-            set(Calendar.YEAR, year)
-            set(Calendar.MONTH, Calendar.JANUARY)
-            set(Calendar.DAY_OF_MONTH, 1)
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis
+        val startOfYear = "%04d-01-01".format(year)
+        val endOfYear = "%04d-12-31".format(year)
 
-        val endOfYear = Calendar.getInstance(timeZone).apply {
-            set(Calendar.YEAR, year)
-            set(Calendar.MONTH, Calendar.DECEMBER)
-            set(Calendar.DAY_OF_MONTH, 31)
-            set(Calendar.HOUR_OF_DAY, 1)
-        }.timeInMillis
-
-        mTextViewTopHeader.text = String.format(getString(R.string.header_year),
-            year)
+        mTextViewTopHeader.text = String.format(getString(R.string.header_year), year)
 
         val yearSteps = Database.getInstance(this).getSumSteps(startOfYear, endOfYear)
         val avgSteps = Database.getInstance(this).avgSteps(startOfYear, endOfYear)
@@ -636,9 +577,11 @@ internal class MainActivity : AppCompatActivity() {
         )
 
         mTextViewSteps.text = stepsPlural
-        mTextViewMeters.text = String.format(getString(R.string.distance_today),
+        mTextViewMeters.text = String.format(
+            getString(R.string.distance_today),
             Util.stepsToDistance(yearSteps),
-            Util.getDistanceUnitString())
+            Util.getDistanceUnitString()
+        )
 
         mTextViewCalories.visibility = View.GONE
         mTextAvgPerDayHeader.visibility = View.VISIBLE
@@ -689,7 +632,7 @@ internal class MainActivity : AppCompatActivity() {
             permissionsToRequest.add(Manifest.permission.POST_NOTIFICATIONS)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && // API 34, Android 14
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_HEALTH) != PackageManager.PERMISSION_GRANTED) {
             permissionsToRequest.add(Manifest.permission.FOREGROUND_SERVICE_HEALTH)
         }
@@ -738,8 +681,6 @@ internal class MainActivity : AppCompatActivity() {
     private fun updateView(steps: Int) {
         mCurrentSteps = steps
         if (isTodaySelected) {
-            // Only update today's steps if "Today" is selected
-
             val formattedSteps = if (steps >= 10_000) {
                 NumberFormat.getIntegerInstance().format(steps)
             } else {
@@ -751,12 +692,16 @@ internal class MainActivity : AppCompatActivity() {
                 formattedSteps
             )
 
-            mTextViewMeters.text = String.format(getString(R.string.distance_today),
+            mTextViewMeters.text = String.format(
+                getString(R.string.distance_today),
                 Util.stepsToDistance(steps),
-                Util.getDistanceUnitString())
+                Util.getDistanceUnitString()
+            )
             mTextViewSteps.text = stepsPlural
-            mTextViewCalories.text = String.format(getString(R.string.calories),
-                Util.stepsToCalories(steps))
+            mTextViewCalories.text = String.format(
+                getString(R.string.calories),
+                Util.stepsToCalories(steps)
+            )
             mTextViewCalories.visibility = View.VISIBLE
             mTextAvgPerDayHeader.visibility = View.GONE
             mTextAvgPerDayValue.visibility = View.GONE
@@ -764,18 +709,15 @@ internal class MainActivity : AppCompatActivity() {
             mTextAvgPerDayValue.text = ""
         }
 
-        // Update calendar max date for the case that new day started
         if (!DateUtils.isToday(mCalendarView.maxDate)) {
             mCalendarView.maxDate = Util.calendar.timeInMillis
         }
 
-        // If a year is selected, refresh its data to get latest steps
         currentSelectedYearButton?.let { button ->
             val year = button.text.toString().toInt()
             updateYearSummaryView(year)
         }
 
-        // Always update chart with current steps when in past 7 days mode or current week
         val currentWeekOfYear = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val selectedWeekOfYear = mSelectedMonth.get(Calendar.WEEK_OF_YEAR)
@@ -789,7 +731,6 @@ internal class MainActivity : AppCompatActivity() {
             mChart.update()
         }
 
-        // If a time range is selected (other than Today), refresh its data
         currentSelectedButton?.let { button ->
             when (button.id) {
                 R.id.button_this_week -> handleTimeRangeSelection("WEEK", button)
@@ -805,23 +746,9 @@ internal class MainActivity : AppCompatActivity() {
         return TimeZone.getDefault()
     }
 
-    private fun getDayEntry(timestamp: Long): Database.Entry? {
-        val calendar = Calendar.getInstance(getDeviceTimeZone()).apply {
-            timeInMillis = timestamp
-        }
-        // Get start and end of day in local timezone
-        val startOfDay = calendar.apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis
-
-        val endOfDay = calendar.apply {
-            set(Calendar.HOUR_OF_DAY, 23)
-        }.timeInMillis
-
-        val entries = Database.getInstance(this).getEntries(startOfDay, endOfDay)
+    private fun getDayEntry(millis: Long): Database.Entry? {
+        val dateStr = Util.millisToDateString(millis)
+        val entries = Database.getInstance(this).getEntries(dateStr, dateStr)
         return entries.firstOrNull()
     }
 
@@ -857,32 +784,32 @@ internal class MainActivity : AppCompatActivity() {
         } else {
             mTextViewDayDetails.text = String.format(
                 getString(R.string.steps_day_display),
-                resources.getQuantityString(R.plurals.steps_formatted,0,0),
+                resources.getQuantityString(R.plurals.steps_formatted, 0, 0),
                 0.0,
                 Util.getDistanceUnitString(),
                 0
             )
         }
 
-        val startOfMonth = Calendar.getInstance(timeZone).apply {
+        val startOfMonthCal = Calendar.getInstance(timeZone).apply {
             timeInMillis = mSelectedMonth.timeInMillis
             set(Calendar.DAY_OF_MONTH, 1)
         }
-
-        val endOfMonth = Calendar.getInstance(timeZone).apply {
-            timeInMillis = startOfMonth.timeInMillis
+        val endOfMonthCal = Calendar.getInstance(timeZone).apply {
+            timeInMillis = startOfMonthCal.timeInMillis
             set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
-            set(Calendar.HOUR_OF_DAY, 1)
         }
+        val startOfMonth = Util.calendarToDateString(startOfMonthCal)
+        val endOfMonth = Util.calendarToDateString(endOfMonthCal)
 
-        val monthSteps = Database.getInstance(this).getSumSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
+        val monthSteps = Database.getInstance(this).getSumSteps(startOfMonth, endOfMonth)
         val monthStepsFormatted = if (monthSteps >= 10_000) {
             NumberFormat.getIntegerInstance().format(monthSteps)
         } else {
             monthSteps.toString()
         }
 
-        val avgSteps = Database.getInstance(this).avgSteps(startOfMonth.timeInMillis, endOfMonth.timeInMillis)
+        val avgSteps = Database.getInstance(this).avgSteps(startOfMonth, endOfMonth)
         val avgStepsFormatted = if (avgSteps >= 10_000) {
             NumberFormat.getIntegerInstance().format(avgSteps)
         } else {
@@ -907,9 +834,8 @@ internal class MainActivity : AppCompatActivity() {
         val max: Calendar
 
         if (isChartInPast7DaysMode) {
-            // Always show past 7 days when in this mode
             min = Calendar.getInstance(timeZone).apply {
-                add(Calendar.DAY_OF_YEAR, -6) // Go back 6 days to include today as the 7th day
+                add(Calendar.DAY_OF_YEAR, -6)
                 set(Calendar.HOUR_OF_DAY, 0)
                 set(Calendar.MINUTE, 0)
                 set(Calendar.SECOND, 0)
@@ -923,7 +849,6 @@ internal class MainActivity : AppCompatActivity() {
                 set(Calendar.MILLISECOND, 999)
             }
         } else {
-            // Show the week containing the selected date
             min = Calendar.getInstance().apply {
                 timeInMillis = mSelectedMonth.timeInMillis
                 firstDayOfWeek = AppPreferences.firstDayOfWeek
@@ -943,7 +868,6 @@ internal class MainActivity : AppCompatActivity() {
                 set(Calendar.MILLISECOND, 999)
             }
 
-            // Store current week start time for potential toggle back to past 7 days
             currentWeekStartTime = min.timeInMillis
         }
 
@@ -976,7 +900,9 @@ internal class MainActivity : AppCompatActivity() {
             )
         }
 
-        val entries = Database.getInstance(this).getEntries(min.timeInMillis, max.timeInMillis)
+        val minDateStr = Util.calendarToDateString(min)
+        val maxDateStr = Util.calendarToDateString(max)
+        val entries = Database.getInstance(this).getEntries(minDateStr, maxDateStr)
         for (entry in entries) {
             mChart.setDiagramEntry(entry)
         }
@@ -1022,11 +948,11 @@ internal class MainActivity : AppCompatActivity() {
     private fun setupStepCountModification() {
         val textViewSteps = findViewById<TextView>(R.id.textViewSteps)
 
-        textViewSteps.setOnLongClickListener { view ->
+        textViewSteps.setOnLongClickListener { _ ->
             if (isTodaySelected) {
                 val currentStepsText = textViewSteps.text.toString()
                 val stepsNumber = currentStepsText.replace(Regex("[^0-9]"), "")
-                showStepCountDialog(stepsNumber.toString())
+                showStepCountDialog(stepsNumber)
             }
             true
         }
@@ -1043,7 +969,7 @@ internal class MainActivity : AppCompatActivity() {
         val paddingPx = (24 * resources.displayMetrics.density).toInt()
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(paddingPx, paddingPx/2, paddingPx, paddingPx/2)
+            setPadding(paddingPx, paddingPx / 2, paddingPx, paddingPx / 2)
             addView(input)
         }
 
@@ -1106,7 +1032,6 @@ internal class MainActivity : AppCompatActivity() {
         val intent = Intent(this, MotionService::class.java).apply {
             putExtra("MANUAL_STEP_COUNT_CHANGE", true)
             putExtra(MotionService.KEY_STEPS, newSteps)
-            putExtra(MotionService.KEY_DATE, AppPreferences.date)
         }
 
         ContextCompat.startForegroundService(this, intent)
@@ -1138,12 +1063,14 @@ internal class MainActivity : AppCompatActivity() {
                 dailyGoalTarget.toString()
             }
 
-            val goalText = getString(R.string.goal_streak_dead_line,
+            val goalText = getString(
+                R.string.goal_streak_dead_line,
                 resources.getQuantityString(
                     R.plurals.steps_formatted,
                     dailyGoalTarget,
                     dailyGoalTargetFormatted
-                ))
+                )
+            )
             textDailyGoalStreak.text = goalText
 
             textDailyGoalStreak.setTypeface(null, Typeface.NORMAL)
@@ -1203,10 +1130,8 @@ internal class MainActivity : AppCompatActivity() {
             .setTitle(getString(R.string.resume_at_time))
             .setView(dialogView)
             .setPositiveButton(getString(android.R.string.ok)) { _, _ ->
-                val selectedHour =
-                    timePicker.hour
-                val selectedMinute =
-                    timePicker.minute
+                val selectedHour = timePicker.hour
+                val selectedMinute = timePicker.minute
 
                 val now = Calendar.getInstance()
                 val resumeTime = Calendar.getInstance().apply {

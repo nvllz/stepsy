@@ -24,40 +24,34 @@ import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.Database
 import java.util.*
 
-/**
- * The chart in the UI that shows the weekly step distribution with a bar chart.
- */
 internal class Chart : BarChart {
     private val yVals = ArrayList<BarEntry>()
     private val oldYVals = ArrayList<BarEntry>()
     private var isPast7DaysMode = false
-    private var past7DaysStartTime = 0L
+    private var past7DaysStartDate = ""
+    private var weekStartDate = ""
     private val dayFormatter = DayFormatter()
 
-    constructor(context: Context) : super(context) {
-        initializeChart()
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        initializeChart()
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
-        initializeChart()
-    }
+    constructor(context: Context) : super(context) { initializeChart() }
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) { initializeChart() }
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) { initializeChart() }
 
     internal fun setPast7DaysMode(isPast7Days: Boolean, startTime: Long = 0L) {
         isPast7DaysMode = isPast7Days
-        past7DaysStartTime = startTime
+        if (isPast7Days) {
+            past7DaysStartDate = calToDateString(Calendar.getInstance().apply {
+                timeInMillis = startTime
+            })
+        } else {
+            weekStartDate = calToDateString(Calendar.getInstance().apply {
+                timeInMillis = startTime
+            })
+        }
         dayFormatter.setPast7DaysMode(isPast7Days, startTime)
     }
 
     private fun initializeChart() {
-        // Disable description text
         description.isEnabled = false
-
-
-        // Other chart styling and configuration
         setDrawBarShadow(false)
         setDrawValueAboveBar(true)
         setTouchEnabled(false)
@@ -66,7 +60,6 @@ internal class Chart : BarChart {
         configureXAxis()
         configureAxes()
         configureLegend()
-
         initializeData()
     }
 
@@ -81,7 +74,6 @@ internal class Chart : BarChart {
     private fun configureAxes() {
         axisLeft.isEnabled = false
         axisRight.isEnabled = false
-
         axisLeft.axisMinimum = 0f
         axisLeft.spaceBottom = 10f
     }
@@ -90,11 +82,10 @@ internal class Chart : BarChart {
         legend.isEnabled = false
     }
 
-    // Initialize yVals with 7 entries, all set to 0
     private fun initializeData() {
         for (i in 0..6) {
             yVals.add(BarEntry(i.toFloat(), 0f))
-            oldYVals.add(BarEntry(i.toFloat(), 0f)) // keep previous values
+            oldYVals.add(BarEntry(i.toFloat(), 0f))
         }
     }
 
@@ -104,54 +95,52 @@ internal class Chart : BarChart {
 
     internal fun setDiagramEntry(entry: Database.Entry) {
         val dayIndex = if (isPast7DaysMode) {
-            getDayIndexForPast7Days(entry.timestamp)
+            daysBetweenDates(past7DaysStartDate, entry.date)
         } else {
-            getDayOfWeekFromTimestamp(entry.timestamp)
+            daysBetweenDates(weekStartDate, entry.date)
         }
-
-        if (dayIndex >= 0 && dayIndex < 7) {
-            updateBarEntryForDay(dayIndex, entry.steps.toFloat())
+        if (dayIndex in 0..6) {
+            yVals[dayIndex].y = entry.steps.toFloat()
         }
     }
 
-    private fun getDayIndexForPast7Days(timestamp: Long): Int {
-        val startCal = Calendar.getInstance().apply { timeInMillis = past7DaysStartTime }
-        val entryCal = Calendar.getInstance().apply { timeInMillis = timestamp }
-
-        startCal.set(Calendar.HOUR_OF_DAY, 0)
-        startCal.set(Calendar.MINUTE, 0)
-        startCal.set(Calendar.SECOND, 0)
-        startCal.set(Calendar.MILLISECOND, 0)
-
-        entryCal.set(Calendar.HOUR_OF_DAY, 0)
-        entryCal.set(Calendar.MINUTE, 0)
-        entryCal.set(Calendar.SECOND, 0)
-        entryCal.set(Calendar.MILLISECOND, 0)
-
-        val daysDiff = ((entryCal.timeInMillis - startCal.timeInMillis) / (24 * 60 * 60 * 1000)).toInt()
-        return if (daysDiff in 0..6) daysDiff else -1
+    private fun daysBetweenDates(from: String, to: String): Int {
+        if (from.isEmpty() || to.isEmpty()) return -1
+        return try {
+            val f = parseDateString(from)
+            val t = parseDateString(to)
+            ((t - f) / 86_400_000L).toInt()
+        } catch (_: Exception) {
+            -1
+        }
     }
 
-    private fun getDayOfWeekFromTimestamp(timestamp: Long): Int {
-        val cal = Calendar.getInstance()
-        cal.firstDayOfWeek = AppPreferences.firstDayOfWeek
-        cal.timeInMillis = timestamp
-
-        val dayIndex = (cal.get(Calendar.DAY_OF_WEEK) - cal.firstDayOfWeek + 7) % 7
-        return dayIndex
+    private fun parseDateString(date: String): Long {
+        val parts = date.split("-")
+        return Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
+            set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt(), 0, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
     }
 
-    private fun updateBarEntryForDay(dayOfWeek: Int, steps: Float) {
-        yVals[dayOfWeek].y = steps
+    private fun calToDateString(cal: Calendar): String {
+        return "%04d-%02d-%02d".format(
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH) + 1,
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
     }
 
     internal fun setCurrentSteps(currentSteps: Int) {
-        val currentDay = if (isPast7DaysMode) {
-            6
+        val today = calToDateString(Calendar.getInstance())
+        val dayIndex = if (isPast7DaysMode) {
+            daysBetweenDates(past7DaysStartDate, today)
         } else {
-            getDayOfWeekFromTimestamp(System.currentTimeMillis())
+            daysBetweenDates(weekStartDate, today)
         }
-        yVals[currentDay].y = currentSteps.toFloat()
+        if (dayIndex in 0..6) {
+            yVals[dayIndex].y = currentSteps.toFloat()
+        }
     }
 
     internal fun update() {
@@ -161,7 +150,6 @@ internal class Chart : BarChart {
         val fromVals = oldYVals.map { it.y }
         val toVals = yVals.map { it.y }
 
-        // Pre-calculate colors based on new values
         val finalMin = yVals.minOfOrNull { it.y } ?: 0f
         val finalMax = yVals.maxOfOrNull { it.y } ?: 1f
         val finalColors = yVals.map { getColorForValue(it.y, finalMin, finalMax) }
@@ -176,7 +164,6 @@ internal class Chart : BarChart {
                     BarEntry(entry.x, fromVals[index] + (toVals[index] - fromVals[index]) * progress)
                 }
 
-                // Apply pre-calculated colors (prevent flickering)
                 BarDataSet(interpolatedVals, "Step Data").apply {
                     setDrawIcons(false)
                     colors = finalColors
@@ -190,8 +177,9 @@ internal class Chart : BarChart {
                         barWidth = 0.92f
                     }
                 }.also { data ->
-                    val interpolatedMax = (fromVals.maxOrNull() ?: 1f) +
-                            ((toVals.maxOrNull() ?: 1f) - (fromVals.maxOrNull() ?: 1f)) * progress
+                    val fromMax = fromVals.maxOrNull() ?: 1f
+                    val toMax = toVals.maxOrNull() ?: 1f
+                    val interpolatedMax = fromMax + (toMax - fromMax) * progress
                     axisLeft.axisMaximum = maxOf(interpolatedMax * 1.05f, 1f)
                     axisLeft.axisMinimum = 0f
 
@@ -206,12 +194,10 @@ internal class Chart : BarChart {
 
     private fun getColorForValue(value: Float, min: Float, max: Float): Int {
         val baseColor = ContextCompat.getColor(context, R.color.colorPrimary)
-
         if (max == min) return baseColor
 
         val hsl = FloatArray(3)
         ColorUtils.colorToHSL(baseColor, hsl)
-
         val factor = (value - min) / (max - min)
 
         val isDarkTheme = when (AppCompatDelegate.getDefaultNightMode()) {
@@ -219,16 +205,13 @@ internal class Chart : BarChart {
             AppCompatDelegate.MODE_NIGHT_NO -> false
             else -> {
                 val uiMode = resources.configuration.uiMode
-                (uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
+                (uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+                        android.content.res.Configuration.UI_MODE_NIGHT_YES
             }
         }
 
-        // Bar tint:
-        // > Light theme: higher = darker
-        // > Dark theme: higher = lighter
         val lightnessRange = if (isDarkTheme) 0.3f to 0.75f else 0.75f to 0.3f
         hsl[2] = lightnessRange.first + (lightnessRange.second - lightnessRange.first) * factor
-
         return ColorUtils.HSLToColor(hsl)
     }
 
@@ -243,13 +226,11 @@ internal class Chart : BarChart {
 
         override fun getFormattedValue(value: Float): String {
             return if (isPast7DaysMode) {
-                // For past 7 days, show actual day names based on the chronological order
                 val cal = Calendar.getInstance()
                 cal.timeInMillis = past7DaysStartTime
                 cal.add(Calendar.DAY_OF_YEAR, value.toInt())
                 cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()) ?: ""
             } else {
-                // Original logic for week view
                 val cal = Calendar.getInstance()
                 cal.firstDayOfWeek = AppPreferences.firstDayOfWeek
                 cal.set(Calendar.DAY_OF_WEEK, ((value.toInt() + AppPreferences.firstDayOfWeek - 1) % 7 + 1))
@@ -257,7 +238,6 @@ internal class Chart : BarChart {
             }
         }
     }
-
 
     internal class IntValueFormatter : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
