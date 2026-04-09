@@ -118,18 +118,16 @@ object BackupScheduler {
                 .enqueue()
         }
 
-        val periodicBackupWork = PeriodicWorkRequestBuilder<BackupWorker>(
-            backupIntervalDays, TimeUnit.DAYS
-        )
+        val work = OneTimeWorkRequestBuilder<BackupWorker>()
             .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .setConstraints(constraints)
             .addTag("backup_and_cleanup")
             .build()
 
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+        WorkManager.getInstance(context).enqueueUniqueWork(
             PERIODIC_BACKUP_WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            periodicBackupWork
+            ExistingWorkPolicy.REPLACE,
+            work
         )
     }
 
@@ -162,21 +160,30 @@ object BackupScheduler {
 
     private fun calculateNextBackupTime(intervalDays: Long): Long {
         val now = System.currentTimeMillis()
-        val calendar = Calendar.getInstance().apply {
+
+        val next = Calendar.getInstance().apply {
             timeInMillis = now
-            add(Calendar.DAY_OF_MONTH, 1)
+
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
 
+            if (timeInMillis <= now) {
+                add(Calendar.DAY_OF_MONTH, 1)
+            }
+
             if (intervalDays > 1) {
-                add(Calendar.DAY_OF_MONTH, intervalDays.toInt() - 1)
+                add(Calendar.DAY_OF_MONTH, (intervalDays - 1).toInt())
             }
         }
 
-        val nextBackupTime = calendar.timeInMillis - now
-        Log.d(TAG, "Next backup in ${nextBackupTime / (1000 * 60 * 60)} hours")
+        val nextBackupTime = next.timeInMillis - now
+
+        val totalSeconds = nextBackupTime / 1000
+        Log.d(TAG,String.format("Next backup in %02dh %02dm %02ds",
+            totalSeconds / 3600, (totalSeconds % 3600) / 60, totalSeconds % 60))
+
         return nextBackupTime
     }
 
@@ -245,6 +252,7 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                     if (backupResult == Result.success()) {
                         Log.d(TAG, "Backup successful, now running cleanup")
                         cleanupOldBackups()
+                        BackupScheduler.scheduleBackup(applicationContext)
                         Result.success()
                     } else {
                         Log.w(TAG, "Backup failed, skipping cleanup")
@@ -269,7 +277,7 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
             return Result.failure()
         }
 
-        Log.d(TAG, "Backup URI: $uriString")
+        // Log.d(TAG, "Backup URI: $uriString")
         val uri = uriString.toUri()
         val db = Database.getInstance(applicationContext)
 
@@ -338,6 +346,7 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                             }
                             writer.flush()
                             Log.d(TAG, "Backup completed successfully: ${backupFile.name}")
+                            updateNextBackupTimeAfterBackup(applicationContext)
                         }
                     } ?: run {
                         Log.e(TAG, "Failed to open output stream")
@@ -420,5 +429,20 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                 Log.e(TAG, "Error during backup cleanup", e)
             }
         }
+    }
+
+    fun updateNextBackupTimeAfterBackup(context: Context) {
+        val frequency = AppPreferences.backupFrequency
+        if (frequency <= 0) return
+
+        val nextBackupMillis = System.currentTimeMillis() +
+                TimeUnit.DAYS.toMillis(frequency.toLong())
+
+        val prefs = context.getSharedPreferences("backup_prefs", Context.MODE_PRIVATE)
+        prefs.edit {
+            putLong("next_backup_time", nextBackupMillis)
+        }
+
+        Log.d(TAG, "Updated next backup time to: ${SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(nextBackupMillis))}")
     }
 }
