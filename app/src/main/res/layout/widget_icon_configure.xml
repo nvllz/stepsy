@@ -114,7 +114,7 @@
             app:thumbTint="@color/colorOnPrimary"
             app:trackTint="@color/colorPrimary"
             app:rippleColor="@color/colorAccent"
-            app:thumbIcon="@drawable/ic_tick"
+            app:thumbIcon="@drawable/thumb_icon_selector"
             app:thumbIconTint="@color/colorPrimary"
             android:layout_marginBottom="30dp"
             android:text="@string/widget_pref_dynamic_colors"/>
