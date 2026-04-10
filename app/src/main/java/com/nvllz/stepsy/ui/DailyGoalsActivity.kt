@@ -106,6 +106,17 @@ class DailyGoalsActivity : AppCompatActivity() {
                     AppPreferences.dailyGoalTarget, AppPreferences.steps)
             }
         }
+
+        val goalChartLineSwitch = findViewById<MaterialSwitch>(R.id.goal_chart_line_switch)
+
+        goalChartLineSwitch.setOnCheckedChangeListener { _, isChecked ->
+            lifecycleScope.launch {
+                AppPreferences.dataStore.edit { preferences ->
+                    preferences[AppPreferences.PreferenceKeys.DAILY_GOAL_CHART_LINE] = isChecked
+                }
+                updateNotification()
+            }
+        }
     }
 
     private fun saveGoalTargetIfValid(text: String) {
@@ -127,10 +138,12 @@ class DailyGoalsActivity : AppCompatActivity() {
         val notificationEnabled = AppPreferences.dailyGoalNotification
         val notificationProgressbar = AppPreferences.dailyGoalNotificationProgressbar
         val encouragingNotifications = AppPreferences.encouragingNotifications
+        val dailyGoalChartLine = AppPreferences.dailyGoalChartLine
 
         findViewById<MaterialSwitch>(R.id.notification_switch).isChecked = notificationEnabled
         findViewById<MaterialSwitch>(R.id.notification_progressbar_switch).isChecked = notificationProgressbar
         findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications).isChecked = encouragingNotifications
+        findViewById<MaterialSwitch>(R.id.goal_chart_line_switch).isChecked = dailyGoalChartLine
 
         val dailyTarget = AppPreferences.dailyGoalTarget
         findViewById<TextInputEditText>(R.id.goal_target_input).setText(dailyTarget.toString())

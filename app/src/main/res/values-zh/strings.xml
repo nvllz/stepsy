@@ -141,6 +141,7 @@
     <string name="daily_goal_target">每日步数目标</string>
     <string name="daily_goal_hint">请输入你的每日步数目标</string>
     <string name="encouraging_notifications">激励性通知</string>
+    <string name="goal_chart_line">在图表中显示目标线</string>
 
     <!-- Records -->
     <string name="personal_records">个人记录</string>

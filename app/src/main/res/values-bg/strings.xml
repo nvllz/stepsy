@@ -144,6 +144,7 @@
     <string name="daily_goal_target">Дневна цел за крачки</string>
     <string name="daily_goal_hint">Въведете дневната цел за крачки</string>
     <string name="encouraging_notifications">Мотивиращи известия</string>
+    <string name="goal_chart_line">Покажи целевата линия на графиката</string>
 
     <!-- Records -->
     <string name="personal_records">Лични рекорди</string>

@@ -147,6 +147,7 @@
     <string name="daily_goal_target">Obiettivo passi giornaliero</string>
     <string name="daily_goal_hint">Inserisci il tuo obiettivo di passi giornaliero</string>
     <string name="encouraging_notifications">Notifiche incoraggianti</string>
+    <string name="goal_chart_line">Mostra la linea obiettivo nel grafico</string>
 
     <!-- Records -->
     <string name="personal_records">Record personali</string>

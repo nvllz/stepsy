@@ -130,6 +130,21 @@
                                 app:thumbIconTint="@color/colorPrimary"
                                 android:text="@string/encouraging_notifications"/>
 
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/goal_chart_line_switch"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="4dp"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/open_sans_family"
+                                android:textColor="@color/colorOnSurface"
+                                app:thumbTint="@color/colorOnPrimary"
+                                app:trackTint="@color/colorPrimary"
+                                app:rippleColor="@color/colorAccent"
+                                app:thumbIcon="@drawable/ic_tick"
+                                app:thumbIconTint="@color/colorPrimary"
+                                android:text="@string/goal_chart_line"/>
+
                         </LinearLayout>
 
                     </LinearLayout>

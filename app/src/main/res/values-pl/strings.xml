@@ -150,6 +150,7 @@
     <string name="daily_goal_target">Dzienny cel kroków</string>
     <string name="daily_goal_hint">Wprowadź dzienny cel kroków</string>
     <string name="encouraging_notifications">Motywujące powiadomienia</string>
+    <string name="goal_chart_line">Pokaż linię celu na wykresie</string>
 
     <!-- Records -->
     <string name="personal_records">Rekordy osobiste</string>

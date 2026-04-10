@@ -144,6 +144,7 @@
     <string name="daily_goal_target">Günlük adım hedefi</string>
     <string name="daily_goal_hint">Günlük adım hedefinizi girin</string>
     <string name="encouraging_notifications">Teşvik edici bildirimler</string>
+    <string name="goal_chart_line">Grafikte hedef çizgisini göster</string>
 
     <!-- Records -->
     <string name="personal_records">Kişisel Rekorlar</string>

@@ -144,6 +144,7 @@
     <string name="daily_goal_target">Daily step goal</string>
     <string name="daily_goal_hint">Enter your daily step goal</string>
     <string name="encouraging_notifications">Encouraging notifications</string>
+    <string name="goal_chart_line">Draw goal line on chart</string>
 
     <!-- Records -->
     <string name="personal_records">Personal Records</string>

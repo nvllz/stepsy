@@ -14,6 +14,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -39,13 +40,9 @@ internal class Chart : BarChart {
     internal fun setPast7DaysMode(isPast7Days: Boolean, startTime: Long = 0L) {
         isPast7DaysMode = isPast7Days
         if (isPast7Days) {
-            past7DaysStartDate = calToDateString(Calendar.getInstance().apply {
-                timeInMillis = startTime
-            })
+            past7DaysStartDate = calToDateString(Calendar.getInstance().apply { timeInMillis = startTime })
         } else {
-            weekStartDate = calToDateString(Calendar.getInstance().apply {
-                timeInMillis = startTime
-            })
+            weekStartDate = calToDateString(Calendar.getInstance().apply { timeInMillis = startTime })
         }
         dayFormatter.setPast7DaysMode(isPast7Days, startTime)
     }
@@ -154,6 +151,14 @@ internal class Chart : BarChart {
         val finalMax = yVals.maxOfOrNull { it.y } ?: 1f
         val finalColors = yVals.map { getColorForValue(it.y, finalMin, finalMax) }
 
+        val dailyGoal = if (AppPreferences.dailyGoalTarget > 0 && AppPreferences.dailyGoalChartLine) {
+            AppPreferences.dailyGoalTarget.toFloat()
+        } else {
+            0f
+        }
+
+        updateGoalLine(dailyGoal)
+
         ValueAnimator.ofFloat(0f, 1f).apply {
             duration = 200
             interpolator = Easing.EaseInOutCubic
@@ -179,8 +184,14 @@ internal class Chart : BarChart {
                 }.also { data ->
                     val fromMax = fromVals.maxOrNull() ?: 1f
                     val toMax = toVals.maxOrNull() ?: 1f
-                    val interpolatedMax = fromMax + (toMax - fromMax) * progress
-                    axisLeft.axisMaximum = maxOf(interpolatedMax * 1.05f, 1f)
+                    val interpolatedDataMax = fromMax + (toMax - fromMax) * progress
+
+                    val axisMax = if (dailyGoal > 0f) {
+                        maxOf(interpolatedDataMax, (dailyGoal * 1.1f)) * 1.05f
+                    } else {
+                        maxOf(interpolatedDataMax * 1.05f, 1f)
+                    }
+                    axisLeft.axisMaximum = maxOf(axisMax, 1f)
                     axisLeft.axisMinimum = 0f
 
                     setData(data)
@@ -190,6 +201,30 @@ internal class Chart : BarChart {
         }.start()
 
         for (i in 0..6) oldYVals[i].y = yVals[i].y
+    }
+
+    private fun updateGoalLine(dailyGoal: Float) {
+        axisLeft.removeAllLimitLines()
+
+        if (dailyGoal <= 0f) return
+
+        val accentColor = ContextCompat.getColor(context, R.color.colorAccent)
+
+        val subtleColor = ColorUtils.setAlphaComponent(accentColor, 100)
+
+        val limitLine = LimitLine(dailyGoal).apply {
+            lineWidth = 1f
+            lineColor = subtleColor
+            enableDashedLine(24f, 12f, 0f)
+            textSize = 0f
+        }
+
+        axisLeft.setDrawLimitLinesBehindData(true)
+        axisLeft.isEnabled = true
+        axisLeft.setDrawLabels(false)
+        axisLeft.setDrawGridLines(false)
+        axisLeft.setDrawAxisLine(false)
+        axisLeft.addLimitLine(limitLine)
     }
 
     private fun getColorForValue(value: Float, min: Float, max: Float): Int {

@@ -150,6 +150,7 @@
     <string name="daily_goal_target">Цель по шагам в день</string>
     <string name="daily_goal_hint">Введите вашу дневную цель шагов</string>
     <string name="encouraging_notifications">Мотивирующие уведомления</string>
+    <string name="goal_chart_line">Показывать линию цели на графике</string>
 
     <!-- Records -->
     <string name="personal_records">Личные рекорды</string>

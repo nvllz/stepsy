@@ -144,6 +144,7 @@
     <string name="daily_goal_target">Dagelijks doel</string>
     <string name="daily_goal_hint">Voer je doelstelling in</string>
     <string name="encouraging_notifications">Aanmoedigende meldingen tonen</string>
+    <string name="goal_chart_line">Doellijn weergeven in grafiek</string>
 
     <!-- Records -->
     <string name="personal_records">Persoonlijke records</string>

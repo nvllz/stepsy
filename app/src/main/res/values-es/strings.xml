@@ -147,6 +147,7 @@
     <string name="daily_goal_target">Meta de pasos diaria</string>
     <string name="daily_goal_hint">Ingresa tu meta de pasos diaria</string>
     <string name="encouraging_notifications">Notificaciones motivadoras</string>
+    <string name="goal_chart_line">Mostrar línea de objetivo en el gráfico</string>
 
     <!-- Records -->
     <string name="personal_records">Récords personales</string>

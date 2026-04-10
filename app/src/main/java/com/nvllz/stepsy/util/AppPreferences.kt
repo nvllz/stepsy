@@ -54,6 +54,7 @@ object AppPreferences {
         val DAILY_GOAL_TARGET = intPreferencesKey("daily_goal_target")
         val DAILY_GOAL_NOTIFICATION_PROGRESSBAR = booleanPreferencesKey("daily_goal_notification_progressbar")
         val ENCOURAGING_NOTIFICATIONS = booleanPreferencesKey("encouraging_notifications")
+        val DAILY_GOAL_CHART_LINE = booleanPreferencesKey("daily_goal_chart_line")
     }
 
     lateinit var dataStore: DataStore<Preferences>
@@ -275,6 +276,17 @@ object AppPreferences {
         get() = runBlocking { encouragingNotificationsFlow().first() }
         set(value) = runBlocking {
             dataStore.edit { it[PreferenceKeys.ENCOURAGING_NOTIFICATIONS] = value }
+        }
+
+    // Daily goal line on chart
+    fun dailyGoalChartLineFlow(): Flow<Boolean> = dataStore.data.map {
+        it[PreferenceKeys.DAILY_GOAL_CHART_LINE] ?: true
+    }
+
+    var dailyGoalChartLine: Boolean
+        get() = runBlocking { dailyGoalChartLineFlow().first() }
+        set(value) = runBlocking {
+            dataStore.edit { it[PreferenceKeys.DAILY_GOAL_CHART_LINE] = value }
         }
 
     @OptIn(DelicateCoroutinesApi::class)

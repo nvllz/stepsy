@@ -144,6 +144,7 @@
     <string name="daily_goal_target">Dagligt stegmål</string>
     <string name="daily_goal_hint">Ange ditt dagliga stegmål</string>
     <string name="encouraging_notifications">Uppmuntrande aviseringar</string>
+    <string name="goal_chart_line">Visa mållinje i diagram</string>
 
     <!-- Records -->
     <string name="personal_records">Personliga mål</string>

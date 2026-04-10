@@ -144,6 +144,7 @@
     <string name="daily_goal_target">দৈনিক পদচারণার লক্ষ্য</string>
     <string name="daily_goal_hint">আপনার দৈনিক পদচারণার লক্ষ্য লিখুন</string>
     <string name="encouraging_notifications">উৎসাহজনক বিজ্ঞপ্তি</string>
+    <string name="goal_chart_line">চার্টে লক্ষ্য রেখা দেখাও</string>
 
     <!-- Records -->
     <string name="personal_records">ব্যক্তিগত রেকর্ড</string>

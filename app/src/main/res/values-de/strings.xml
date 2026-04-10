@@ -144,6 +144,7 @@
     <string name="daily_goal_target">Tägliches Schrittziel</string>
     <string name="daily_goal_hint">Geben Sie Ihr tägliches Schrittziel ein</string>
     <string name="encouraging_notifications">Ermutigende Benachrichtigungen</string>
+    <string name="goal_chart_line">Ziellinie im Diagramm anzeigen</string>
 
     <!-- Records -->
     <string name="personal_records">Persönliche Rekorde</string>

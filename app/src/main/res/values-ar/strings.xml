@@ -154,6 +154,7 @@
     <string name="daily_goal_target">هدف الخطوات اليومي</string>
     <string name="daily_goal_hint">أدخل هدفك اليومي للخطوات</string>
     <string name="encouraging_notifications">إشعارات مشجعة</string>
+    <string name="goal_chart_line">إظهار خط الهدف على الرسم البياني</string>
 
     <!-- Records -->
     <string name="personal_records">الأرقام القياسية الشخصية</string>
