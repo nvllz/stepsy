@@ -65,6 +65,8 @@ import java.text.DateFormat
 import java.util.Date
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.nvllz.stepsy.util.TimedPauseManager
 import java.util.concurrent.TimeUnit
 
@@ -158,6 +160,13 @@ internal class MainActivity : AppCompatActivity() {
 
         loadYearButtons()
         updateGoalStreakUI()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                AppPreferences.dailyGoalTargetFlow().collect {
+                    updateGoalStreakUI()
+                }
+            }
+        }
 
         val todayButton = findViewById<MaterialButton>(R.id.button_today)
         setSelectedButton(todayButton)
@@ -1063,8 +1072,8 @@ internal class MainActivity : AppCompatActivity() {
                 dailyGoalTarget.toString()
             }
 
-            val goalText = if (dailyGoalTarget > 0) {
-                getString(
+            if (dailyGoalTarget > 0) {
+                val goalText = getString(
                     R.string.goal_streak_dead_line,
                     resources.getQuantityString(
                         R.plurals.steps_formatted,
@@ -1072,10 +1081,13 @@ internal class MainActivity : AppCompatActivity() {
                         dailyGoalTargetFormatted
                     )
                 )
+
+                textDailyGoalStreak.visibility = View.VISIBLE
+                textDailyGoalStreak.text = goalText
             } else {
-                ""
+                textDailyGoalStreak.text = ""
+                textDailyGoalStreak.visibility = View.GONE
             }
-            textDailyGoalStreak.text = goalText
 
             textDailyGoalStreak.setTypeface(null, Typeface.NORMAL)
             textDailyGoalStreak.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))

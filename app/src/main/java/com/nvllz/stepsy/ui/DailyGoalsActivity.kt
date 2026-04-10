@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.text.method.DigitsKeyListener
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -44,6 +45,13 @@ class DailyGoalsActivity : AppCompatActivity() {
 
         setupViews()
         initializePreferences()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val input = findViewById<TextInputEditText>(R.id.goal_target_input)
+        saveGoalTargetIfValid(input.text.toString())
+        finish()
+        return true
     }
 
     private fun setupViews() {
@@ -87,12 +95,6 @@ class DailyGoalsActivity : AppCompatActivity() {
                     false
                 }
             }
-
-            addTextChangedListener { text ->
-                if (!text.isNullOrEmpty()) {
-                    saveGoalTargetIfValid(text.toString())
-                }
-            }
         }
 
         val encouragingNotificationsSwitch = findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications)
@@ -120,17 +122,15 @@ class DailyGoalsActivity : AppCompatActivity() {
     }
 
     private fun saveGoalTargetIfValid(text: String) {
-        try {
-            val target = text.toInt()
-            if (target >= 0) {
-                lifecycleScope.launch {
-                    AppPreferences.dataStore.edit { preferences ->
-                        preferences[AppPreferences.PreferenceKeys.DAILY_GOAL_TARGET] = target
-                    }
-                    updateNotification()
+        val target = text.toIntOrNull() ?: 0
+
+        if (target >= 0) {
+            lifecycleScope.launch {
+                AppPreferences.dataStore.edit { preferences ->
+                    preferences[AppPreferences.PreferenceKeys.DAILY_GOAL_TARGET] = target
                 }
+                updateNotification()
             }
-        } catch (_: Exception) {
         }
     }
 
@@ -140,13 +140,38 @@ class DailyGoalsActivity : AppCompatActivity() {
         val encouragingNotifications = AppPreferences.encouragingNotifications
         val dailyGoalChartLine = AppPreferences.dailyGoalChartLine
 
-        findViewById<MaterialSwitch>(R.id.notification_switch).isChecked = notificationEnabled
-        findViewById<MaterialSwitch>(R.id.notification_progressbar_switch).isChecked = notificationProgressbar
-        findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications).isChecked = encouragingNotifications
-        findViewById<MaterialSwitch>(R.id.goal_chart_line_switch).isChecked = dailyGoalChartLine
+        val notificationSwitch = findViewById<MaterialSwitch>(R.id.notification_switch)
+        val progressSwitch = findViewById<MaterialSwitch>(R.id.notification_progressbar_switch)
+        val encouragingSwitch = findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications)
+        val chartSwitch = findViewById<MaterialSwitch>(R.id.goal_chart_line_switch)
+
+        notificationSwitch.isChecked = notificationEnabled
+        progressSwitch.isChecked = notificationProgressbar
+        encouragingSwitch.isChecked = encouragingNotifications
+        chartSwitch.isChecked = dailyGoalChartLine
 
         val dailyTarget = AppPreferences.dailyGoalTarget
-        findViewById<TextInputEditText>(R.id.goal_target_input).setText(dailyTarget.toString())
+        val input = findViewById<TextInputEditText>(R.id.goal_target_input)
+        input.setText(dailyTarget.toString())
+
+        updateSwitchesState(dailyTarget)
+
+        input.addTextChangedListener {
+            val value = it.toString().toIntOrNull() ?: 0
+            updateSwitchesState(value)
+        }
+    }
+
+    private fun updateSwitchesState(dailyTarget: Int) {
+        val enabled = dailyTarget != 0
+
+        val switchContainer = findViewById<LinearLayout>(R.id.switches_container)
+        switchContainer.alpha = if (enabled) 1f else 0.4f
+
+        findViewById<MaterialSwitch>(R.id.notification_switch).isEnabled = enabled
+        findViewById<MaterialSwitch>(R.id.notification_progressbar_switch).isEnabled = enabled
+        findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications).isEnabled = enabled
+        findViewById<MaterialSwitch>(R.id.goal_chart_line_switch).isEnabled = enabled
     }
 
     private fun updateNotification() {

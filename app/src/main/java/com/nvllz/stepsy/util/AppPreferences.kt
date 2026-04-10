@@ -247,7 +247,7 @@ object AppPreferences {
 
     // Daily Goal Target
     fun dailyGoalTargetFlow(): Flow<Int> = dataStore.data.map {
-        it[PreferenceKeys.DAILY_GOAL_TARGET] ?: 0
+        it[PreferenceKeys.DAILY_GOAL_TARGET] ?: 10000
     }
 
     var dailyGoalTarget: Int

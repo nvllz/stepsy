@@ -282,7 +282,7 @@ internal class MotionService : Service() {
             .setAutoCancel(false)
             .addAction(R.drawable.ic_notification, getString(R.string.action_pause), pausePendingIntent)
             .apply {
-                if (showProgressbar) {
+                if (showProgressbar && dailyTarget > 0) {
                     val progress = stepGoalPercentage.coerceIn(0, 100)
                     if (progress < 100) {
                         setContentTitle(notificationTitleProgress)
