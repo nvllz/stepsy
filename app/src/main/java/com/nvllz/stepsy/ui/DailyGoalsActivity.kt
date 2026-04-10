@@ -111,7 +111,7 @@ class DailyGoalsActivity : AppCompatActivity() {
     private fun saveGoalTargetIfValid(text: String) {
         try {
             val target = text.toInt()
-            if (target > 0) {
+            if (target >= 0) {
                 lifecycleScope.launch {
                     AppPreferences.dataStore.edit { preferences ->
                         preferences[AppPreferences.PreferenceKeys.DAILY_GOAL_TARGET] = target
@@ -141,7 +141,7 @@ class DailyGoalsActivity : AppCompatActivity() {
         intent.action = "UPDATE_NOTIFICATION"
 
         intent.putExtra("show_progressbar", findViewById<MaterialSwitch>(R.id.notification_progressbar_switch).isChecked)
-        intent.putExtra("daily_target", findViewById<TextInputEditText>(R.id.goal_target_input).text.toString().toIntOrNull() ?: 10000)
+        intent.putExtra("daily_target", findViewById<TextInputEditText>(R.id.goal_target_input).text.toString().toIntOrNull() ?: 0)
 
         startService(intent)
     }

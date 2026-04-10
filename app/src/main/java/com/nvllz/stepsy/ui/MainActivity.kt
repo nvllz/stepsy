@@ -1063,14 +1063,18 @@ internal class MainActivity : AppCompatActivity() {
                 dailyGoalTarget.toString()
             }
 
-            val goalText = getString(
-                R.string.goal_streak_dead_line,
-                resources.getQuantityString(
-                    R.plurals.steps_formatted,
-                    dailyGoalTarget,
-                    dailyGoalTargetFormatted
+            val goalText = if (dailyGoalTarget > 0) {
+                getString(
+                    R.string.goal_streak_dead_line,
+                    resources.getQuantityString(
+                        R.plurals.steps_formatted,
+                        dailyGoalTarget,
+                        dailyGoalTargetFormatted
+                    )
                 )
-            )
+            } else {
+                ""
+            }
             textDailyGoalStreak.text = goalText
 
             textDailyGoalStreak.setTypeface(null, Typeface.NORMAL)
