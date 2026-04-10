@@ -99,6 +99,9 @@
     <string name="import_data">Importuj</string>
     <string name="import_data_summary">Przywróć dane kroków z pliku</string>
     <string name="next_backup_scheduled">Następna automatyczna kopia zapasowa\n%1$s o %2$s</string>
+    <string name="import_invalid_file">Ten plik jest nieprawidłowy</string>
+    <string name="import_warning_title">Import kroków z pliku</string>
+    <string name="import_warning_message">Spowoduje to usunięcie wszystkich bieżących danych i zastąpienie ich danymi z importu. Kontynuować?</string>
 
     <string name="header_about">Informacje o aplikacji</string>
     <string name="about_stepsy">O aplikacji</string>

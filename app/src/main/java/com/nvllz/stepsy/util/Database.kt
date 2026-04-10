@@ -12,6 +12,7 @@ import android.database.Cursor.*
 import android.util.Log
 import java.util.Calendar
 import java.util.TimeZone
+import androidx.core.database.sqlite.transaction
 
 internal class Database private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -77,25 +78,6 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         val values = ContentValues().apply {
             put("date", date)
             put("stepsy", steps)
-        }
-        if (writableDatabase.update(HISTORY_TABLE, values, "date = ?", arrayOf(date)) == 0) {
-            writableDatabase.insertOrThrow(HISTORY_TABLE, null, values)
-        }
-    }
-
-    /** Adds steps to any existing value for the given date, or inserts a new row. Used by import. */
-    internal fun mergeOrAddEntry(date: String, steps: Int) {
-        val existing = readableDatabase.query(
-            HISTORY_TABLE, arrayOf("stepsy"),
-            "date = ?", arrayOf(date),
-            null, null, null
-        )
-        val newSteps = if (existing.moveToFirst()) existing.getInt(0) + steps else steps
-        existing.close()
-
-        val values = ContentValues().apply {
-            put("date", date)
-            put("stepsy", newSteps)
         }
         if (writableDatabase.update(HISTORY_TABLE, values, "date = ?", arrayOf(date)) == 0) {
             writableDatabase.insertOrThrow(HISTORY_TABLE, null, values)
@@ -209,6 +191,19 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         db.execSQL("ALTER TABLE ${HISTORY_TABLE}_new RENAME TO $HISTORY_TABLE")
 
         Log.i(TAG, "Migration complete: $migrated rows migrated, $merged merged, $skipped skipped")
+    }
+
+    fun clearAllAndImport(entries: List<Pair<String, Int>>) {
+        writableDatabase.transaction {
+            execSQL("DELETE FROM $HISTORY_TABLE")
+            for ((date, steps) in entries) {
+                val values = ContentValues().apply {
+                    put("date", date)
+                    put("stepsy", steps)
+                }
+                insertOrThrow(HISTORY_TABLE, null, values)
+            }
+        }
     }
 
     internal class Entry(

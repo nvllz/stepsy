@@ -93,6 +93,9 @@
     <string name="import_data">İçe aktar</string>
     <string name="import_data_summary">Adım verilerini bir dosyadan geri yükle</string>
     <string name="next_backup_scheduled">Sonraki otomatik yedekleme\n%1$s - %2$s</string>
+    <string name="import_invalid_file">Bu dosya geçersiz</string>
+    <string name="import_warning_title">Adım verilerini değiştir</string>
+    <string name="import_warning_message">Bu işlem mevcut tüm adım verilerini siler ve içe aktarılan verilerle değiştirir. Devam edilsin mi?</string>
 
     <string name="header_about">Uygulama bilgisi</string>
     <string name="about_stepsy">Hakkında</string>

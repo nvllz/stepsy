@@ -96,6 +96,9 @@
     <string name="import_data">Importer</string>
     <string name="import_data_summary">Restaurer les données de pas à partir d\'un fichier</string>
     <string name="next_backup_scheduled">Prochaine sauvegarde automatique\n%1$s à %2$s</string>
+    <string name="import_invalid_file">Ce fichier n’est pas valide</string>
+    <string name="import_warning_title">Remplacer les données de pas</string>
+    <string name="import_warning_message">Toutes les données de pas actuelles seront supprimées et remplacées par celles importées. Continuer ?</string>
 
     <string name="header_about">Informations sur l\'application</string>
     <string name="about_stepsy">À propos</string>

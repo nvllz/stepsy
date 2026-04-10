@@ -93,6 +93,9 @@
     <string name="import_data">Importeren</string>
     <string name="import_data_summary">Herstel gegevens vanuit een bestand</string>
     <string name="next_backup_scheduled">Volgende automatische back-up\n%1$s om %2$s</string>
+    <string name="import_invalid_file">Dit bestand is ongeldig</string>
+    <string name="import_warning_title">Stapgegevens vervangen</string>
+    <string name="import_warning_message">Dit verwijdert alle huidige stapgegevens en vervangt ze door de geïmporteerde gegevens. Doorgaan?</string>
 
     <string name="header_about">App-info</string>
     <string name="about_stepsy">Over</string>

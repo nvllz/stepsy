@@ -93,6 +93,9 @@
     <string name="import_data">Importieren</string>
     <string name="import_data_summary">Schrittdaten aus einer Datei wiederherstellen</string>
     <string name="next_backup_scheduled">Nächstes automatisches Backup\n%1$s um %2$s</string>
+    <string name="import_invalid_file">Diese Datei ist ungültig</string>
+    <string name="import_warning_title">Schrittdaten ersetzen</string>
+    <string name="import_warning_message">Dabei werden alle aktuellen Schrittdaten gelöscht und durch die importierten ersetzt. Möchten Sie fortfahren?</string>
 
     <string name="header_about">App-Informationen</string>
     <string name="about_stepsy">Über</string>

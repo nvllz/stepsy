@@ -96,6 +96,9 @@
     <string name="import_data">Importar</string>
     <string name="import_data_summary">Restaurar datos de pasos desde un archivo</string>
     <string name="next_backup_scheduled">Próxima copia de seguridad automática\n%1$s a las %2$s</string>
+    <string name="import_invalid_file">Este archivo no es válido</string>
+    <string name="import_warning_title">Reemplazar datos de pasos</string>
+    <string name="import_warning_message">Esto eliminará todos los datos de pasos actuales y los reemplazará con los importados. ¿Deseas continuar?</string>
 
     <string name="header_about">Información de la app</string>
     <string name="about_stepsy">Acerca de</string>

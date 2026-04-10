@@ -25,6 +25,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
 import com.nvllz.stepsy.service.MotionService.Companion.KEY_DATE
@@ -88,7 +89,13 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
 
         importLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                result.data?.data?.let { uri -> importData(uri) }
+                result.data?.data?.let { uri ->
+                    if (isImportFileValid(uri)) {
+                        showImportWarningDialog(uri)
+                    } else {
+                        Toast.makeText(context, R.string.import_invalid_file, Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
 
@@ -221,12 +228,45 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun importData(uri: Uri) {
+    private fun isImportFileValid(uri: Uri): Boolean {
+        try {
+            requireContext().contentResolver.openFileDescriptor(uri, "r")?.use { pfd ->
+                FileInputStream(pfd.fileDescriptor).bufferedReader().use { reader ->
+                    for (line in reader.readLines()) {
+                        if (line.isBlank()) continue
+                        try {
+                            val split = line.split(",")
+                            if (split.size < 2) continue
+                            split[1].trim().toInt()
+                            parseImportDate(split[0].trim())
+                            return true
+                        } catch (_: Exception) { }
+                    }
+                }
+            }
+        } catch (_: Exception) {
+            return false
+        }
+        return false
+    }
+
+    private fun showImportWarningDialog(uri: Uri) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.import_warning_title)
+            .setMessage(R.string.import_warning_message)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                importDataWithClear(uri)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun importDataWithClear(uri: Uri) {
         val db = Database.getInstance(requireContext())
         val today = Util.todayDateString()
-        var importedTodaySteps = 0
-        var successCount = 0
+        val entries = mutableListOf<Pair<String, Int>>()
         var failed = 0
+        var importedTodaySteps = 0
 
         try {
             requireContext().contentResolver.openFileDescriptor(uri, "r")?.use { pfd ->
@@ -235,57 +275,55 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
                         if (line.isBlank()) continue
                         try {
                             val split = line.split(",")
-                            if (split.size < 2) {
-                                failed++
-                                continue
-                            }
-
+                            if (split.size < 2) { failed++; continue }
                             val steps = split[1].trim().toInt()
                             val dateStr = parseImportDate(split[0].trim())
-
-                            db.mergeOrAddEntry(dateStr, steps)
-                            successCount++
-
-                            if (dateStr == today) {
-                                importedTodaySteps += steps
-                            }
+                            entries.add(dateStr to steps)
+                            if (dateStr == today) importedTodaySteps += steps
                         } catch (ex: Exception) {
-                            Log.e(TAG, "Cannot import line: $line", ex)
+                            Log.e(TAG, "Cannot parse line", ex)
                             failed++
                         }
                     }
                 }
             }
-
-            if (importedTodaySteps > 0 && importedTodaySteps > AppPreferences.steps) {
-                lifecycleScope.launch {
-                    AppPreferences.dataStore.edit { preferences ->
-                        preferences[AppPreferences.PreferenceKeys.STEPS] = importedTodaySteps
-                        preferences[AppPreferences.PreferenceKeys.DATE] = today
-                    }
-
-                    requireContext().startService(
-                        Intent(requireContext(), MotionService::class.java).apply {
-                            putExtra("FORCE_UPDATE", true)
-                            putExtra(KEY_STEPS, importedTodaySteps)
-                            putExtra(KEY_DATE, today)
-                        }
-                    )
-                }
-            }
-
-            val todayNote = if (importedTodaySteps > 0 && importedTodaySteps > AppPreferences.steps) {
-                getString(R.string.today_steps_set, importedTodaySteps)
-            } else {
-                ""
-            }
-            Toast.makeText(context, getString(R.string.import_result, successCount, failed, todayNote), Toast.LENGTH_LONG).show()
-
-            restartApp()
         } catch (ex: Exception) {
             Log.e(TAG, "Cannot open file", ex)
-            Toast.makeText(context, getString(R.string.cannot_open_file), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.cannot_open_file, Toast.LENGTH_SHORT).show()
+            return
         }
+
+        try {
+            db.clearAllAndImport(entries)
+        } catch (ex: Exception) {
+            Log.e(TAG, "Atomic import failed", ex)
+            Toast.makeText(context, R.string.cannot_open_file, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        lifecycleScope.launch {
+            AppPreferences.dataStore.edit { preferences ->
+                preferences[AppPreferences.PreferenceKeys.STEPS] = importedTodaySteps
+                preferences[AppPreferences.PreferenceKeys.DATE] = today
+            }
+            requireContext().startService(
+                Intent(requireContext(), MotionService::class.java).apply {
+                    putExtra("FORCE_UPDATE", true)
+                    putExtra(KEY_STEPS, importedTodaySteps)
+                    putExtra(KEY_DATE, today)
+                }
+            )
+        }
+
+        val todayNote = if (importedTodaySteps > 0)
+            getString(R.string.today_steps_set, importedTodaySteps) else ""
+        Toast.makeText(
+            context,
+            getString(R.string.import_result, entries.size, failed, todayNote),
+            Toast.LENGTH_LONG
+        ).show()
+
+        restartApp()
     }
 
     private fun parseImportDate(raw: String): String {
@@ -348,7 +386,7 @@ class BackupPreferenceFragment : PreferenceFragmentCompat() {
         exportLauncher.launch(intent)
     }
 
-    private suspend fun exportToUri(uri: Uri) {
+    private fun exportToUri(uri: Uri) {
         val db = Database.getInstance(requireContext())
 
         try {

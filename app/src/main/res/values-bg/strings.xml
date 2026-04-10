@@ -93,6 +93,9 @@
     <string name="import_data">Внасяне</string>
     <string name="import_data_summary">Възстановяване от файл</string>
     <string name="next_backup_scheduled">Следващо автом. резервно копие\n%1$s в %2$s</string>
+    <string name="import_invalid_file">Файлът е невалиден</string>
+    <string name="import_warning_title">Замяна на данните за стъпки</string>
+    <string name="import_warning_message">Това ще изтрие всички текущи данни за стъпки и ще ги замени с импортираните. Да продължи ли?</string>
 
     <string name="header_about">Информация за приложението</string>
     <string name="about_stepsy">Относно</string>

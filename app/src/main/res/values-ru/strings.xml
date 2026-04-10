@@ -99,6 +99,9 @@
     <string name="import_data">Импорт</string>
     <string name="import_data_summary">Восстановить данные шагов из файла</string>
     <string name="next_backup_scheduled">Следующее автоматическое резервное копирование\n%1$s в %2$s</string>
+    <string name="import_invalid_file">Этот файл недействителен</string>
+    <string name="import_warning_title">Заменить данные шагов</string>
+    <string name="import_warning_message">Все текущие данные шагов будут удалены и заменены импортированными. Продолжить?</string>
 
     <string name="header_about">Информация о приложении</string>
     <string name="about_stepsy">О программе</string>

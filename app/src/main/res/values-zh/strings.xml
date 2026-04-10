@@ -90,6 +90,9 @@
     <string name="import_data">导入</string>
     <string name="import_data_summary">从文件中恢复步数数据</string>
     <string name="next_backup_scheduled">下一次自动备份\n%1$s %2$s</string>
+    <string name="import_invalid_file">该文件无效</string>
+    <string name="import_warning_title">替换步数数据</string>
+    <string name="import_warning_message">这将删除当前所有步数数据，并用导入的数据替换。是否继续？</string>
 
     <string name="header_about">应用信息</string>
     <string name="about_stepsy">关于应用</string>

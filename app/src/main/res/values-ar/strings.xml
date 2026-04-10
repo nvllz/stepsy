@@ -103,6 +103,10 @@
     <string name="import_data">استيراد</string>
     <string name="import_data_summary">استعادة بيانات الخطوات من ملف</string>
     <string name="next_backup_scheduled">النسخ الاحتياطي التلقائي القادم\n%1$s في %2$s</string>
+    <string name="import_invalid_file">هذا الملف غير صالح</string>
+    <string name="import_warning_title">استبدال بيانات الخطوات</string>
+    <string name="import_warning_message">سيؤدي هذا إلى حذف جميع بيانات الخطوات الحالية واستبدالها بالبيانات المستوردة. هل تريد المتابعة؟</string>
+
     <string name="header_about">عن التطبيق</string>
     <string name="about_stepsy">حول</string>
     <string name="about_version">الإصدار</string>
