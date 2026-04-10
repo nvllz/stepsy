@@ -1,0 +1,16 @@
+This one is big. I've made sure this update doesn't wipe your step data, but better safe than sorry. I recommend exporting your step history before updating. Don't worry if step count for some days get altered; this version aims to fix timezone and Daylight Saving Time problems, and it will fix displaced data chunks for some.
+
+New:
+- Daily Goal line on chart (optional)
+
+Changes:
+- Daily Goal can be disabled (set to 0)
+- Data import will now clear all stored step data first – previously it merged steps for day conflicts
+- Several minor changes
+
+Fixes:
+- Reworked internal data handling: step count is now assigned to a YEAR-MONTH-DAY string instead of the previously used timestamp; this also affects future exports which will no longer be compatible with MotionMate and older versions of Stepsy
+- Manual and auto export reliability fixes
+- Several small visual inconsistencies
+
+Don't forget to star the project on Github!
