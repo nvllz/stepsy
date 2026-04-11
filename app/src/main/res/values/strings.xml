@@ -200,4 +200,5 @@
     <string name="pause_indefinitely">Until I turn back on</string>
     <string name="step_counting_paused_until">Step counting paused until %s</string>
     <string name="step_counting_resumed_auto">Step counting resumed automatically</string>
+    <string name="vehicle_filter_unavailable_foss">More accurate step recognition using Google Play Services API, available in the full build only. You can get it on Github (github.com/nvllz/stepsy)</string>
 </resources>

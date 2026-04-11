@@ -37,8 +37,7 @@ import com.nvllz.stepsy.util.AppPreferences
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import androidx.preference.SwitchPreferenceCompat
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
+import com.nvllz.stepsy.service.isPlayServicesAvailable
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -261,35 +260,40 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             findPreference<SwitchPreferenceCompat>("vehicle_filter_enabled")?.apply {
+
+                val isFullBuild = BuildConfig.HAS_PROPRIETARY_LIBRARIES
+
+                isEnabled = isFullBuild
                 isChecked = AppPreferences.vehicleFilterEnabled
+
+                if (!isFullBuild) {
+                    summary = getString(R.string.vehicle_filter_unavailable_foss)
+                    isChecked = false
+                }
 
                 setOnPreferenceChangeListener { _, newValue ->
                     val enabled = newValue as Boolean
 
                     if (enabled) {
-                        val gps = GoogleApiAvailability.getInstance()
-                        if (gps.isGooglePlayServicesAvailable(requireContext()) != ConnectionResult.SUCCESS) {
+                        if (!isPlayServicesAvailable(requireContext())) {
                             Toast.makeText(
                                 requireContext(),
                                 R.string.vehicle_filter_unavailable,
                                 Toast.LENGTH_LONG
                             ).show()
+
                             isChecked = false
+
                             lifecycleScope.launch {
                                 AppPreferences.dataStore.edit { prefs ->
                                     prefs[AppPreferences.PreferenceKeys.VEHICLE_FILTER_ENABLED] = false
                                 }
                             }
+
                             return@setOnPreferenceChangeListener false
                         }
                     }
 
-                    lifecycleScope.launch {
-                        AppPreferences.dataStore.edit { prefs ->
-                            prefs[AppPreferences.PreferenceKeys.VEHICLE_FILTER_ENABLED] = enabled
-                        }
-                        restartMotionService(requireContext())
-                    }
                     true
                 }
             }
