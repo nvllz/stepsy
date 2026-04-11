@@ -45,6 +45,7 @@ object AppPreferences {
         val FIRST_DAY_OF_WEEK = stringPreferencesKey("first_day_of_week")
         val APP_VERSION_CODE = intPreferencesKey("app_version_code")
         val ALERTDIALOG_LAST_VERSION_CODE = intPreferencesKey("alertdialog_last")
+        val VEHICLE_FILTER_ENABLED = booleanPreferencesKey("vehicle_filter_enabled")
 
         val BACKUP_LOCATION_URI = stringPreferencesKey("backup_location_uri")
         val BACKUP_FREQUENCY = stringPreferencesKey("backup_frequency")
@@ -288,6 +289,17 @@ object AppPreferences {
         set(value) = runBlocking {
             dataStore.edit { it[PreferenceKeys.DAILY_GOAL_CHART_LINE] = value }
         }
+
+    // Vehicle filter
+     fun vehicleFilterEnabledFlow(): Flow<Boolean> = dataStore.data.map {
+         it[PreferenceKeys.VEHICLE_FILTER_ENABLED] ?: true
+     }
+
+     var vehicleFilterEnabled: Boolean
+         get() = runBlocking { vehicleFilterEnabledFlow().first() }
+         set(value) = runBlocking {
+             dataStore.edit { it[PreferenceKeys.VEHICLE_FILTER_ENABLED] = value }
+         }
 
     @OptIn(DelicateCoroutinesApi::class)
     fun welcomeDialog(context: Context) {

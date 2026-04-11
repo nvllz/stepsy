@@ -36,6 +36,9 @@ import com.nvllz.stepsy.BuildConfig
 import com.nvllz.stepsy.util.AppPreferences
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
+import androidx.preference.SwitchPreferenceCompat
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -255,6 +258,40 @@ class SettingsActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
                 true
+            }
+
+            findPreference<SwitchPreferenceCompat>("vehicle_filter_enabled")?.apply {
+                isChecked = AppPreferences.vehicleFilterEnabled
+
+                setOnPreferenceChangeListener { _, newValue ->
+                    val enabled = newValue as Boolean
+
+                    if (enabled) {
+                        val gps = GoogleApiAvailability.getInstance()
+                        if (gps.isGooglePlayServicesAvailable(requireContext()) != ConnectionResult.SUCCESS) {
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.vehicle_filter_unavailable,
+                                Toast.LENGTH_LONG
+                            ).show()
+                            isChecked = false
+                            lifecycleScope.launch {
+                                AppPreferences.dataStore.edit { prefs ->
+                                    prefs[AppPreferences.PreferenceKeys.VEHICLE_FILTER_ENABLED] = false
+                                }
+                            }
+                            return@setOnPreferenceChangeListener false
+                        }
+                    }
+
+                    lifecycleScope.launch {
+                        AppPreferences.dataStore.edit { prefs ->
+                            prefs[AppPreferences.PreferenceKeys.VEHICLE_FILTER_ENABLED] = enabled
+                        }
+                        restartMotionService(requireContext())
+                    }
+                    true
+                }
             }
 
             findPreference<Preference>("about")?.setOnPreferenceClickListener {

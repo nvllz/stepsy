@@ -31,7 +31,19 @@
             android:inputType="number"
             app:useSimpleSummaryProvider="true"
             app:icon="@drawable/ic_weight" />
-</PreferenceCategory>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/header_general"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:key="vehicle_filter_enabled"
+            android:title="@string/pref_vehicle_filter_title"
+            android:summary="@string/pref_vehicle_filter_summary"
+            android:defaultValue="false"
+            app:icon="@drawable/ic_car"/>
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/header_appearance"

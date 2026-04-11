@@ -51,6 +51,7 @@ internal class MotionService : Service() {
     private lateinit var mNotificationManager: NotificationManager
     private var isCountingPaused = false
     private var goalReachedToday = false
+    private lateinit var activityRecognitionManager: ActivityRecognitionManager
     private var timedPauseHandler = Handler(Looper.getMainLooper())
     private var timedPauseRunnable: Runnable? = null
 
@@ -110,6 +111,9 @@ internal class MotionService : Service() {
             Toast.makeText(this, getString(R.string.no_activity_permission), Toast.LENGTH_LONG).show()
             stopSelf()
         }
+
+        activityRecognitionManager = ActivityRecognitionManager(this)
+        activityRecognitionManager.start()
     }
 
     private val handler = Handler(Looper.getMainLooper())
@@ -125,8 +129,11 @@ internal class MotionService : Service() {
             }
 
             val delta = value - mLastSteps
-            mTodaysSteps += delta
             mLastSteps = value
+            if (AppPreferences.vehicleFilterEnabled && activityRecognitionManager.isInVehicle) {
+                return
+            }
+            mTodaysSteps += delta
 
             val target = AppPreferences.dailyGoalTarget
             if (target > 0 && mTodaysSteps >= target && !goalReachedToday) {
@@ -543,6 +550,7 @@ internal class MotionService : Service() {
     override fun onDestroy() {
         stopTimedPauseMonitoring()
         MidnightResetReceiver.cancelMidnightAlarm(this)
+        if (::activityRecognitionManager.isInitialized) activityRecognitionManager.stop()
         super.onDestroy()
     }
 

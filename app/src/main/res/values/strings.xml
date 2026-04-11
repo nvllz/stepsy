@@ -72,6 +72,7 @@
     <string name="settings">Settings</string>
     <string name="header_personal_data">Personal data</string>
     <string name="header_appearance">Appearance</string>
+    <string name="header_general">General</string>
     <string name="header_data_backup">Backup</string>
 
     <string name="preference_system">System</string>
@@ -96,6 +97,9 @@
     <string name="import_invalid_file">This file is invalid</string>
     <string name="import_warning_title">Replace step data</string>
     <string name="import_warning_message">This will delete all current step data and replace it with imported data. Continue?</string>
+    <string name="pref_vehicle_filter_title">Filter vehicle steps</string>
+    <string name="pref_vehicle_filter_summary">Use Activity Recognition API to ignore steps when you\'re in a car, bus, or on a bike. Requires Google Play Services</string>
+    <string name="vehicle_filter_unavailable">Activity recognition is not available on this device</string>
 
     <string name="header_about">App info</string>
     <string name="about_stepsy">About</string>
