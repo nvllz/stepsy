@@ -199,5 +199,16 @@
                 android:resource="@xml/widget_plain_info" />
         </receiver>
 
+        <receiver
+            android:name=".api.StepsyControlReceiver"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.nvllz.stepsy.action.PAUSE" />
+                <action android:name="com.nvllz.stepsy.action.RESUME" />
+            </intent-filter>
+
+        </receiver>
+
     </application>
 </manifest>

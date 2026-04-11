@@ -552,8 +552,8 @@ internal class MotionService : Service() {
         internal const val KEY_STEPS = "STEPS"
         internal const val KEY_DATE = "DATE"
         internal const val KEY_IS_PAUSED = "IS_PAUSED"
-        internal const val ACTION_PAUSE_COUNTING = "ACTION_PAUSE_COUNTING"
-        internal const val ACTION_RESUME_COUNTING = "ACTION_RESUME_COUNTING"
+        internal const val ACTION_PAUSE_COUNTING = "com.nvllz.stepsy.action.PAUSE_COUNTING"
+        internal const val ACTION_RESUME_COUNTING = "com.nvllz.stepsy.action.RESUME_COUNTING"
         private const val FOREGROUND_ID = 3843
         private const val STEP_CHANNEL_ID = "com.nvllz.stepsy.STEP_CHANNEL_ID"
     }
