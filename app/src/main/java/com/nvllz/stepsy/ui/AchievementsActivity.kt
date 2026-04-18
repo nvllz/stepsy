@@ -126,7 +126,7 @@ class AchievementsActivity : AppCompatActivity() {
             val dateView = findViewById<TextView>(dayIds[i].second)
             if (entry != null) {
                 valueView.text = formatStepsWithDistance(entry.steps)
-                dateView.text = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(entry.timestamp))
+                dateView.text = dateFormat.format(Date(entry.timestamp))
             } else {
                 valueView.text = noData
                 dateView.text = ""
