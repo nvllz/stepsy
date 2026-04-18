@@ -222,87 +222,6 @@
                 android:letterSpacing="0.05"/>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/pref_vehicle_filter_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="0dp"
-                app:cardBackgroundColor="@color/colorBackground"
-                android:layout_marginBottom="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp">
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_car"
-                        app:tint="@color/colorOnSurface"
-                        android:layout_marginEnd="16dp"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/pref_vehicle_filter_title"
-                            android:textColor="@color/colorOnSurface"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/open_sans_family"/>
-
-                        <TextView
-                            android:id="@+id/pref_vehicle_filter_summary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/pref_vehicle_filter_summary"
-                            android:textColor="@color/colorOnSurface"
-                            android:alpha="0.6"
-                            android:textSize="13sp"
-                            android:fontFamily="@font/open_sans_family"/>
-
-                    </LinearLayout>
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/pref_vehicle_filter_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:checked="false"
-                        app:thumbTint="@color/colorOnPrimary"
-                        app:trackTint="@color/colorPrimary"
-                        app:rippleColor="@color/colorAccent"
-                        app:thumbIcon="@drawable/thumb_icon_selector"
-                        app:thumbIconTint="@color/colorPrimary"/>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/header_appearance"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:fontFamily="@font/open_sans_family"
-                android:textStyle="bold"
-                android:letterSpacing="0.05"/>
-
-            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="16dp"
@@ -316,23 +235,20 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/pref_language"
+                        android:id="@+id/pref_vehicle_filter_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp">
 
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:src="@drawable/ic_language"
+                            android:src="@drawable/ic_car"
                             app:tint="@color/colorOnSurface"
                             android:layout_marginEnd="16dp"/>
 
@@ -345,15 +261,16 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/app_language"
+                                android:text="@string/pref_vehicle_filter_title"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
                                 android:fontFamily="@font/open_sans_family"/>
 
                             <TextView
-                                android:id="@+id/pref_language_summary"
+                                android:id="@+id/pref_vehicle_filter_summary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:text="@string/pref_vehicle_filter_summary"
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
@@ -361,75 +278,17 @@
 
                         </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/colorOnSurface"
-                            android:alpha="0.4"/>
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="60dp"
-                        android:layout_marginEnd="20dp"
-                        android:background="@color/colorOnSurface"
-                        android:alpha="0.08"/>
-
-                    <LinearLayout
-                        android:id="@+id/pref_theme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_theme"
-                            app:tint="@color/colorOnSurface"
-                            android:layout_marginEnd="16dp"/>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/pref_vehicle_filter_switch"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/theme"
-                                android:textColor="@color/colorOnSurface"
-                                android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
-
-                            <TextView
-                                android:id="@+id/pref_theme_summary"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/colorOnSurface"
-                                android:alpha="0.6"
-                                android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/colorOnSurface"
-                            android:alpha="0.4"/>
+                            android:layout_marginStart="16dp"
+                            android:checked="false"
+                            app:thumbTint="@color/colorOnPrimary"
+                            app:trackTint="@color/colorPrimary"
+                            app:rippleColor="@color/colorAccent"
+                            app:thumbIcon="@drawable/thumb_icon_selector"
+                            app:thumbIconTint="@color/colorPrimary"/>
 
                     </LinearLayout>
 
@@ -604,6 +463,154 @@
 
                             <TextView
                                 android:id="@+id/pref_first_day_summary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOnSurface"
+                                android:alpha="0.6"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/open_sans_family"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/colorOnSurface"
+                            android:alpha="0.4"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/header_appearance"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:fontFamily="@font/open_sans_family"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@color/colorBackground"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/pref_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_language"
+                            app:tint="@color/colorOnSurface"
+                            android:layout_marginEnd="16dp"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/app_language"
+                                android:textColor="@color/colorOnSurface"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/open_sans_family"/>
+
+                            <TextView
+                                android:id="@+id/pref_language_summary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOnSurface"
+                                android:alpha="0.6"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/open_sans_family"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/colorOnSurface"
+                            android:alpha="0.4"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@color/colorOnSurface"
+                        android:alpha="0.08"/>
+
+                    <LinearLayout
+                        android:id="@+id/pref_theme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_theme"
+                            app:tint="@color/colorOnSurface"
+                            android:layout_marginEnd="16dp"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/theme"
+                                android:textColor="@color/colorOnSurface"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/open_sans_family"/>
+
+                            <TextView
+                                android:id="@+id/pref_theme_summary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorOnSurface"

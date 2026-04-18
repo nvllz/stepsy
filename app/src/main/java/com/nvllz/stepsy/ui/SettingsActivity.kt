@@ -162,9 +162,9 @@ class SettingsActivity : AppCompatActivity() {
 
         val isFullBuild = BuildConfig.HAS_PROPRIETARY_LIBRARIES
         val hasPlayServices = isFullBuild && isPlayServicesAvailable(this)
-        vehicleFilterSwitch.isEnabled = hasPlayServices
+        vehicleFilterSwitch.isEnabled = isFullBuild
         vehicleFilterProgrammatic = true
-        vehicleFilterSwitch.isChecked = hasPlayServices && AppPreferences.vehicleFilterEnabled
+        vehicleFilterSwitch.isChecked = isFullBuild && hasPlayServices && AppPreferences.vehicleFilterEnabled
         vehicleFilterProgrammatic = false
         vehicleFilterSummary.text = if (!isFullBuild) {
             getString(R.string.pref_vehicle_filter_summary_foss)
@@ -174,12 +174,6 @@ class SettingsActivity : AppCompatActivity() {
             getString(R.string.pref_vehicle_filter_summary)
         }
         vehicleFilterPrefCard.alpha = if (hasPlayServices) 1f else 0.4f
-        vehicleFilterSummary.text = if (!isFullBuild) {
-            getString(R.string.pref_vehicle_filter_summary_foss)
-        } else {
-            getString(R.string.pref_vehicle_filter_summary)
-        }
-        vehicleFilterPrefCard.alpha = if (isFullBuild) 1f else 0.4f
     }
 
     private fun refreshPersonalDataTitles() {
