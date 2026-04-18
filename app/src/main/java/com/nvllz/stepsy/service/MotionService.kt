@@ -53,6 +53,9 @@ internal class MotionService : Service() {
 
     private val pauseChannelId = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
     private val pauseNotificationId = 3844
+    private val notificationUpdateInterval: Long
+        get() = if (isBatterySavingEnabled(this)) 5_000L else 2_500L
+    private var lastNotificationUpdateTime: Long = 0
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -231,8 +234,12 @@ internal class MotionService : Service() {
             dismissPauseNotification()
         }
 
-        val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
-        mNotificationManager.notify(FOREGROUND_ID, builder.build())
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastNotificationUpdateTime >= notificationUpdateInterval) {
+            val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
+            mNotificationManager.notify(FOREGROUND_ID, builder.build())
+            lastNotificationUpdateTime = currentTime
+        }
 
         sendBundleUpdate(isCountingPaused)
     }
