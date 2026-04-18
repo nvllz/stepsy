@@ -28,7 +28,7 @@ object GoalNotificationWorker {
         val channel = NotificationChannel(
             DAILY_GOAL_CHANNEL_ID,
             context.getString(R.string.daily_goal_notifications),
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH
         ).apply {
             description = context.getString(R.string.daily_goal_notification_channel_desc)
         }
@@ -70,7 +70,7 @@ object GoalNotificationWorker {
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .build()
@@ -137,7 +137,7 @@ object GoalNotificationWorker {
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .build()

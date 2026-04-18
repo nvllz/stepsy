@@ -436,6 +436,12 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        vehicleFilterPrefCard.setOnClickListener {
+            if (vehicleFilterSwitch.isEnabled) {
+                vehicleFilterSwitch.performClick()
+            }
+        }
+
         vehicleFilterSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (vehicleFilterProgrammatic) return@setOnCheckedChangeListener
 
