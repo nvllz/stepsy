@@ -228,20 +228,18 @@ internal class MotionService : Service() {
 
         if (isCountingPaused) {
             sendPauseNotification()
-            sendBundleUpdate(isCountingPaused)
+            sendBundleUpdate(true)
             return
-        } else {
-            dismissPauseNotification()
         }
 
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastNotificationUpdateTime >= notificationUpdateInterval) {
             val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
-            mNotificationManager.notify(FOREGROUND_ID, builder.build())
+            startForeground(FOREGROUND_ID, builder.build())
             lastNotificationUpdateTime = currentTime
         }
 
-        sendBundleUpdate(isCountingPaused)
+        sendBundleUpdate(false)
     }
 
     private fun createStepsNotification(
@@ -326,11 +324,6 @@ internal class MotionService : Service() {
         } else {
             startForeground(pauseNotificationId, pauseNotification)
         }
-    }
-
-    private fun dismissPauseNotification() {
-        val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
-        startForeground(FOREGROUND_ID, builder.build())
     }
 
     fun isBatterySavingEnabled(context: Context): Boolean {
