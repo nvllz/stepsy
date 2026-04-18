@@ -161,10 +161,19 @@ class SettingsActivity : AppCompatActivity() {
         aboutSummary.text = "${getString(R.string.about_version)}: ${BuildConfig.VERSION_NAME}  •  GPL-3.0"
 
         val isFullBuild = BuildConfig.HAS_PROPRIETARY_LIBRARIES
-        vehicleFilterSwitch.isEnabled = isFullBuild
+        val hasPlayServices = isFullBuild && isPlayServicesAvailable(this)
+        vehicleFilterSwitch.isEnabled = hasPlayServices
         vehicleFilterProgrammatic = true
-        vehicleFilterSwitch.isChecked = isFullBuild && AppPreferences.vehicleFilterEnabled
+        vehicleFilterSwitch.isChecked = hasPlayServices && AppPreferences.vehicleFilterEnabled
         vehicleFilterProgrammatic = false
+        vehicleFilterSummary.text = if (!isFullBuild) {
+            getString(R.string.pref_vehicle_filter_summary_foss)
+        } else if (!hasPlayServices) {
+            getString(R.string.vehicle_filter_unavailable)
+        } else {
+            getString(R.string.pref_vehicle_filter_summary)
+        }
+        vehicleFilterPrefCard.alpha = if (hasPlayServices) 1f else 0.4f
         vehicleFilterSummary.text = if (!isFullBuild) {
             getString(R.string.pref_vehicle_filter_summary_foss)
         } else {
