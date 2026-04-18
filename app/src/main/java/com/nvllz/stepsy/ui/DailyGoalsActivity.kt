@@ -104,8 +104,15 @@ class DailyGoalsActivity : AppCompatActivity() {
                 AppPreferences.dataStore.edit { preferences ->
                     preferences[AppPreferences.PreferenceKeys.ENCOURAGING_NOTIFICATIONS] = isChecked
                 }
-                GoalNotificationWorker.showEncouragingNotification(applicationContext,
-                    AppPreferences.dailyGoalTarget, AppPreferences.steps)
+                if (isChecked) {
+                    GoalNotificationWorker.resetEncouragingNotificationFlags()
+                }
+                GoalNotificationWorker.showEncouragingNotification(
+                    applicationContext,
+                    AppPreferences.dailyGoalTarget,
+                    AppPreferences.steps,
+                    demo = true
+                )
             }
         }
 

@@ -83,17 +83,19 @@ object GoalNotificationWorker {
         }
     }
 
-    fun showEncouragingNotification(context: Context, target: Int, currentSteps: Int) {
+    fun showEncouragingNotification(context: Context, target: Int, currentSteps: Int, demo: Boolean = false) {
         if (!AppPreferences.encouragingNotifications || target <= 0) return
 
         val progressPercentage = (currentSteps.toFloat() / target * 100).toInt()
-        if (progressPercentage >= 100) { return }
+        if (progressPercentage >= 100) return
 
         if (progressPercentage >= 75 && !shown75PercentNotification) {
             shown75PercentNotification = true
             sendEncouragingNotification(context, target, currentSteps, progressPercentage, true)
         } else if (progressPercentage >= 15 && !shown15PercentNotification) {
             shown15PercentNotification = true
+            sendEncouragingNotification(context, target, currentSteps, progressPercentage, false)
+        } else if (demo) {
             sendEncouragingNotification(context, target, currentSteps, progressPercentage, false)
         }
     }
