@@ -166,7 +166,7 @@ class SettingsActivity : AppCompatActivity() {
         vehicleFilterSwitch.isChecked = isFullBuild && AppPreferences.vehicleFilterEnabled
         vehicleFilterProgrammatic = false
         vehicleFilterSummary.text = if (!isFullBuild) {
-            getString(R.string.vehicle_filter_unavailable_foss)
+            getString(R.string.pref_vehicle_filter_summary_foss)
         } else {
             getString(R.string.pref_vehicle_filter_summary)
         }

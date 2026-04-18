@@ -3,8 +3,8 @@
     <!-- Thème -->
     <string-array name="theme_entries">
         <item>@string/preference_system</item>
-        <item>Clair</item>
-        <item>Sombre</item>
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
     </string-array>
 
     <!-- Jours de la semaine -->

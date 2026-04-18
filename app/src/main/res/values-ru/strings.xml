@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d ккал</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Неделя %1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Нет данных за %1$s</string>
     <string name="calories">%1$d ккал</string>
     <string name="steps_month">Этот месяц</string>
@@ -77,9 +73,12 @@
     <string name="settings">Настройки</string>
     <string name="header_personal_data">Персональные данные</string>
     <string name="header_appearance">Внешний вид</string>
+    <string name="header_general">Общие</string>
     <string name="header_data_backup">Резервная копия</string>
 
     <string name="preference_system">Системная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
     <string name="pref_height">Рост</string>
     <string name="pref_step_length">Длина шага</string>
     <string name="pref_weight">Вес</string>
@@ -92,6 +91,7 @@
     <string name="backup_frequency">Частота автоматического резервного копирования</string>
     <string name="backup_retention_count">Количество хранимых резервных копий</string>
     <string name="backup_retention_hint">(0 — хранить все)</string>
+    <string name="backup_retention_unlimited">Без ограничений</string>
     <string name="backup_location">Место резервной копии</string>
     <string name="backup_location_not_set">Не задано</string>
     <string name="manual_backup">Резервное копирование вручную</string>
@@ -101,6 +101,10 @@
     <string name="import_invalid_file">Этот файл недействителен</string>
     <string name="import_warning_title">Заменить данные шагов</string>
     <string name="import_warning_message">Все текущие данные шагов будут удалены и заменены импортированными. Продолжить?</string>
+    <string name="pref_vehicle_filter_title">Точная фильтрация шагов</string>
+    <string name="pref_vehicle_filter_summary">Игнорируйте шаги в машине, автобусе или на велосипеде с помощью Activity Recognition API. Требуются сервисы Google Play.</string>
+    <string name="pref_vehicle_filter_summary_foss">Более точное распознавание через Google Play Services API, доступно только в полной версии. Скачайте на Github (github.com/nvllz/stepsy).</string>
+    <string name="vehicle_filter_unavailable">Activity Recognition API недоступно на этом устройстве</string>
 
     <string name="header_about">Информация о приложении</string>
     <string name="about_stepsy">О программе</string>
@@ -156,6 +160,9 @@
     <string name="most_steps_day">Максимум шагов за день</string>
     <string name="most_walked_month">Самый активный месяц</string>
     <string name="streak_record">Самая длинная серия из %1$s+ шагов</string>
+    <string name="top_3_days">Топ-3 дня</string>
+    <string name="best_week">Лучшая неделя</string>
+    <string name="avg_steps_per_day">В среднем за день</string>
     <string name="since_date">С %1$s</string>
 
     <!-- Daily Goal Notifications -->

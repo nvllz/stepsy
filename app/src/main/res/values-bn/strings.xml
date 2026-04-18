@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d কিলোক্যালরি</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">সপ্তাহ %1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">%1$s এর জন্য কোন রেকর্ড নেই</string>
     <string name="calories">%1$d কিলোক্যালরি</string>
     <string name="steps_month">এই মাসে</string>
@@ -71,9 +67,12 @@
     <string name="settings">সেটিংস</string>
     <string name="header_personal_data">ব্যক্তিগত তথ্য</string>
     <string name="header_appearance">অ্যাপের চেহারা</string>
+    <string name="header_general">সাধারণ</string>
     <string name="header_data_backup">ব্যাকআপ</string>
 
     <string name="preference_system">সিস্টেম</string>
+    <string name="theme_light">লাইট</string>
+    <string name="theme_dark">ডার্ক</string>
     <string name="pref_height">উচ্চতা</string>
     <string name="pref_step_length">পদক্ষেপের দৈর্ঘ্য</string>
     <string name="pref_weight">ওজন</string>
@@ -86,6 +85,7 @@
     <string name="backup_frequency">স্বয়ংক্রিয় ব্যাকআপের ফ্রিকোয়েন্সি</string>
     <string name="backup_retention_count">রাখার জন্য ব্যাকআপের সংখ্যা</string>
     <string name="backup_retention_hint">(সব রাখতে ০ দিন)</string>
+    <string name="backup_retention_unlimited">অসীম</string>
     <string name="backup_location">ব্যাকআপ লোকেশন</string>
     <string name="backup_location_not_set">নির্ধারিত নয়</string>
     <string name="manual_backup">ম্যানুয়াল ব্যাকআপ</string>
@@ -95,6 +95,10 @@
     <string name="import_invalid_file">এই ফাইলটি বৈধ নয়</string>
     <string name="import_warning_title">ধাপের ডেটা প্রতিস্থাপন করুন</string>
     <string name="import_warning_message">এতে বর্তমান সব ধাপের ডেটা মুছে যাবে এবং আমদানি করা ডেটা দিয়ে প্রতিস্থাপিত হবে। চালিয়ে যাবেন?</string>
+    <string name="pref_vehicle_filter_title">সঠিক ধাপ ফিল্টারিং</string>
+    <string name="pref_vehicle_filter_summary">গাড়ি, বাস বা বাইকে থাকাকালীন ধাপগুলো উপেক্ষা করতে অ্যাক্টিভিটি রিকগনিশন API ব্যবহার করুন। Google Play Services প্রয়োজন।</string>
+    <string name="pref_vehicle_filter_summary_foss">Google Play Services API ব্যবহার করে আরও নির্ভুল ধাপ শনাক্তকরণ, যা শুধুমাত্র ফুল বিল্ডে উপলব্ধ। এটি Github-এ পাবেন (github.com/nvllz/stepsy)।</string>
+    <string name="vehicle_filter_unavailable">অ্যাক্টিভিটি রিকগনিশন API এই ডিভাইসে উপলব্ধ নেই</string>
 
     <string name="header_about">অ্যাপ তথ্য</string>
     <string name="about_stepsy">সম্পর্কে</string>
@@ -150,6 +154,9 @@
     <string name="most_steps_day">সর্বোচ্চ পদক্ষেপ একদিনে</string>
     <string name="most_walked_month">সর্বাধিক সক্রিয় মাস</string>
     <string name="streak_record">সর্বাধিক ১০ %1$s+ পদক্ষেপের ধারাবাহিকতা</string>
+    <string name="top_3_days">সেরা ৩ দিন</string>
+    <string name="best_week">সেরা সপ্তাহ</string>
+    <string name="avg_steps_per_day">প্রতিদিন গড়ে</string>
     <string name="since_date">%1$s থেকে পর থেকে</string>
 
     <!-- Daily Goal Notifications -->

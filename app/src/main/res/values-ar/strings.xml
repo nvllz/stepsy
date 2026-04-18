@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d سعرة حرارية</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">الأسبوع %1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">لا يوجد سجل لـ %1$s</string>
     <string name="calories">%1$d سعرة حرارية</string>
     <string name="steps_month">هذا الشهر</string>
@@ -82,8 +78,12 @@
     <string name="settings">الإعدادات</string>
     <string name="header_personal_data">البيانات الشخصية</string>
     <string name="header_appearance">المظهر</string>
+    <string name="header_general">عام</string>
     <string name="header_data_backup">النسخ الاحتياطي</string>
+
     <string name="preference_system">النظام</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
     <string name="pref_height">الطول</string>
     <string name="pref_step_length">طول الخطوة</string>
     <string name="pref_weight">الوزن</string>
@@ -96,6 +96,7 @@
     <string name="backup_frequency">تكرار النسخ الاحتياطي التلقائي</string>
     <string name="backup_retention_count">عدد النسخ الاحتياطية للاحتفاظ بها</string>
     <string name="backup_retention_hint">(0 للاحتفاظ بالجميع)</string>
+    <string name="backup_retention_unlimited">غير محدود</string>
     <string name="backup_location">موقع النسخة الاحتياطية</string>
     <string name="backup_location_not_set">غير محدد</string>
     <string name="manual_backup">نسخ احتياطي يدوي</string>
@@ -105,6 +106,10 @@
     <string name="import_invalid_file">هذا الملف غير صالح</string>
     <string name="import_warning_title">استبدال بيانات الخطوات</string>
     <string name="import_warning_message">سيؤدي هذا إلى حذف جميع بيانات الخطوات الحالية واستبدالها بالبيانات المستوردة. هل تريد المتابعة؟</string>
+    <string name="pref_vehicle_filter_title">تصفية الخطوات بدقة</string>
+    <string name="pref_vehicle_filter_summary">استخدم واجهة برمجة تطبيقات النشاط لتجاهل الخطوات أثناء التواجد في سيارة أو حافلة أو دراجة. يتطلب خدمات Google Play</string>
+    <string name="pref_vehicle_filter_summary_foss">تعرف أكثر دقة على الخطوات باستخدام Google Play Services، متوفر فقط في الإصدار الكامل. يمكن الحصول عليه من Github (github.com/nvllz/stepsy)</string>
+    <string name="vehicle_filter_unavailable">واجهة برمجة تطبيقات التعرف على النشاط غير متوفرة على هذا الجهاز</string>
 
     <string name="header_about">عن التطبيق</string>
     <string name="about_stepsy">حول</string>
@@ -160,6 +165,9 @@
     <string name="most_steps_day">أكبر عدد خطوات في يوم واحد</string>
     <string name="most_walked_month">أكثر شهر نشاطًا</string>
     <string name="streak_record">أطول سلسلة تتجاوز %1$s خطوة</string>
+    <string name="top_3_days">أفضل 3 أيام</string>
+    <string name="best_week">أفضل أسبوع</string>
+    <string name="avg_steps_per_day">المتوسط يومياً</string>
     <string name="since_date">منذ %1$s</string>
 
     <!-- Daily Goal Notifications -->

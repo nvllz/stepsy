@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d 千卡</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">第 %1$d 周</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">%1$s 没有记录</string>
     <string name="calories">%1$d 千卡</string>
     <string name="steps_month">本月</string>
@@ -68,9 +64,12 @@
     <string name="settings">设置</string>
     <string name="header_personal_data">个人数据</string>
     <string name="header_appearance">外观</string>
+    <string name="header_general">常规</string>
     <string name="header_data_backup">备份</string>
 
     <string name="preference_system">系统</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
     <string name="pref_height">身高</string>
     <string name="pref_step_length">步长</string>
     <string name="pref_weight">体重</string>
@@ -83,6 +82,7 @@
     <string name="backup_frequency">自动备份频率</string>
     <string name="backup_retention_count">保留的备份数量</string>
     <string name="backup_retention_hint">(0 表示保留所有)</string>
+    <string name="backup_retention_unlimited">无限制</string>
     <string name="backup_location">备份位置</string>
     <string name="backup_location_not_set">未设置</string>
     <string name="manual_backup">手动备份</string>
@@ -92,6 +92,10 @@
     <string name="import_invalid_file">该文件无效</string>
     <string name="import_warning_title">替换步数数据</string>
     <string name="import_warning_message">这将删除当前所有步数数据，并用导入的数据替换。是否继续？</string>
+    <string name="pref_vehicle_filter_title">精确步数过滤</string>
+    <string name="pref_vehicle_filter_summary">使用活动识别 API 忽略在汽车、公交或骑行时的步数。需要 Google Play 服务。</string>
+    <string name="pref_vehicle_filter_summary_foss">通过 Google Play 服务 API 实现更精准的步数识别，仅限完整版。可在 Github 获取 (github.com/nvllz/stepsy)。</string>
+    <string name="vehicle_filter_unavailable">此设备不支持活动识别 API</string>
 
     <string name="header_about">应用信息</string>
     <string name="about_stepsy">关于应用</string>
@@ -147,6 +151,9 @@
     <string name="most_steps_day">单日最高步数</string>
     <string name="most_walked_month">最活跃的月份</string>
     <string name="streak_record">最长连续%1$s+步记录</string>
+    <string name="top_3_days">前 3 天</string>
+    <string name="best_week">最佳周</string>
+    <string name="avg_steps_per_day">日均步数</string>
     <string name="since_date">自 %1$s 起</string>
 
     <!-- Daily Goal Notifications -->

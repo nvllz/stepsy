@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Hafta %1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">%1$s için kayıt yok</string>
     <string name="calories">%1$d kcal</string>
     <string name="steps_month">Bu ay</string>
@@ -71,9 +67,12 @@
     <string name="settings">Ayarlar</string>
     <string name="header_personal_data">Kişisel veriler</string>
     <string name="header_appearance">Görünüm</string>
+    <string name="header_general">Genel</string>
     <string name="header_data_backup">Yedekleme</string>
 
     <string name="preference_system">Sistem varsayılanı</string>
+    <string name="theme_light">Açık</string>
+    <string name="theme_dark">Koyu</string>
     <string name="pref_height">Boy</string>
     <string name="pref_step_length">Adım uzunluğu</string>
     <string name="pref_weight">Kilo</string>
@@ -86,6 +85,7 @@
     <string name="backup_frequency">Otomatik yedekleme sıklığı</string>
     <string name="backup_retention_count">Saklanacak yedek sayısı</string>
     <string name="backup_retention_hint">(Tümünü saklamak için 0)</string>
+    <string name="backup_retention_unlimited">Sınırsız</string>
     <string name="backup_location">Yedekleme konumu</string>
     <string name="backup_location_not_set">Ayarlanmadı</string>
     <string name="manual_backup">Manuel yedekleme</string>
@@ -95,6 +95,10 @@
     <string name="import_invalid_file">Bu dosya geçersiz</string>
     <string name="import_warning_title">Adım verilerini değiştir</string>
     <string name="import_warning_message">Bu işlem mevcut tüm adım verilerini siler ve içe aktarılan verilerle değiştirir. Devam edilsin mi?</string>
+    <string name="pref_vehicle_filter_title">Hassas adım filtreleme</string>
+    <string name="pref_vehicle_filter_summary">Araba, otobüs veya bisikletteki adımları yoksaymak için Etkinlik Tanıma API\'sini kullanın. Google Play Hizmetleri gerektirir.</string>
+    <string name="pref_vehicle_filter_summary_foss">Google Play Hizmetleri API\'si ile daha doğru adım tanıma, yalnızca tam sürümde mevcuttur. Github\'dan edinebilirsiniz (github.com/nvllz/stepsy).</string>
+    <string name="vehicle_filter_unavailable">Etkinlik Tanıma API\'si bu cihazda kullanılamıyor</string>
 
     <string name="header_about">Uygulama bilgisi</string>
     <string name="about_stepsy">Hakkında</string>
@@ -150,6 +154,9 @@
     <string name="most_steps_day">En Fazla Günlük Adım</string>
     <string name="most_walked_month">En Hareketli Ay</string>
     <string name="streak_record">En Uzun %1$s+ Adım Serisi</string>
+    <string name="top_3_days">En iyi 3 gün</string>
+    <string name="best_week">En iyi hafta</string>
+    <string name="avg_steps_per_day">Günlük ortalama</string>
     <string name="since_date">%1$s tarihinden beri</string>
 
     <!-- Daily Goal Notifications -->

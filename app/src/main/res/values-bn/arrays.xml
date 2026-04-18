@@ -3,8 +3,8 @@
     <!-- Theme -->
     <string-array name="theme_entries">
         <item>@string/preference_system</item>
-        <item>হালকা</item>
-        <item>গাঢ়</item>
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
     </string-array>
 
     <!-- Weekdays -->

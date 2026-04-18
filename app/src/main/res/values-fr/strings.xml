@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Semaine %1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Aucun enregistrement pour %1$s</string>
     <string name="calories">%1$d kcal</string>
     <string name="steps_month">Ce mois-ci</string>
@@ -74,9 +70,12 @@
     <string name="settings">Paramètres</string>
     <string name="header_personal_data">Données personnelles</string>
     <string name="header_appearance">Apparence</string>
+    <string name="header_general">Général</string>
     <string name="header_data_backup">Sauvegarde</string>
 
     <string name="preference_system">Système</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
     <string name="pref_height">Taille</string>
     <string name="pref_step_length">Longueur du pas</string>
     <string name="pref_weight">Poids</string>
@@ -89,6 +88,7 @@
     <string name="backup_frequency">Fréquence des sauvegardes automatiques</string>
     <string name="backup_retention_count">Nombre de sauvegardes à conserver</string>
     <string name="backup_retention_hint">(0 pour tout conserver)</string>
+    <string name="backup_retention_unlimited">Illimité</string>
     <string name="backup_location">Emplacement de la sauvegarde</string>
     <string name="backup_location_not_set">Non défini</string>
     <string name="manual_backup">Sauvegarde manuelle</string>
@@ -98,6 +98,10 @@
     <string name="import_invalid_file">Ce fichier n’est pas valide</string>
     <string name="import_warning_title">Remplacer les données de pas</string>
     <string name="import_warning_message">Toutes les données de pas actuelles seront supprimées et remplacées par celles importées. Continuer ?</string>
+    <string name="pref_vehicle_filter_title">Filtrage précis des pas</string>
+    <string name="pref_vehicle_filter_summary">Utilisez l\'API Activity Recognition pour ignorer les pas en voiture, bus ou vélo. Nécessite les services Google Play.</string>
+    <string name="pref_vehicle_filter_summary_foss">Reconnaissance des pas plus précise via l\'API Google Play Services, disponible uniquement sur la version complète. Voir sur Github (github.com/nvllz/stepsy).</string>
+    <string name="vehicle_filter_unavailable">L\'API Activity Recognition n\'est pas disponible sur cet appareil</string>
 
     <string name="header_about">Informations sur l\'application</string>
     <string name="about_stepsy">À propos</string>
@@ -153,6 +157,9 @@
     <string name="most_steps_day">Plus grand nombre de pas en un jour</string>
     <string name="most_walked_month">Mois le plus actif</string>
     <string name="streak_record">Plus longue série de %1$s+ pas</string>
+    <string name="top_3_days">Top 3 jours</string>
+    <string name="best_week">Meilleure semaine</string>
+    <string name="avg_steps_per_day">Moyenne par jour</string>
     <string name="since_date">Depuis le %1$s</string>
 
     <!-- Daily Goal Notifications -->

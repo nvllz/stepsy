@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Vecka%1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Ingen data för %1$s</string>
     <string name="calories">%1$d kcal</string>
     <string name="steps_month">Denna månad</string>
@@ -71,9 +67,12 @@
     <string name="settings">Inställningar</string>
     <string name="header_personal_data">Personlig data</string>
     <string name="header_appearance">Utseende</string>
+    <string name="header_general">Allmänt</string>
     <string name="header_data_backup">Säkerhetskopiering</string>
 
     <string name="preference_system">System</string>
+    <string name="theme_light">Ljust</string>
+    <string name="theme_dark">Mörkt</string>
     <string name="pref_height">Höjd</string>
     <string name="pref_step_length">Steglängd</string>
     <string name="pref_weight">Vikt</string>
@@ -86,6 +85,7 @@
     <string name="backup_frequency">Automatisk säkerhetskopieringsfrekvens</string>
     <string name="backup_retention_count">Antal säkerhetskopior att behålla</string>
     <string name="backup_retention_hint">(0 för att behålla alla)</string>
+    <string name="backup_retention_unlimited">Obegränsat</string>
     <string name="backup_location">Plats för säkerhetskopiering</string>
     <string name="backup_location_not_set">Ej angivet</string>
     <string name="manual_backup">Manuell säkerhetskopiering</string>
@@ -95,6 +95,10 @@
     <string name="import_invalid_file">Den här filen är ogiltig</string>
     <string name="import_warning_title">Ersätt stegdatan</string>
     <string name="import_warning_message">Detta tar bort all nuvarande stegdata och ersätter den med importerad data. Vill du fortsätta?</string>
+    <string name="pref_vehicle_filter_title">Noggrann stegfiltrering</string>
+    <string name="pref_vehicle_filter_summary">Använd Activity Recognition API för att ignorera steg i bil, buss eller på cykel. Kräver Google Play Services.</string>
+    <string name="pref_vehicle_filter_summary_foss">Mer exakt stegigenkänning via Google Play Services API, endast i den fullständiga versionen. Finns på Github (github.com/nvllz/stepsy).</string>
+    <string name="vehicle_filter_unavailable">Activity Recognition API är inte tillgängligt på denna enhet</string>
 
     <string name="header_about">Appinfo</string>
     <string name="about_stepsy">Om</string>
@@ -150,6 +154,9 @@
     <string name="most_steps_day">Högsta stegantal</string>
     <string name="most_walked_month">Mest aktiva månad</string>
     <string name="streak_record">Längsta serien med %1$s+ steg</string>
+    <string name="top_3_days">Topp 3 dagar</string>
+    <string name="best_week">Bästa veckan</string>
+    <string name="avg_steps_per_day">Snitt per dag</string>
     <string name="since_date">Sedan %1$s</string>
 
     <!-- Daily Goal Notifications -->

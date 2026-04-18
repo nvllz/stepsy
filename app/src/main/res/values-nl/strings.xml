@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Week %1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Geen gegevens voor %1$s</string>
     <string name="calories">%1$d kcal</string>
     <string name="steps_month">Deze maand</string>
@@ -71,9 +67,12 @@
     <string name="settings">Instellingen</string>
     <string name="header_personal_data">Persoonlijke gegevens</string>
     <string name="header_appearance">Uiterlijk</string>
+    <string name="header_general">Algemeen</string>
     <string name="header_data_backup">Back-up</string>
 
     <string name="preference_system">Systeeminstelling</string>
+    <string name="theme_light">Licht</string>
+    <string name="theme_dark">Donker</string>
     <string name="pref_height">Hoogte</string>
     <string name="pref_step_length">Staplengte</string>
     <string name="pref_weight">Gewicht</string>
@@ -86,6 +85,7 @@
     <string name="backup_frequency">Frequentie automatische back-ups</string>
     <string name="backup_retention_count">Aantal back-ups behouden</string>
     <string name="backup_retention_hint">(0 om alles te behouden)</string>
+    <string name="backup_retention_unlimited">Onbeperkt</string>
     <string name="backup_location">Back-uplocatie</string>
     <string name="backup_location_not_set">Niet ingesteld</string>
     <string name="manual_backup">Handmatige back-up</string>
@@ -95,6 +95,10 @@
     <string name="import_invalid_file">Dit bestand is ongeldig</string>
     <string name="import_warning_title">Stapgegevens vervangen</string>
     <string name="import_warning_message">Dit verwijdert alle huidige stapgegevens en vervangt ze door de geïmporteerde gegevens. Doorgaan?</string>
+    <string name="pref_vehicle_filter_title">Nauwkeurige stappenfilter</string>
+    <string name="pref_vehicle_filter_summary">Gebruik de Activity Recognition API om stappen in de auto, bus of op de fiets te negeren. Vereist Google Play Services.</string>
+    <string name="pref_vehicle_filter_summary_foss">Nauwkeurigere stapherkenning via Google Play Services API, alleen in de volledige build. Beschikbaar op Github (github.com/nvllz/stepsy).</string>
+    <string name="vehicle_filter_unavailable">Activity Recognition API is niet beschikbaar op dit apparaat</string>
 
     <string name="header_about">App-info</string>
     <string name="about_stepsy">Over</string>
@@ -150,6 +154,9 @@
     <string name="most_steps_day">Beste dag</string>
     <string name="most_walked_month">Meest actieve maand</string>
     <string name="streak_record">Langste reeks van %1$s+ stappen</string>
+    <string name="top_3_days">Beste 3 dagen</string>
+    <string name="best_week">Beste week</string>
+    <string name="avg_steps_per_day">Gemiddelde per dag</string>
     <string name="since_date">Sinds %1$s</string>
 
     <!-- Daily Goal Notifications -->

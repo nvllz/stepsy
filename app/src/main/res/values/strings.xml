@@ -99,9 +99,10 @@
     <string name="import_invalid_file">This file is invalid</string>
     <string name="import_warning_title">Replace step data</string>
     <string name="import_warning_message">This will delete all current step data and replace it with imported data. Continue?</string>
-    <string name="pref_vehicle_filter_title">Filter vehicle steps</string>
-    <string name="pref_vehicle_filter_summary">Use Activity Recognition API to ignore steps when you\'re in a car, bus, or on a bike. Requires Google Play Services</string>
-    <string name="vehicle_filter_unavailable">Activity recognition is not available on this device</string>
+    <string name="pref_vehicle_filter_title">Accurate steps filtering</string>
+    <string name="pref_vehicle_filter_summary">Use offline Activity Recognition API to ignore steps when you\'re in a car, bus, or on a bike. Requires Google Play Services</string>
+    <string name="pref_vehicle_filter_summary_foss">More accurate step recognition using Google Play Services API, available in the full build only. You can get it on Github (github.com/nvllz/stepsy)</string>
+    <string name="vehicle_filter_unavailable">Activity Recognition API is not available on this device</string>
 
     <string name="header_about">App info</string>
     <string name="about_stepsy">About</string>
@@ -205,5 +206,4 @@
     <string name="pause_indefinitely">Until I turn back on</string>
     <string name="step_counting_paused_until">Step counting paused until %s</string>
     <string name="step_counting_resumed_auto">Step counting resumed automatically</string>
-    <string name="vehicle_filter_unavailable_foss">More accurate step recognition using Google Play Services API, available in the full build only. You can get it on Github (github.com/nvllz/stepsy)</string>
 </resources>

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Tydzień %1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Brak danych dla %1$s</string>
     <string name="calories">%1$d kcal</string>
     <string name="steps_month">Ten miesiąc</string>
@@ -77,9 +73,12 @@
     <string name="settings">Ustawienia</string>
     <string name="header_personal_data">Dane osobiste</string>
     <string name="header_appearance">Wygląd</string>
+    <string name="header_general">Ogólne</string>
     <string name="header_data_backup">Kopia zapasowa</string>
 
     <string name="preference_system">Systemowy</string>
+    <string name="theme_light">Jasny</string>
+    <string name="theme_dark">Ciemny</string>
     <string name="pref_height">Wzrost</string>
     <string name="pref_step_length">Długość kroku</string>
     <string name="pref_weight">Waga</string>
@@ -91,7 +90,8 @@
     <string name="export_data">Eksportuj</string>
     <string name="backup_frequency">Częstotliwość automatycznych kopii zapasowych</string>
     <string name="backup_retention_count">Liczba przechowywanych kopii</string>
-    <string name="backup_retention_hint">(0, aby zachować wszystkie)</string>
+    <string name="backup_retention_hint">(0 aby zachować wszystkie)</string>
+    <string name="backup_retention_unlimited">Nieograniczone</string>
     <string name="backup_location">Lokalizacja kopii zapasowej</string>
     <string name="backup_location_not_set">Nie ustawiono</string>
     <string name="manual_backup">Ręczna kopia zapasowa</string>
@@ -101,6 +101,10 @@
     <string name="import_invalid_file">Ten plik jest nieprawidłowy</string>
     <string name="import_warning_title">Import kroków z pliku</string>
     <string name="import_warning_message">Spowoduje to usunięcie wszystkich bieżących danych i zastąpienie ich danymi z importu. Kontynuować?</string>
+    <string name="pref_vehicle_filter_title">Dokładne filtrowanie kroków</string>
+    <string name="pref_vehicle_filter_summary">Użyj Activity Recognition API, aby ignorować kroki podczas jazdy samochodem, autobusem lub rowerem. Wymaga Usług Google Play.</string>
+    <string name="pref_vehicle_filter_summary_foss">Dokładniejsze rozpoznawanie kroków dzięki Google Play Services API, dostępne tylko w pełnej wersji. Pobierz z Github (github.com/nvllz/stepsy)</string>
+    <string name="vehicle_filter_unavailable">Activity Recognition API nie jest dostępne na tym urządzeniu</string>
 
     <string name="header_about">Informacje o aplikacji</string>
     <string name="about_stepsy">O aplikacji</string>
@@ -156,6 +160,9 @@
     <string name="most_steps_day">Najwięcej kroków w ciągu dnia</string>
     <string name="most_walked_month">Najbardziej aktywny miesiąc</string>
     <string name="streak_record">Najdłuższa seria %1$s+ kroków</string>
+    <string name="top_3_days">Top 3 dni</string>
+    <string name="best_week">Najlepszy tydzień</string>
+    <string name="avg_steps_per_day">Średnio dziennie</string>
     <string name="since_date">Od %1$s</string>
 
     <!-- Daily Goal Notifications -->

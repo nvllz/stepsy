@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Woche %1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Kein Eintrag für %1$s</string>
     <string name="calories">%1$d kcal</string>
     <string name="steps_month">Diesen Monat</string>
@@ -71,9 +67,12 @@
     <string name="settings">Einstellungen</string>
     <string name="header_personal_data">Persönliche Daten</string>
     <string name="header_appearance">Darstellung</string>
+    <string name="header_general">Allgemein</string>
     <string name="header_data_backup">Backup</string>
 
     <string name="preference_system">Systemvorgabe</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
     <string name="pref_height">Größe</string>
     <string name="pref_step_length">Schrittlänge</string>
     <string name="pref_weight">Gewicht</string>
@@ -86,6 +85,7 @@
     <string name="backup_frequency">Häufigkeit automatischer Backups</string>
     <string name="backup_retention_count">Anzahl der aufzubewahrenden Backups</string>
     <string name="backup_retention_hint">(0 = alle behalten)</string>
+    <string name="backup_retention_unlimited">Unbegrenzt</string>
     <string name="backup_location">Backup-Speicherort</string>
     <string name="backup_location_not_set">Nicht festgelegt</string>
     <string name="manual_backup">Manuelles Backup</string>
@@ -95,6 +95,10 @@
     <string name="import_invalid_file">Diese Datei ist ungültig</string>
     <string name="import_warning_title">Schrittdaten ersetzen</string>
     <string name="import_warning_message">Dabei werden alle aktuellen Schrittdaten gelöscht und durch die importierten ersetzt. Möchten Sie fortfahren?</string>
+    <string name="pref_vehicle_filter_title">Genaue Schrittfilterung</string>
+    <string name="pref_vehicle_filter_summary">Nutzen Sie die Activity Recognition API, um Schritte im Auto, Bus oder auf dem Rad zu ignorieren. Erfordert Google Play Services.</string>
+    <string name="pref_vehicle_filter_summary_foss">Präzisere Schritterkennung via Google Play Services API, nur im Full-Build verfügbar. Erhältlich auf Github (github.com/nvllz/stepsy).</string>
+    <string name="vehicle_filter_unavailable">Activity Recognition API ist auf diesem Gerät nicht verfügbar</string>
 
     <string name="header_about">App-Informationen</string>
     <string name="about_stepsy">Über</string>
@@ -150,6 +154,9 @@
     <string name="most_steps_day">Tagesrekord Schritte</string>
     <string name="most_walked_month">Aktivster Monat</string>
     <string name="streak_record">Längste %1$s+ Schritte Serie</string>
+    <string name="top_3_days">Beste 3 Tage</string>
+    <string name="best_week">Beste Woche</string>
+    <string name="avg_steps_per_day">Durchschnitt pro Tag</string>
     <string name="since_date">Seit %1$s</string>
 
     <!-- Daily Goal Notifications -->

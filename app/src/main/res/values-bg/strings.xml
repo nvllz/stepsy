@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
-    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
-    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d ккал</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Седмица %1$d</string>
-    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Няма данни за %1$s</string>
     <string name="calories">%1$d ккал</string>
     <string name="steps_month">Този месец</string>
@@ -71,9 +67,12 @@
     <string name="settings">Настройки</string>
     <string name="header_personal_data">Лични данни</string>
     <string name="header_appearance">Външен вид</string>
+    <string name="header_general">Общи</string>
     <string name="header_data_backup">Резервно копие</string>
 
     <string name="preference_system">Според системата</string>
+    <string name="theme_light">Светла</string>
+    <string name="theme_dark">Тъмна</string>
     <string name="pref_height">Височина</string>
     <string name="pref_step_length">Дължина на крачка</string>
     <string name="pref_weight">Тегло</string>
@@ -86,6 +85,7 @@
     <string name="backup_frequency">Честота на автом. резервно копие</string>
     <string name="backup_retention_count">Брой на копията</string>
     <string name="backup_retention_hint">(0 за неограничени)</string>
+    <string name="backup_retention_unlimited">Неограничено</string>
     <string name="backup_location">Местоположение на копията</string>
     <string name="backup_location_not_set">Не е зададено</string>
     <string name="manual_backup">Ръчно резервно копие</string>
@@ -95,6 +95,10 @@
     <string name="import_invalid_file">Файлът е невалиден</string>
     <string name="import_warning_title">Замяна на данните за стъпки</string>
     <string name="import_warning_message">Това ще изтрие всички текущи данни за стъпки и ще ги замени с импортираните. Да продължи ли?</string>
+    <string name="pref_vehicle_filter_title">Точно филтриране на стъпките</string>
+    <string name="pref_vehicle_filter_summary">Използвайте Activity Recognition API за игнориране на стъпки в кола, автобус или велосипед. Изисква Google Play Services.</string>
+    <string name="pref_vehicle_filter_summary_foss">По-точно разпознаване на стъпки чрез Google Play Services API, достъпно само в пълната версия. Вижте в Github (github.com/nvllz/stepsy).</string>
+    <string name="vehicle_filter_unavailable">Activity Recognition API не е налично на това устройство</string>
 
     <string name="header_about">Информация за приложението</string>
     <string name="about_stepsy">Относно</string>
@@ -150,6 +154,9 @@
     <string name="most_steps_day">Най-много крачки за ден</string>
     <string name="most_walked_month">Месец с най-голяма активност</string>
     <string name="streak_record">Най-дългата поредица от ≥ %1$s крачки</string>
+    <string name="top_3_days">Топ 3 дни</string>
+    <string name="best_week">Най-добра седмица</string>
+    <string name="avg_steps_per_day">Средно на ден</string>
     <string name="since_date">От %1$s</string>
 
     <!-- Daily Goal Notifications -->
