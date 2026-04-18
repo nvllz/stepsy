@@ -14,7 +14,6 @@
     <string name="steps_month">Този месец</string>
     <string name="avg_distance">Средно на ден</string>
     <string name="total_distance">Общо разстояние</string>
-    <string name="tips_and_tricks">Съвети и трикове</string>
     <string name="goal_streak_line">Цел: %1$s · %2$s %3$s поредица</string>
     <string name="goal_streak_dead_line">Дневна цел: %1$s</string>
 
@@ -75,9 +74,9 @@
     <string name="header_data_backup">Резервно копие</string>
 
     <string name="preference_system">Според системата</string>
-    <string name="height_cm">Височина (cm)</string>
-    <string name="step_length">Дължина на крачка</string>
-    <string name="weight_kg">Тегло (кг)</string>
+    <string name="pref_height">Височина</string>
+    <string name="pref_step_length">Дължина на крачка</string>
+    <string name="pref_weight">Тегло</string>
     <string name="first_day_of_the_week">Начало на седмицата</string>
     <string name="app_language">Език</string>
     <string name="theme">Тема</string>
@@ -160,10 +159,10 @@
     <string name="goal_achieved_message">Достигнахте %1$s крачки!</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d крачки / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk крачки / %2$s</string>
-    <string name="million_steps_with_distance">%1$dM крачки / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM крачки / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
+    <string name="million_steps_with_distance">%1$dM • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">Промяна на крачките от днес</string>

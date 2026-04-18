@@ -20,10 +20,4 @@
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_small_settings"
         android:title="@string/settings" />
-
-    <item
-        android:id="@+id/action_help"
-        android:icon="@drawable/ic_small_wand"
-        android:title="@string/tips_and_tricks"
-        app:showAsAction="never" />
 </menu>

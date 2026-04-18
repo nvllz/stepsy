@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorAccent">#999999</color>
-    <color name="colorPrimary">#282828</color>
+    <color name="colorPrimary">#333333</color>
     <color name="colorOnPrimary">#E9E9E9</color>
     <color name="colorSurface">#000000</color>
     <color name="colorOnSurface">#F0F0F0</color>
@@ -14,4 +14,7 @@
     <color name="widgetPrimary_default">#E9E9E9</color>
     <color name="widgetSecondary_default">#BCBCBC</color>
     <color name="widgetBackground_default">#80000000</color>
+
+    <color name="colorDialogSurface">#090909</color>
+    <color name="colorAccentOpaque">#12999999</color>
 </resources>

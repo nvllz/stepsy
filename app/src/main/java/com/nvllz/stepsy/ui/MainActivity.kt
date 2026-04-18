@@ -1,7 +1,3 @@
-/*
- * SPDX-License-Identifier: GPL-3.0-only
- */
-
 package com.nvllz.stepsy.ui
 
 import android.Manifest
@@ -10,7 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
@@ -48,6 +46,7 @@ import androidx.core.graphics.drawable.toDrawable
 import com.nvllz.stepsy.util.GoalNotificationWorker
 import java.text.NumberFormat
 import android.text.InputType
+import android.text.method.DigitsKeyListener
 import android.util.Log
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -67,6 +66,11 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.nvllz.stepsy.util.TimedPauseManager
 import java.util.concurrent.TimeUnit
 
@@ -373,13 +377,6 @@ internal class MainActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.action_help -> {
-                val url = "https://github.com/nvllz/stepsy/blob/master/TRICKS.md"
-                val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                startActivity(intent)
-                true
-            }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -503,7 +500,7 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewMeters.text = String.format(
             getString(R.string.distance_today),
             Util.stepsToDistance(totalSteps),
-            Util.getDistanceUnitString()
+            Util.distanceUnit()
         )
 
         mTextViewCalories.visibility = View.GONE
@@ -514,7 +511,7 @@ internal class MainActivity : AppCompatActivity() {
             getString(R.string.steps_format),
             avgStepsFormatted,
             Util.stepsToDistance(avgSteps),
-            Util.getDistanceUnitString()
+            Util.distanceUnit()
         )
     }
 
@@ -589,7 +586,7 @@ internal class MainActivity : AppCompatActivity() {
         mTextViewMeters.text = String.format(
             getString(R.string.distance_today),
             Util.stepsToDistance(yearSteps),
-            Util.getDistanceUnitString()
+            Util.distanceUnit()
         )
 
         mTextViewCalories.visibility = View.GONE
@@ -600,7 +597,7 @@ internal class MainActivity : AppCompatActivity() {
             getString(R.string.steps_format),
             avgStepsFormatted,
             Util.stepsToDistance(avgSteps),
-            Util.getDistanceUnitString()
+            Util.distanceUnit()
         )
     }
 
@@ -704,7 +701,7 @@ internal class MainActivity : AppCompatActivity() {
             mTextViewMeters.text = String.format(
                 getString(R.string.distance_today),
                 Util.stepsToDistance(steps),
-                Util.getDistanceUnitString()
+                Util.distanceUnit()
             )
             mTextViewSteps.text = stepsPlural
             mTextViewCalories.text = String.format(
@@ -787,7 +784,7 @@ internal class MainActivity : AppCompatActivity() {
                 getString(R.string.steps_day_display),
                 stepsPlural,
                 Util.stepsToDistance(dayEntry.steps),
-                Util.getDistanceUnitString(),
+                Util.distanceUnit(),
                 Util.stepsToCalories(dayEntry.steps)
             )
         } else {
@@ -795,7 +792,7 @@ internal class MainActivity : AppCompatActivity() {
                 getString(R.string.steps_day_display),
                 resources.getQuantityString(R.plurals.steps_formatted, 0, 0),
                 0.0,
-                Util.getDistanceUnitString(),
+                Util.distanceUnit(),
                 0
             )
         }
@@ -829,14 +826,14 @@ internal class MainActivity : AppCompatActivity() {
             getString(R.string.steps_format),
             monthStepsFormatted,
             Util.stepsToDistance(monthSteps),
-            Util.getDistanceUnitString()
+            Util.distanceUnit()
         )
 
         mTextViewMonthAverage.text = String.format(
             getString(R.string.steps_format),
             avgStepsFormatted,
             Util.stepsToDistance(avgSteps),
-            Util.getDistanceUnitString()
+            Util.distanceUnit()
         )
 
         val min: Calendar
@@ -968,29 +965,24 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun showStepCountDialog(currentSteps: String) {
-        val input = EditText(this).apply {
-            setText(currentSteps)
-            inputType = InputType.TYPE_CLASS_NUMBER
-            setSelection(text.length)
-            requestFocus()
-        }
+        val layout = layoutInflater.inflate(R.layout.dialog_input, null)
+        val et = layout.findViewById<TextInputEditText>(R.id.dialog_input_edit)
 
-        val paddingPx = (24 * resources.displayMetrics.density).toInt()
-        val container = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(paddingPx, paddingPx / 2, paddingPx, paddingPx / 2)
-            addView(input)
-        }
+        et.inputType = InputType.TYPE_CLASS_NUMBER
+        et.keyListener = DigitsKeyListener.getInstance("0123456789")
+        et.setText(currentSteps)
+        et.setSelection(et.text?.length ?: 0)
+        et.requestFocus()
 
         val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.edit_step_count)
-            .setView(container)
+            .setView(layout)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                hideKeyboard(input)
-                handleStepCountUpdate(input.text.toString())
+                hideKeyboard(et)
+                handleStepCountUpdate(et.text.toString())
             }
             .setNegativeButton(android.R.string.cancel) { _, _ ->
-                hideKeyboard(input)
+                hideKeyboard(et)
             }
             .create()
 
@@ -1016,7 +1008,11 @@ internal class MainActivity : AppCompatActivity() {
                 updateStepCount(newSteps)
             }
         } catch (_: NumberFormatException) {
-            Toast.makeText(this, R.string.invalid_step_count, Toast.LENGTH_SHORT).show()
+            Snackbar.make(
+                findViewById(android.R.id.content),
+                R.string.invalid_step_count,
+                Snackbar.LENGTH_SHORT
+            ).setAnchorView(R.id.fab).show()
         }
     }
 
@@ -1045,7 +1041,11 @@ internal class MainActivity : AppCompatActivity() {
 
         ContextCompat.startForegroundService(this, intent)
 
-        Toast.makeText(this, R.string.steps_updated, Toast.LENGTH_SHORT).show()
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            R.string.steps_updated,
+            Snackbar.LENGTH_SHORT
+        ).setAnchorView(R.id.fab).show()
     }
 
     private fun updateGoalStreakUI() {
@@ -1106,67 +1106,64 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun showTimedPauseDialog() {
-        val options = arrayOf(
-            getString(R.string.pause_30_minutes),
-            getString(R.string.pause_1_hour),
-            getString(R.string.pause_2_hours),
-            getString(R.string.pause_custom_time),
-            getString(R.string.pause_indefinitely)
+        data class PauseOption(val label: String, val action: () -> Unit)
+
+        val options = listOf(
+            PauseOption(getString(R.string.pause_30_minutes)) { pauseForDuration(30) },
+            PauseOption(getString(R.string.pause_1_hour)) { pauseForDuration(60) },
+            PauseOption(getString(R.string.pause_2_hours)) { pauseForDuration(120) },
+            PauseOption(getString(R.string.pause_custom_time)) { showCustomDurationDialog() },
+            PauseOption(getString(R.string.pause_indefinitely)) { pauseIndefinitely() }
         )
 
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.pause_step_counting))
-            .setItems(options) { dialog, which ->
-                when (which) {
-                    0 -> pauseForDuration(30)
-                    1 -> pauseForDuration(60)
-                    2 -> pauseForDuration(120)
-                    3 -> showCustomDurationDialog()
-                    4 -> pauseIndefinitely()
-                }
+        val entries = options.map { it.label }.toTypedArray()
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pause_step_counting)
+            .setSingleChoiceItems(entries, -1) { dialog, which ->
+                options[which].action()
                 dialog.dismiss()
             }
-            .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
+            .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
 
     private fun showCustomDurationDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_custom_duration, null)
-        val timePicker = dialogView.findViewById<TimePicker>(R.id.timePicker)
-
         val calendar = Calendar.getInstance()
-        timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
-        timePicker.minute = calendar.get(Calendar.MINUTE) + 1
-        timePicker.setIs24HourView(true)
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE) + 1
 
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.resume_at_time))
-            .setView(dialogView)
-            .setPositiveButton(getString(android.R.string.ok)) { _, _ ->
-                val selectedHour = timePicker.hour
-                val selectedMinute = timePicker.minute
+        val timePicker = MaterialTimePicker.Builder()
+            .setTitleText(getString(R.string.resume_at_time))
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setHour(currentHour)
+            .setMinute(currentMinute)
+            .setTheme(R.style.ThemeOverlay_stepsy_TimePicker)
+            .build()
 
-                val now = Calendar.getInstance()
-                val resumeTime = Calendar.getInstance().apply {
-                    set(Calendar.HOUR_OF_DAY, selectedHour)
-                    set(Calendar.MINUTE, selectedMinute)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
+        timePicker.addOnPositiveButtonClickListener {
+            val selectedHour = timePicker.hour
+            val selectedMinute = timePicker.minute
 
-                    if (before(now)) {
-                        add(Calendar.DAY_OF_MONTH, 1)
-                    }
+            val now = Calendar.getInstance()
+            val resumeTime = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, selectedHour)
+                set(Calendar.MINUTE, selectedMinute)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+
+                if (before(now)) {
+                    add(Calendar.DAY_OF_MONTH, 1)
                 }
-
-                val durationMinutes = ((resumeTime.timeInMillis - now.timeInMillis) / (1000 * 60)).toInt()
-                pauseForDuration(durationMinutes, resumeTime.timeInMillis)
             }
-            .setNegativeButton(getString(android.R.string.cancel), null)
-            .create()
-            .show()
+
+            val durationMinutes = ((resumeTime.timeInMillis - now.timeInMillis) / (1000 * 60)).toInt()
+            pauseForDuration(durationMinutes, resumeTime.timeInMillis)
+            timePicker.dismiss()
+        }
+
+        timePicker.show(supportFragmentManager, "time_picker")
+        supportFragmentManager.executePendingTransactions()
     }
 
     private fun pauseIndefinitely() {

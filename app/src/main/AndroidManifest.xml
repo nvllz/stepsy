@@ -114,6 +114,14 @@
             </intent-filter>
         </activity>
 
+        <!-- Tile dialog activity -->
+        <activity
+            android:name=".ui.TileDialogActivity"
+            android:theme="@style/Theme.stepsy.Transparent"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:exported="false" />
+
         <!-- Services -->
         <service
             android:name="com.nvllz.stepsy.service.MotionService"

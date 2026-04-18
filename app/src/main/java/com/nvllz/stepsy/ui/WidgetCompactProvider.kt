@@ -29,7 +29,7 @@ class WidgetCompactProvider : AppWidgetProvider() {
             // Update text content
             val distanceStr = String.format(Locale.getDefault(), context.getString(R.string.distance_today),
                 Util.stepsToDistance(steps),
-                Util.getDistanceUnitString())
+                Util.distanceUnit())
 
             remoteViews.setTextViewText(R.id.widget_compact_steps, steps.toString())
             remoteViews.setTextViewText(R.id.widget_compact_distance, distanceStr)

@@ -1,7 +1,3 @@
-/*
- * SPDX-License-Identifier: GPL-3.0-only
- */
-
 package com.nvllz.stepsy.service
 
 import android.Manifest
@@ -36,7 +32,7 @@ import java.util.*
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.GoalNotificationWorker
 import com.nvllz.stepsy.util.TimedPauseManager
-import com.nvllz.stepsy.util.Util.getDistanceUnitString
+import com.nvllz.stepsy.util.Util.distanceUnit
 import com.nvllz.stepsy.util.WidgetManager
 import java.text.NumberFormat
 
@@ -263,11 +259,11 @@ internal class MotionService : Service() {
             .format(Locale.getDefault(), formattedTarget, stepGoalLeft)
 
         val notificationTitleRaw = getString(R.string.steps_format)
-            .format(Locale.getDefault(), stepsPlural, Util.stepsToDistance(mTodaysSteps), getDistanceUnitString())
+            .format(Locale.getDefault(), stepsPlural, Util.stepsToDistance(mTodaysSteps), distanceUnit())
 
         val notificationTitleProgress = getString(R.string.notification_step_goal_progress_title)
             .format(Locale.getDefault(), stepsPlural, Util.stepsToDistance(mTodaysSteps),
-                getDistanceUnitString(), stepGoalPercentage)
+                distanceUnit(), stepGoalPercentage)
 
         val pausePendingIntent = PendingIntent.getService(
             this, 1,

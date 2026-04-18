@@ -1,6 +1,3 @@
-/*
- * SPDX-License-Identifier: GPL-3.0-only
- */
 package com.nvllz.stepsy.util
 
 import android.content.Context

@@ -14,7 +14,6 @@
     <string name="steps_month">本月</string>
     <string name="avg_distance">每日平均</string>
     <string name="total_distance">总距离</string>
-    <string name="tips_and_tricks">技巧提示</string>
     <string name="goal_streak_line">目标：%1$s · %2$s %3$s 连续</string>
     <string name="goal_streak_dead_line">每日目标：%1$s</string>
 
@@ -72,9 +71,9 @@
     <string name="header_data_backup">备份</string>
 
     <string name="preference_system">系统</string>
-    <string name="height_cm">身高（厘米）</string>
-    <string name="step_length">步长</string>
-    <string name="weight_kg">体重（公斤）</string>
+    <string name="pref_height">身高</string>
+    <string name="pref_step_length">步长</string>
+    <string name="pref_weight">体重</string>
     <string name="first_day_of_the_week">一周的第一天</string>
     <string name="app_language">语言</string>
     <string name="theme">主题</string>
@@ -157,10 +156,10 @@
     <string name="goal_achieved_message">你已达成 %1$s 目标！</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d 步 / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$d 万步 / %2$s</string>
-    <string name="million_steps_with_distance">%1$d 百万步 / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1f 百万步 / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d 万 • %2$s</string>
+    <string name="million_steps_with_distance">%1$d 百万 • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f 百 • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">调整今天的步数</string>

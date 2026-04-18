@@ -1,13 +1,10 @@
-/*
- * SPDX-License-Identifier: GPL-3.0-only
- */
 package com.nvllz.stepsy.util
 
 import androidx.appcompat.app.AppCompatDelegate
 import java.util.*
 
 object Util {
-    enum class DistanceUnit {
+    enum class UnitSystem {
         METRIC, IMPERIAL
     }
 
@@ -67,18 +64,16 @@ object Util {
         )
     }
 
+    internal fun distanceUnit(): String = if (AppPreferences.unitSystem == UnitSystem.IMPERIAL) "mi" else "km"
+    internal fun weightUnit(): String   = if (AppPreferences.unitSystem == UnitSystem.IMPERIAL) "lbs" else "kg"
+    internal fun heightUnit(): String   = if (AppPreferences.unitSystem == UnitSystem.IMPERIAL) "ft/in" else "cm"
+    internal fun stepLengthUnit(): String = if (AppPreferences.unitSystem == UnitSystem.IMPERIAL) "in" else "cm"
+
     fun stepsToDistance(steps: Number): Float {
         val meters = (steps.toInt() * AppPreferences.stepLength) / 100000
-        return when (AppPreferences.distanceUnit) {
-            DistanceUnit.METRIC -> meters
-            DistanceUnit.IMPERIAL -> meters * 0.621371f
-        }
-    }
-
-    internal fun getDistanceUnitString(): String {
-        return when (AppPreferences.distanceUnit) {
-            DistanceUnit.METRIC -> "km"
-            DistanceUnit.IMPERIAL -> "mi"
+        return when (AppPreferences.unitSystem) {
+            UnitSystem.METRIC   -> meters
+            UnitSystem.IMPERIAL -> meters * 0.621371f
         }
     }
 
@@ -89,8 +84,8 @@ object Util {
     internal fun applyTheme(theme: String) {
         when (theme) {
             "system" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "light"  -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "dark"   -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }
 }

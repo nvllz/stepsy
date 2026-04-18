@@ -14,7 +14,6 @@
     <string name="steps_month">এই মাসে</string>
     <string name="avg_distance">প্রতিদিনের গড়</string>
     <string name="total_distance">মোট দূরত্ব</string>
-    <string name="tips_and_tricks">টিপস ও ট্রিকস</string>
     <string name="goal_streak_line">লক্ষ্য: %1$s · %2$s %3$s স্ট্রিক</string>
     <string name="goal_streak_dead_line">দৈনিক লক্ষ্য: %1$s</string>
 
@@ -75,9 +74,9 @@
     <string name="header_data_backup">ব্যাকআপ</string>
 
     <string name="preference_system">সিস্টেম</string>
-    <string name="height_cm">উচ্চতা (সেন্টিমিটার)</string>
-    <string name="step_length">পদক্ষেপের দৈর্ঘ্য</string>
-    <string name="weight_kg">ওজন (কিলোগ্রাম)</string>
+    <string name="pref_height">উচ্চতা</string>
+    <string name="pref_step_length">পদক্ষেপের দৈর্ঘ্য</string>
+    <string name="pref_weight">ওজন</string>
     <string name="first_day_of_the_week">সপ্তাহের প্রথম দিন</string>
     <string name="app_language">ভাষা</string>
     <string name="theme">থিম</string>
@@ -160,10 +159,10 @@
     <string name="goal_achieved_message">আপনি %1$s লক্ষ্য পূরণ করেছেন!</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d ধাপ / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk ধাপ / %2$s</string>
-    <string name="million_steps_with_distance">%1$dM ধাপ / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM ধাপ / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
+    <string name="million_steps_with_distance">%1$dM • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">আজকের পদক্ষেপ সংখ্যা সমন্বয় করুন</string>

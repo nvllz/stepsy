@@ -14,7 +14,6 @@
     <string name="steps_month">Bu ay</string>
     <string name="avg_distance">Günlük ortalama</string>
     <string name="total_distance">Toplam mesafe</string>
-    <string name="tips_and_tricks">Kısa ipuçları</string>
     <string name="goal_streak_line">Hedef: %1$s · %2$s %3$s serisi</string>
     <string name="goal_streak_dead_line">Günlük hedef: %1$s</string>
 
@@ -75,9 +74,9 @@
     <string name="header_data_backup">Yedekleme</string>
 
     <string name="preference_system">Sistem varsayılanı</string>
-    <string name="height_cm">Boy (cm)</string>
-    <string name="step_length">Adım uzunluğu</string>
-    <string name="weight_kg">Kilo (kg)</string>
+    <string name="pref_height">Boy</string>
+    <string name="pref_step_length">Adım uzunluğu</string>
+    <string name="pref_weight">Kilo</string>
     <string name="first_day_of_the_week">Haftanın ilk günü</string>
     <string name="app_language">Dil</string>
     <string name="theme">Tema</string>
@@ -160,10 +159,10 @@
     <string name="goal_achieved_message">%1$s hedefinizi tamamladınız!</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d adım / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$d bin adım / %2$s</string>
-    <string name="million_steps_with_distance">%1$dM adım / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM adım / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d bin • %2$s</string>
+    <string name="million_steps_with_distance">%1$dM • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">Bugünün adım sayısını ayarla</string>

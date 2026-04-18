@@ -14,7 +14,6 @@
     <string name="steps_month">This month</string>
     <string name="avg_distance">Average per day</string>
     <string name="total_distance">Total distance</string>
-    <string name="tips_and_tricks">Tips &amp; Tricks</string>
     <string name="goal_streak_line">Goal: %1$s · %2$s %3$s streak</string>
     <string name="goal_streak_dead_line">Daily Goal: %1$s</string>
 
@@ -76,9 +75,9 @@
     <string name="header_data_backup">Backup</string>
 
     <string name="preference_system">System</string>
-    <string name="height_cm">Height (cm)</string>
-    <string name="step_length">Step Length</string>
-    <string name="weight_kg">Weight (kg)</string>
+    <string name="pref_height">Height</string>
+    <string name="pref_step_length">Step length</string>
+    <string name="pref_weight">Weight</string>
     <string name="first_day_of_the_week">First day of the week</string>
     <string name="app_language">Language</string>
     <string name="theme">Theme</string>
@@ -88,6 +87,7 @@
     <string name="backup_frequency">Automatic backup frequency</string>
     <string name="backup_retention_count">Number of backups to keep</string>
     <string name="backup_retention_hint">(0 to keep all)</string>
+    <string name="backup_retention_unlimited">Unlimited</string>
     <string name="backup_location">Backup location</string>
     <string name="backup_location_not_set">Not set</string>
     <string name="manual_backup">Manual backup</string>
@@ -148,13 +148,16 @@
     <string name="daily_goal_target">Daily step goal</string>
     <string name="daily_goal_hint">Enter your daily step goal</string>
     <string name="encouraging_notifications">Encouraging notifications</string>
-    <string name="goal_chart_line">Draw goal line on chart</string>
+    <string name="goal_chart_line">Draw step target line on chart</string>
 
     <!-- Records -->
-    <string name="personal_records">Personal Records</string>
-    <string name="most_steps_day">Highest Step Count</string>
-    <string name="most_walked_month">Most Active Month</string>
-    <string name="streak_record">Longest %1$s+ Steps Streak</string>
+    <string name="personal_records">Records</string>
+    <string name="most_steps_day">Highest step count</string>
+    <string name="most_walked_month">Most active month</string>
+    <string name="streak_record">Longest %1$s+ steps streak</string>
+    <string name="top_3_days">Top 3 days</string>
+    <string name="best_week">Best week</string>
+    <string name="avg_steps_per_day">Average per day</string>
     <string name="since_date">Since %1$s</string>
 
     <!-- Daily Goal Notifications -->
@@ -164,10 +167,10 @@
     <string name="goal_achieved_message">You reached your step goal of %1$s steps!</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d steps / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk steps / %2$s</string>
-    <string name="million_steps_with_distance">%1$dM steps / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM steps / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
+    <string name="million_steps_with_distance">%1$dM • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">Adjust Today\'s Step Count</string>

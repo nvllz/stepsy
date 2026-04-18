@@ -14,7 +14,6 @@
     <string name="steps_month">Ce mois-ci</string>
     <string name="avg_distance">Moyenne par jour</string>
     <string name="total_distance">Distance totale</string>
-    <string name="tips_and_tricks">Astuces</string>
     <string name="goal_streak_line">Objectif : %1$s · %2$s série de %3$s</string>
     <string name="goal_streak_dead_line">Objectif quotidien : %1$s</string>
 
@@ -78,9 +77,9 @@
     <string name="header_data_backup">Sauvegarde</string>
 
     <string name="preference_system">Système</string>
-    <string name="height_cm">Taille (cm)</string>
-    <string name="step_length">Longueur du pas</string>
-    <string name="weight_kg">Poids (kg)</string>
+    <string name="pref_height">Taille</string>
+    <string name="pref_step_length">Longueur du pas</string>
+    <string name="pref_weight">Poids</string>
     <string name="first_day_of_the_week">Premier jour de la semaine</string>
     <string name="app_language">Langue</string>
     <string name="theme">Thème</string>
@@ -163,10 +162,10 @@
     <string name="goal_achieved_message">Vous avez atteint votre objectif de %1$s !</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d pas / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk pas / %2$s</string>
-    <string name="million_steps_with_distance">%1$dM pas / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM pas / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
+    <string name="million_steps_with_distance">%1$dM • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">Ajuster le nombre de pas d\'aujourd\'hui</string>

@@ -14,7 +14,6 @@
     <string name="steps_month">Deze maand</string>
     <string name="avg_distance">Gemiddeld per dag</string>
     <string name="total_distance">Totale afstand</string>
-    <string name="tips_and_tricks">Tips &amp; trucs</string>
     <string name="goal_streak_line">Doel: %1$s · %2$s %3$s reeks</string>
     <string name="goal_streak_dead_line">Dagelijks doel: %1$s</string>
 
@@ -75,9 +74,9 @@
     <string name="header_data_backup">Back-up</string>
 
     <string name="preference_system">Systeeminstelling</string>
-    <string name="height_cm">Hoogte (cm)</string>
-    <string name="step_length">Staplengte</string>
-    <string name="weight_kg">Gewicht (kg)</string>
+    <string name="pref_height">Hoogte</string>
+    <string name="pref_step_length">Staplengte</string>
+    <string name="pref_weight">Gewicht</string>
     <string name="first_day_of_the_week">Eerste dag van de week</string>
     <string name="app_language">Taal</string>
     <string name="theme">Thema</string>
@@ -160,10 +159,10 @@
     <string name="goal_achieved_message">Je hebt je doel van %1$s stappen bereikt!</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d stappen / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk stappen / %2$s</string>
-    <string name="million_steps_with_distance">%1$dM stappen / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM stappen / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
+    <string name="million_steps_with_distance">%1$dM • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">Stappen van vandaag wijzigen</string>

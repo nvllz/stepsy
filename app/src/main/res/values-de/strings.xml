@@ -14,7 +14,6 @@
     <string name="steps_month">Diesen Monat</string>
     <string name="avg_distance">Durchschnitt pro Tag</string>
     <string name="total_distance">Gesamtstrecke</string>
-    <string name="tips_and_tricks">Tipps &amp; Tricks</string>
     <string name="goal_streak_line">Ziel: %1$s · %2$s %3$s Serie</string>
     <string name="goal_streak_dead_line">Tagesziel: %1$s</string>
 
@@ -75,9 +74,9 @@
     <string name="header_data_backup">Backup</string>
 
     <string name="preference_system">Systemvorgabe</string>
-    <string name="height_cm">Größe (cm)</string>
-    <string name="step_length">Schrittlänge</string>
-    <string name="weight_kg">Gewicht (kg)</string>
+    <string name="pref_height">Größe</string>
+    <string name="pref_step_length">Schrittlänge</string>
+    <string name="pref_weight">Gewicht</string>
     <string name="first_day_of_the_week">Erster Tag der Woche</string>
     <string name="app_language">Sprache</string>
     <string name="theme">Design</string>
@@ -160,10 +159,10 @@
     <string name="goal_achieved_message">Sie haben Ihr Schrittziel von %1$s erreicht!</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d Schritte / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$d Tsd. Schritte / %2$s</string>
-    <string name="million_steps_with_distance">%1$d Mio. Schritte / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1f Mio. Schritte / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d Tsd. • %2$s</string>
+    <string name="million_steps_with_distance">%1$d Mio. • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f Mio. • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">Heutige Schrittzahl anpassen</string>

@@ -14,7 +14,6 @@
     <string name="steps_month">هذا الشهر</string>
     <string name="avg_distance">المعدل اليومي</string>
     <string name="total_distance">المسافة الكلية</string>
-    <string name="tips_and_tricks">نصائح وحيل</string>
     <string name="goal_streak_line">الهدف: %1$s · %2$s %3$s متتالية</string>
     <string name="goal_streak_dead_line">الهدف اليومي: %1$s</string>
 
@@ -85,9 +84,9 @@
     <string name="header_appearance">المظهر</string>
     <string name="header_data_backup">النسخ الاحتياطي</string>
     <string name="preference_system">النظام</string>
-    <string name="height_cm">الطول (سم)</string>
-    <string name="step_length">طول الخطوة</string>
-    <string name="weight_kg">الوزن (كجم)</string>
+    <string name="pref_height">الطول</string>
+    <string name="pref_step_length">طول الخطوة</string>
+    <string name="pref_weight">الوزن</string>
     <string name="first_day_of_the_week">أول يوم في الأسبوع</string>
     <string name="app_language">اللغة</string>
     <string name="theme">الثيم</string>
@@ -170,10 +169,10 @@
     <string name="goal_achieved_message">لقد وصلت إلى هدفك %1$s!</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d خطوة / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$d ألف خطوة / %2$s</string>
-    <string name="million_steps_with_distance">%1$d مليون خطوة / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1f مليون خطوة / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d ألف • %2$s</string>
+    <string name="million_steps_with_distance">%1$d مليون • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f مليون • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">تعديل عدد خطوات اليوم</string>

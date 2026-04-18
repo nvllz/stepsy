@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.Database
-import com.nvllz.stepsy.util.Util.DistanceUnit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,6 +22,9 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import com.nvllz.stepsy.util.AchievementsCacheUtil
+import com.nvllz.stepsy.util.Util
+import com.nvllz.stepsy.util.Util.UnitSystem
+import java.util.concurrent.TimeUnit
 
 class AchievementsActivity : AppCompatActivity() {
     private lateinit var database: Database
@@ -31,11 +35,14 @@ class AchievementsActivity : AppCompatActivity() {
 
     data class MilestoneAchievement(val milestone: Int, val timestamp: Long)
 
+    data class Top3DayEntry(val steps: Int, val timestamp: Long)
+
     data class ComputedResults(
-        val mostStepsDay: String,
-        val mostWalkedMonth: String,
+        val top3Days: List<Top3DayEntry>,
+        val bestWeek: String,
+        val bestMonth: String,
         val streakRecord: String,
-        val totalDistance: String,
+        val avgStepsPerDay: String,
         val milestones: List<MilestoneAchievement>
     )
 
@@ -87,59 +94,93 @@ class AchievementsActivity : AppCompatActivity() {
     }
 
     private fun loadCachedResultsIfAny() {
-        AchievementsCacheUtil.loadCachedResults(this)?.let { cached ->
-            updatePersonalRecord(R.id.most_steps_day_value, cached.mostStepsDay)
-            updatePersonalRecord(R.id.most_walked_month_value, cached.mostWalkedMonth)
+        val cached = AchievementsCacheUtil.loadCachedResults(this)
+        if (cached != null && cached.top3Days != null) {
+            updateTop3DaysUI(cached.top3Days)
+            updatePersonalRecord(R.id.best_week_value, cached.bestWeek)
+            updatePersonalRecord(R.id.best_month_value, cached.bestMonth ?: getString(R.string.no_data_available))
             updatePersonalRecord(R.id.streak_record_value, cached.streakRecord)
-            updatePersonalRecord(R.id.total_distance_value, cached.totalDistance)
+            updatePersonalRecord(R.id.avg_steps_per_day_value, cached.avgStepsPerDay)
 
             if (cached.milestones.isNotEmpty()) {
                 showMilestones(cached.milestones)
             } else {
                 showNoMilestones()
             }
+        } else {
+            showNoMilestones()
         }
     }
 
-    private fun updateAchievements() {
-        lifecycleScope.launch {
-            try {
-                val firstEntry = database.firstEntry
-                val lastEntry = database.lastEntry
+    private fun updateTop3DaysUI(top3: List<Top3DayEntry>?) {
+        val safeList = top3 ?: emptyList()
+        val dayIds = listOf(
+            Pair(R.id.top_day_1_value, R.id.top_day_1_date),
+            Pair(R.id.top_day_2_value, R.id.top_day_2_date),
+            Pair(R.id.top_day_3_value, R.id.top_day_3_date)
+        )
+        val noData = getString(R.string.no_data_available)
+        for (i in dayIds.indices) {
+            val entry = safeList.getOrNull(i)
+            val valueView = findViewById<TextView>(dayIds[i].first)
+            val dateView = findViewById<TextView>(dayIds[i].second)
+            if (entry != null) {
+                valueView.text = formatStepsWithDistance(entry.steps)
+                dateView.text = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(entry.timestamp))
+            } else {
+                valueView.text = noData
+                dateView.text = ""
+            }
+        }
+    }
 
-                if (firstEntry == "" || lastEntry == "") {
-                    updatePersonalRecord(R.id.most_steps_day_value, getString(R.string.no_data_available))
-                    updatePersonalRecord(R.id.most_walked_month_value, getString(R.string.no_data_available))
-                    updatePersonalRecord(R.id.streak_record_value, getString(R.string.error_loading_data))
-                    updatePersonalRecord(R.id.total_distance_value, getString(R.string.no_data_available))
-                    showNoMilestones()
-                    return@launch
-                }
+    private suspend fun updateAchievements() {
+        try {
+            val (firstEntry, lastEntry) = withContext(Dispatchers.IO) {
+                database.firstEntry to database.lastEntry
+            }
 
-                val results = withContext(Dispatchers.Default) {
-                    computeAllResults(firstEntry, lastEntry)
-                }
-
-                AchievementsCacheUtil.saveCachedResults(this@AchievementsActivity, results)
-
-                updatePersonalRecord(R.id.most_steps_day_value, results.mostStepsDay)
-                updatePersonalRecord(R.id.most_walked_month_value, results.mostWalkedMonth)
-                updatePersonalRecord(R.id.streak_record_value, results.streakRecord)
-                updatePersonalRecord(R.id.total_distance_value, results.totalDistance)
-
-                if (results.milestones.isNotEmpty()) {
-                    showMilestones(results.milestones)
-                } else {
-                    showNoMilestones()
-                }
-
-            } catch (_: Exception) {
-                updatePersonalRecord(R.id.most_steps_day_value, getString(R.string.error_loading_data))
-                updatePersonalRecord(R.id.most_walked_month_value, getString(R.string.error_loading_data))
+            if (firstEntry == "" || lastEntry == "") {
+                updateTop3DaysUI(emptyList())
+                updatePersonalRecord(R.id.best_week_value, getString(R.string.no_data_available))
+                updatePersonalRecord(R.id.best_month_value, getString(R.string.no_data_available))
                 updatePersonalRecord(R.id.streak_record_value, getString(R.string.error_loading_data))
-                updatePersonalRecord(R.id.total_distance_value, getString(R.string.error_loading_data))
+                updatePersonalRecord(R.id.avg_steps_per_day_value, getString(R.string.no_data_available))
+                showNoMilestones()
+                return
+            }
+
+            val results = withContext(Dispatchers.Default) {
+                computeAllResults(firstEntry, lastEntry)
+            }
+
+            updateTop3DaysUI(results.top3Days)
+            updatePersonalRecord(R.id.best_week_value, results.bestWeek)
+            updatePersonalRecord(R.id.best_month_value, results.bestMonth)
+            updatePersonalRecord(R.id.streak_record_value, results.streakRecord)
+            updatePersonalRecord(R.id.avg_steps_per_day_value, results.avgStepsPerDay)
+
+            val orderedMilestones = results.milestones
+                .sortedByDescending { it.timestamp }
+
+            AchievementsCacheUtil.saveCachedResults(
+                this@AchievementsActivity,
+                results.copy(milestones = orderedMilestones)
+            )
+
+            if (orderedMilestones.isNotEmpty()) {
+                showMilestones(orderedMilestones)
+            } else {
                 showNoMilestones()
             }
+
+        } catch (_: Exception) {
+            updateTop3DaysUI(emptyList())
+            updatePersonalRecord(R.id.best_week_value, getString(R.string.error_loading_data))
+            updatePersonalRecord(R.id.best_month_value, getString(R.string.error_loading_data))
+            updatePersonalRecord(R.id.streak_record_value, getString(R.string.error_loading_data))
+            updatePersonalRecord(R.id.avg_steps_per_day_value, getString(R.string.error_loading_data))
+            showNoMilestones()
         }
     }
 
@@ -148,61 +189,93 @@ class AchievementsActivity : AppCompatActivity() {
 
         if (entries.isEmpty()) {
             val noData = getString(R.string.no_data_available)
-            return ComputedResults(noData, noData, noData, noData, emptyList())
+            return ComputedResults(emptyList(), noData, noData, noData, noData, emptyList())
         }
 
-        val minStepsEntry = entries[0]
-        var maxStepsEntry = entries[0]
+        val firstEntryTimestamp = entries.minOf { it.timestamp }
         var totalSteps = 0
-        val monthlySteps = mutableMapOf<String, Int>()
         val milestones = calculateMilestoneAchievementsOptimized(entries)
         val (longestStreak, streakRange) = calculateLongestStreak(entries)
+
+        val sortedByStepsDesc = entries.sortedByDescending { it.steps }
+        val top3Days = sortedByStepsDesc.take(3).map { Top3DayEntry(it.steps, it.timestamp) }
+
+        val firstDayOfWeek = AppPreferences.firstDayOfWeek
+        val weeklySteps = mutableMapOf<Long, Int>()
+        val weeklyRange = mutableMapOf<Long, Pair<Long, Long>>()
+        val monthlySteps = mutableMapOf<String, Int>()
 
         for (entry in entries) {
             totalSteps += entry.steps
 
-            if (entry.steps > maxStepsEntry.steps) {
-                maxStepsEntry = entry
+            val cal = Calendar.getInstance().apply {
+                timeInMillis = entry.timestamp
+                this.firstDayOfWeek = firstDayOfWeek
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            while (cal.get(Calendar.DAY_OF_WEEK) != firstDayOfWeek) {
+                cal.add(Calendar.DAY_OF_YEAR, -1)
+            }
+            val weekKey = cal.timeInMillis
+            weeklySteps[weekKey] = (weeklySteps[weekKey] ?: 0) + entry.steps
+            val existing = weeklyRange[weekKey]
+            weeklyRange[weekKey] = if (existing == null) {
+                Pair(entry.timestamp, entry.timestamp)
+            } else {
+                Pair(minOf(existing.first, entry.timestamp), maxOf(existing.second, entry.timestamp))
             }
 
             val monthKey = monthFormat.format(Date(entry.timestamp))
             monthlySteps[monthKey] = (monthlySteps[monthKey] ?: 0) + entry.steps
         }
 
-        val mostStepsDay = "${formatStepsWithDistance(maxStepsEntry.steps)}\n${dateFormat.format(Date(maxStepsEntry.timestamp))}"
+        val bestWeekEntry = weeklySteps.maxByOrNull { it.value }
+        val bestWeek = if (bestWeekEntry != null) {
+            val range = weeklyRange[bestWeekEntry.key]
+            val startStr = dateFormat.format(Date(range!!.first))
+            val endStr = dateFormat.format(Date(range.second))
+            "${formatStepsWithDistance(bestWeekEntry.value)}\n$startStr — $endStr"
+        } else {
+            getString(R.string.no_data_available)
+        }
 
         val maxMonth = monthlySteps.maxByOrNull { it.value }
-        val mostWalkedMonth = if (maxMonth != null) {
+        val bestMonth = if (maxMonth != null) {
             val date = monthFormat.parse(maxMonth.key) ?: Date()
             "${formatStepsWithDistance(maxMonth.value)}\n${displayFormat.format(date)}"
         } else {
             getString(R.string.no_data_available)
         }
 
+        val numberOfDays = entries.size
+        val avgSteps = if (numberOfDays > 0) totalSteps / numberOfDays else 0
+        val avgStepsPerDay = "${formatStepsWithDistance(avgSteps)}\n" +
+                getString(R.string.since_date, dateFormat.format(Date(firstEntryTimestamp)))
+
         val streakRecord = if (longestStreak > 0 && streakRange != null) {
             val dateText = if (longestStreak == 1) {
-                "${dateFormat.format(Date(streakRange.second))}\n"
+                "${dateFormat.format(Date(streakRange.second))}"
             } else {
                 "${dateFormat.format(Date(streakRange.first))} — ${dateFormat.format(Date(streakRange.second))}"
             }
             resources.getQuantityString(R.plurals.streak_record_count, longestStreak, longestStreak) + "\n$dateText"
         } else {
-            "${resources.getQuantityString(R.plurals.streak_record_count, 0, 0)}\n"
+            resources.getQuantityString(R.plurals.streak_record_count, 0, 0)
         }
 
-        val totalDistance = "${formatStepsWithDistance(totalSteps)}\n" +
-                getString(R.string.since_date, dateFormat.format(Date(minStepsEntry.timestamp)))
-
-        return ComputedResults(mostStepsDay, mostWalkedMonth, streakRecord, totalDistance, milestones)
+        return ComputedResults(top3Days, bestWeek, bestMonth, streakRecord, avgStepsPerDay, milestones)
     }
 
     private fun calculateMilestoneAchievementsOptimized(entries: List<Database.Entry>): List<MilestoneAchievement> {
         if (entries.isEmpty()) return emptyList()
 
         val milestoneTargets = listOf(
-            10_000, 50_000, 100_000, 500_000, 1_000_000, 2_000_000, 3_000_000, 4_000_000, 5_000_000,
-            6_000_000, 7_000_000, 8_000_000, 9_000_000, 10_000_000, 11_000_000, 12_000_000,
-            13_000_000, 14_000_000, 15_000_000, 16_000_000, 17_000_000, 18_000_000, 19_000_000, 20_000_000
+            10_000, 50_000, 100_000, 500_000, 750_000, 1_000_000, 1_500_000, 2_000_000, 3_000_000,
+            4_000_000, 5_000_000, 6_000_000, 7_000_000, 8_000_000, 9_000_000, 10_000_000, 12_500_000,
+            15_000_000, 20_000_000
         ).sorted()
 
         val achievements = mutableListOf<MilestoneAchievement>()
@@ -223,7 +296,7 @@ class AchievementsActivity : AppCompatActivity() {
             if (nextMilestoneIndex >= milestoneTargets.size) break
         }
 
-        return achievements
+        return achievements.sortedByDescending { it.milestone }
     }
 
     private fun calculateLongestStreak(entries: List<Database.Entry>): Pair<Int, Pair<Long, Long>?> {
@@ -236,21 +309,32 @@ class AchievementsActivity : AppCompatActivity() {
         var longestStreakRange: Pair<Long, Long>? = null
         val dailyGoal = AppPreferences.dailyGoalTarget
 
-        for (entry in sortedEntries) {
-            if (entry.steps >= dailyGoal) {
-                currentStreak++
-                if (streakStart == null) {
-                    streakStart = entry.timestamp
-                }
+        var prevDate: Calendar? = null
 
+        for (entry in sortedEntries) {
+            val entryDate = Calendar.getInstance().apply {
+                timeInMillis = entry.timestamp
+                set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0)
+            }
+
+            val isConsecutive = prevDate?.let {
+                val diff = entryDate.timeInMillis - it.timeInMillis
+                diff == TimeUnit.DAYS.toMillis(1)
+            } ?: true
+
+            if (entry.steps >= dailyGoal && isConsecutive) {
+                currentStreak++
+                if (streakStart == null) streakStart = entry.timestamp
                 if (currentStreak > longestStreak) {
                     longestStreak = currentStreak
                     longestStreakRange = Pair(streakStart, entry.timestamp)
                 }
             } else {
-                currentStreak = 0
-                streakStart = null
+                currentStreak = if (entry.steps >= dailyGoal) 1 else 0
+                streakStart = if (entry.steps >= dailyGoal) entry.timestamp else null
             }
+            prevDate = entryDate
         }
 
         return Pair(longestStreak, longestStreakRange)
@@ -258,23 +342,18 @@ class AchievementsActivity : AppCompatActivity() {
 
     private fun formatStepsWithDistance(steps: Int): String {
         val distanceKm = steps * AppPreferences.stepLength / 100000f
+        val distanceUnit = Util.distanceUnit()
         val formattedSteps = if (steps >= 10_000) {
             NumberFormat.getIntegerInstance().format(steps)
         } else {
             steps.toString()
         }
 
-        val stepsPlural = resources.getQuantityString(
-            R.plurals.steps_formatted,
-            steps,
-            formattedSteps
-        )
-
-        return if (AppPreferences.distanceUnit == DistanceUnit.METRIC) {
-            "$stepsPlural / %.2f km".format(distanceKm)
+        return if (AppPreferences.unitSystem == UnitSystem.METRIC) {
+            "$formattedSteps • %.2f $distanceUnit".format(distanceKm)
         } else {
             val distanceMiles = distanceKm * 0.621371f
-            "$stepsPlural / %.2f mi".format(distanceMiles)
+            "$formattedSteps • %.2f $distanceUnit".format(distanceMiles)
         }
     }
 
@@ -294,71 +373,69 @@ class AchievementsActivity : AppCompatActivity() {
     }
 }
 
-class MilestonesAdapter : RecyclerView.Adapter<MilestonesAdapter.MilestoneViewHolder>() {
-    private var milestones: List<AchievementsActivity.MilestoneAchievement> = emptyList()
+class MilestonesAdapter : ListAdapter<AchievementsActivity.MilestoneAchievement,
+        MilestonesAdapter.MilestoneViewHolder>(DIFF_CALLBACK) {
     private var dateFormat: DateFormat = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
 
     fun updateMilestones(newMilestones: List<AchievementsActivity.MilestoneAchievement>) {
-        val oldSize = milestones.size
-        val newSize = newMilestones.size
-
-        milestones = newMilestones
-
-        when {
-            oldSize == 0 -> notifyItemRangeInserted(0, newSize)
-            oldSize > newSize -> notifyItemRangeRemoved(newSize, oldSize - newSize)
-            oldSize < newSize -> notifyItemRangeInserted(oldSize, newSize - oldSize)
-            else -> notifyItemRangeChanged(0, newSize)
-        }
+        submitList(newMilestones)
     }
-
 
     override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): MilestoneViewHolder {
         val view = android.view.LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_milestone_achievement, parent, false)
+            .inflate(R.layout.item_milestone_achievement_alt, parent, false)
         return MilestoneViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MilestoneViewHolder, position: Int) {
-        holder.bind(milestones[position])
+        holder.bind(getItem(position), isLast = position == itemCount - 1)
     }
 
-    override fun getItemCount() = milestones.size
-
     inner class MilestoneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val badge: TextView = itemView.findViewById(R.id.achievement_badge)
-        private val title: TextView = itemView.findViewById(R.id.achievement_title)
-        private val date: TextView = itemView.findViewById(R.id.achievement_date)
+        private val badge: TextView    = itemView.findViewById(R.id.achievement_badge)
+        private val title: TextView    = itemView.findViewById(R.id.achievement_title)
+        private val date: TextView     = itemView.findViewById(R.id.achievement_date)
+        private val divider: View      = itemView.findViewById(R.id.milestone_divider)
 
-        fun bind(milestone: AchievementsActivity.MilestoneAchievement) {
+        fun bind(milestone: AchievementsActivity.MilestoneAchievement, isLast: Boolean = false) {
+            divider.visibility = if (isLast) View.GONE else View.VISIBLE
+
             badge.text = when {
+                milestone.milestone >= 20_000_000 -> "🏁"
+                milestone.milestone >= 15_000_000 -> "♾️"
+                milestone.milestone >= 12_500_000 -> "🪬"
                 milestone.milestone >= 10_000_000 -> "👑"
-                milestone.milestone >= 9_000_000 -> "🦄"
-                milestone.milestone >= 8_000_000 -> "🐉"
-                milestone.milestone >= 7_000_000 -> "💫"
-                milestone.milestone >= 6_000_000 -> "🏆"
-                milestone.milestone >= 5_000_000 -> "💎"
-                milestone.milestone >= 4_000_000 -> "🛸"
-                milestone.milestone >= 3_000_000 -> "🚀"
-                milestone.milestone >= 2_000_000 -> "🥇"
-                milestone.milestone >= 1_000_000 -> "🥈"
-                milestone.milestone >= 500_000 -> "🥉"
-                milestone.milestone >= 100_000 -> "🔥"
-                milestone.milestone >= 50_000 -> "💪"
-                milestone.milestone >= 10_000 -> "🎯"
-                else -> "🎯"
+                milestone.milestone >=  9_000_000 -> "🦄"
+                milestone.milestone >=  8_000_000 -> "🐉"
+                milestone.milestone >=  7_000_000 -> "💫"
+                milestone.milestone >=  6_000_000 -> "🏆"
+                milestone.milestone >=  5_000_000 -> "💎"
+                milestone.milestone >=  4_000_000 -> "🪐"
+                milestone.milestone >=  3_000_000 -> "🚀"
+                milestone.milestone >=  2_000_000 -> "🥇"
+                milestone.milestone >=  1_500_000 -> "⚡"
+                milestone.milestone >=  1_000_000 -> "🗿"
+                milestone.milestone >=    750_000 -> "⛳"
+                milestone.milestone >=    500_000 -> "🌟"
+                milestone.milestone >=    100_000 -> "🔥"
+                milestone.milestone >=     50_000 -> "💪"
+                milestone.milestone >=     10_000 -> "🎯"
+                else                              -> "🎯"
             }
 
             title.text = formatMilestoneTitle(milestone.milestone)
-            date.text = dateFormat.format(Date(milestone.timestamp))
+            date.text  = dateFormat.format(Date(milestone.timestamp))
         }
 
         private fun formatMilestoneTitle(steps: Int): String {
             val distanceKm = steps * AppPreferences.stepLength / 100000f
-            val distancePart = if (AppPreferences.distanceUnit == DistanceUnit.METRIC) {
-                "%.2f km".format(distanceKm)
+            val distanceUnit = Util.distanceUnit()
+            val distancePart = if (AppPreferences.unitSystem == UnitSystem.METRIC) {
+                "%.2f $distanceUnit"
+                    .format(distanceKm)
             } else {
-                "%.2f mi".format(distanceKm * 0.621371f)
+                "%.2f $distanceUnit"
+                    .format(distanceKm * 0.621371f)
             }
 
             return when {
@@ -376,6 +453,17 @@ class MilestonesAdapter : RecyclerView.Adapter<MilestonesAdapter.MilestoneViewHo
                 }
                 else -> itemView.context.getString(R.string.steps_count_with_distance, steps, distancePart)
             }
+        }
+    }
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AchievementsActivity.MilestoneAchievement>() {
+            override fun areItemsTheSame(a: AchievementsActivity.MilestoneAchievement,
+                                         b: AchievementsActivity.MilestoneAchievement) =
+                a.milestone == b.milestone
+            override fun areContentsTheSame(a: AchievementsActivity.MilestoneAchievement,
+                                            b: AchievementsActivity.MilestoneAchievement) =
+                a == b
         }
     }
 }

@@ -14,7 +14,6 @@
     <string name="steps_month">Denna månad</string>
     <string name="avg_distance">Dagligt genomsnitt</string>
     <string name="total_distance">Sammanlagt avstånd</string>
-    <string name="tips_and_tricks">Tips</string>
     <string name="goal_streak_line">Mål: %1$s · %2$s %3$s streak</string>
     <string name="goal_streak_dead_line">Dagsmål: %1$s</string>
 
@@ -75,9 +74,9 @@
     <string name="header_data_backup">Säkerhetskopiering</string>
 
     <string name="preference_system">System</string>
-    <string name="height_cm">Höjd (cm)</string>
-    <string name="step_length">Steglängd</string>
-    <string name="weight_kg">Vikt (kg)</string>
+    <string name="pref_height">Höjd</string>
+    <string name="pref_step_length">Steglängd</string>
+    <string name="pref_weight">Vikt</string>
     <string name="first_day_of_the_week">Första veckodagen</string>
     <string name="app_language">Språk</string>
     <string name="theme">Tema</string>
@@ -160,10 +159,10 @@
     <string name="goal_achieved_message">Du nådde ditt stegmål om %1$s!</string>
 
     <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d steg / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk steg / %2$s</string>
-    <string name="million_steps_with_distance">%1$dM steg / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM steg / %2$s</string>
+    <string name="steps_count_with_distance">%1$d • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
+    <string name="million_steps_with_distance">%1$dM • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">Justera dagens stegräkning</string>

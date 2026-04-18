@@ -64,21 +64,76 @@
     <style name="ThemeOverlay.stepsy.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="buttonBarPositiveButtonStyle">@style/DialogButton.Positive</item>
         <item name="buttonBarNegativeButtonStyle">@style/DialogButton.Negative</item>
-        <item name="android:background">@color/colorSurface</item>
-        <item name="colorSurface">@color/colorSurface</item>
+        <item name="android:background">@color/colorDialogSurface</item>
+        <item name="colorSurface">@color/colorDialogSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="android:textColorPrimary">@color/colorOnSurface</item>
         <item name="android:textColorSecondary">@color/colorAccent</item>
         <item name="editTextStyle">@style/Widget.stepsy.EditText</item>
+        <item name="colorOutline">@color/colorAccent</item>
     </style>
 
     <!-- Custom EditText style for dialogs -->
     <style name="Widget.stepsy.EditText" parent="Widget.Material3.TextInputEditText.FilledBox">
         <item name="android:textColor">@color/colorOnSurface</item>
         <item name="android:textColorHint">@color/colorAccent</item>
-        <item name="backgroundTint">@color/colorSurface</item>
+        <item name="colorSurface">@color/colorDialogSurface</item>
+        <item name="backgroundTint">@color/colorDialogSurface</item>
         <item name="android:background">@drawable/edit_text_background</item>
+    </style>
+
+    <!-- TimePicker -->
+    <style name="ThemeOverlay.stepsy.TimePicker" parent="ThemeOverlay.Material3.MaterialTimePicker">
+
+        <!-- Dialog card background -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorSurface">@color/colorDialogSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorOnSurfaceVariant">@color/colorOnSurface</item>
+        <item name="colorSurfaceVariant">@color/colorDialogSurface</item>  <!-- clock face bg -->
+        <item name="colorPrimaryContainer">@color/colorPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimary</item>
+        <item name="colorSecondaryContainer">@color/colorDialogSurface</item>
+        <item name="colorTertiaryContainer">@color/colorDialogSurface</item>
+
+        <!-- Clock widget styling -->
+        <item name="materialClockStyle">@style/Widget.stepsy.TimePicker.Clock</item>
+        <item name="materialTimePickerTitleStyle">@style/Widget.stepsy.TimePicker.Title</item>
+        <item name="materialTimePickerStyle">@style/Widget.stepsy.TimePicker</item>
+        <item name="colorSurfaceContainerHigh">@color/colorDialogSurface</item>
+        <item name="colorSurfaceContainer">@color/colorDialogSurface</item>
+        <item name="buttonBarPositiveButtonStyle">@style/DialogButton.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DialogButton.Negative</item>
+        <item name="colorPrimary">@color/colorAccent</item>
+    </style>
+
+    <!-- Time Picker dialog bg -->
+    <style name="Widget.stepsy.TimePicker" parent="Widget.Material3.MaterialTimePicker">
+        <item name="backgroundTint">@color/colorDialogSurface</item>
+    </style>
+
+    <!-- Time Picker clock face and other shit -->
+    <style name="Widget.stepsy.TimePicker.Clock" parent="Widget.Material3.MaterialTimePicker.Clock">
+        <item name="clockFaceBackgroundColor">@color/colorSurface</item>
+        <item name="clockHandColor">@color/colorPrimary</item>
+        <item name="clockNumberTextColor">@color/colorOnSurface</item>
+    </style>
+
+    <!-- Time Picker title -->
+    <style name="Widget.stepsy.TimePicker.Title" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/colorOnSurface</item>
+    </style>
+
+    <!-- Tile service dialog -->
+    <style name="Theme.stepsy.Transparent" parent="Theme.stepsy">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 </resources>
