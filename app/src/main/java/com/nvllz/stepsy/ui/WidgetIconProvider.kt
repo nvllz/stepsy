@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
@@ -19,6 +20,20 @@ import java.util.Locale
 class WidgetIconProvider : AppWidgetProvider() {
 
     companion object {
+
+        private fun themedContext(context: Context, themeMode: String): Context {
+            val uiMode = when (themeMode) {
+                "light" -> Configuration.UI_MODE_NIGHT_NO
+                "dark"  -> Configuration.UI_MODE_NIGHT_YES
+                else    -> context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            }
+            val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            if (uiMode == currentNightMode) return context
+            val config = Configuration(context.resources.configuration)
+            config.uiMode = (config.uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or uiMode
+            return context.createConfigurationContext(config)
+        }
+
         fun updateWidget(context: Context, appWidgetId: Int, steps: Int) {
 
             val prefs = context.getSharedPreferences("widget_prefs_$appWidgetId", Context.MODE_MULTI_PROCESS)
@@ -26,36 +41,38 @@ class WidgetIconProvider : AppWidgetProvider() {
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_icon)
 
-            // Update text content
             val distance = Util.stepsToDistance(steps)
             val distanceStr = String.format(Locale.getDefault(), "%.2f %s", distance, Util.distanceUnit())
 
             remoteViews.setTextViewText(R.id.widget_icon_steps, steps.toString())
             remoteViews.setTextViewText(R.id.widget_icon_distance, distanceStr)
 
-            // Load preferences
             val useDynamicColors = prefs.getBoolean("use_dynamic_colors", android.os.Build.VERSION.SDK_INT >= 31)
             val opacity = prefs.getInt("opacity", 100)
             val textScale = prefs.getInt("text_scale", 100)
             val scaleFactor = textScale / 100f
+            val themeMode = prefs.getString("theme_mode", "system") ?: "system"
 
-            // Resolve colors
+            val resolvedContext = themedContext(context, themeMode)
+
             if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
-                remoteViews.setFloat(R.id.widget_icon_background, "setAlpha", opacity / 100f)
-                remoteViews.setViewVisibility(R.id.widget_icon_background, View.VISIBLE)
-                remoteViews.setInt(R.id.widget_icon_container, "setBackgroundColor", Color.TRANSPARENT)
-                remoteViews.setColor(R.id.widget_icon_steps, "setTextColor", R.color.widgetPrimary)
-                remoteViews.setColor(R.id.widget_icon_distance, "setTextColor", R.color.widgetSecondary)
-                remoteViews.setColor(R.id.widget_icon_img, "setColorFilter", R.color.widgetPrimary)
+                val primaryColor = ContextCompat.getColor(resolvedContext, R.color.widgetPrimary)
+                val secondaryColor = ContextCompat.getColor(resolvedContext, R.color.widgetSecondary)
+                val bgColor = ContextCompat.getColor(resolvedContext, R.color.widgetBackground)
+                val alphaBgColor = ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
+
+                remoteViews.setViewVisibility(R.id.widget_icon_background, View.GONE)
+                remoteViews.setInt(R.id.widget_icon_container, "setBackgroundColor", alphaBgColor)
+                remoteViews.setTextColor(R.id.widget_icon_steps, primaryColor)
+                remoteViews.setTextColor(R.id.widget_icon_distance, secondaryColor)
+                remoteViews.setInt(R.id.widget_icon_img, "setColorFilter", primaryColor)
             } else {
                 remoteViews.setViewVisibility(R.id.widget_icon_background, View.GONE)
-                val primaryColor = ContextCompat.getColor(context, R.color.widgetPrimary_default)
-                val secondaryColor = ContextCompat.getColor(context, R.color.widgetSecondary_default)
-                val bgColor = ContextCompat.getColor(context, R.color.widgetBackground_default)
-                val alphaBgColor =
-                    ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
+                val primaryColor = ContextCompat.getColor(resolvedContext, R.color.widgetPrimary_default)
+                val secondaryColor = ContextCompat.getColor(resolvedContext, R.color.widgetSecondary_default)
+                val bgColor = ContextCompat.getColor(resolvedContext, R.color.widgetBackground_default)
+                val alphaBgColor = ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
 
-                // Apply styles
                 remoteViews.setInt(R.id.widget_icon_container, "setBackgroundColor", alphaBgColor)
                 remoteViews.setTextColor(R.id.widget_icon_steps, primaryColor)
                 remoteViews.setTextColor(R.id.widget_icon_distance, secondaryColor)
@@ -73,7 +90,6 @@ class WidgetIconProvider : AppWidgetProvider() {
                 14f * scaleFactor
             )
 
-            // Set widget click behavior
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(
                 context,
@@ -89,7 +105,6 @@ class WidgetIconProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         val steps = AppPreferences.steps
-
         appWidgetIds.forEach { id ->
             updateWidget(context, id, steps)
         }

@@ -120,6 +120,48 @@
             android:text="@string/widget_pref_dynamic_colors"/>
 
         <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/theme"
+            android:textColor="@color/colorOnSurface"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/theme_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            app:singleSelection="true"
+            app:selectionRequired="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/theme_system"
+                style="@style/Widget.Stepsy.ThemeToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/preference_system"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/theme_light"
+                style="@style/Widget.Stepsy.ThemeToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/theme_light"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/theme_dark"
+                style="@style/Widget.Stepsy.ThemeToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/theme_dark"/>
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -133,11 +175,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
-            app:trackColorActive="@color/colorAccent"
-            app:trackColorInactive="@color/colorPrimary"
-            app:thumbColor="@color/colorAccent"
-            app:tickColorActive="@color/colorPrimary"
-            app:tickColorInactive="@color/colorAccent"
             android:valueFrom="75"
             android:valueTo="175"
             android:stepSize="5"
@@ -163,10 +200,7 @@
             android:value="100"
             android:valueFrom="0"
             android:valueTo="100"
-            app:labelBehavior="gone"
-            app:thumbColor="@color/colorAccent"
-            app:trackColorActive="@color/colorAccent"
-            app:trackColorInactive="@color/colorPrimary"/>
+            app:labelBehavior="gone"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_button"

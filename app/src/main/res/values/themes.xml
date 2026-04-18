@@ -18,6 +18,7 @@
 
         <item name="alertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
+        <item name="sliderStyle">@style/Widget.stepsy.Slider</item>
     </style>
 
     <!-- Settings activity theme -->
@@ -135,5 +136,24 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!-- Toggle btn -->
+    <style name="Widget.Stepsy.ThemeToggleButton"
+        parent="Widget.Material3.Button.OutlinedButton">
+
+        <item name="strokeColor">@color/colorAccent</item>
+        <item name="backgroundTint">@color/toggle_button_bg</item>
+        <item name="android:textColor">@color/toggle_button_text</item>
+        <item name="rippleColor">@color/colorAccent</item>
+    </style>
+
+    <!-- Slider -->
+    <style name="Widget.stepsy.Slider" parent="Widget.Material3.Slider">
+        <item name="trackColorActive">@color/colorAccent</item>
+        <item name="trackColorInactive">@color/colorAccentOpaque</item>
+        <item name="thumbColor">@color/colorAccent</item>
+        <item name="tickColorActive">@color/colorPrimary</item>
+        <item name="tickColorInactive">@color/colorAccent</item>
     </style>
 </resources>

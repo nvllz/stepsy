@@ -75,6 +75,8 @@
     <string name="header_data_backup">Backup</string>
 
     <string name="preference_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
     <string name="pref_height">Height</string>
     <string name="pref_step_length">Step length</string>
     <string name="pref_weight">Weight</string>

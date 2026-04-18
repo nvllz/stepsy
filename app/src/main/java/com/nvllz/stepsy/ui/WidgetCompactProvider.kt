@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
@@ -19,6 +20,20 @@ import java.util.Locale
 class WidgetCompactProvider : AppWidgetProvider() {
 
     companion object {
+
+        private fun themedContext(context: Context, themeMode: String): Context {
+            val uiMode = when (themeMode) {
+                "light" -> Configuration.UI_MODE_NIGHT_NO
+                "dark"  -> Configuration.UI_MODE_NIGHT_YES
+                else    -> context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            }
+            val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            if (uiMode == currentNightMode) return context
+            val config = Configuration(context.resources.configuration)
+            config.uiMode = (config.uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or uiMode
+            return context.createConfigurationContext(config)
+        }
+
         fun updateWidget(context: Context, appWidgetId: Int, steps: Int) {
 
             val prefs = context.getSharedPreferences("widget_prefs_$appWidgetId", Context.MODE_MULTI_PROCESS)
@@ -26,7 +41,6 @@ class WidgetCompactProvider : AppWidgetProvider() {
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_compact)
 
-            // Update text content
             val distanceStr = String.format(Locale.getDefault(), context.getString(R.string.distance_today),
                 Util.stepsToDistance(steps),
                 Util.distanceUnit())
@@ -34,29 +48,31 @@ class WidgetCompactProvider : AppWidgetProvider() {
             remoteViews.setTextViewText(R.id.widget_compact_steps, steps.toString())
             remoteViews.setTextViewText(R.id.widget_compact_distance, distanceStr)
 
-            // Load widget-specific preferences
             val useDynamicColors = prefs.getBoolean("use_dynamic_colors", android.os.Build.VERSION.SDK_INT >= 31)
             val opacity = prefs.getInt("opacity", 100)
             val textScale = prefs.getInt("text_scale", 100)
             val scaleFactor = textScale / 100f
+            val themeMode = prefs.getString("theme_mode", "system") ?: "system"
 
-            // Resolve colors
+            val resolvedContext = themedContext(context, themeMode)
+
             if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
-                remoteViews.setFloat(R.id.widget_compact_background, "setAlpha", opacity / 100f)
-                remoteViews.setViewVisibility(R.id.widget_compact_background, View.VISIBLE)
-                remoteViews.setInt(R.id.widget_compact_container, "setBackgroundColor", Color.TRANSPARENT)
-                remoteViews.setColor(R.id.widget_compact_background, "setColorFilter", R.color.widgetBackground)
-                remoteViews.setColor(R.id.widget_compact_steps, "setTextColor", R.color.widgetPrimary)
-                remoteViews.setColor(R.id.widget_compact_distance, "setTextColor", R.color.widgetSecondary)
+                val primaryColor = ContextCompat.getColor(resolvedContext, R.color.widgetPrimary)
+                val secondaryColor = ContextCompat.getColor(resolvedContext, R.color.widgetSecondary)
+                val bgColor = ContextCompat.getColor(resolvedContext, R.color.widgetBackground)
+                val alphaBgColor = ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
+
+                remoteViews.setViewVisibility(R.id.widget_compact_background, View.GONE)
+                remoteViews.setInt(R.id.widget_compact_container, "setBackgroundColor", alphaBgColor)
+                remoteViews.setTextColor(R.id.widget_compact_steps, primaryColor)
+                remoteViews.setTextColor(R.id.widget_compact_distance, secondaryColor)
             } else {
                 remoteViews.setViewVisibility(R.id.widget_compact_background, View.GONE)
-                val primaryColor = ContextCompat.getColor(context, R.color.widgetPrimary_default)
-                val secondaryColor = ContextCompat.getColor(context, R.color.widgetSecondary_default)
-                val bgColor = ContextCompat.getColor(context, R.color.widgetBackground_default)
-                val alphaBgColor =
-                    ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
+                val primaryColor = ContextCompat.getColor(resolvedContext, R.color.widgetPrimary_default)
+                val secondaryColor = ContextCompat.getColor(resolvedContext, R.color.widgetSecondary_default)
+                val bgColor = ContextCompat.getColor(resolvedContext, R.color.widgetBackground_default)
+                val alphaBgColor = ColorUtils.setAlphaComponent(bgColor, (255 * (opacity / 100f)).toInt())
 
-                // Apply styles
                 remoteViews.setInt(R.id.widget_compact_container, "setBackgroundColor", alphaBgColor)
                 remoteViews.setTextColor(R.id.widget_compact_steps, primaryColor)
                 remoteViews.setTextColor(R.id.widget_compact_distance, secondaryColor)
@@ -65,15 +81,14 @@ class WidgetCompactProvider : AppWidgetProvider() {
             remoteViews.setTextViewTextSize(
                 R.id.widget_compact_steps,
                 TypedValue.COMPLEX_UNIT_SP,
-                28f * scaleFactor
+                24f * scaleFactor
             )
             remoteViews.setTextViewTextSize(
                 R.id.widget_compact_distance,
                 TypedValue.COMPLEX_UNIT_SP,
-                11f * scaleFactor
+                14f * scaleFactor
             )
 
-            // Widget click behavior
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(
                 context,

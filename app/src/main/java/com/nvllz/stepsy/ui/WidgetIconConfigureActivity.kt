@@ -3,10 +3,12 @@ package com.nvllz.stepsy.ui
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.slider.Slider
 import com.nvllz.stepsy.R
@@ -17,12 +19,24 @@ class WidgetIconConfigureActivity : Activity() {
 
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
 
+    private fun themedContext(themeMode: String): android.content.Context {
+        val uiMode = when (themeMode) {
+            "light" -> Configuration.UI_MODE_NIGHT_NO
+            "dark"  -> Configuration.UI_MODE_NIGHT_YES
+            else    -> resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        }
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (uiMode == currentNightMode) return this
+        val config = Configuration(resources.configuration)
+        config.uiMode = (config.uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or uiMode
+        return createConfigurationContext(config)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setResult(RESULT_CANCELED)
         setContentView(R.layout.widget_icon_configure)
 
-        // Retrieve widget ID
         appWidgetId = intent?.extras?.getInt(
             AppWidgetManager.EXTRA_APPWIDGET_ID,
             AppWidgetManager.INVALID_APPWIDGET_ID
@@ -35,17 +49,17 @@ class WidgetIconConfigureActivity : Activity() {
 
         val prefs = getSharedPreferences("widget_prefs_$appWidgetId", MODE_MULTI_PROCESS)
 
-        val saveButton = findViewById<Button>(R.id.save_button)
-        val opacitySlider = findViewById<Slider>(R.id.opacity_slider)
-        val textSizeSlider = findViewById<Slider>(R.id.text_size_slider)
-        val dynamicColorsSwitch = findViewById<MaterialSwitch>(R.id.dynamic_colors_switch)
+        val saveButton           = findViewById<Button>(R.id.save_button)
+        val opacitySlider        = findViewById<Slider>(R.id.opacity_slider)
+        val textSizeSlider       = findViewById<Slider>(R.id.text_size_slider)
+        val dynamicColorsSwitch  = findViewById<MaterialSwitch>(R.id.dynamic_colors_switch)
         val inverseBgColorSwitch = findViewById<MaterialSwitch>(R.id.inverse_bg_color)
-        val previewContainer = findViewById<FrameLayout>(R.id.preview_widget_icon_container)
+        val previewContainer     = findViewById<FrameLayout>(R.id.preview_widget_icon_container)
+        val themeToggle          = findViewById<MaterialButtonToggleGroup>(R.id.theme_toggle)
 
         val previewBg = ContextCompat.getDrawable(this, R.drawable.widget_bg)?.mutate()
         previewContainer.background = previewBg
 
-        // Opacity setup
         val currentOpacity = prefs.getInt("opacity", 100)
         opacitySlider.value = currentOpacity.toFloat()
         previewBg?.alpha = (255 * (currentOpacity / 100f)).toInt()
@@ -56,7 +70,6 @@ class WidgetIconConfigureActivity : Activity() {
             updatePreviewColor(dynamicColorsSwitch.isChecked, value)
         }
 
-        // Dynamic color setup
         val useDynamicColors = prefs.getBoolean("use_dynamic_colors", true)
         dynamicColorsSwitch.isChecked = useDynamicColors
         dynamicColorsSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -64,12 +77,10 @@ class WidgetIconConfigureActivity : Activity() {
             updatePreviewColor(isChecked, opacitySlider.value)
         }
 
-        // Inverse background toggle
         inverseBgColorSwitch.setOnCheckedChangeListener { _, isChecked ->
             updatePreviewBackgroundColor(isChecked)
         }
 
-        // Text size setup
         val textScale = prefs.getInt("text_scale", 100)
         textSizeSlider.value = textScale.toFloat()
         textSizeSlider.addOnChangeListener { _, value, _ ->
@@ -78,18 +89,33 @@ class WidgetIconConfigureActivity : Activity() {
         }
         applyTextSizeScale(textScale)
 
-        // Initial preview update
+        val savedTheme = prefs.getString("theme_mode", "system") ?: "system"
+        themeToggle.check(when (savedTheme) {
+            "light" -> R.id.theme_light
+            "dark"  -> R.id.theme_dark
+            else    -> R.id.theme_system
+        })
+
+        themeToggle.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (!isChecked) return@addOnButtonCheckedListener
+            val newTheme = when (checkedId) {
+                R.id.theme_light -> "light"
+                R.id.theme_dark  -> "dark"
+                else             -> "system"
+            }
+            prefs.edit { putString("theme_mode", newTheme) }
+            updatePreviewColor(dynamicColorsSwitch.isChecked, opacitySlider.value)
+        }
+
         updatePreviewColor(useDynamicColors, opacitySlider.value)
 
         saveButton.setOnClickListener {
             prefs.edit {
                 putInt("opacity", opacitySlider.value.toInt())
-                apply()
             }
 
             val steps = AppPreferences.steps
-
-            WidgetIconProvider.updateWidget(this@WidgetIconConfigureActivity, appWidgetId, steps)
+            WidgetIconProvider.updateWidget(this, appWidgetId, steps)
 
             val resultValue = Intent().apply {
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
@@ -99,14 +125,21 @@ class WidgetIconConfigureActivity : Activity() {
         }
     }
 
+    private fun currentThemeMode(): String {
+        val prefs = getSharedPreferences("widget_prefs_$appWidgetId", MODE_MULTI_PROCESS)
+        return prefs.getString("theme_mode", "system") ?: "system"
+    }
+
     private fun updatePreviewColor(useDynamicColors: Boolean, opacity: Float) {
+        val ctx = themedContext(currentThemeMode())
+
         val colorRes = if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
             R.color.widgetBackground
         } else {
             R.color.widgetBackground_default
         }
 
-        val color = ContextCompat.getColor(this, colorRes)
+        val color = ContextCompat.getColor(ctx, colorRes)
         val alphaColor = ColorUtils.setAlphaComponent(color, (255 * (opacity / 100f)).toInt())
         val drawable = ContextCompat.getDrawable(this, R.drawable.widget_bg)?.mutate()
         drawable?.setTint(alphaColor)
@@ -122,6 +155,8 @@ class WidgetIconConfigureActivity : Activity() {
     }
 
     private fun applyWidgetColors(useDynamicColors: Boolean) {
+        val ctx = themedContext(currentThemeMode())
+
         val primaryRes = if (useDynamicColors && android.os.Build.VERSION.SDK_INT >= 31) {
             R.color.widgetPrimary
         } else {
@@ -134,8 +169,8 @@ class WidgetIconConfigureActivity : Activity() {
             R.color.widgetSecondary_default
         }
 
-        val primaryColor = ContextCompat.getColor(this, primaryRes)
-        val secondaryColor = ContextCompat.getColor(this, secondaryRes)
+        val primaryColor = ContextCompat.getColor(ctx, primaryRes)
+        val secondaryColor = ContextCompat.getColor(ctx, secondaryRes)
 
         findViewById<ImageView?>(R.id.preview_widget_icon_img)?.apply {
             ContextCompat.getDrawable(context, R.drawable.widget_icon)?.mutate()?.let {
@@ -149,14 +184,10 @@ class WidgetIconConfigureActivity : Activity() {
     }
 
     private fun applyTextSizeScale(scalePercent: Int) {
-        val stepsText = findViewById<TextView>(R.id.preview_widget_icon_steps)
+        val stepsText    = findViewById<TextView>(R.id.preview_widget_icon_steps)
         val distanceText = findViewById<TextView>(R.id.preview_widget_icon_distance)
-
-        val baseStepsSize = 24f
-        val baseDistanceSize = 14f
         val factor = scalePercent / 100f
-
-        stepsText.textSize = baseStepsSize * factor
-        distanceText.textSize = baseDistanceSize * factor
+        stepsText.textSize    = 24f * factor
+        distanceText.textSize = 14f * factor
     }
 }
