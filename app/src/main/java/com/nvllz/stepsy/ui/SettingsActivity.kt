@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -504,7 +503,9 @@ class SettingsActivity : AppCompatActivity() {
         etIn.setText(currentIn.toString())
         etFt.setSelection(etFt.text?.length ?: 0)
 
-        MaterialAlertDialogBuilder(this)
+        etIn.requestFocus()
+
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(getString(R.string.pref_height))
             .setView(layout)
             .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -529,7 +530,10 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             .setNegativeButton(android.R.string.cancel, null)
-            .show()
+            .create()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        dialog.show()
     }
 
     private fun showNumberInputDialog(

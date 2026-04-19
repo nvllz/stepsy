@@ -100,19 +100,20 @@ class DailyGoalsActivity : AppCompatActivity() {
         val encouragingNotificationsSwitch = findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications)
 
         encouragingNotificationsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (!encouragingNotificationsSwitch.isPressed) return@setOnCheckedChangeListener
             lifecycleScope.launch {
                 AppPreferences.dataStore.edit { preferences ->
                     preferences[AppPreferences.PreferenceKeys.ENCOURAGING_NOTIFICATIONS] = isChecked
                 }
                 if (isChecked) {
                     GoalNotificationWorker.resetEncouragingNotificationFlags()
+                    GoalNotificationWorker.showEncouragingNotification(
+                        applicationContext,
+                        AppPreferences.dailyGoalTarget,
+                        AppPreferences.steps,
+                        demo = true
+                    )
                 }
-                GoalNotificationWorker.showEncouragingNotification(
-                    applicationContext,
-                    AppPreferences.dailyGoalTarget,
-                    AppPreferences.steps,
-                    demo = true
-                )
             }
         }
 
