@@ -6,22 +6,30 @@
 
 <div align="center">
   
-  [![GitHub latest ver](https://img.shields.io/github/v/release/nvllz/stepsy.svg?label=latest&logo=GitHub&labelColor=A41E84&color=C51684&style=for-the-badge)](https://github.com/nvllz/stepsy/releases/latest)
-  [![F-Droid latest ver](https://img.shields.io/f-droid/v/com.nvllz.stepsy?labelColor=A41E84&color=C51684&label=f-droid&logo=f-droid&style=for-the-badge)](https://f-droid.org/packages/com.nvllz.stepsy)
-  [![Downloads](https://img.shields.io/github/downloads/nvllz/stepsy/total?label=downloads&link=https%3A%2F%2Fgithub.com%2Fnvllz%2Fstepsy%2Freleases&labelColor=A41E84&color=C51684&style=for-the-badge)](https://github.com/nvllz/stepsy/releases)
+  [![GitHub latest ver](https://img.shields.io/github/v/release/nvllz/stepsy.svg?label=latest&labelColor=A41E84&color=C51684&style=for-the-badge)](https://github.com/nvllz/stepsy/releases/latest)
+  [![Downloads](https://img.shields.io/github/downloads/nvllz/stepsy/total?label=downloads&logo=GitHub&link=https%3A%2F%2Fgithub.com%2Fnvllz%2Fstepsy%2Freleases&labelColor=A41E84&color=C51684&style=for-the-badge)](https://github.com/nvllz/stepsy/releases)
   [![License](https://img.shields.io/github/license/nvllz/stepsy.svg?labelColor=A41E84&color=C51684&style=for-the-badge)](LICENSE)
   
 </div>
 
-Stepsy is a lightweight Android app for tracking your daily steps using your phone’s built-in sensors. It focuses on simplicity, battery efficiency, and full local data storage.
+A lightweight step counter that efficiently uses your phone's sensors.
 
-Stay active, monitor your progress, and reach your fitness goals — all through a clean, minimal interface with virtually no battery impact.
+- **Daily Goals & Streaks**: set a daily step target and build consistent walking streaks
+- **Milestones**: walk consistently to earn all the badges
+- **Privacy-first design**: Stepsy works completely offline with no internet access in any build. All data stays on your device
+- **Reliable backups**: advanced auto-backup system will help you avoid data loss and keep your step history safe
+- **Widgets & Notifications**: customizable widgets and cozy notifications to keep your progress always at hand
+- **Long-term tracking**: easily view and compare your activity across months and years
 
-- Calculate distance and calories burned based on your height and weight
-- Visualize your data with dynamic, interactive charts
-- Export your data to a CSV file for backup and easy analysis
-- Display your today's step count with a widget
-- Analyze the progress with dedicated Achievements screen
+&nbsp;
+
+|               Feature               |                        FOSS build                        |                                                                  Full build                                                                  |
+|:-----------------------------------:|:--------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------:|
+|               Privacy               |                      Fully offline                       |                                                                Fully offline                                                                 |
+|Proprietary libraries / dependencies |                           None                           |      Google Play Services ([Activity Recognition API](https://developers.google.com/location-context/activity-recognition/)) – optional      |
+|       Step counting accuracy        |        Device sensor tracking, moderate accuracy         | Sensor tracking with periodic Google Services calls to locally estimate current activity and filter out false steps (when biking/in vehicle) |
+|        Battery optimization         | Highly optimized sensor tracking and database operations |                                    Same as FOSS; API calls should have negligible effect on battery usage                                    |
+|            Availability             |              IzzyOnDroid / F-Droid / Github              |                                                         Obtainium / Github releases                                                          |
 
 💾 [Paseo database to Stepsy migration](https://github.com/nvllz/stepsy/issues/51#issuecomment-3140281948)
 
@@ -31,7 +39,7 @@ Stay active, monitor your progress, and reach your fitness goals — all through
   <img src="images/1.png" width="23%" alt="screenshot_1" />
   <img src="images/2.png" width="23%" alt="screenshot_2" />
   <img src="images/3.png" width="23%" alt="screenshot_3" />
-  <img src="images/7.png" width="23%" alt="screenshot_4" />
+  <img src="images/4.png" width="23%" alt="screenshot_4" />
 </div>
 
 ## Download
@@ -42,10 +50,21 @@ Stay active, monitor your progress, and reach your fitness goals — all through
   <a href="https://intradeus.github.io/http-protocol-redirector?r=obtainium://add/github.com/nvllz/stepsy"><img src="https://raw.githubusercontent.com/ImranR98/Obtainium/b1c8ac6f2ab08497189721a788a5763e28ff64cd/assets/graphics/badge_obtainium.png" alt="Obtainium" width="31%"></a>
 </div>
 
+## Custom intents
+
+You can automate step counting state with apps such as Tasker using broadcast intents.
+
+| Field | Value |
+| :---: | :---: |
+|Intent type| broadcast|
+|Package|com.nvllz.stepsy|
+|Activity/Action|com.nvllz.stepsy.action.PAUSE (or RESUME)|
+
 ## Dependencies
 
 - [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) - Apache License 2.0
+- Google Play Services (full build only, optional)
 
 ## Credits
 
-Stepsy is a fork of [Motionmate](https://github.com/0xf4b1/motionmate), and would never be released without the idea of its original creator, [0xf4b1](https://github.com/0xf4b1).
+Stepsy is based on [Motionmate](https://github.com/0xf4b1/motionmate) created by [0xf4b1](https://github.com/0xf4b1).
