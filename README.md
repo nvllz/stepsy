@@ -2,8 +2,6 @@
   <img src="images/github-banner.png" alt="stepsy banner"/>
 </div>
 
-#
-
 <div align="center">
   
   [![GitHub latest ver](https://img.shields.io/github/v/release/nvllz/stepsy.svg?label=latest&labelColor=A41E84&color=C51684&style=for-the-badge)](https://github.com/nvllz/stepsy/releases/latest)
@@ -30,6 +28,8 @@ A lightweight step counter that efficiently uses your phone's sensors.
 |       Step counting accuracy        |        Device sensor tracking, moderate accuracy         | Sensor tracking with periodic Google Services calls to locally estimate current activity and filter out false steps (when biking/in vehicle) |
 |        Battery optimization         | Highly optimized sensor tracking and database operations |                                    Same as FOSS; API calls should have negligible effect on battery usage                                    |
 |            Availability             |              IzzyOnDroid / F-Droid / Github              |                                                         Obtainium / Github releases                                                          |
+
+&nbsp;
 
 💾 [Paseo database to Stepsy migration](https://github.com/nvllz/stepsy/issues/51#issuecomment-3140281948)
 
