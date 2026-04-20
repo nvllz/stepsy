@@ -1,0 +1,14 @@
+#new
+- from now on you have a choice between full and foss (izzy/fdroid) builds
+- Activity Recognition API (full build, only from Github): accurately filter out steps when biking or in a vehicle at almost no additional battery cost
+- widget custom theme preferences
+- intent actions
+- new font
+
+#changes
+- big rework of the Achievements screen layout
+- better UI consistency across all screens
+
+#fixed
+- live notification flickering
+- imperial units
