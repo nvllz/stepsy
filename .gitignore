@@ -63,3 +63,9 @@ fastlane/test_output
 fastlane/readme.md
 /app/release/output-metadata.json
 /app/release/baselineProfiles/*
+/app/foss/release/baselineProfiles/0/app-foss-release.dm
+/app/foss/release/baselineProfiles/1/app-foss-release.dm
+/app/full/release/baselineProfiles/0/app-full-release.dm
+/app/full/release/baselineProfiles/1/app-full-release.dm
+/app/foss/release/output-metadata.json
+/app/full/release/output-metadata.json
