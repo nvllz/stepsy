@@ -80,7 +80,7 @@
                                 android:gravity="start"
                                 android:textAlignment="center"
                                 android:letterSpacing="-0.02"
-                                android:layout_marginBottom="10dp" />
+                                android:layout_marginBottom="12dp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -99,7 +99,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/loading_data"
-                                        android:textSize="13sp"
+                                        android:textSize="11sp"
+                                        android:letterSpacing="-0.02"
                                         android:fontFamily="@font/open_sans_family"
                                         android:textStyle="bold"
                                         android:textColor="@color/colorAccent"
@@ -131,7 +132,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/loading_data"
-                                        android:textSize="13sp"
+                                        android:textSize="11sp"
+                                        android:letterSpacing="-0.02"
                                         android:fontFamily="@font/open_sans_family"
                                         android:textStyle="bold"
                                         android:textColor="@color/colorAccent"
@@ -163,7 +165,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/loading_data"
-                                        android:textSize="13sp"
+                                        android:textSize="11sp"
+                                        android:letterSpacing="-0.02"
                                         android:fontFamily="@font/open_sans_family"
                                         android:textStyle="bold"
                                         android:textColor="@color/colorAccent"
