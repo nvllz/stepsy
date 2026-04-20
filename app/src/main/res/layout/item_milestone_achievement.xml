@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:text="100k steps"
-            android:fontFamily="@font/open_sans_family"
+            android:fontFamily="@font/chivo_family"
             android:textColor="@color/colorOnSurface" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:text="2022-01-22"
             android:textSize="14sp"
             android:paddingStart="5dp"
-            android:fontFamily="@font/open_sans_family"
+            android:fontFamily="@font/chivo_family"
             android:textColor="@color/colorAccent"
             android:layout_marginTop="2dp" />
 

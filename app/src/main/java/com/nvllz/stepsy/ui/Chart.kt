@@ -137,7 +137,7 @@ internal class Chart : BarChart {
     }
 
     internal fun update() {
-        val typeface = ResourcesCompat.getFont(context, R.font.open_sans_regular)
+        val typeface = ResourcesCompat.getFont(context, R.font.chivo_light)
         if (yVals.isEmpty()) return
 
         val fromVals = oldYVals.map { it.y }

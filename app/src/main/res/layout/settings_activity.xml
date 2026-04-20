@@ -27,7 +27,7 @@
                 android:text="@string/header_personal_data"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:fontFamily="@font/open_sans_family"
+                android:fontFamily="@font/chivo_family"
                 android:textStyle="bold"
                 android:letterSpacing="0.05"/>
 
@@ -78,7 +78,7 @@
                                 android:text="@string/pref_height"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_height_summary"
@@ -87,7 +87,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
                     </LinearLayout>
@@ -134,7 +134,7 @@
                                 android:text="@string/pref_step_length"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_step_length_summary"
@@ -143,7 +143,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
                     </LinearLayout>
@@ -190,7 +190,7 @@
                                 android:text="@string/pref_weight"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_weight_summary"
@@ -199,7 +199,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
                     </LinearLayout>
@@ -217,7 +217,7 @@
                 android:text="@string/header_general"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:fontFamily="@font/open_sans_family"
+                android:fontFamily="@font/chivo_family"
                 android:textStyle="bold"
                 android:letterSpacing="0.05"/>
 
@@ -264,7 +264,7 @@
                                 android:text="@string/pref_vehicle_filter_title"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_vehicle_filter_summary"
@@ -274,7 +274,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
 
@@ -333,7 +333,7 @@
                                 android:text="@string/unit_system"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_unit_system_summary"
@@ -342,7 +342,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
 
@@ -396,7 +396,7 @@
                                 android:text="@string/date_format"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_date_format_summary"
@@ -405,7 +405,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
 
@@ -459,7 +459,7 @@
                                 android:text="@string/first_day_of_the_week"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_first_day_summary"
@@ -468,7 +468,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
 
@@ -494,7 +494,7 @@
                 android:text="@string/header_appearance"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:fontFamily="@font/open_sans_family"
+                android:fontFamily="@font/chivo_family"
                 android:textStyle="bold"
                 android:letterSpacing="0.05"/>
 
@@ -544,7 +544,7 @@
                                 android:text="@string/app_language"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_language_summary"
@@ -553,7 +553,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
 
@@ -607,7 +607,7 @@
                                 android:text="@string/theme"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_theme_summary"
@@ -616,7 +616,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
 
@@ -642,7 +642,7 @@
                 android:text="@string/header_about"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:fontFamily="@font/open_sans_family"
+                android:fontFamily="@font/chivo_family"
                 android:textStyle="bold"
                 android:letterSpacing="0.05"/>
 
@@ -687,7 +687,7 @@
                             android:text="@string/about_stepsy"
                             android:textColor="@color/colorOnSurface"
                             android:textSize="16sp"
-                            android:fontFamily="@font/open_sans_family"/>
+                            android:fontFamily="@font/chivo_family"/>
 
                         <TextView
                             android:id="@+id/pref_about_summary"
@@ -696,7 +696,7 @@
                             android:textColor="@color/colorOnSurface"
                             android:alpha="0.6"
                             android:textSize="13sp"
-                            android:fontFamily="@font/open_sans_family"/>
+                            android:fontFamily="@font/chivo_family"/>
 
                     </LinearLayout>
 

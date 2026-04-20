@@ -33,7 +33,7 @@
                     android:textStyle="bold"
                     android:textAllCaps="true"
                     android:textAlignment="center"
-                    android:fontFamily="@font/open_sans_semibold"
+                    android:fontFamily="@font/chivo_regular"
                     android:fontWeight="700"
                     android:layout_marginBottom="6dp" />
 
@@ -46,7 +46,7 @@
                     android:textSize="38sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorOnSurface"
-                    android:fontFamily="@font/open_sans_semibold"
+                    android:fontFamily="@font/chivo_regular"
                     android:fontWeight="700"
                     android:textAlignment="center"
                     android:layout_marginBottom="4dp" />
@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:textColor="@color/colorAccent"
-                        android:fontFamily="@font/open_sans_regular"
+                        android:fontFamily="@font/chivo_light"
                         android:textAlignment="center"
                         android:drawablePadding="6dp"
                         app:drawableStartCompat="@drawable/ic_steps" />
@@ -76,7 +76,7 @@
                         android:textSize="18sp"
                         android:textColor="@color/colorAccent"
                         android:layout_marginStart="20dp"
-                        android:fontFamily="@font/open_sans_regular"
+                        android:fontFamily="@font/chivo_light"
                         android:textAlignment="center"
                         android:drawablePadding="3dp"
                         app:drawableStartCompat="@drawable/ic_calories" />
@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         android:textColor="@color/colorAccent"
-                        android:fontFamily="@font/open_sans_regular"
+                        android:fontFamily="@font/chivo_light"
                         android:visibility="gone" />
 
                     <TextView
@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:textColor="@color/colorAccent"
-                        android:fontFamily="@font/open_sans_regular"
+                        android:fontFamily="@font/chivo_light"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -150,7 +150,7 @@
                             android:layout_marginHorizontal="2dp"
                             android:text="@string/label_today"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/open_sans_regular"/>
+                            android:fontFamily="@font/chivo_light"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -160,7 +160,7 @@
                             android:layout_marginHorizontal="2dp"
                             android:text="@string/label_week"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/open_sans_regular"/>
+                            android:fontFamily="@font/chivo_light"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -170,7 +170,7 @@
                             android:layout_marginHorizontal="2dp"
                             android:text="@string/label_month"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/open_sans_regular"/>
+                            android:fontFamily="@font/chivo_light"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -180,7 +180,7 @@
                             android:layout_marginHorizontal="2dp"
                             android:text="@string/label_7d"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/open_sans_regular"/>
+                            android:fontFamily="@font/chivo_light"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -190,7 +190,7 @@
                             android:layout_marginHorizontal="2dp"
                             android:text="@string/label_30d"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/open_sans_regular"/>
+                            android:fontFamily="@font/chivo_light"/>
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -200,7 +200,7 @@
                             android:layout_marginHorizontal="2dp"
                             android:text="@string/label_all_time"
                             android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/open_sans_regular"/>
+                            android:fontFamily="@font/chivo_light"/>
                     </com.google.android.flexbox.FlexboxLayout>
 
                     <com.google.android.flexbox.FlexboxLayout
@@ -220,7 +220,7 @@
                     android:textSize="16sp"
                     android:textAllCaps="true"
                     android:textAlignment="center"
-                    android:fontFamily="@font/open_sans_regular"
+                    android:fontFamily="@font/chivo_light"
                     android:fontWeight="700"
                     android:layout_marginTop="6dp" />
 
@@ -257,7 +257,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:textSize="16sp"
-                    android:fontFamily="@font/open_sans_regular"/>
+                    android:fontFamily="@font/chivo_light"/>
 
                 <TextView
                     android:id="@+id/textViewChartWeekRange"
@@ -266,7 +266,7 @@
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:layout_marginBottom="12sp"
-                    android:fontFamily="@font/open_sans_regular"/>
+                    android:fontFamily="@font/chivo_light"/>
 
                 <com.nvllz.stepsy.ui.Chart
                     android:id="@+id/chart"
@@ -302,7 +302,7 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="5sp"
                     android:textAlignment="center"
-                    android:fontFamily="@font/open_sans_semibold"
+                    android:fontFamily="@font/chivo_regular"
                     android:fontWeight="700" />
 
                 <!-- Day Details -->
@@ -313,7 +313,7 @@
                     android:textSize="19sp"
                     android:textAlignment="center"
                     android:layout_marginBottom="20sp"
-                    android:fontFamily="@font/open_sans_regular"/>
+                    android:fontFamily="@font/chivo_light"/>
 
                 <TextView
                     android:id="@+id/textViewMonthTotalHeader"
@@ -322,7 +322,7 @@
                     android:textSize="20sp"
                     android:text="@string/total_distance"
                     android:textAlignment="center"
-                    android:fontFamily="@font/open_sans_semibold"
+                    android:fontFamily="@font/chivo_regular"
                     android:fontWeight="700" />
 
                 <TextView
@@ -333,7 +333,7 @@
                     android:layout_weight="1"
                     android:textSize="18sp"
                     android:textAlignment="center"
-                    android:fontFamily="@font/open_sans_regular"/>
+                    android:fontFamily="@font/chivo_extralight"/>
 
                 <TextView
                     android:id="@+id/textViewMonthAvgHeader"
@@ -342,7 +342,7 @@
                     android:textSize="20sp"
                     android:text="@string/avg_distance"
                     android:textAlignment="center"
-                    android:fontFamily="@font/open_sans_semibold"
+                    android:fontFamily="@font/chivo_regular"
                     android:fontWeight="700" />
 
                 <TextView
@@ -352,7 +352,7 @@
                     android:layout_weight="1"
                     android:textSize="18sp"
                     android:textAlignment="center"
-                    android:fontFamily="@font/open_sans_regular"/>
+                    android:fontFamily="@font/chivo_extralight"/>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

@@ -7,8 +7,8 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/open_sans_family</item>
-        <item name="fontFamily">@font/open_sans_family</item>
+        <item name="android:fontFamily">@font/chivo_family</item>
+        <item name="fontFamily">@font/chivo_family</item>
         <item name="popupMenuBackground">@color/colorSurface</item>
 
         <item name="android:navigationBarColor">@color/colorSurface</item>
@@ -28,8 +28,8 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/open_sans_family</item>
-        <item name="fontFamily">@font/open_sans_family</item>
+        <item name="android:fontFamily">@font/chivo_family</item>
+        <item name="fontFamily">@font/chivo_family</item>
 
         <item name="android:navigationBarColor">@color/colorSurface</item>
         <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
@@ -44,8 +44,8 @@
     <style name="CalendarViewStyle" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorOnPrimary</item>
-        <item name="android:fontFamily">@font/open_sans_family</item>
-        <item name="fontFamily">@font/open_sans_family</item>
+        <item name="android:fontFamily">@font/chivo_family</item>
+        <item name="fontFamily">@font/chivo_family</item>
     </style>
 
     <!-- Dialog Button Styles -->

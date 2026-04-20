@@ -5,4 +5,4 @@
     android:layout_height="wrap_content"
     android:textColor="@color/colorAccent"
     android:layout_marginHorizontal="2dp"
-    android:fontFamily="@font/open_sans_regular"/>
+    android:fontFamily="@font/chivo_light"/>

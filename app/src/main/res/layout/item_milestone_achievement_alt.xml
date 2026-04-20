@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorOnSurface"
                 android:textSize="16sp"
-                android:fontFamily="@font/open_sans_family"/>
+                android:fontFamily="@font/chivo_family"/>
 
             <TextView
                 android:id="@+id/achievement_date"
@@ -49,7 +49,7 @@
                 android:textColor="@color/colorOnSurface"
                 android:alpha="0.6"
                 android:textSize="13sp"
-                android:fontFamily="@font/open_sans_family"
+                android:fontFamily="@font/chivo_family"
                 android:layout_marginTop="2dp"/>
 
         </LinearLayout>

@@ -27,7 +27,7 @@
                 android:text="@string/import_data"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:fontFamily="@font/open_sans_family"
+                android:fontFamily="@font/chivo_family"
                 android:textStyle="bold"
                 android:letterSpacing="0.05"/>
 
@@ -72,7 +72,7 @@
                             android:text="@string/import_data"
                             android:textColor="@color/colorOnSurface"
                             android:textSize="16sp"
-                            android:fontFamily="@font/open_sans_family"/>
+                            android:fontFamily="@font/chivo_family"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                             android:textColor="@color/colorOnSurface"
                             android:alpha="0.6"
                             android:textSize="13sp"
-                            android:fontFamily="@font/open_sans_family"/>
+                            android:fontFamily="@font/chivo_family"/>
 
                     </LinearLayout>
 
@@ -106,7 +106,7 @@
                 android:text="@string/export_data"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:fontFamily="@font/open_sans_family"
+                android:fontFamily="@font/chivo_family"
                 android:textStyle="bold"
                 android:letterSpacing="0.05"/>
 
@@ -156,7 +156,7 @@
                                 android:text="@string/backup_frequency"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_backup_frequency_summary"
@@ -165,7 +165,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
 
@@ -219,7 +219,7 @@
                                 android:text="@string/backup_retention_count"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_backup_retention_summary"
@@ -228,7 +228,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
 
@@ -282,7 +282,7 @@
                                 android:text="@string/backup_location"
                                 android:textColor="@color/colorOnSurface"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                             <TextView
                                 android:id="@+id/pref_backup_location_summary"
@@ -291,7 +291,7 @@
                                 android:textColor="@color/colorOnSurface"
                                 android:alpha="0.6"
                                 android:textSize="13sp"
-                                android:fontFamily="@font/open_sans_family"/>
+                                android:fontFamily="@font/chivo_family"/>
 
                         </LinearLayout>
 
@@ -340,7 +340,7 @@
                             android:text="@string/manual_backup"
                             android:textColor="@color/colorOnSurface"
                             android:textSize="16sp"
-                            android:fontFamily="@font/open_sans_family"/>
+                            android:fontFamily="@font/chivo_family"/>
 
                         <ImageView
                             android:layout_width="20dp"
@@ -365,7 +365,7 @@
                 android:textSize="15sp"
                 android:gravity="center"
                 android:textAlignment="center"
-                android:fontFamily="@font/open_sans_family"
+                android:fontFamily="@font/chivo_family"
                 android:visibility="gone"/>
 
         </LinearLayout>

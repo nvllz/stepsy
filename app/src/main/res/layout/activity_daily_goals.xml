@@ -57,7 +57,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLines="1"
-                            android:fontFamily="@font/open_sans_family"/>
+                            android:fontFamily="@font/chivo_family"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +103,7 @@
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"
+                                android:fontFamily="@font/chivo_family"
                                 android:textColor="@color/colorOnSurface"
                                 app:thumbTint="@color/colorOnPrimary"
                                 app:trackTint="@color/colorPrimary"
@@ -140,7 +140,7 @@
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"
+                                android:fontFamily="@font/chivo_family"
                                 android:textColor="@color/colorOnSurface"
                                 app:thumbTint="@color/colorOnPrimary"
                                 app:trackTint="@color/colorPrimary"
@@ -177,7 +177,7 @@
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"
+                                android:fontFamily="@font/chivo_family"
                                 android:textColor="@color/colorOnSurface"
                                 app:thumbTint="@color/colorOnPrimary"
                                 app:trackTint="@color/colorPrimary"
@@ -214,7 +214,7 @@
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
                                 android:textSize="16sp"
-                                android:fontFamily="@font/open_sans_family"
+                                android:fontFamily="@font/chivo_family"
                                 android:textColor="@color/colorOnSurface"
                                 app:thumbTint="@color/colorOnPrimary"
                                 app:trackTint="@color/colorPrimary"
