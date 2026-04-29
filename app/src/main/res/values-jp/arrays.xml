@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>@string/preference_system</item>
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+    </string-array>
+
+    <!-- Weekdays -->
+   <string-array name="weekdays">
+        <item>日曜日</item>
+        <item>月曜日</item>
+        <item>火曜日</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>メートル法 (km)</item>
+        <item>ヤード・ポンド法 (マイル)</item>
+    </string-array>
+
+    <!-- Backup Frequency -->
+    <string-array name="backup_frequency_entries">
+        <item>無効</item>
+        <item>毎日</item>
+        <item>2日ごとに</item>
+        <item>3日ごとに</item>
+        <item>毎週</item>
+        <item>2週間ごとに</item>
+        <item>毎月</item>
+    </string-array>
+</resources>
