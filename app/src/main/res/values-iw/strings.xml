@@ -7,34 +7,34 @@
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
     <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">Week %1$d</string>
+    <string name="week_display_format">שבוע %1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">No record for %1$s</string>
-    <string name="calories">%1$d kcal</string>
-    <string name="steps_month">This month</string>
+    <string name="calories">%1$d ק׳ קל׳</string>
+    <string name="steps_month">החודש</string>
     <string name="avg_distance">Average per day</string>
-    <string name="total_distance">Total distance</string>
-    <string name="goal_streak_line">Goal: %1$s · %2$s %3$s streak</string>
+    <string name="total_distance">מרחק כולל</string>
+    <string name="goal_streak_line">יעד: %1$s · שיא של %2$s %3$s</string>
     <string name="goal_streak_dead_line">Daily Goal: %1$s</string>
 
     <string name="no_sensor">Your device does not have a step counting sensor</string>
     <string name="no_activity_permission">Missing ACTIVITY_RECOGNITION permission</string>
 
     <!-- Header section -->
-    <string name="expand_collapse">Expand/Collapse</string>
-    <string name="header_today">Today</string>
-    <string name="header_week">This week</string>
-    <string name="header_month">This month</string>
-    <string name="header_7d">Past 7 days</string>
-    <string name="header_30d">Past 30 days</string>
+    <string name="expand_collapse">הרחבה/צמצום</string>
+    <string name="header_today">היום</string>
+    <string name="header_week">השבוע</string>
+    <string name="header_month">החודש</string>
+    <string name="header_7d">7 הימים האחרונים</string>
+    <string name="header_30d">30 הימים האחרונים</string>
     <string name="header_all_time">Overall</string>
-    <string name="header_year">Year %1$d</string>
+    <string name="header_year">שנת %1$d</string>
 
     <string name="label_today">היום</string>
-    <string name="label_week">Week</string>
-    <string name="label_month">Month</string>
-    <string name="label_7d">7 days</string>
-    <string name="label_30d">30 days</string>
+    <string name="label_week">שבוע</string>
+    <string name="label_month">חודש</string>
+    <string name="label_7d">7 ימים</string>
+    <string name="label_30d">30 יום</string>
     <string name="label_all_time">All time</string>
 
     <!-- Plurals -->
@@ -57,60 +57,60 @@
     </plurals>
 
     <!-- Notifications -->
-    <string name="notification_category_counting_paused">Counting paused</string>
-    <string name="notification_category_steps_day">Step progress</string>
+    <string name="notification_category_counting_paused">הספירה מושהית</string>
+    <string name="notification_category_steps_day">התקדמות צעידה</string>
     <string name="notification_description_paused">Notify when step counting is paused</string>
-    <string name="notification_description_steps_day">Today\'s step count</string>
-    <string name="notification_step_counting_paused">Step counting is paused</string>
+    <string name="notification_description_steps_day">ספירת הצעדים של היום</string>
+    <string name="notification_step_counting_paused">ספירת הצעדים מושהית</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">Goal: %1$s — %2$s to go</string>
-    <string name="notification_step_goal_completed">Step goal reached!</string>
-    <string name="step_counting_paused">Paused step counting</string>
-    <string name="step_counting_resumed">Resumed step counting</string>
+    <string name="notification_step_goal_progress">יעד: %1$s — נותרו לך %2$s</string>
+    <string name="notification_step_goal_completed">הגעת ליעד הצעדים!</string>
+    <string name="step_counting_paused">ספירת הצעדים הושהתה</string>
+    <string name="step_counting_resumed">ספירת הצעדים הומשכה</string>
     <string name="action_pause">השהיה</string>
-    <string name="action_resume">Resume</string>
+    <string name="action_resume">המשך</string>
 
     <!-- Preferences -->
     <string name="settings">הגדרות</string>
-    <string name="header_personal_data">Personal data</string>
-    <string name="header_appearance">Appearance</string>
-    <string name="header_general">General</string>
-    <string name="header_data_backup">Backup</string>
+    <string name="header_personal_data">נתונים אישיים</string>
+    <string name="header_appearance">מראה</string>
+    <string name="header_general">כללי</string>
+    <string name="header_data_backup">גיבוי</string>
 
-    <string name="preference_system">System</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="pref_height">Height</string>
-    <string name="pref_step_length">Step length</string>
-    <string name="pref_weight">Weight</string>
-    <string name="first_day_of_the_week">First day of the week</string>
-    <string name="app_language">Language</string>
-    <string name="theme">Theme</string>
-    <string name="date_format">Date format</string>
-    <string name="unit_system">Unit system</string>
+    <string name="preference_system">מערכת</string>
+    <string name="theme_light">בהיר</string>
+    <string name="theme_dark">כהה</string>
+    <string name="pref_height">גובה</string>
+    <string name="pref_step_length">אורך צעד</string>
+    <string name="pref_weight">משקל</string>
+    <string name="first_day_of_the_week">היום הראשון בשבוע</string>
+    <string name="app_language">שפה</string>
+    <string name="theme">עיצוב</string>
+    <string name="date_format">תבנית תאריך</string>
+    <string name="unit_system">יחידות מדידה</string>
     <string name="export_data">ייצוא</string>
-    <string name="backup_frequency">Automatic backup frequency</string>
-    <string name="backup_retention_count">Number of backups to keep</string>
-    <string name="backup_retention_hint">(0 to keep all)</string>
-    <string name="backup_retention_unlimited">Unlimited</string>
-    <string name="backup_location">Backup location</string>
-    <string name="backup_location_not_set">Not set</string>
-    <string name="manual_backup">Manual backup</string>
-    <string name="import_data">Import</string>
+    <string name="backup_frequency">תדירות לגיבוי אוטומטי</string>
+    <string name="backup_retention_count">מספר גיבויים לשמירה</string>
+    <string name="backup_retention_hint">(0 בשביל לשמור את כולם)</string>
+    <string name="backup_retention_unlimited">ללא הגבלה</string>
+    <string name="backup_location">מיקום הגיבוי</string>
+    <string name="backup_location_not_set">לא הוגדר</string>
+    <string name="manual_backup">גיבוי ידני</string>
+    <string name="import_data">ייבוא</string>
     <string name="import_data_summary">Restore step data from a file</string>
-    <string name="next_backup_scheduled">Next automatic backup\n%1$s at %2$s</string>
-    <string name="import_invalid_file">This file is invalid</string>
-    <string name="import_warning_title">Replace step data</string>
+    <string name="next_backup_scheduled">הגיבוי האוטומטי הבא\n%1$s בשעה %2$s</string>
+    <string name="import_invalid_file">קובץ זה אינו תקני</string>
+    <string name="import_warning_title">החלפת נתוני הצעדים</string>
     <string name="import_warning_message">This will delete all current step data and replace it with imported data. Continue?</string>
     <string name="pref_vehicle_filter_title">Accurate steps filtering</string>
     <string name="pref_vehicle_filter_summary">Use offline Activity Recognition API to ignore steps when you\'re in a car, bus, or on a bike. Requires Google Play Services</string>
     <string name="pref_vehicle_filter_summary_foss">More accurate step recognition using Google Play Services API, available in the full build only. You can get it on Github (github.com/nvllz/stepsy)</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API is not available on this device</string>
 
-    <string name="header_about">App info</string>
+    <string name="header_about">מידע על היישום</string>
     <string name="about_stepsy">על אודות</string>
-    <string name="about_version">Version</string>
-    <string name="about_license">License</string>
+    <string name="about_version">גרסה</string>
+    <string name="about_license">רישיון</string>
     <string name="about_html">
     <![CDATA[
         Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
@@ -123,67 +123,67 @@
     </string>
 
     <!-- Toasts -->
-    <string name="enter_valid_value">Please enter a valid value</string>
-    <string name="cannot_open_file">Cannot open file</string>
-    <string name="manual_backup_successful">Manual backup successful</string>
+    <string name="enter_valid_value">נא להקליד ערך תקני</string>
+    <string name="cannot_open_file">לא ניתן לפתוח את הקובץ</string>
+    <string name="manual_backup_successful">הגיבוי הידני הצליח</string>
     <string name="select_backup_location_first">Select backup location first</string>
-    <string name="import_result">Imported %1$d entries (%2$d failed). %3$s</string>
-    <string name="today_steps_set">Today\'s steps set to %1$d.</string>
+    <string name="import_result">יובאו %1$d ערכים (%2$d נכשלו). %3$s</string>
+    <string name="today_steps_set">ספירת הצעדים של היום הוגדרה להיות %1$d.</string>
 
     <!-- Widgets -->
-    <string name="widget_pref_invert_bg">Invert background color</string>
-    <string name="widget_pref_dynamic_colors">Dynamic Colors</string>
-    <string name="widget_pref_text_scale">Text Scale</string>
-    <string name="widget_pref_bg_opacity">Background Opacity</string>
+    <string name="widget_pref_invert_bg">היפוך צבע הרקע</string>
+    <string name="widget_pref_dynamic_colors">צבעים דינמיים</string>
+    <string name="widget_pref_text_scale">גודל טקסט</string>
+    <string name="widget_pref_bg_opacity">אטימות רקע</string>
     <string name="widget_pref_btn_save">שמירה</string>
 
     <!-- Achievements -->
     <string name="achievements_title">הישגים</string>
     <string name="milestone_achievements">אבני דרך</string>
-    <string name="no_milestones_reached">No milestones reached yet. Keep walking!</string>
+    <string name="no_milestones_reached">עדיין לא הגעת לאבני דרך. אבל אנחנו בדרך לשם!</string>
 
     <!-- Data Placeholders -->
     <string name="loading_data">הנתונים נטענים…\n</string>
-    <string name="no_data_available">No data available\n</string>
-    <string name="error_loading_data">Error loading data\n</string>
+    <string name="no_data_available">אין נתונים זמינים\n</string>
+    <string name="error_loading_data">שגיאה במהלך טעינת הנתונים\n</string>
 
     <!-- Daily Goals -->
     <string name="daily_goals">יעד יומי</string>
-    <string name="daily_goal_notification">Notify when reached</string>
+    <string name="daily_goal_notification">שליחת התראה בעת הגעה ליעד</string>
     <string name="progress_in_notification">Show progress in live notification</string>
-    <string name="daily_goal_target">Daily step goal</string>
-    <string name="daily_goal_hint">Enter your daily step goal</string>
-    <string name="encouraging_notifications">Encouraging notifications</string>
+    <string name="daily_goal_target">יעד צעדים יומי</string>
+    <string name="daily_goal_hint">נא לבחור את יעד הצעדים היומי שלך</string>
+    <string name="encouraging_notifications">התראות עידוד</string>
     <string name="goal_chart_line">Draw step target line on chart</string>
 
     <!-- Records -->
     <string name="personal_records">שיאים</string>
-    <string name="most_steps_day">Highest step count</string>
-    <string name="most_walked_month">Most active month</string>
-    <string name="streak_record">Longest %1$s+ steps streak</string>
-    <string name="top_3_days">Top 3 days</string>
-    <string name="best_week">Best week</string>
-    <string name="avg_steps_per_day">Average per day</string>
+    <string name="most_steps_day">היום עם הכי הרבה צעדים</string>
+    <string name="most_walked_month">החודש הפעיל ביותר</string>
+    <string name="streak_record">השיא הארוך ביותר של מעל  %1$s צעדים</string>
+    <string name="top_3_days">3 הימים הפעילים ביותר</string>
+    <string name="best_week">השבוע הפעיל ביותר</string>
+    <string name="avg_steps_per_day">ממוצע ליום</string>
     <string name="since_date">מאז %1$s</string>
 
     <!-- Daily Goal Notifications -->
     <string name="daily_goal_notifications">Step goal alerts</string>
     <string name="daily_goal_notification_channel_desc">Get notified when you reach your daily step goal</string>
-    <string name="goal_achieved_title">🎉 You Hit Your Goal!</string>
-    <string name="goal_achieved_message">You reached your step goal of %1$s steps!</string>
+    <string name="goal_achieved_title">🎉 הגעת ליעד שקבעת!</string>
+    <string name="goal_achieved_message">הגעת ליעד הצעדים שקבעת של %1$s צעדים!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
-    <string name="million_steps_with_distance">%1$dM • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
+    <string name="thousand_steps_with_distance">%1$d אלף • %2$s</string>
+    <string name="million_steps_with_distance">%1$d מיליון • %2$s</string>
+    <string name="million_steps_decimal_with_distance">%.1f מיליון • %2$s</string>
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">Adjust Today\'s Step Count</string>
     <string name="confirm_decrease_title">Lower Step Count</string>
     <string name="confirm_decrease_message">"This value is lower than the current step count. Are you sure you want to proceed?"</string>
-    <string name="invalid_step_count">Please enter a valid number</string>
-    <string name="steps_updated">Step count updated</string>
+    <string name="invalid_step_count">נא להקליד מספר תקני</string>
+    <string name="steps_updated">ספירת הצעדים התעדכנה</string>
 
     <!-- Encouraging notification strings -->
     <string name="encouraging_notification_title">Keep Going!</string>
@@ -201,12 +201,12 @@
     <!-- Pause step counting -->
     <string name="resume_at_time">Resume at time</string>
     <string name="pause_when_to_resume">Select when to resume step counting</string>
-    <string name="pause_step_counting">Pause step counting</string>
-    <string name="pause_30_minutes">30 minutes</string>
+    <string name="pause_step_counting">השהיית ספירת הצעדים</string>
+    <string name="pause_30_minutes">חצי שעה</string>
     <string name="pause_1_hour">שעה</string>
     <string name="pause_2_hours">שעתיים</string>
-    <string name="pause_custom_time">Custom time</string>
+    <string name="pause_custom_time">זמן שאני אבחר</string>
     <string name="pause_indefinitely">עד שאפעיל בחזרה</string>
-    <string name="step_counting_paused_until">Step counting paused until %s</string>
-    <string name="step_counting_resumed_auto">Step counting resumed automatically</string>
+    <string name="step_counting_paused_until">ספירת הצעדים מושהית עד %s</string>
+    <string name="step_counting_resumed_auto">ספירת הצעדים חזרה אוטומטית לפעול</string>
 </resources>
