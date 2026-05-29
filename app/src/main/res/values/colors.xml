@@ -14,6 +14,11 @@
     <color name="widgetPrimary_default">#161616</color>
     <color name="widgetSecondary_default">#292929</color>
     <color name="widgetBackground_default">#80FFFFFF</color>
+    <color name="widgetGoalReached">#2E7D32</color>
+    <color name="widgetRingActive">#161616</color>
+    <color name="widgetRingActive_default">#161616</color>
+    <color name="widgetRingBg">#80FFFFFF</color>
+    <color name="widgetRingBg_default">#80FFFFFF</color>
 
     <color name="colorDialogSurface">#F4F4F4</color>
     <color name="colorAccentOpaque">#12575757</color>
