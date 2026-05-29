@@ -114,6 +114,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.WidgetRingConfigureActivity"
+            android:excludeFromRecents="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <!-- Tile dialog activity -->
         <activity
             android:name=".ui.TileDialogActivity"
@@ -205,6 +214,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_plain_info" />
+        </receiver>
+
+        <receiver
+            android:name=".ui.WidgetRingProvider"
+            android:exported="true"
+            android:label="Goal Ring">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_ring_info" />
         </receiver>
 
         <receiver
