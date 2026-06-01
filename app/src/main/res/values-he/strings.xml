@@ -9,16 +9,16 @@
     <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">שבוע %1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">No record for %1$s</string>
+    <string name="no_entry">אין רשומות עבור %1$s</string>
     <string name="calories">%1$d ק׳ קל׳</string>
     <string name="steps_month">החודש</string>
-    <string name="avg_distance">Average per day</string>
+    <string name="avg_distance">ממוצע ליום</string>
     <string name="total_distance">מרחק כולל</string>
     <string name="goal_streak_line">יעד: %1$s · שיא של %2$s %3$s</string>
-    <string name="goal_streak_dead_line">Daily Goal: %1$s</string>
+    <string name="goal_streak_dead_line">יעד יומי: %1$s</string>
 
-    <string name="no_sensor">Your device does not have a step counting sensor</string>
-    <string name="no_activity_permission">Missing ACTIVITY_RECOGNITION permission</string>
+    <string name="no_sensor">אין למכשירך חיישן מדידת צעדים</string>
+    <string name="no_activity_permission">חסרה ההרשאה לזיהוי פעילות (ACTIVITY_RECOGNITION)</string>
 
     <!-- Header section -->
     <string name="expand_collapse">הרחבה/צמצום</string>
@@ -59,7 +59,7 @@
     <!-- Notifications -->
     <string name="notification_category_counting_paused">הספירה מושהית</string>
     <string name="notification_category_steps_day">התקדמות צעידה</string>
-    <string name="notification_description_paused">Notify when step counting is paused</string>
+    <string name="notification_description_paused">התראה לאחר השהיית ספירת הצעדים</string>
     <string name="notification_description_steps_day">ספירת הצעדים של היום</string>
     <string name="notification_step_counting_paused">ספירת הצעדים מושהית</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
@@ -97,12 +97,12 @@
     <string name="backup_location_not_set">לא הוגדר</string>
     <string name="manual_backup">גיבוי ידני</string>
     <string name="import_data">ייבוא</string>
-    <string name="import_data_summary">Restore step data from a file</string>
+    <string name="import_data_summary">שחזור נתוני צעידה מקובץ</string>
     <string name="next_backup_scheduled">הגיבוי האוטומטי הבא\n%1$s בשעה %2$s</string>
     <string name="import_invalid_file">קובץ זה אינו תקני</string>
     <string name="import_warning_title">החלפת נתוני הצעדים</string>
-    <string name="import_warning_message">This will delete all current step data and replace it with imported data. Continue?</string>
-    <string name="pref_vehicle_filter_title">Accurate steps filtering</string>
+    <string name="import_warning_message">פעולה זו תמחק את כל נתוני הצעידה הנוכחיים ותחליף אותם בנתונים המיובאים. להמשיך?</string>
+    <string name="pref_vehicle_filter_title">סינון צעדים מדויק</string>
     <string name="pref_vehicle_filter_summary">Use offline Activity Recognition API to ignore steps when you\'re in a car, bus, or on a bike. Requires Google Play Services</string>
     <string name="pref_vehicle_filter_summary_foss">More accurate step recognition using Google Play Services API, available in the full build only. You can get it on Github (github.com/nvllz/stepsy)</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API is not available on this device</string>
@@ -179,28 +179,28 @@
     <string name="million_steps_decimal_with_distance">%.1f מיליון • %2$s</string>
 
     <!-- Step Count Adjustment -->
-    <string name="edit_step_count">Adjust Today\'s Step Count</string>
-    <string name="confirm_decrease_title">Lower Step Count</string>
-    <string name="confirm_decrease_message">"This value is lower than the current step count. Are you sure you want to proceed?"</string>
+    <string name="edit_step_count">שינוי מספר הצעדים של היום</string>
+    <string name="confirm_decrease_title">מספר הצעדים הנמוך ביותר</string>
+    <string name="confirm_decrease_message">"ערך זה נמוך ממספר הצעדים הנוכחי. להמשיך?"</string>
     <string name="invalid_step_count">נא להקליד מספר תקני</string>
     <string name="steps_updated">ספירת הצעדים התעדכנה</string>
 
     <!-- Encouraging notification strings -->
     <string name="encouraging_notification_title">Keep Going!</string>
-    <string name="encouraging_notification_15_percent">Great start! You\'ve completed %1$d%% of your daily goal. Only %2$d more steps to go!</string>
-    <string name="encouraging_notification_75_percent">You\'re almost there! %1$d%% complete. Just %2$d more steps to reach your goal!</string>
+    <string name="encouraging_notification_15_percent">התחלה מצוינת! השלמת %1$d%% מהמטרה היומית שלך. נותרו לך רק %2$d צעדים!</string>
+    <string name="encouraging_notification_75_percent">כמעט הגעת ליעד! %1$d%% הושלמו. נותרו רק עוד %2$d עד שנגיע למטרה היומית!</string>
 
-    <string name="encouraging_notification_15_percent_alt1">Nice progress! You\'ve walked %1$d%% of your daily goal. Keep moving!</string>
-    <string name="encouraging_notification_15_percent_alt2">You\'re on your way! %1$d%% done. %2$d steps left to reach your goal!</string>
-    <string name="encouraging_notification_15_percent_alt3">Good job! You\'ve completed %1$d%% of your daily target. Stay active!</string>
+    <string name="encouraging_notification_15_percent_alt1">אחלה התקדמות! צעדת %1$d%% מתוך המטרה היומית שלך. להמשיך כך!</string>
+    <string name="encouraging_notification_15_percent_alt2">רק עוד קצת! %1$d%% הושלמו. %2$d צעדים נותרו עד שמגיעים ליעד!</string>
+    <string name="encouraging_notification_15_percent_alt3">כל הכבוד! השלמת %1$d%% מהמטרה היומית שלך. להמשיך לצעוד!</string>
 
-    <string name="encouraging_notification_75_percent_alt1">So close! You\'ve reached %1$d%% of your goal. Only %2$d steps remaining!</string>
-    <string name="encouraging_notification_75_percent_alt2">Final push! %1$d%% complete. You can do it — just %2$d more steps!</string>
-    <string name="encouraging_notification_75_percent_alt3">Almost at the finish line! %1$d%% done. %2$d steps to victory!</string>
+    <string name="encouraging_notification_75_percent_alt1">כמעט הגענו! השלמת %1$d%% מהיעד שלך. נותרו רק %2$d צעדים!</string>
+    <string name="encouraging_notification_75_percent_alt2">רק עוד טיפה! %1$d%% הושלמו. אנחנו יכולים לעשות את זה — נותרו רק עוד %2$d צעדים!</string>
+    <string name="encouraging_notification_75_percent_alt3">כמעט הגענו לקו הסיום! %1$d%% הושלמו. %2$d צעדים עד לניצחון!</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">Resume at time</string>
-    <string name="pause_when_to_resume">Select when to resume step counting</string>
+    <string name="resume_at_time">להמשיך בשעה</string>
+    <string name="pause_when_to_resume">נא לבחור מתי להמשיך לספור צעדים</string>
     <string name="pause_step_counting">השהיית ספירת הצעדים</string>
     <string name="pause_30_minutes">חצי שעה</string>
     <string name="pause_1_hour">שעה</string>
