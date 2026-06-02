@@ -27,7 +27,7 @@
     <string name="header_month">החודש</string>
     <string name="header_7d">7 הימים האחרונים</string>
     <string name="header_30d">30 הימים האחרונים</string>
-    <string name="header_all_time">Overall</string>
+    <string name="header_all_time">כל הזמנים</string>
     <string name="header_year">שנת %1$d</string>
 
     <string name="label_today">היום</string>
@@ -35,7 +35,7 @@
     <string name="label_month">חודש</string>
     <string name="label_7d">7 ימים</string>
     <string name="label_30d">30 יום</string>
-    <string name="label_all_time">All time</string>
+    <string name="label_all_time">כל הזמנים</string>
 
     <!-- Plurals -->
     <plurals name="steps_formatted">
@@ -160,7 +160,7 @@
     <string name="personal_records">שיאים</string>
     <string name="most_steps_day">היום עם הכי הרבה צעדים</string>
     <string name="most_walked_month">החודש הפעיל ביותר</string>
-    <string name="streak_record">השיא הארוך ביותר של מעל  %1$s צעדים</string>
+    <string name="streak_record">השיא הארוך ביותר של מעל %1$s צעדים</string>
     <string name="top_3_days">3 הימים הפעילים ביותר</string>
     <string name="best_week">השבוע הפעיל ביותר</string>
     <string name="avg_steps_per_day">ממוצע ליום</string>
@@ -180,7 +180,7 @@
 
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">שינוי מספר הצעדים של היום</string>
-    <string name="confirm_decrease_title">מספר הצעדים הנמוך ביותר</string>
+    <string name="confirm_decrease_title">הקטנת מספר הצעדים</string>
     <string name="confirm_decrease_message">"ערך זה נמוך ממספר הצעדים הנוכחי. להמשיך?"</string>
     <string name="invalid_step_count">נא להקליד מספר תקני</string>
     <string name="steps_updated">ספירת הצעדים התעדכנה</string>
