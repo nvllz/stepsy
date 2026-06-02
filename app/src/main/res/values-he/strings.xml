@@ -103,9 +103,9 @@
     <string name="import_warning_title">החלפת נתוני הצעדים</string>
     <string name="import_warning_message">פעולה זו תמחק את כל נתוני הצעידה הנוכחיים ותחליף אותם בנתונים המיובאים. להמשיך?</string>
     <string name="pref_vehicle_filter_title">סינון צעדים מדויק</string>
-    <string name="pref_vehicle_filter_summary">Use offline Activity Recognition API to ignore steps when you\'re in a car, bus, or on a bike. Requires Google Play Services</string>
-    <string name="pref_vehicle_filter_summary_foss">More accurate step recognition using Google Play Services API, available in the full build only. You can get it on Github (github.com/nvllz/stepsy)</string>
-    <string name="vehicle_filter_unavailable">Activity Recognition API is not available on this device</string>
+    <string name="pref_vehicle_filter_summary">שימוש במפתח API לזיהוי פעילות בלתי־מקוון על מנת להפסיק את ספירת הצעדים כאשר נמצאים במכונית, באוטובוס, או על אופניים. נדרשים שירותי Google Play</string>
+    <string name="pref_vehicle_filter_summary_foss">זיהוי צעדים מדויק יותר שמשתמש במפתח ה־API של שירותי Google Play, הוא זמין בגרסה המלאה בלבד. ניתן להורידה מ־Github ‏(github.com/nvllz/stepsy)</string>
+    <string name="vehicle_filter_unavailable">מפתח ה־API לזיהוי פעילות אינו זמין במכשיר זה</string>
 
     <string name="header_about">מידע על היישום</string>
     <string name="about_stepsy">על אודות</string>
@@ -114,11 +114,11 @@
     <string name="about_html">
     <![CDATA[
         Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        Maintained by <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        Built on top of <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> by <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">Report a bug</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">Project website</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">License GPL-3.0</a>
+        המיזם מתוחזק בידי <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
+        נבנה על בסיס <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> by <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
+        <a href="https://github.com/nvllz/stepsy/issues">דיווח על תקלה</a><br><br>
+        <a href="https://github.com/nvllz/stepsy">לאתר האינטרנט של המיזם</a><br>
+        <a href="https://www.gnu.org/licenses/gpl-3.0.html">רישיון GPL-3.0</a>
     ]]>
     </string>
 
@@ -126,7 +126,7 @@
     <string name="enter_valid_value">נא להקליד ערך תקני</string>
     <string name="cannot_open_file">לא ניתן לפתוח את הקובץ</string>
     <string name="manual_backup_successful">הגיבוי הידני הצליח</string>
-    <string name="select_backup_location_first">Select backup location first</string>
+    <string name="select_backup_location_first">יש לבחור מיקום לגיבוי תחילה</string>
     <string name="import_result">יובאו %1$d ערכים (%2$d נכשלו). %3$s</string>
     <string name="today_steps_set">ספירת הצעדים של היום הוגדרה להיות %1$d.</string>
 
@@ -150,11 +150,11 @@
     <!-- Daily Goals -->
     <string name="daily_goals">יעד יומי</string>
     <string name="daily_goal_notification">שליחת התראה בעת הגעה ליעד</string>
-    <string name="progress_in_notification">Show progress in live notification</string>
+    <string name="progress_in_notification">הצגת ההתקדמות בהתראה חיה</string>
     <string name="daily_goal_target">יעד צעדים יומי</string>
     <string name="daily_goal_hint">נא לבחור את יעד הצעדים היומי שלך</string>
     <string name="encouraging_notifications">התראות עידוד</string>
-    <string name="goal_chart_line">Draw step target line on chart</string>
+    <string name="goal_chart_line">הצגת קו מטרת הצעדים בתרשים</string>
 
     <!-- Records -->
     <string name="personal_records">שיאים</string>
@@ -167,8 +167,8 @@
     <string name="since_date">מאז %1$s</string>
 
     <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">Step goal alerts</string>
-    <string name="daily_goal_notification_channel_desc">Get notified when you reach your daily step goal</string>
+    <string name="daily_goal_notifications">התרעות בנוגע ליעד הצעדים</string>
+    <string name="daily_goal_notification_channel_desc">לקבלת התראה בעת הגעה ליעד הצעדים היומי</string>
     <string name="goal_achieved_title">🎉 הגעת ליעד שקבעת!</string>
     <string name="goal_achieved_message">הגעת ליעד הצעדים שקבעת של %1$s צעדים!</string>
 
@@ -186,7 +186,7 @@
     <string name="steps_updated">ספירת הצעדים התעדכנה</string>
 
     <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">Keep Going!</string>
+    <string name="encouraging_notification_title">להמשיך כך!</string>
     <string name="encouraging_notification_15_percent">התחלה מצוינת! השלמת %1$d%% מהמטרה היומית שלך. נותרו לך רק %2$d צעדים!</string>
     <string name="encouraging_notification_75_percent">כמעט הגעת ליעד! %1$d%% הושלמו. נותרו רק עוד %2$d עד שנגיע למטרה היומית!</string>
 
