@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme -->
+    <string-array name="theme_entries">
+        <item>@string/preference_system</item>
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+    </string-array>
+
+    <!-- Weekdays -->
+    <string-array name="weekdays">
+        <item>ראשון</item>
+        <item>שני</item>
+        <item>יום ש׳</item>
+    </string-array>
+
+    <!-- Unit System -->
+    <string-array name="unit_system_entries">
+        <item>השיטה המטרית (ק״מ)</item>
+        <item>השיטה האימפריאלית (מיל)</item>
+    </string-array>
+
+
+    <!-- Backup Frequency -->
+    <string-array name="backup_frequency_entries">
+        <item>השבתת הגיבוי</item>
+        <item>כל יום</item>
+        <item>כל יומיים</item>
+        <item>כל 3 ימים</item>
+        <item>כל שבוע</item>
+        <item>כל שבועיים</item>
+        <item>כל חודש</item>
+    </string-array>
+</resources>
