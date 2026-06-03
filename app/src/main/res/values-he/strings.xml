@@ -181,7 +181,7 @@
     <!-- Step Count Adjustment -->
     <string name="edit_step_count">שינוי מספר הצעדים של היום</string>
     <string name="confirm_decrease_title">הקטנת מספר הצעדים</string>
-    <string name="confirm_decrease_message">"ערך זה נמוך ממספר הצעדים הנוכחי. להמשיך?"</string>
+    <string name="confirm_decrease_message">ערך זה נמוך ממספר הצעדים הנוכחי. להמשיך?</string>
     <string name="invalid_step_count">נא להקליד מספר תקני</string>
     <string name="steps_updated">ספירת הצעדים התעדכנה</string>
 
