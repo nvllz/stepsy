@@ -38,8 +38,6 @@ class WidgetRingProvider : AppWidgetProvider() {
 
         private const val TRACK_ALPHA = 150
 
-        private const val COMPACT_THRESHOLD_DP = 100
-
         fun activeColor(context: Context, primaryColor: Int, progress: Float): Int =
             if (progress >= 1f) ContextCompat.getColor(context, R.color.widgetGoalReached) else primaryColor
 
@@ -104,10 +102,7 @@ class WidgetRingProvider : AppWidgetProvider() {
             remoteViews.setTextViewText(R.id.widget_ring_steps, steps.toString())
             remoteViews.setTextViewText(R.id.widget_ring_percent, percentStr)
 
-            val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
-            val minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 0)
-            val minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0)
-            val compact = (minWidth in 1 until COMPACT_THRESHOLD_DP) || (minHeight in 1 until COMPACT_THRESHOLD_DP)
+            val compact = prefs.getBoolean("compact", false)
             remoteViews.setViewVisibility(R.id.widget_ring_text, if (compact) View.GONE else View.VISIBLE)
 
             val padPx = ((if (compact) 6f else 14f) * context.resources.displayMetrics.density).toInt()

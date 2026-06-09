@@ -135,6 +135,7 @@
     <string name="widget_pref_text_scale">Масштаб текста</string>
     <string name="widget_pref_bg_opacity">Прозрачность фона</string>
     <string name="widget_pref_btn_save">Сохранить</string>
+    <string name="widget_pref_compact">Компактный (только кольцо)</string>
 
     <!-- Achievements -->
     <string name="achievements_title">Достижения</string>

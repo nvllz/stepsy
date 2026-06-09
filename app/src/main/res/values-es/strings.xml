@@ -132,6 +132,7 @@
     <string name="widget_pref_text_scale">Escala de texto</string>
     <string name="widget_pref_bg_opacity">Opacidad de fondo</string>
     <string name="widget_pref_btn_save">Guardar</string>
+    <string name="widget_pref_compact">Compacto (solo anillo)</string>
 
     <!-- Achievements -->
     <string name="achievements_title">Logros</string>

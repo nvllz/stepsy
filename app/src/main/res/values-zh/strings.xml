@@ -126,6 +126,7 @@
     <string name="widget_pref_text_scale">文字缩放</string>
     <string name="widget_pref_bg_opacity">背景不透明度</string>
     <string name="widget_pref_btn_save">保存</string>
+    <string name="widget_pref_compact">紧凑（仅圆环）</string>
 
     <!-- Achievements -->
     <string name="achievements_title">成就</string>

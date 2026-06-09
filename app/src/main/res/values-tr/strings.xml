@@ -129,6 +129,7 @@
     <string name="widget_pref_text_scale">Metin Ölçeği</string>
     <string name="widget_pref_bg_opacity">Arka Plan Opaklığı</string>
     <string name="widget_pref_btn_save">Kaydet</string>
+    <string name="widget_pref_compact">Kompakt (yalnızca halka)</string>
 
     <!-- Achievements -->
     <string name="achievements_title">Başarılar</string>

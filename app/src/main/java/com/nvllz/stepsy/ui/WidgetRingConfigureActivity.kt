@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
@@ -19,6 +20,7 @@ import com.nvllz.stepsy.util.AppPreferences
 class WidgetRingConfigureActivity : Activity() {
 
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+    private var previewCompact = false
 
     private fun themedContext(themeMode: String): android.content.Context {
         val uiMode = when (themeMode) {
@@ -54,6 +56,7 @@ class WidgetRingConfigureActivity : Activity() {
         val opacitySlider        = findViewById<Slider>(R.id.opacity_slider)
         val textSizeSlider       = findViewById<Slider>(R.id.text_size_slider)
         val dynamicColorsSwitch  = findViewById<MaterialSwitch>(R.id.dynamic_colors_switch)
+        val compactSwitch        = findViewById<MaterialSwitch>(R.id.compact_switch)
         val inverseBgColorSwitch = findViewById<MaterialSwitch>(R.id.inverse_bg_color)
         val previewContainer     = findViewById<FrameLayout>(R.id.preview_widget_ring_container)
         val themeToggle          = findViewById<MaterialButtonToggleGroup>(R.id.theme_toggle)
@@ -114,13 +117,23 @@ class WidgetRingConfigureActivity : Activity() {
             updatePreviewColor(dynamicColorsSwitch.isChecked, opacitySlider.value)
         }
 
+        val savedCompact = prefs.getBoolean("compact", false)
+        compactSwitch.isChecked = savedCompact
+        previewCompact = savedCompact
+        compactSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit { putBoolean("compact", isChecked) }
+            applyCompactPreview(isChecked, dynamicColorsSwitch.isChecked)
+        }
+
         updatePreviewColor(useDynamicColors, opacitySlider.value)
+        applyCompactPreview(savedCompact, useDynamicColors)
 
         saveButton.setOnClickListener {
             prefs.edit {
                 putInt("opacity", opacitySlider.value.toInt())
                 putBoolean("use_dynamic_colors", dynamicColorsSwitch.isChecked)
                 putInt("text_scale", textSizeSlider.value.toInt())
+                putBoolean("compact", compactSwitch.isChecked)
             }
 
             val steps = AppPreferences.steps
@@ -171,6 +184,14 @@ class WidgetRingConfigureActivity : Activity() {
         findViewById<LinearLayout?>(R.id.outer_widget_ring_container)?.setBackgroundColor(color)
     }
 
+    private fun applyCompactPreview(compact: Boolean, useDynamicColors: Boolean) {
+        previewCompact = compact
+        val vis = if (compact) View.GONE else View.VISIBLE
+        findViewById<TextView?>(R.id.preview_widget_ring_steps)?.visibility = vis
+        findViewById<TextView?>(R.id.preview_widget_ring_percent)?.visibility = vis
+        applyWidgetColors(useDynamicColors)
+    }
+
     private fun applyWidgetColors(useDynamicColors: Boolean) {
         val ctx = themedContext(currentThemeMode())
 
@@ -196,7 +217,7 @@ class WidgetRingConfigureActivity : Activity() {
         findViewById<TextView?>(R.id.preview_widget_ring_percent)?.setTextColor(secondaryColor)
 
         findViewById<ImageView?>(R.id.preview_widget_ring_image)?.setImageBitmap(
-            WidgetRingProvider.createRingBitmap(ctx, arcColor, ringActiveColor, progress, 1f)
+            WidgetRingProvider.createRingBitmap(ctx, arcColor, ringActiveColor, progress, 1f, previewCompact)
         )
     }
 
