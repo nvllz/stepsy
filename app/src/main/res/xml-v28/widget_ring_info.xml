@@ -6,8 +6,6 @@
     android:minResizeHeight="40dp"
     android:targetCellWidth="2"
     android:targetCellHeight="2"
-    android:maxResizeWidth="250dp"
-    android:maxResizeHeight="250dp"
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget_ring"
     android:initialKeyguardLayout="@layout/widget_ring"
