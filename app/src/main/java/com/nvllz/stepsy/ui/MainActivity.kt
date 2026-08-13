@@ -1028,12 +1028,6 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun updateStepCount(newSteps: Int) {
-        lifecycleScope.launch {
-            AppPreferences.dataStore.edit { preferences ->
-                preferences[AppPreferences.PreferenceKeys.STEPS] = newSteps
-            }
-        }
-
         val intent = Intent(this, MotionService::class.java).apply {
             putExtra("MANUAL_STEP_COUNT_CHANGE", true)
             putExtra(MotionService.KEY_STEPS, newSteps)
