@@ -24,7 +24,7 @@ import java.util.*
 import com.nvllz.stepsy.util.AchievementsCacheUtil
 import com.nvllz.stepsy.util.Util
 import com.nvllz.stepsy.util.Util.UnitSystem
-import java.util.concurrent.TimeUnit
+import java.time.LocalDate
 
 class AchievementsActivity : AppCompatActivity() {
     private lateinit var database: Database
@@ -299,45 +299,47 @@ class AchievementsActivity : AppCompatActivity() {
         return achievements.sortedByDescending { it.milestone }
     }
 
-    private fun calculateLongestStreak(entries: List<Database.Entry>): Pair<Int, Pair<Long, Long>?> {
-        if (entries.isEmpty()) return Pair(0, null)
+    private fun calculateLongestStreak(
+        entries: List<Database.Entry>
+    ): Pair<Int, Pair<Long, Long>?> {
+        if (entries.isEmpty()) return 0 to null
 
-        val sortedEntries = entries.sortedBy { it.timestamp }
+        val dailyGoal = AppPreferences.dailyGoalTarget
+
+        val sortedEntries = entries.sortedBy { it.date }
+
         var currentStreak = 0
         var longestStreak = 0
         var streakStart: Long? = null
         var longestStreakRange: Pair<Long, Long>? = null
-        val dailyGoal = AppPreferences.dailyGoalTarget
-
-        var prevDate: Calendar? = null
+        var previousDate: LocalDate? = null
 
         for (entry in sortedEntries) {
-            val entryDate = Calendar.getInstance().apply {
-                timeInMillis = entry.timestamp
-                set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0)
-            }
+            val date = LocalDate.parse(entry.date)
 
-            val isConsecutive = prevDate?.let {
-                val diff = entryDate.timeInMillis - it.timeInMillis
-                diff == TimeUnit.DAYS.toMillis(1)
-            } ?: true
+            val isConsecutive =
+                previousDate == null || date == previousDate.plusDays(1)
 
             if (entry.steps >= dailyGoal && isConsecutive) {
                 currentStreak++
-                if (streakStart == null) streakStart = entry.timestamp
+
+                if (streakStart == null) {
+                    streakStart = entry.timestamp
+                }
+
                 if (currentStreak > longestStreak) {
                     longestStreak = currentStreak
-                    longestStreakRange = Pair(streakStart, entry.timestamp)
+                    longestStreakRange = streakStart to entry.timestamp
                 }
             } else {
                 currentStreak = if (entry.steps >= dailyGoal) 1 else 0
                 streakStart = if (entry.steps >= dailyGoal) entry.timestamp else null
             }
-            prevDate = entryDate
+
+            previousDate = date
         }
 
-        return Pair(longestStreak, longestStreakRange)
+        return longestStreak to longestStreakRange
     }
 
     private fun formatStepsWithDistance(steps: Int): String {

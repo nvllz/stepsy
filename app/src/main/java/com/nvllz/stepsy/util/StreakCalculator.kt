@@ -32,27 +32,25 @@ internal object StreakCalculator {
         return Pair(streak, streakText)
     }
 
-    private fun calculateCurrentStreak(database: Database, dailyGoalTarget: Int): Int {
+    private fun calculateCurrentStreak(
+        database: Database,
+        dailyGoalTarget: Int
+    ): Int {
         val calendar = Calendar.getInstance()
         var streakCount = 0
 
         try {
-            // Start from today
-            var dateStr = Util.calendarToDateString(calendar)
+            val today = Util.calendarToDateString(calendar)
+            val todaySteps = database.getSumSteps(today, today)
 
-            val todaySteps = database.getSumSteps(dateStr, dateStr)
             if (todaySteps >= dailyGoalTarget) {
                 streakCount++
-            } else {
-                // No streak if today doesn't meet goal
-                return 0
             }
 
-            // Move to previous days
             calendar.add(Calendar.DAY_OF_YEAR, -1)
 
             while (true) {
-                dateStr = Util.calendarToDateString(calendar)
+                val dateStr = Util.calendarToDateString(calendar)
                 val daySteps = database.getSumSteps(dateStr, dateStr)
 
                 if (daySteps >= dailyGoalTarget) {
@@ -62,7 +60,6 @@ internal object StreakCalculator {
                     break
                 }
 
-                // Safety check
                 if (streakCount > 10000) break
             }
 
