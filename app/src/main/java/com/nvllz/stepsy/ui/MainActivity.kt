@@ -89,6 +89,7 @@ internal class MainActivity : AppCompatActivity() {
     private var isTodaySelected = true
     private var isChartInPast7DaysMode = true
     private var currentWeekStartTime = 0L
+    private var mLastKnownDate: String = Util.todayDateString()
 
     private lateinit var mTextViewDayHeader: TextView
     private lateinit var mTextViewDayDetails: TextView
@@ -301,6 +302,12 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        val today = Util.todayDateString()
+        if (today != mLastKnownDate) {
+            recreate()
+            return
+        }
 
         if (isActivityPermissionGranted()) {
             subscribeService()
