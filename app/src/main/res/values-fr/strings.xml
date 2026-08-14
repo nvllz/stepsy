@@ -132,6 +132,7 @@
     <string name="widget_pref_text_scale">Échelle du texte</string>
     <string name="widget_pref_bg_opacity">Opacité de l\’arrière-plan</string>
     <string name="widget_pref_btn_save">Enregistrer</string>
+    <string name="widget_pref_compact">Compact (anneau seul)</string>
 
     <!-- Achievements -->
     <string name="achievements_title">Réalisations</string>

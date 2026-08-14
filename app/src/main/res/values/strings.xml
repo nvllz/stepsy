@@ -133,6 +133,8 @@
     <string name="widget_pref_text_scale">Text Scale</string>
     <string name="widget_pref_bg_opacity">Background Opacity</string>
     <string name="widget_pref_btn_save">Save</string>
+    <string name="widget_pref_compact">Compact (ring only)</string>
+    <string name="widget_goal_progress" translatable="false">%1$d%%</string>
 
     <!-- Achievements -->
     <string name="achievements_title">Achievements</string>

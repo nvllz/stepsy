@@ -140,6 +140,7 @@
     <string name="widget_pref_text_scale">مقياس النص</string>
     <string name="widget_pref_bg_opacity">شفافية الخلفية</string>
     <string name="widget_pref_btn_save">حفظ</string>
+    <string name="widget_pref_compact">مدمج (الحلقة فقط)</string>
 
     <!-- Achievements -->
     <string name="achievements_title">الإنجازات</string>

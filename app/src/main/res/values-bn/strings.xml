@@ -129,6 +129,7 @@
     <string name="widget_pref_text_scale">টেক্সট স্কেল</string>
     <string name="widget_pref_bg_opacity">পটভূমির অস্পষ্টতা</string>
     <string name="widget_pref_btn_save">সংরক্ষণ করুন</string>
+    <string name="widget_pref_compact">কম্প্যাক্ট (শুধু রিং)</string>
 
     <!-- Achievements -->
     <string name="achievements_title">সাফল্য</string>

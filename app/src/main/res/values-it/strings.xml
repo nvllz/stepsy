@@ -132,6 +132,7 @@
     <string name="widget_pref_text_scale">Scala del testo</string>
     <string name="widget_pref_bg_opacity">Opacità dello sfondo</string>
     <string name="widget_pref_btn_save">Salva</string>
+    <string name="widget_pref_compact">Compatto (solo anello)</string>
 
     <!-- Achievements -->
     <string name="achievements_title">Risultati</string>

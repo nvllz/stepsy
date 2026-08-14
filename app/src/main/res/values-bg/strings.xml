@@ -129,6 +129,7 @@
     <string name="widget_pref_text_scale">Размер на текста</string>
     <string name="widget_pref_bg_opacity">Непрозрачност на фона</string>
     <string name="widget_pref_btn_save">Запазване</string>
+    <string name="widget_pref_compact">Компактен (само пръстен)</string>
 
     <!-- Achievements -->
     <string name="achievements_title">Постижения</string>

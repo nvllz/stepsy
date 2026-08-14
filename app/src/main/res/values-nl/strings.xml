@@ -129,6 +129,7 @@
     <string name="widget_pref_text_scale">Tekstgrootte</string>
     <string name="widget_pref_bg_opacity">Dekking achtergrond</string>
     <string name="widget_pref_btn_save">Opslaan</string>
+    <string name="widget_pref_compact">Compact (alleen ring)</string>
 
     <!-- Achievements -->
     <string name="achievements_title">Prestaties</string>
