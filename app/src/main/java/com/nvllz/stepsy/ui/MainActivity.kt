@@ -6,9 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
@@ -50,25 +48,19 @@ import android.text.method.DigitsKeyListener
 import android.util.Log
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nvllz.stepsy.util.StreakCalculator
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.util.Date
-import android.widget.TimePicker
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.nvllz.stepsy.util.TimedPauseManager
@@ -391,7 +383,7 @@ internal class MainActivity : AppCompatActivity() {
     private fun loadYearButtons() {
         val db = Database.getInstance(this)
         val firstDateStr = db.firstEntry ?: return
-        val firstYear = firstDateStr.substring(0, 4).toIntOrNull() ?: return
+        val firstYear = firstDateStr.take(4).toIntOrNull() ?: return
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         mRangeDynamicBox.removeAllViews()
