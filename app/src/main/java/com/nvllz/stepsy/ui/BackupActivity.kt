@@ -114,7 +114,7 @@ class BackupActivity : AppCompatActivity() {
                         showImportWarningDialog(uri)
                     } else {
                         Snackbar.make(
-                            findViewById(android.R.id.content),
+                            findViewById(R.id.root),
                             R.string.import_invalid_file,
                             Snackbar.LENGTH_LONG
                         ).show()
@@ -256,14 +256,14 @@ class BackupActivity : AppCompatActivity() {
                         }
                     } else {
                         Snackbar.make(
-                            findViewById(android.R.id.content),
+                            findViewById(R.id.root),
                             R.string.enter_valid_value,
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
                 } catch (_: Exception) {
                     Snackbar.make(
-                        findViewById(android.R.id.content),
+                        findViewById(R.id.root),
                         R.string.enter_valid_value,
                         Snackbar.LENGTH_SHORT
                     ).show()
@@ -352,14 +352,14 @@ class BackupActivity : AppCompatActivity() {
                 }
             }
             Snackbar.make(
-                findViewById(android.R.id.content),
+                findViewById(R.id.root),
                 R.string.manual_backup_successful,
                 Snackbar.LENGTH_SHORT
             ).show()
         } catch (e: Exception) {
             Log.e(TAG, "Manual export failed", e)
             Snackbar.make(
-                findViewById(android.R.id.content),
+                findViewById(R.id.root),
                 R.string.cannot_open_file,
                 Snackbar.LENGTH_SHORT
             ).show()
@@ -426,7 +426,7 @@ class BackupActivity : AppCompatActivity() {
         } catch (ex: Exception) {
             Log.e(TAG, "Cannot open file", ex)
             Snackbar.make(
-                findViewById(android.R.id.content),
+                findViewById(R.id.root),
                 R.string.cannot_open_file,
                 Snackbar.LENGTH_SHORT
             ).show()
@@ -438,7 +438,7 @@ class BackupActivity : AppCompatActivity() {
         } catch (ex: Exception) {
             Log.e(TAG, "Atomic import failed", ex)
             Snackbar.make(
-                findViewById(android.R.id.content),
+                findViewById(R.id.root),
                 R.string.cannot_open_file,
                 Snackbar.LENGTH_SHORT
             ).show()
@@ -462,7 +462,7 @@ class BackupActivity : AppCompatActivity() {
         val todayNote = if (importedTodaySteps > 0)
             getString(R.string.today_steps_set, importedTodaySteps) else ""
         Snackbar.make(
-            findViewById(android.R.id.content),
+            findViewById(R.id.root),
             getString(R.string.import_result, entries.size, failed, todayNote),
             Snackbar.LENGTH_LONG
         ).show()

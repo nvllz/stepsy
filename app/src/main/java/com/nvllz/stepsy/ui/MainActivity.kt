@@ -1016,7 +1016,7 @@ internal class MainActivity : AppCompatActivity() {
             }
         } catch (_: NumberFormatException) {
             Snackbar.make(
-                findViewById(android.R.id.content),
+                findViewById(R.id.root),
                 R.string.invalid_step_count,
                 Snackbar.LENGTH_SHORT
             ).setAnchorView(R.id.fab).show()
@@ -1043,7 +1043,7 @@ internal class MainActivity : AppCompatActivity() {
         ContextCompat.startForegroundService(this, intent)
 
         Snackbar.make(
-            findViewById(android.R.id.content),
+            findViewById(R.id.root),
             R.string.steps_updated,
             Snackbar.LENGTH_SHORT
         ).setAnchorView(R.id.fab).show()

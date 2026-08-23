@@ -229,7 +229,7 @@ class SettingsActivity : AppCompatActivity() {
                         }
                     } else {
                         Snackbar.make(
-                            findViewById(android.R.id.content),
+                            findViewById(R.id.root),
                             R.string.enter_valid_value,
                             Snackbar.LENGTH_SHORT
                         ).show()
@@ -268,7 +268,7 @@ class SettingsActivity : AppCompatActivity() {
                         }
                     } else {
                         Snackbar.make(
-                            findViewById(android.R.id.content),
+                            findViewById(R.id.root),
                             R.string.enter_valid_value,
                             Snackbar.LENGTH_SHORT
                         ).show()
@@ -297,7 +297,7 @@ class SettingsActivity : AppCompatActivity() {
                         }
                     } else {
                         Snackbar.make(
-                            findViewById(android.R.id.content),
+                            findViewById(R.id.root),
                             R.string.enter_valid_value,
                             Snackbar.LENGTH_SHORT
                         ).show()
@@ -326,7 +326,7 @@ class SettingsActivity : AppCompatActivity() {
                         }
                     } else {
                         Snackbar.make(
-                            findViewById(android.R.id.content),
+                            findViewById(R.id.root),
                             R.string.enter_valid_value,
                             Snackbar.LENGTH_SHORT
                         ).show()
@@ -349,7 +349,7 @@ class SettingsActivity : AppCompatActivity() {
                         }
                     } else {
                         Snackbar.make(
-                            findViewById(android.R.id.content),
+                            findViewById(R.id.root),
                             R.string.enter_valid_value,
                             Snackbar.LENGTH_SHORT
                         ).show()
@@ -449,7 +449,7 @@ class SettingsActivity : AppCompatActivity() {
 
             if (isChecked && !isPlayServicesAvailable(this)) {
                 Snackbar.make(
-                    findViewById(android.R.id.content),
+                    findViewById(R.id.root),
                     R.string.vehicle_filter_unavailable,
                     Snackbar.LENGTH_LONG
                 ).show()
@@ -523,7 +523,7 @@ class SettingsActivity : AppCompatActivity() {
                     }
                 } else {
                     Snackbar.make(
-                        findViewById(android.R.id.content),
+                        findViewById(R.id.root),
                         R.string.enter_valid_value,
                         Snackbar.LENGTH_SHORT
                     ).show()
