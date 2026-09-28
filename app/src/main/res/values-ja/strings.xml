@@ -191,7 +191,20 @@
     <string name="encouraging_notification_75_percent_alt2">%1$d%% 到達しました。あと %2$d 歩で目標です!ラストスパート!</string>
     <string name="encouraging_notification_75_percent_alt3">もうすぐゴールです！ %1$d%% が完了しました。勝利まで %2$d 歩!</string>
 
-    <!-- Encouraging notification strings -->
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s達成！</string>
+    <string name="milestone_notification_text">合計%s歩です!\nこの調子で続けましょう。</string>
+    <string name="notification_category_milestone">マイルストーン</string>
+    <string name="notification_description_milestone">歩数のマイルストーン達成時の通知</string>
+    <string name="milestone_notifications_toggle">マイルストーン通知</string>
+    <string name="mute_milestone_notifications">ミュート</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d万</string>
+    <string name="milestone_short_millions_decimal">%.1f万</string>
+    <string name="milestone_short_thousands">%1$d千</string>
+
+    <!-- Pause step counting -->
     <string name="resume_at_time">再開時刻</string>
     <string name="pause_when_to_resume">歩数カウントを再開するタイミングの選択</string>
     <string name="pause_step_counting">歩数カウントの一時停止</string>

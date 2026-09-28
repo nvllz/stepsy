@@ -197,6 +197,19 @@
     <string name="encouraging_notification_75_percent_alt2">Финальный рывок! %1$d%% готово. Ты сможешь — %2$d шагов до цели!</string>
     <string name="encouraging_notification_75_percent_alt3">Финишная прямая! %1$d%% позади. %2$d шагов до победы!</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">Достигнуто: %s!</string>
+    <string name="milestone_notification_text">Всего %s шагов!\nТак держать.</string>
+    <string name="notification_category_milestone">Достижения</string>
+    <string name="notification_description_milestone">Уведомления о достижении целей по шагам</string>
+    <string name="milestone_notifications_toggle">Уведомления о достижениях</string>
+    <string name="mute_milestone_notifications">Отключить звук</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d млн</string>
+    <string name="milestone_short_millions_decimal">%.1f млн</string>
+    <string name="milestone_short_thousands">%1$d тыс.</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">Возобновить в указанное время</string>
     <string name="pause_when_to_resume">Выберите, когда возобновить подсчёт шагов</string>

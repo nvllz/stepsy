@@ -2,6 +2,7 @@ package com.nvllz.stepsy.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -60,6 +61,8 @@ class AchievementsActivity : AppCompatActivity() {
 
         database = Database.getInstance(this)
 
+        setupMilestoneNotificationToggle()
+
         lifecycleScope.launch {
             dateFormat = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
             monthFormat = SimpleDateFormat("yyyy-MM", Locale.getDefault())
@@ -80,6 +83,29 @@ class AchievementsActivity : AppCompatActivity() {
         }
 
         updateStreakRecordTitle()
+    }
+
+    private fun setupMilestoneNotificationToggle() {
+        val btn = findViewById<ImageButton>(R.id.btn_milestone_notifications)
+        updateNotificationButtonAppearance(btn, AppPreferences.milestoneNotificationsEnabled)
+
+        btn.setOnClickListener {
+            val newValue = !AppPreferences.milestoneNotificationsEnabled
+            AppPreferences.milestoneNotificationsEnabled = newValue
+            AppPreferences.lastNotifiedMilestone =
+                Util.MILESTONES.lastOrNull { it < AppPreferences.baseTotalSteps } ?: 0L
+            updateNotificationButtonAppearance(btn, newValue)
+        }
+    }
+
+    private fun updateNotificationButtonAppearance(btn: ImageButton, enabled: Boolean) {
+        if (enabled) {
+            btn.setImageResource(R.drawable.ic_notifications_active)
+            btn.alpha = 1.0f
+        } else {
+            btn.setImageResource(R.drawable.ic_notifications_off)
+            btn.alpha = 0.35f
+        }
     }
 
     private fun updateStreakRecordTitle() {
@@ -272,11 +298,7 @@ class AchievementsActivity : AppCompatActivity() {
     private fun calculateMilestoneAchievementsOptimized(entries: List<Database.Entry>): List<MilestoneAchievement> {
         if (entries.isEmpty()) return emptyList()
 
-        val milestoneTargets = listOf(
-            10_000, 50_000, 100_000, 500_000, 750_000, 1_000_000, 1_500_000, 2_000_000, 3_000_000,
-            4_000_000, 5_000_000, 6_000_000, 7_000_000, 8_000_000, 9_000_000, 10_000_000, 12_500_000,
-            15_000_000, 20_000_000
-        ).sorted()
+        val milestoneTargets = Util.MILESTONES.map { it.toInt() }
 
         val achievements = mutableListOf<MilestoneAchievement>()
         var cumulativeSteps = 0

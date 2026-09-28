@@ -191,6 +191,19 @@
     <string name="encouraging_notification_75_percent_alt2">Letzter Schub! %1$d%% erledigt. Du schaffst das — nur %2$d Schritte!</string>
     <string name="encouraging_notification_75_percent_alt3">Ziel in Sicht! %1$d%% geschafft. Noch %2$d Schritte bis zum Sieg!</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s erreicht!</string>
+    <string name="milestone_notification_text">Das sind insgesamt %s Schritte!\nWeiter so.</string>
+    <string name="notification_category_milestone">Meilensteine</string>
+    <string name="notification_description_milestone">Benachrichtigungen beim Erreichen von Schritt-Meilensteinen</string>
+    <string name="milestone_notifications_toggle">Meilenstein-Benachrichtigungen</string>
+    <string name="mute_milestone_notifications">Stummschalten</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d Mio.</string>
+    <string name="milestone_short_millions_decimal">%.1f Mio.</string>
+    <string name="milestone_short_thousands">%1$d Tsd.</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">Fortsetzen um</string>
     <string name="pause_when_to_resume">Wählen Sie, wann das Zählen fortgesetzt wird</string>

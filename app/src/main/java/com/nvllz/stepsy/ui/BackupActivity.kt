@@ -449,6 +449,10 @@ class BackupActivity : AppCompatActivity() {
             AppPreferences.dataStore.edit { prefs ->
                 prefs[AppPreferences.PreferenceKeys.STEPS] = importedTodaySteps
                 prefs[AppPreferences.PreferenceKeys.DATE]  = today
+
+                val total = db.getSumSteps("2000-01-01", "9999-12-31").toLong()
+                prefs[AppPreferences.PreferenceKeys.LAST_NOTIFIED_MILESTONE] =
+                    Util.MILESTONES.lastOrNull { it <= total } ?: 0L
             }
             startService(
                 Intent(this@BackupActivity, MotionService::class.java).apply {

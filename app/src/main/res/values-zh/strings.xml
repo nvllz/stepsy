@@ -188,6 +188,19 @@
     <string name="encouraging_notification_75_percent_alt2">最后冲刺！%1$d%% 完成了。你可以的 — 只差 %2$d 步！</string>
     <string name="encouraging_notification_75_percent_alt3">终点在望！%1$d%% 已完成。%2$d 步就胜利了！</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">已达到 %s！</string>
+    <string name="milestone_notification_text">累计 %s 步啦！\n继续加油。</string>
+    <string name="notification_category_milestone">里程碑</string>
+    <string name="notification_description_milestone">达到步数里程碑时的通知</string>
+    <string name="milestone_notifications_toggle">里程碑通知</string>
+    <string name="mute_milestone_notifications">静音</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d百万</string>
+    <string name="milestone_short_millions_decimal">%.1f百万</string>
+    <string name="milestone_short_thousands">%1$d千</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">在指定时间恢复</string>
     <string name="pause_when_to_resume">选择何时恢复计步</string>

@@ -191,6 +191,19 @@
     <string name="encouraging_notification_75_percent_alt2">Sista rycket! %1$d%% klart. Du fixar det — %2$d steg kvar!</string>
     <string name="encouraging_notification_75_percent_alt3">Målet är nära! %1$d%% klart. Bara %2$d steg till seger!</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s uppnått!</string>
+    <string name="milestone_notification_text">Det är totalt %s steg!\nFortsätt så.</string>
+    <string name="notification_category_milestone">Milstolpar</string>
+    <string name="notification_description_milestone">Aviseringar när du når milstolpar för antal steg</string>
+    <string name="milestone_notifications_toggle">Aviseringar om milstolpar</string>
+    <string name="mute_milestone_notifications">Stäng av ljud</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d mn</string>
+    <string name="milestone_short_millions_decimal">%.1f mn</string>
+    <string name="milestone_short_thousands">%1$d tus.</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">Återuppta vid vald tid</string>
     <string name="pause_when_to_resume">Välj när stegräkningen ska återupptas</string>

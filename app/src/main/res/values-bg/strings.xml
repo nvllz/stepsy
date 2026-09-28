@@ -163,7 +163,7 @@
     <string name="daily_goal_notifications">Известия за дневната цел</string>
     <string name="daily_goal_notification_channel_desc">Получавайте известия за дневния напредък</string>
     <string name="goal_achieved_title">Достигнахте целта!</string>
-    <string name="goal_achieved_message">Достигнахте %1$s крачки!</string>
+    <string name="goal_achieved_message">Достигнахте %1$s!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d • %2$s</string>
@@ -190,6 +190,19 @@
     <string name="encouraging_notification_75_percent_alt1">Толкова сте близо! %1$d%% от целта. Остават %2$d крачки!</string>
     <string name="encouraging_notification_75_percent_alt2">Финален спринт! %1$d%% готови. Можете го – остава още %2$d крачки!</string>
     <string name="encouraging_notification_75_percent_alt3">На финалната праве сте! %1$d%% завършени. %2$d крачки до завършване!</string>
+
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">Достигнахте %s!</string>
+    <string name="milestone_notification_text">Това са общо %s стъпки!\nПродължавайте.</string>
+    <string name="notification_category_milestone">Постижения</string>
+    <string name="notification_description_milestone">Известия за достигане на цели за стъпки</string>
+    <string name="milestone_notifications_toggle">Известия за постижения</string>
+    <string name="mute_milestone_notifications">Заглушаване</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$дмлн.</string>
+    <string name="milestone_short_millions_decimal">%.1fмлн.</string>
+    <string name="milestone_short_thousands">%1$дхил.</string>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">Възобнови в избран час</string>

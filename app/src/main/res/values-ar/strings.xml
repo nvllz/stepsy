@@ -202,6 +202,19 @@
     <string name="encouraging_notification_75_percent_alt2">الدفعة الأخيرة! أنجزت %1$d%%. تقدر تكمل — تبقّى %2$d خطوة فقط!</string>
     <string name="encouraging_notification_75_percent_alt3">قربت توصل! %1$d%% منجز. %2$d خطوة تفصلك عن الانتصار!</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s وصل!</string>
+    <string name="milestone_notification_text">هذا إجمالي %s خطوة!\nاستمر.</string>
+    <string name="notification_category_milestone">الإنجازات</string>
+    <string name="notification_description_milestone">إشعارات الوصول إلى إنجازات الخطوات</string>
+    <string name="milestone_notifications_toggle">تفعيل إشعارات الإنجازات</string>
+    <string name="mute_milestone_notifications">كتم</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$دم</string>
+    <string name="milestone_short_millions_decimal">%.1فم</string>
+    <string name="milestone_short_thousands">%1$دألف</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">استئناف في وقت محدد</string>
     <string name="pause_when_to_resume">اختر متى يتم استئناف عدّ الخطوات</string>

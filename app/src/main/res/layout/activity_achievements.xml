@@ -432,17 +432,36 @@
                     android:orientation="vertical"
                     android:paddingVertical="20dp">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/milestone_achievements"
-                        android:textSize="20sp"
-                        android:fontFamily="@font/chivo_family"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorOnSurface"
-                        android:layout_marginBottom="16dp"
-                        android:letterSpacing="0.05" />
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/milestone_achievements"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/chivo_family"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorOnSurface"
+                            android:letterSpacing="0.05"
+                            android:layout_centerInParent="true" />
+
+                        <ImageButton
+                            android:id="@+id/btn_milestone_notifications"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="20dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/ic_notifications_active"
+                            android:contentDescription="@string/milestone_notifications_toggle"
+                            app:tint="@color/colorOnSurface" />
+
+                    </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/milestones_recycler_view"

@@ -51,6 +51,9 @@ object AppPreferences {
         val DAILY_GOAL_NOTIFICATION_PROGRESSBAR  = booleanPreferencesKey("daily_goal_notification_progressbar")
         val ENCOURAGING_NOTIFICATIONS            = booleanPreferencesKey("encouraging_notifications")
         val DAILY_GOAL_CHART_LINE                = booleanPreferencesKey("daily_goal_chart_line")
+        val BASE_TOTAL_STEPS          = longPreferencesKey("base_total_steps")
+        val LAST_NOTIFIED_MILESTONE   = longPreferencesKey("last_notified_milestone")
+        val MILESTONE_NOTIFICATIONS_ENABLED      = booleanPreferencesKey("milestone_notifications_enabled")
     }
 
     lateinit var dataStore: DataStore<Preferences>
@@ -255,6 +258,25 @@ object AppPreferences {
     var vehicleFilterEnabled: Boolean
         get() = runBlocking { vehicleFilterEnabledFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.VEHICLE_FILTER_ENABLED] = value } }
+
+    // Base total (sum of all days except today)
+    var baseTotalSteps: Long
+        get() = runBlocking { dataStore.data.map { it[PreferenceKeys.BASE_TOTAL_STEPS] ?: 0L }.first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.BASE_TOTAL_STEPS] = value } }
+
+    // Highest milestone already handled
+    var lastNotifiedMilestone: Long
+        get() = runBlocking { dataStore.data.map { it[PreferenceKeys.LAST_NOTIFIED_MILESTONE] ?: 0L }.first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.LAST_NOTIFIED_MILESTONE] = value } }
+
+    // Milestone notifications
+    var milestoneNotificationsEnabled: Boolean
+        get() = runBlocking { dataStore.data.map {
+            it[PreferenceKeys.MILESTONE_NOTIFICATIONS_ENABLED] ?: true
+        }.first() }
+        set(value) = runBlocking {
+            dataStore.edit { it[PreferenceKeys.MILESTONE_NOTIFICATIONS_ENABLED] = value }
+        }
 
     // Dialogs
 

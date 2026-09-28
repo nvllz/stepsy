@@ -19,6 +19,14 @@ object Util {
             return calendar
         }
 
+    internal val MILESTONES = listOf(
+        10_000L, 50_000L, 100_000L, 500_000L, 750_000L,
+        1_000_000L, 1_500_000L, 2_000_000L, 3_000_000L,
+        4_000_000L, 5_000_000L, 6_000_000L, 7_000_000L,
+        8_000_000L, 9_000_000L, 10_000_000L, 12_500_000L,
+        15_000_000L, 20_000_000L
+    )
+
     internal fun todayDateString(): String {
         val cal = Calendar.getInstance()
         return "%04d-%02d-%02d".format(

@@ -163,7 +163,7 @@
     <string name="daily_goal_notifications">Meldingen over doelen</string>
     <string name="daily_goal_notification_channel_desc">Ontvang updates over de voortgang van je dagelijkse doel</string>
     <string name="goal_achieved_title">🎉 Doel bereikt!</string>
-    <string name="goal_achieved_message">Je hebt je doel van %1$s stappen bereikt!</string>
+    <string name="goal_achieved_message">Je hebt je doel van %1$s bereikt!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d • %2$s</string>
@@ -190,6 +190,19 @@
     <string name="encouraging_notification_75_percent_alt1">Zo dichtbij! Je hebt %1$d%% van je doel bereikt. Nog maar %2$d stappen te gaan!</string>
     <string name="encouraging_notification_75_percent_alt2">Laatste zetje! Je hebt al %1$d%% van je doel bereikt, Nog maar %2$d stappen, je kunt het!</string>
     <string name="encouraging_notification_75_percent_alt3">Bijna bij de finish! Je bent op %1$d%%. Nog %2$d stappen naar de overwinning!</string>
+
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s bereikt!</string>
+    <string name="milestone_notification_text">Dat zijn in totaal %s stappen!\nGa zo door.</string>
+    <string name="notification_category_milestone">Mijlpalen</string>
+    <string name="notification_description_milestone">Meldingen bij het bereiken van stappenmijlpalen</string>
+    <string name="milestone_notifications_toggle">Meldingen voor mijlpalen</string>
+    <string name="mute_milestone_notifications">Dempen</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d mln.</string>
+    <string name="milestone_short_millions_decimal">%.1f mln.</string>
+    <string name="milestone_short_thousands">%1$d duiz.</string>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">Hervatten om</string>
