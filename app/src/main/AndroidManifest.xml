@@ -217,8 +217,11 @@
                 <action android:name="com.nvllz.stepsy.action.PAUSE" />
                 <action android:name="com.nvllz.stepsy.action.RESUME" />
             </intent-filter>
-
         </receiver>
+
+        <receiver
+            android:name=".service.MuteMilestoneReceiver"
+            android:exported="false" />
 
     </application>
 </manifest>

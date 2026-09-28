@@ -163,7 +163,7 @@
     <string name="daily_goal_notifications">দৈনিক পদক্ষেপের লক্ষ্যের বিজ্ঞপ্তি</string>
     <string name="daily_goal_notification_channel_desc">দৈনিক পদক্ষেপের লক্ষ্য অগ্রগতি সম্পর্কে আপডেট পান</string>
     <string name="goal_achieved_title">🎉 আপনি লক্ষ্য পূরণ করলেন!</string>
-    <string name="goal_achieved_message">আপনি %1$s লক্ষ্য পূরণ করেছেন!</string>
+    <string name="goal_achieved_message">%1$s লক্ষ্য পূরণ করেছেন!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d • %2$s</string>
@@ -190,6 +190,19 @@
     <string name="encouraging_notification_75_percent_alt1">একদম কাছাকাছি! %1$d%% শেষ। মাত্র %2$d পা বাকি!</string>
     <string name="encouraging_notification_75_percent_alt2">শেষ ধাপ! %1$d%% সম্পন্ন। পারবে—আর %2$d পা!</string>
     <string name="encouraging_notification_75_percent_alt3">শেষ প্রান্তে পৌঁছে গেছো! %1$d%% শেষ। %2$d পা এগিয়ে জয় করো!</string>
+
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s-এ পৌঁছেছেন!</string>
+    <string name="milestone_notification_text">মোট %sটি পদক্ষেপ!\nচলতে থাকুন।</string>
+    <string name="notification_category_milestone">মাইলস্টোন</string>
+    <string name="notification_description_milestone">পদক্ষেপের মাইলস্টোনে পৌঁছানোর বিজ্ঞপ্তি</string>
+    <string name="milestone_notifications_toggle">মাইলস্টোন বিজ্ঞপ্তি চালু/বন্ধ করুন</string>
+    <string name="mute_milestone_notifications">নীরব করুন</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$dমি</string>
+    <string name="milestone_short_millions_decimal">%.1fমি</string>
+    <string name="milestone_short_thousands">%1$dহা</string>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">নির্বাচিত সময়ে আবার শুরু করুন</string>

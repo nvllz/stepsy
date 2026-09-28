@@ -198,6 +198,19 @@
     <string name="encouraging_notification_75_percent_alt2">Ostatnia prosta! %1$d%% zrobione. Dasz radę — tylko %2$d kroków!</string>
     <string name="encouraging_notification_75_percent_alt3">Meta tuż-tuż! %1$d%% osiągnięte. %2$d kroków do zwycięstwa!</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s zdobyte!</string>
+    <string name="milestone_notification_text">To już w sumie %s kroków!\nTrzymaj tempo.</string>
+    <string name="notification_category_milestone">Kamienie milowe</string>
+    <string name="notification_description_milestone">Powiadomienia o osiągnięciu kamieni milowych</string>
+    <string name="milestone_notifications_toggle">Powiadomienia o kamieniach milowych</string>
+    <string name="mute_milestone_notifications">Wycisz</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d mln</string>
+    <string name="milestone_short_millions_decimal">%.1f mln</string>
+    <string name="milestone_short_thousands">%1$d tys.</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">Wznów o wybranej godzinie</string>
     <string name="pause_when_to_resume">Wybierz, kiedy wznowić liczenie kroków</string>

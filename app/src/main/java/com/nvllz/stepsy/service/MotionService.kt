@@ -50,6 +50,8 @@ internal class MotionService : Service() {
     private lateinit var activityRecognitionManager: ActivityRecognitionManager
     private var timedPauseHandler = Handler(Looper.getMainLooper())
     private var timedPauseRunnable: Runnable? = null
+    private var mBaseTotal: Long = 0L
+    private var mLastNotifiedMilestone: Long = 0L
 
     private val pauseChannelId = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
     private val pauseNotificationId = 3844
@@ -76,6 +78,14 @@ internal class MotionService : Service() {
         goalReachedToday = AppPreferences.dailyGoalNotification
                 && AppPreferences.dailyGoalTarget > 0
                 && mTodaysSteps >= AppPreferences.dailyGoalTarget
+        mBaseTotal = AppPreferences.baseTotalSteps
+        mLastNotifiedMilestone = AppPreferences.lastNotifiedMilestone
+        if (mBaseTotal == 0L) {
+            recalcBaseTotal()
+            val total = mBaseTotal + mTodaysSteps
+            mLastNotifiedMilestone = Util.MILESTONES.lastOrNull { it <= total } ?: 0L
+            AppPreferences.lastNotifiedMilestone = mLastNotifiedMilestone
+        }
 
         if (mCurrentDate.isEmpty()) {
             mCurrentDate = Util.todayDateString()
@@ -133,6 +143,7 @@ internal class MotionService : Service() {
                 return
             }
             mTodaysSteps += delta
+            checkMilestones()
 
             val target = AppPreferences.dailyGoalTarget
             if (target > 0 && mTodaysSteps >= target && !goalReachedToday) {
@@ -172,6 +183,8 @@ internal class MotionService : Service() {
         if (todayStr != mCurrentDate) {
             Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
 
+            lastDbWriteTime = currentTime
+
             val existingSteps = Database.getInstance(this).getSumSteps(todayStr, todayStr)
             val isNewDay = existingSteps == 0
 
@@ -194,6 +207,9 @@ internal class MotionService : Service() {
             mCurrentDate = todayStr
             AppPreferences.date = mCurrentDate
             AppPreferences.steps = mTodaysSteps
+
+            recalcBaseTotal()
+            checkMilestones()
             lastSharedPrefsWriteTime = currentTime.also { lastDbWriteTime = it }
         }
 
@@ -288,6 +304,7 @@ internal class MotionService : Service() {
             .setSilent(true)
             .setContentIntent(notificationPendingIntent)
             .setAutoCancel(false)
+            .setGroup("com.nvllz.stepsy.STEP_GROUP")
             .addAction(R.drawable.ic_notification, getString(R.string.action_pause), pausePendingIntent)
             .apply {
                 if (showProgressbar && dailyTarget > 0) {
@@ -392,6 +409,8 @@ internal class MotionService : Service() {
                 mLastSteps = -1
                 AppPreferences.steps = mTodaysSteps
                 AppPreferences.date = mCurrentDate
+                recalcBaseTotal()
+                checkMilestones()
                 handleStepUpdate()
             }
 
@@ -399,6 +418,7 @@ internal class MotionService : Service() {
                 mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
                 mLastSteps = -1
                 AppPreferences.steps = mTodaysSteps
+                checkMilestones()
                 handleStepUpdate(manualStepCountChange = true)
             }
 
@@ -540,6 +560,26 @@ internal class MotionService : Service() {
             startTimedPauseMonitoring()
         } else if (TimedPauseManager.shouldResumeCounting(this)) {
             resumeCountingAutomatically()
+        }
+    }
+
+    private fun recalcBaseTotal() {
+        val db = Database.getInstance(this)
+        val today = Util.todayDateString()
+        val all = db.getSumSteps("2000-01-01", "9999-12-31")
+        val todayInDb = db.getSumSteps(today, today)
+        mBaseTotal = (all - todayInDb).toLong().coerceAtLeast(0L)
+        AppPreferences.baseTotalSteps = mBaseTotal
+    }
+
+    private fun checkMilestones() {
+        val total = mBaseTotal + mTodaysSteps
+        val crossed = Util.MILESTONES.lastOrNull { it > mLastNotifiedMilestone && it <= total } ?: return
+
+        mLastNotifiedMilestone = crossed
+        AppPreferences.lastNotifiedMilestone = crossed
+        if (AppPreferences.milestoneNotificationsEnabled) {
+            GoalNotificationWorker.showMilestoneNotification(this, crossed)
         }
     }
 

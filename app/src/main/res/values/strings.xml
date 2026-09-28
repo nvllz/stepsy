@@ -167,7 +167,7 @@
     <string name="daily_goal_notifications">Step goal alerts</string>
     <string name="daily_goal_notification_channel_desc">Get notified when you reach your daily step goal</string>
     <string name="goal_achieved_title">🎉 You Hit Your Goal!</string>
-    <string name="goal_achieved_message">You reached your step goal of %1$s steps!</string>
+    <string name="goal_achieved_message">You reached your step goal of %1$s!</string>
 
     <!-- Step Count Details -->
     <string name="steps_count_with_distance">%1$d • %2$s</string>
@@ -194,6 +194,19 @@
     <string name="encouraging_notification_75_percent_alt1">So close! You\'ve reached %1$d%% of your goal. Only %2$d steps remaining!</string>
     <string name="encouraging_notification_75_percent_alt2">Final push! %1$d%% complete. You can do it — just %2$d more steps!</string>
     <string name="encouraging_notification_75_percent_alt3">Almost at the finish line! %1$d%% done. %2$d steps to victory!</string>
+
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s reached!</string>
+    <string name="milestone_notification_text">That\'s %s steps in total!\nKeep going.</string>
+    <string name="notification_category_milestone">Milestones</string>
+    <string name="notification_description_milestone">Notifications for reaching step milestones</string>
+    <string name="milestone_notifications_toggle">Toggle milestone notifications</string>
+    <string name="mute_milestone_notifications">Mute</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$dM</string>
+    <string name="milestone_short_millions_decimal">%.1fM</string>
+    <string name="milestone_short_thousands">%1$dk</string>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">Resume at time</string>

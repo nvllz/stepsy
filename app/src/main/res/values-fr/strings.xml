@@ -194,6 +194,19 @@
     <string name="encouraging_notification_75_percent_alt2">Dernier effort ! %1$d%% complet. Tu peux le faire — encore %2$d pas !</string>
     <string name="encouraging_notification_75_percent_alt3">Tu touches au but ! %1$d%% fait. %2$d pas avant la victoire !</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s atteint !</string>
+    <string name="milestone_notification_text">Ça fait %s pas au total \nContinuez comme ça.</string>
+    <string name="notification_category_milestone">Objectifs</string>
+    <string name="notification_description_milestone">Notifications lorsque vous atteignez des objectifs de pas</string>
+    <string name="milestone_notifications_toggle">Notifications d’objectifs</string>
+    <string name="mute_milestone_notifications">Désactiver le son</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d M</string>
+    <string name="milestone_short_millions_decimal">%.1f M</string>
+    <string name="milestone_short_thousands">%1$d k</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">Reprendre à l’heure choisie</string>
     <string name="pause_when_to_resume">Choisissez quand reprendre le comptage</string>

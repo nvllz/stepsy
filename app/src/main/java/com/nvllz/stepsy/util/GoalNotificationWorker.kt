@@ -10,8 +10,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import com.nvllz.stepsy.R
+import com.nvllz.stepsy.service.MuteMilestoneReceiver
+import com.nvllz.stepsy.ui.AchievementsActivity
 import com.nvllz.stepsy.ui.MainActivity
 import java.text.NumberFormat
 import java.util.Locale
@@ -70,7 +73,7 @@ object GoalNotificationWorker {
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .build()
@@ -148,6 +151,98 @@ object GoalNotificationWorker {
                 NotificationManagerCompat.from(context).notify(ENCOURAGING_NOTIFICATION_ID, notification)
             }
         }
+    }
+
+    fun showMilestoneNotification(context: Context, milestone: Long) {
+        val notificationManager = context.getSystemService(
+            Context.NOTIFICATION_SERVICE
+        ) as NotificationManager
+
+        val channelId = "com.nvllz.stepsy.MILESTONE_CHANNEL_ID"
+
+        if (notificationManager.getNotificationChannel(channelId) == null) {
+            val channel = NotificationChannel(
+                channelId,
+                context.getString(R.string.notification_category_milestone),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = context.getString(R.string.notification_description_milestone)
+                setSound(null, null)
+                enableVibration(true)
+            }
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val badge = when {
+            milestone >= 20_000_000L -> "🏁"
+            milestone >= 15_000_000L -> "♾️"
+            milestone >= 12_500_000L -> "🪬"
+            milestone >= 10_000_000L -> "👑"
+            milestone >=  9_000_000L -> "🦄"
+            milestone >=  8_000_000L -> "🐉"
+            milestone >=  7_000_000L -> "💫"
+            milestone >=  6_000_000L -> "🏆"
+            milestone >=  5_000_000L -> "💎"
+            milestone >=  4_000_000L -> "🪐"
+            milestone >=  3_000_000L -> "🚀"
+            milestone >=  2_000_000L -> "🥇"
+            milestone >=  1_500_000L -> "⚡"
+            milestone >=  1_000_000L -> "🗿"
+            milestone >=    750_000L -> "⛳"
+            milestone >=    500_000L -> "🌟"
+            milestone >=    100_000L -> "🔥"
+            milestone >=     50_000L -> "💪"
+            else                     -> "🎯"
+        }
+
+        fun formatNumber(number: Long) = NumberFormat.getIntegerInstance(Locale.getDefault()).format(number)
+
+        val shortMilestone = when {
+            milestone >= 1_000_000L -> {
+                val millions = milestone / 1_000_000.0
+                if (millions == millions.toInt().toDouble()) {
+                    context.getString(R.string.milestone_short_millions, millions.toInt())
+                } else {
+                    context.getString(R.string.milestone_short_millions_decimal, millions)
+                }
+            }
+            milestone >= 1_000L -> {
+                context.getString(R.string.milestone_short_thousands, (milestone / 1_000).toInt())
+            }
+            else -> formatNumber(milestone)
+        }
+
+        val fullMilestone = formatNumber(milestone)
+
+        val notificationId = 5000 + (milestone / 1000).toInt().coerceAtMost(50000)
+
+        val pendingIntent = TaskStackBuilder.create(context).run {
+            addNextIntentWithParentStack(Intent(context, AchievementsActivity::class.java))
+            getPendingIntent(notificationId, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        }
+
+        val mutePendingIntent = PendingIntent.getBroadcast(
+            context,
+            notificationId,
+            Intent(context, MuteMilestoneReceiver::class.java).apply {
+                putExtra(MuteMilestoneReceiver.EXTRA_NOTIFICATION_ID, notificationId)
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notification = NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(context.getString(R.string.milestone_notification_title, "$badge $shortMilestone"))
+            .setContentText(context.getString(R.string.milestone_notification_text, fullMilestone))
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setGroup("com.nvllz.stepsy.MILESTONE_GROUP")
+            .setGroupSummary(false)
+            .addAction(R.drawable.ic_notification, context.getString(R.string.mute_milestone_notifications), mutePendingIntent)
+            .build()
+
+        notificationManager.notify(notificationId, notification)
     }
 
     fun resetEncouragingNotificationFlags() {

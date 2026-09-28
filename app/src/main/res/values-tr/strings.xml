@@ -191,6 +191,19 @@
     <string name="encouraging_notification_75_percent_alt2">Son adımlar! %1$d%% tamamlandı. Yapabilirsin — sadece %2$d adım!</string>
     <string name="encouraging_notification_75_percent_alt3">Hedef çok yakın! %1$d%% bitti. Zafer için %2$d adım kaldı!</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">%s adımına ulaştın!</string>
+    <string name="milestone_notification_text">Toplam %s adım!\nDevam et.</string>
+    <string name="notification_category_milestone">Kilometre Taşları</string>
+    <string name="notification_description_milestone">Adım kilometre taşlarına ulaşıldığında bildirimler</string>
+    <string name="milestone_notifications_toggle">Kilometre taşı bildirimleri</string>
+    <string name="mute_milestone_notifications">Sessize al</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d Mn</string>
+    <string name="milestone_short_millions_decimal">%.1f Mn</string>
+    <string name="milestone_short_thousands">%1$d B</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">Belirtilen saatte devam et</string>
     <string name="pause_when_to_resume">Adım sayımı ne zaman devam etsin?</string>

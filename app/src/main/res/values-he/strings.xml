@@ -198,6 +198,19 @@
     <string name="encouraging_notification_75_percent_alt2">רק עוד טיפה! %1$d%% הושלמו. אנחנו יכולים לעשות את זה — נותרו רק עוד %2$d צעדים!</string>
     <string name="encouraging_notification_75_percent_alt3">כמעט הגענו לקו הסיום! %1$d%% הושלמו. %2$d צעדים עד לניצחון!</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">הגעת ל־%s!</string>
+    <string name="milestone_notification_text">זה כבר %s צעדים בסך הכול! \nהמשיכו כך.</string>
+    <string name="notification_category_milestone">אבני דרך</string>
+    <string name="notification_description_milestone">התראות על הגעה לאבני דרך של צעדים</string>
+    <string name="milestone_notifications_toggle">התראות על אבני דרך</string>
+    <string name="mute_milestone_notifications">השתק</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d מ׳</string>
+    <string name="milestone_short_millions_decimal">%.1f מ׳</string>
+    <string name="milestone_short_thousands">%1$d אלף</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">להמשיך בשעה</string>
     <string name="pause_when_to_resume">נא לבחור מתי להמשיך לספור צעדים</string>

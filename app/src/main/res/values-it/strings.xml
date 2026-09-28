@@ -194,6 +194,19 @@
     <string name="encouraging_notification_75_percent_alt2">Ultimo sforzo! %1$d%% fatto. Ce la puoi fare — solo %2$d passi!</string>
     <string name="encouraging_notification_75_percent_alt3">Traguardo in vista! %1$d%% completato. %2$d passi per vincere!</string>
 
+    <!-- Milestone notification strings -->
+    <string name="milestone_notification_title">Hai raggiunto %s!</string>
+    <string name="milestone_notification_text">Sono %s passi in totale!\nContinua così.</string>
+    <string name="notification_category_milestone">Traguardi</string>
+    <string name="notification_description_milestone">Notifiche per il raggiungimento dei traguardi di passi</string>
+    <string name="milestone_notifications_toggle">Notifiche dei traguardi</string>
+    <string name="mute_milestone_notifications">Silenzia</string>
+
+    <!-- Milestone number shorthand -->
+    <string name="milestone_short_millions">%1$d Mln</string>
+    <string name="milestone_short_millions_decimal">%.1f Mln</string>
+    <string name="milestone_short_thousands">%1$d mila</string>
+
     <!-- Pause step counting -->
     <string name="resume_at_time">Riprendi all’orario scelto</string>
     <string name="pause_when_to_resume">Seleziona quando riprendere il conteggio</string>
