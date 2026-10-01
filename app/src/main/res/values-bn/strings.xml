@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d কিলোক্যালরি</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">সপ্তাহ %1$d</string>
+    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">%1$s এর জন্য কোন রেকর্ড নেই</string>
     <string name="calories">%1$d কিলোক্যালরি</string>
     <string name="steps_month">এই মাসে</string>
@@ -134,6 +138,7 @@
     <string name="achievements_title">সাফল্য</string>
     <string name="milestone_achievements">মাইলস্টোন</string>
     <string name="no_milestones_reached">এখনো কোনো মাইলস্টোন ছুঁইনি। হাঁটতে থাকুন!</string>
+    <string name="milestone_new">নতুন</string>
 
     <!-- Data Placeholders -->
     <string name="loading_data">তথ্য লোড হচ্ছে…\n</string>
@@ -197,12 +202,23 @@
     <string name="notification_category_milestone">মাইলস্টোন</string>
     <string name="notification_description_milestone">পদক্ষেপের মাইলস্টোনে পৌঁছানোর বিজ্ঞপ্তি</string>
     <string name="milestone_notifications_toggle">মাইলস্টোন বিজ্ঞপ্তি চালু/বন্ধ করুন</string>
-    <string name="mute_milestone_notifications">নীরব করুন</string>
+    <string name="mute_milestone_notifications_action">নীরব করুন</string>
+    <string name="milestone_notifications_tooltip">মাইলস্টোন বিজ্ঞপ্তি</string>
 
     <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$dমি</string>
     <string name="milestone_short_millions_decimal">%.1fমি</string>
     <string name="milestone_short_thousands">%1$dহা</string>
+
+    <!-- Milestone detail dialog -->
+    <string name="milestone_label_distance">দূরত্ব</string>
+    <string name="milestone_label_date">অর্জিত</string>
+    <string name="milestone_label_took">সময় লেগেছে</string>
+
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d দিন</item>
+        <item quantity="other">%d দিন</item>
+    </plurals>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">নির্বাচিত সময়ে আবার শুরু করুন</string>

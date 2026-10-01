@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Week %1$d</string>
+    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Geen gegevens voor %1$s</string>
     <string name="calories">%1$d kcal</string>
     <string name="steps_month">Deze maand</string>
@@ -134,6 +138,7 @@
     <string name="achievements_title">Prestaties</string>
     <string name="milestone_achievements">Mijlpalen</string>
     <string name="no_milestones_reached">Nog geen mijlpalen bereikt. Blijf doorlopen!</string>
+    <string name="milestone_new">Nieuw</string>
 
     <!-- Data Placeholders -->
     <string name="loading_data">Gegevens laden…\n</string>
@@ -197,12 +202,23 @@
     <string name="notification_category_milestone">Mijlpalen</string>
     <string name="notification_description_milestone">Meldingen bij het bereiken van stappenmijlpalen</string>
     <string name="milestone_notifications_toggle">Meldingen voor mijlpalen</string>
-    <string name="mute_milestone_notifications">Dempen</string>
+    <string name="mute_milestone_notifications_action">Dempen</string>
+    <string name="milestone_notifications_tooltip">Meldingen voor mijlpalen</string>
 
     <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d mln.</string>
     <string name="milestone_short_millions_decimal">%.1f mln.</string>
     <string name="milestone_short_thousands">%1$d duiz.</string>
+
+    <!-- Milestone detail dialog -->
+    <string name="milestone_label_distance">Afstand</string>
+    <string name="milestone_label_date">Bereikt</string>
+    <string name="milestone_label_took">Benodigde tijd</string>
+
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagen</item>
+    </plurals>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">Hervatten om</string>

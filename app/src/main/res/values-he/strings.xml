@@ -141,6 +141,7 @@
     <string name="achievements_title">הישגים</string>
     <string name="milestone_achievements">אבני דרך</string>
     <string name="no_milestones_reached">עדיין לא הגעת לאבני דרך. אבל אנחנו בדרך לשם!</string>
+    <string name="milestone_new">חדש</string>
 
     <!-- Data Placeholders -->
     <string name="loading_data">הנתונים נטענים…\n</string>
@@ -204,12 +205,24 @@
     <string name="notification_category_milestone">אבני דרך</string>
     <string name="notification_description_milestone">התראות על הגעה לאבני דרך של צעדים</string>
     <string name="milestone_notifications_toggle">התראות על אבני דרך</string>
-    <string name="mute_milestone_notifications">השתק</string>
+    <string name="mute_milestone_notifications_action">השתק</string>
+    <string name="milestone_notifications_tooltip">התראות על אבני דרך</string>
 
     <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d מ׳</string>
     <string name="milestone_short_millions_decimal">%.1f מ׳</string>
     <string name="milestone_short_thousands">%1$d אלף</string>
+
+    <!-- Milestone detail dialog -->
+    <string name="milestone_label_distance">מרחק</string>
+    <string name="milestone_label_date">הושג</string>
+    <string name="milestone_label_took">זמן שלקח</string>
+
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">יום</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="other">%d ימים</item>
+    </plurals>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">להמשיך בשעה</string>

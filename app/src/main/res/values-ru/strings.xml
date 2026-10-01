@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d ккал</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Неделя %1$d</string>
+    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Нет данных за %1$s</string>
     <string name="calories">%1$d ккал</string>
     <string name="steps_month">Этот месяц</string>
@@ -140,6 +144,7 @@
     <string name="achievements_title">Достижения</string>
     <string name="milestone_achievements">Вехи</string>
     <string name="no_milestones_reached">Вехи ещё не достигнуты. Продолжайте прогулку!</string>
+    <string name="milestone_new">Новое</string>
 
     <!-- Data Placeholders -->
     <string name="loading_data">Загрузка данных…\n</string>
@@ -203,12 +208,25 @@
     <string name="notification_category_milestone">Достижения</string>
     <string name="notification_description_milestone">Уведомления о достижении целей по шагам</string>
     <string name="milestone_notifications_toggle">Уведомления о достижениях</string>
-    <string name="mute_milestone_notifications">Отключить звук</string>
+    <string name="mute_milestone_notifications_action">Отключить звук</string>
+    <string name="milestone_notifications_tooltip">Уведомления о достижениях</string>
 
     <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d млн</string>
     <string name="milestone_short_millions_decimal">%.1f млн</string>
     <string name="milestone_short_thousands">%1$d тыс.</string>
+
+    <!-- Milestone detail dialog -->
+    <string name="milestone_label_distance">Расстояние</string>
+    <string name="milestone_label_date">Достигнуто</string>
+    <string name="milestone_label_took">Затраченное время</string>
+
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">Возобновить в указанное время</string>

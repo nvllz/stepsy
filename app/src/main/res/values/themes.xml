@@ -156,4 +156,23 @@
         <item name="tickColorActive">@color/colorPrimary</item>
         <item name="tickColorInactive">@color/colorAccent</item>
     </style>
+
+    <!-- Milestone dialog -->
+    <style name="MilestoneDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/milestone_dialog_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="ThemeOverlay.stepsy.MilestoneDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.stepsy.MilestoneDialog</item>
+        <item name="colorSurface">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">0%</item>
+        <item name="android:windowMinWidthMinor">0%</item>
+    </style>
 </resources>

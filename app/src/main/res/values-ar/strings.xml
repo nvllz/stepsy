@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d سعرة حرارية</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">الأسبوع %1$d</string>
+    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">لا يوجد سجل لـ %1$s</string>
     <string name="calories">%1$d سعرة حرارية</string>
     <string name="steps_month">هذا الشهر</string>
@@ -145,6 +149,7 @@
     <string name="achievements_title">الإنجازات</string>
     <string name="milestone_achievements">الإنجازات الكبرى</string>
     <string name="no_milestones_reached">لم تحقق أي إنجاز بعد. واصل المشي!</string>
+    <string name="milestone_new">جديد</string>
 
     <!-- Data Placeholders -->
     <string name="loading_data">جار تحميل البيانات…\n</string>
@@ -208,12 +213,27 @@
     <string name="notification_category_milestone">الإنجازات</string>
     <string name="notification_description_milestone">إشعارات الوصول إلى إنجازات الخطوات</string>
     <string name="milestone_notifications_toggle">تفعيل إشعارات الإنجازات</string>
-    <string name="mute_milestone_notifications">كتم</string>
+    <string name="mute_milestone_notifications_action">كتم</string>
+    <string name="milestone_notifications_tooltip">إشعارات الإنجازات</string>
 
     <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$دم</string>
     <string name="milestone_short_millions_decimal">%.1فم</string>
     <string name="milestone_short_thousands">%1$دألف</string>
+
+    <!-- Milestone detail dialog -->
+    <string name="milestone_label_distance">المسافة</string>
+    <string name="milestone_label_date">تم تحقيقه</string>
+    <string name="milestone_label_took">الوقت المستغرق</string>
+
+    <plurals name="milestone_reached_in_days">
+        <item quantity="zero">%d يوم</item>
+        <item quantity="one">%d يوم</item>
+        <item quantity="two">%d يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يوماً</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">استئناف في وقت محدد</string>
