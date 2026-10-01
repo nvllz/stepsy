@@ -138,6 +138,7 @@
     <string name="achievements_title">Achievements</string>
     <string name="milestone_achievements">Milestones</string>
     <string name="no_milestones_reached">No milestones reached yet. Keep walking!</string>
+    <string name="milestone_new">New</string>
 
     <!-- Data Placeholders -->
     <string name="loading_data">Loading data…\n</string>
@@ -201,12 +202,23 @@
     <string name="notification_category_milestone">Milestones</string>
     <string name="notification_description_milestone">Notifications for reaching step milestones</string>
     <string name="milestone_notifications_toggle">Toggle milestone notifications</string>
-    <string name="mute_milestone_notifications">Mute</string>
+    <string name="mute_milestone_notifications_action">Mute</string>
+    <string name="milestone_notifications_tooltip">Milestone notifications</string>
 
     <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$dM</string>
     <string name="milestone_short_millions_decimal">%.1fM</string>
     <string name="milestone_short_thousands">%1$dk</string>
+
+    <!-- Milestone detail dialog -->
+    <string name="milestone_label_distance">Distance</string>
+    <string name="milestone_label_date">Achieved</string>
+    <string name="milestone_label_took">Time taken</string>
+
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">Resume at time</string>

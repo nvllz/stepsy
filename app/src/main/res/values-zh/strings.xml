@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d 千卡</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">第 %1$d 周</string>
+    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">%1$s 没有记录</string>
     <string name="calories">%1$d 千卡</string>
     <string name="steps_month">本月</string>
@@ -13,8 +17,8 @@
     <string name="goal_streak_line">目标：%1$s · %2$s %3$s 连续</string>
     <string name="goal_streak_dead_line">每日目标：%1$s</string>
 
-    <string name="no_sensor">Your device does not have a step counting sensor</string>
-    <string name="no_activity_permission">Missing ACTIVITY_RECOGNITION permission</string>
+    <string name="no_sensor">您的设备没有计步传感器</string>
+    <string name="no_activity_permission">缺少活动识别权限</string>
 
     <!-- Header section -->
     <string name="expand_collapse">展开/收起</string>
@@ -131,6 +135,7 @@
     <string name="achievements_title">成就</string>
     <string name="milestone_achievements">里程碑</string>
     <string name="no_milestones_reached">尚未达成任何里程碑，继续加油！</string>
+    <string name="milestone_new">新</string>
 
     <!-- Data Placeholders -->
     <string name="loading_data">正在加载数据…\n</string>
@@ -194,12 +199,22 @@
     <string name="notification_category_milestone">里程碑</string>
     <string name="notification_description_milestone">达到步数里程碑时的通知</string>
     <string name="milestone_notifications_toggle">里程碑通知</string>
-    <string name="mute_milestone_notifications">静音</string>
+    <string name="mute_milestone_notifications_action">静音</string>
+    <string name="milestone_notifications_tooltip">里程碑通知</string>
 
     <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d百万</string>
     <string name="milestone_short_millions_decimal">%.1f百万</string>
     <string name="milestone_short_thousands">%1$d千</string>
+
+    <!-- Milestone detail dialog -->
+    <string name="milestone_label_distance">距离</string>
+    <string name="milestone_label_date">达成日期</string>
+    <string name="milestone_label_took">所用时间</string>
+
+    <plurals name="milestone_reached_in_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">在指定时间恢复</string>

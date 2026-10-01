@@ -173,27 +173,7 @@ object GoalNotificationWorker {
             notificationManager.createNotificationChannel(channel)
         }
 
-        val badge = when {
-            milestone >= 20_000_000L -> "🏁"
-            milestone >= 15_000_000L -> "♾️"
-            milestone >= 12_500_000L -> "🪬"
-            milestone >= 10_000_000L -> "👑"
-            milestone >=  9_000_000L -> "🦄"
-            milestone >=  8_000_000L -> "🐉"
-            milestone >=  7_000_000L -> "💫"
-            milestone >=  6_000_000L -> "🏆"
-            milestone >=  5_000_000L -> "💎"
-            milestone >=  4_000_000L -> "🪐"
-            milestone >=  3_000_000L -> "🚀"
-            milestone >=  2_000_000L -> "🥇"
-            milestone >=  1_500_000L -> "⚡"
-            milestone >=  1_000_000L -> "🗿"
-            milestone >=    750_000L -> "⛳"
-            milestone >=    500_000L -> "🌟"
-            milestone >=    100_000L -> "🔥"
-            milestone >=     50_000L -> "💪"
-            else                     -> "🎯"
-        }
+        val badge = Util.milestoneBadge(milestone.toInt())
 
         fun formatNumber(number: Long) = NumberFormat.getIntegerInstance(Locale.getDefault()).format(number)
 
@@ -217,7 +197,10 @@ object GoalNotificationWorker {
         val notificationId = 5000 + (milestone / 1000).toInt().coerceAtMost(50000)
 
         val pendingIntent = TaskStackBuilder.create(context).run {
-            addNextIntentWithParentStack(Intent(context, AchievementsActivity::class.java))
+            addNextIntentWithParentStack(
+                Intent(context, AchievementsActivity::class.java)
+                    .putExtra(AchievementsActivity.EXTRA_MILESTONE, milestone.toInt())
+            )
             getPendingIntent(notificationId, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         }
 
@@ -239,7 +222,7 @@ object GoalNotificationWorker {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setGroup("com.nvllz.stepsy.MILESTONE_GROUP")
             .setGroupSummary(false)
-            .addAction(R.drawable.ic_notification, context.getString(R.string.mute_milestone_notifications), mutePendingIntent)
+            .addAction(R.drawable.ic_notification, context.getString(R.string.mute_milestone_notifications_action), mutePendingIntent)
             .build()
 
         notificationManager.notify(notificationId, notification)

@@ -1,62 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="?attr/selectableItemBackground"
-    android:paddingVertical="16dp"
-    android:gravity="center_vertical">
+    android:orientation="vertical"
+    android:foreground="@drawable/bg_milestone_item"
+    android:clickable="true">
 
-    <!-- Achievement Badge -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:cardCornerRadius="24dp"
-        app:strokeWidth="2dp"
-        app:strokeColor="@color/colorPrimary"
-        app:cardElevation="0.75dp">
-
-        <TextView
-            android:id="@+id/achievement_badge"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textColor="@color/colorOnPrimary"
-            android:textStyle="bold"
-            android:text="🎯"/>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <!-- Achievement Details -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginStart="16dp"
-        android:orientation="vertical">
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="34dp"
+        android:paddingVertical="14dp">
 
-        <TextView
-            android:id="@+id/achievement_title"
-            android:layout_width="match_parent"
+        <FrameLayout
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_marginEnd="13dp">
+
+            <View
+                android:id="@+id/achievement_new_ring"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_milestone_new_ring"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/achievement_badge"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:background="@drawable/item_milestone_badge_bg"/>
+
+            <TextView
+                android:id="@+id/achievement_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="2dp"
+                android:background="@drawable/bg_milestone_new_badge"
+                android:text="@string/milestone_new"
+                android:textAllCaps="true"
+                android:textColor="@color/colorOnPrimary"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.03"
+                android:fontFamily="@font/chivo_family"
+                android:includeFontPadding="false"
+                android:elevation="2dp"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="100k steps"
-            android:fontFamily="@font/chivo_family"
-            android:textColor="@color/colorOnSurface" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/achievement_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2022-01-22"
-            android:textSize="14sp"
-            android:paddingStart="5dp"
-            android:fontFamily="@font/chivo_family"
-            android:textColor="@color/colorAccent"
-            android:layout_marginTop="2dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:id="@+id/achievement_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorOnSurface"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/chivo_family"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/achievement_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorOnSurface"
+                android:alpha="0.6"
+                android:textSize="15sp"
+                android:fontFamily="@font/chivo_family"
+                android:layout_marginTop="2dp"/>
+
+        </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:id="@+id/milestone_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/colorOnSurface"
+        android:alpha="0.08"/>
 
 </LinearLayout>

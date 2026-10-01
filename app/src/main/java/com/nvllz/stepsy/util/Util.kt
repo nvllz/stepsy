@@ -27,6 +27,29 @@ object Util {
         15_000_000L, 20_000_000L
     )
 
+    internal fun milestoneBadge(milestoneSteps: Int): String = when {
+        milestoneSteps >= 20_000_000 -> "🏁"
+        milestoneSteps >= 15_000_000 -> "♾️"
+        milestoneSteps >= 12_500_000 -> "🪬"
+        milestoneSteps >= 10_000_000 -> "👑"
+        milestoneSteps >=  9_000_000 -> "🦄"
+        milestoneSteps >=  8_000_000 -> "🐉"
+        milestoneSteps >=  7_000_000 -> "💫"
+        milestoneSteps >=  6_000_000 -> "🏆"
+        milestoneSteps >=  5_000_000 -> "💎"
+        milestoneSteps >=  4_000_000 -> "🪐"
+        milestoneSteps >=  3_000_000 -> "🚀"
+        milestoneSteps >=  2_000_000 -> "🥇"
+        milestoneSteps >=  1_500_000 -> "⚡"
+        milestoneSteps >=  1_000_000 -> "🗿"
+        milestoneSteps >=    750_000 -> "⛳"
+        milestoneSteps >=    500_000 -> "🌟"
+        milestoneSteps >=    100_000 -> "🔥"
+        milestoneSteps >=     50_000 -> "💪"
+        milestoneSteps >=     10_000 -> "🎯"
+        else                         -> "🎯"
+    }
+
     internal fun todayDateString(): String {
         val cal = Calendar.getInstance()
         return "%04d-%02d-%02d".format(
@@ -40,7 +63,6 @@ object Util {
         return try {
             val parts = date.split("-")
             val cal = Calendar.getInstance().apply {
-                firstDayOfWeek = AppPreferences.firstDayOfWeek
                 set(Calendar.YEAR, parts[0].toInt())
                 set(Calendar.MONTH, parts[1].toInt() - 1)
                 set(Calendar.DAY_OF_MONTH, parts[2].toInt())

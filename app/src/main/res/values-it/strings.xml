@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Metadata -->
+    <string name="app_name" translatable="false">Stepsy</string>
 
     <!-- General UI Labels -->
+    <string name="distance_today" translatable="false">%1$.2f %2$s</string>
     <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
+    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
     <string name="week_display_format">Settimana %1$d</string>
+    <string name="week_display_range" translatable="false">%1$s - %2$s</string>
     <string name="no_entry">Nessun dato per %1$s</string>
     <string name="calories">%1$d kcal</string>
     <string name="steps_month">Questo mese</string>
@@ -137,6 +141,7 @@
     <string name="achievements_title">Risultati</string>
     <string name="milestone_achievements">Traguardi</string>
     <string name="no_milestones_reached">Nessun traguardo raggiunto. Continua a camminare!</string>
+    <string name="milestone_new">Nuovo</string>
 
     <!-- Data Placeholders -->
     <string name="loading_data">Caricamento dati…\n</string>
@@ -200,12 +205,24 @@
     <string name="notification_category_milestone">Traguardi</string>
     <string name="notification_description_milestone">Notifiche per il raggiungimento dei traguardi di passi</string>
     <string name="milestone_notifications_toggle">Notifiche dei traguardi</string>
-    <string name="mute_milestone_notifications">Silenzia</string>
+    <string name="mute_milestone_notifications_action">Silenzia</string>
+    <string name="milestone_notifications_tooltip">Notifiche dei traguardi</string>
 
     <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d Mln</string>
     <string name="milestone_short_millions_decimal">%.1f Mln</string>
     <string name="milestone_short_thousands">%1$d mila</string>
+
+    <!-- Milestone detail dialog -->
+    <string name="milestone_label_distance">Distanza</string>
+    <string name="milestone_label_date">Raggiunto</string>
+    <string name="milestone_label_took">Tempo impiegato</string>
+
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d giorno</item>
+        <item quantity="many">%d giorni</item>
+        <item quantity="other">%d giorni</item>
+    </plurals>
 
     <!-- Pause step counting -->
     <string name="resume_at_time">Riprendi all’orario scelto</string>
