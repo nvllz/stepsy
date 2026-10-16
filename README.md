@@ -21,6 +21,8 @@ A lightweight step counter that efficiently uses your phone's sensors.
 
 &nbsp;
 
+## Build flavors
+
 |               Feature               |                        FOSS build                        |                                                                  Full build                                                                  |
 |:-----------------------------------:|:--------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------:|
 |               Privacy               |                      Fully offline                       |                                                                Fully offline                                                                 |
