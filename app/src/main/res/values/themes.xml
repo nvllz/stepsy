@@ -175,4 +175,18 @@
         <item name="android:windowMinWidthMajor">0%</item>
         <item name="android:windowMinWidthMinor">0%</item>
     </style>
+
+    <!-- What's new bottom sheet -->
+    <style name="ThemeOverlay.stepsy.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.stepsy.BottomSheet</item>
+        <item name="colorSurface">@color/colorDialogSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="android:navigationBarColor">@color/colorDialogSurface</item>
+    </style>
+
+    <style name="Widget.stepsy.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/colorDialogSurface</item>
+    </style>
 </resources>

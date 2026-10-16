@@ -63,6 +63,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.nvllz.stepsy.ui.announcement.AnnouncementManager
 import com.nvllz.stepsy.util.TimedPauseManager
 import java.util.concurrent.TimeUnit
 
@@ -117,7 +118,7 @@ internal class MainActivity : AppCompatActivity() {
         mRangeDynamicBox = findViewById(R.id.rangeDynamicBox)
         mExpandButton = findViewById(R.id.expandButton)
 
-        AppPreferences.welcomeDialog(this)
+        AnnouncementManager.showIfNeeded(this)
 
         mExpandButton.setOnClickListener {
             isExpanded = !isExpanded

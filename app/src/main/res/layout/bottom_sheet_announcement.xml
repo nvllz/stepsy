@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="24dp">
+
+
+            <FrameLayout
+                android:id="@+id/sheet_badge"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:background="@drawable/bg_whats_new_badge">
+
+                <ImageView
+                    android:id="@+id/sheet_badge_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_notification"
+                    app:tint="@color/colorSpecial"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:id="@+id/sheet_badge_emoji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="40sp"
+                    android:includeFontPadding="false"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/sheet_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:textColor="@color/colorOnSurface"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:letterSpacing="-0.01"
+                android:fontFamily="@font/chivo_family" />
+
+            <TextView
+                android:id="@+id/sheet_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:alpha="0.85"
+                android:textColor="@color/colorOnSurface"
+                android:textSize="16sp"
+                android:fontFamily="@font/chivo_family"
+                android:textIsSelectable="true"
+                android:visibility="gone" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sheet_translate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/translate"
+                android:textSize="15sp"
+                android:alpha="0.75"
+                android:textColor="@color/colorOnSurface"
+                android:visibility="gone"
+                app:icon="@drawable/ic_translate"
+                app:iconTint="@color/colorOnSurface"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sheet_primary"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:minHeight="56dp"
+                android:textColor="@color/colorOnPrimary"
+                android:textSize="16sp"
+                android:fontFamily="@font/chivo_family"
+                app:backgroundTint="@color/colorPrimary"
+                app:cornerRadius="28dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sheet_secondary"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="48dp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/chivo_family"
+                app:rippleColor="@color/colorAccent"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

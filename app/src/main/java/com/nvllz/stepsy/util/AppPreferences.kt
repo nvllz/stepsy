@@ -1,10 +1,6 @@
 package com.nvllz.stepsy.util
 
 import android.content.Context
-import android.text.method.LinkMovementMethod
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
@@ -14,15 +10,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import java.util.Calendar
-import androidx.core.text.HtmlCompat
 import androidx.preference.PreferenceManager
 import com.nvllz.stepsy.BuildConfig
-import com.nvllz.stepsy.R
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -41,7 +34,6 @@ object AppPreferences {
         val DATE_FORMAT                          = stringPreferencesKey("date_format")
         val FIRST_DAY_OF_WEEK                    = stringPreferencesKey("first_day_of_week")
         val APP_VERSION_CODE                     = intPreferencesKey("app_version_code")
-        val ALERTDIALOG_LAST_VERSION_CODE        = intPreferencesKey("alertdialog_last")
         val VEHICLE_FILTER_ENABLED               = booleanPreferencesKey("vehicle_filter_enabled")
         val BACKUP_LOCATION_URI                  = stringPreferencesKey("backup_location_uri")
         val BACKUP_FREQUENCY                     = stringPreferencesKey("backup_frequency")
@@ -51,9 +43,11 @@ object AppPreferences {
         val DAILY_GOAL_NOTIFICATION_PROGRESSBAR  = booleanPreferencesKey("daily_goal_notification_progressbar")
         val ENCOURAGING_NOTIFICATIONS            = booleanPreferencesKey("encouraging_notifications")
         val DAILY_GOAL_CHART_LINE                = booleanPreferencesKey("daily_goal_chart_line")
-        val BASE_TOTAL_STEPS          = longPreferencesKey("base_total_steps")
-        val LAST_NOTIFIED_MILESTONE   = longPreferencesKey("last_notified_milestone")
+        val BASE_TOTAL_STEPS                     = longPreferencesKey("base_total_steps")
+        val LAST_NOTIFIED_MILESTONE              = longPreferencesKey("last_notified_milestone")
         val MILESTONE_NOTIFICATIONS_ENABLED      = booleanPreferencesKey("milestone_notifications_enabled")
+        val LAST_SEEN_ANNOUNCEMENT_VERSION       = intPreferencesKey("last_seen_announcement_version")
+        val STAR_PROMPT_HANDLED                  = booleanPreferencesKey("star_prompt_handled")
     }
 
     lateinit var dataStore: DataStore<Preferences>
@@ -200,7 +194,7 @@ object AppPreferences {
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.BACKUP_FREQUENCY] = value.toString() } }
 
     fun backupRetentionFlow(): Flow<Int> = dataStore.data.map {
-        it[PreferenceKeys.BACKUP_RETENTION_COUNT]?.toInt() ?: 5
+        it[PreferenceKeys.BACKUP_RETENTION_COUNT] ?: 5
     }
 
     var backupRetention: Int
@@ -278,26 +272,14 @@ object AppPreferences {
             dataStore.edit { it[PreferenceKeys.MILESTONE_NOTIFICATIONS_ENABLED] = value }
         }
 
-    // Dialogs
+    // Announcements
+    var lastSeenAnnouncementVersion: Int
+        get() = runBlocking { dataStore.data.map { it[PreferenceKeys.LAST_SEEN_ANNOUNCEMENT_VERSION] ?: 0 }.first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.LAST_SEEN_ANNOUNCEMENT_VERSION] = value } }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    fun welcomeDialog(context: Context) {
-        val dialogTargetVersion = 8
-
-        GlobalScope.launch(Dispatchers.IO) {
-            val lastShownVersion = dataStore.data.map {
-                it[PreferenceKeys.ALERTDIALOG_LAST_VERSION_CODE] ?: 0
-            }.first()
-
-            val currentVersion = BuildConfig.VERSION_CODE
-
-            if (lastShownVersion < dialogTargetVersion && currentVersion == dialogTargetVersion) {
-                withContext(Dispatchers.Main) {
-                    showDialogAndUpdateVersion(context, dialogTargetVersion)
-                }
-            }
-        }
-    }
+    var starPromptHandled: Boolean
+        get() = runBlocking { dataStore.data.map { it[PreferenceKeys.STAR_PROMPT_HANDLED] ?: false }.first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.STAR_PROMPT_HANDLED] = value } }
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun stepDataStoreMigration(context: Context) {
@@ -317,28 +299,5 @@ object AppPreferences {
                 sharedPrefs2.edit().clear().apply()
             }
         }
-    }
-
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun showDialogAndUpdateVersion(context: Context, dialogVersion: Int) {
-        val version = BuildConfig.VERSION_NAME
-        val html = "".trimIndent()
-
-        val textView = TextView(context).apply {
-            text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            movementMethod = LinkMovementMethod.getInstance()
-            setPadding(50, 30, 50, 10)
-            setLinkTextColor(ContextCompat.getColor(context, R.color.colorAccent))
-        }
-
-        AlertDialog.Builder(context)
-            .setTitle("Stepsy v$version")
-            .setView(textView)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                GlobalScope.launch(Dispatchers.IO) {
-                    dataStore.edit { it[PreferenceKeys.ALERTDIALOG_LAST_VERSION_CODE] = dialogVersion }
-                }
-            }
-            .show()
     }
 }

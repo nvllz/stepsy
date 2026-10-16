@@ -231,4 +231,13 @@
     <string name="pause_indefinitely">Until I turn back on</string>
     <string name="step_counting_paused_until">Step counting paused until %s</string>
     <string name="step_counting_resumed_auto">Step counting resumed automatically</string>
+
+    <!-- Bottom sheet -->
+    <string name="star_title">Enjoying this app?</string>
+    <string name="star_body">Stepsy is open source! If you find it useful, please leave a star on Github to help more people find this project and keep me motivated to improve it.</string>
+    <string name="star_button">Star on Github</string>
+    <string name="star_dismiss">No thanks</string>
+
+    <string name="announcement_dismiss">Got it</string>
+    <string name="translate">Translate</string>
 </resources>
