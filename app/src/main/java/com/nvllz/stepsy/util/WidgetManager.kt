@@ -8,6 +8,7 @@ import android.os.Looper
 import com.nvllz.stepsy.ui.WidgetCompactProvider
 import com.nvllz.stepsy.ui.WidgetIconProvider
 import com.nvllz.stepsy.ui.WidgetPlainProvider
+import com.nvllz.stepsy.ui.WidgetRingProvider
 
 /**
  * Centralized widget management to ensure consistent updates
@@ -58,6 +59,13 @@ object WidgetManager {
             ComponentName(context, WidgetPlainProvider::class.java)
         ).forEach { widgetId ->
             WidgetPlainProvider.updateWidget(context, widgetId, steps)
+        }
+
+        // Update Ring Widget
+        appWidgetManager.getAppWidgetIds(
+            ComponentName(context, WidgetRingProvider::class.java)
+        ).forEach { widgetId ->
+            WidgetRingProvider.updateWidget(context, widgetId, steps)
         }
     }
 }
