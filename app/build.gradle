@@ -63,7 +63,11 @@ android {
         includeInApk = false
         includeInBundle = false
     }
-
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "Stepsy-${variant.versionName}-${variant.flavorName}.apk"
+        }
+    }
 }
 
 dependencies {
