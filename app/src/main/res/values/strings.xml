@@ -103,6 +103,13 @@
     <string name="pref_vehicle_filter_summary">Use offline Activity Recognition API to ignore steps when you\'re in a car, bus, or on a bike. Requires Google Play Services</string>
     <string name="pref_vehicle_filter_summary_foss">More accurate step recognition using Google Play Services API, available in the full build only. You can get it on Github (github.com/nvllz/stepsy)</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API is not available on this device</string>
+    <string name="pref_live_updates_title">Live updates</string>
+    <string name="pref_live_updates_summary">Show today\'s step count with the app icon in the status bar and on the lock screen</string>
+    <string name="pref_live_updates_unsupported">Requires Android 16 or newer</string>
+    <string name="pref_live_updates_blocked">Live updates are turned off for Stepsy in system settings</string>
+    <string name="live_updates_open_settings">Settings</string>
+    <string name="notification_category_live_updates">Live updates</string>
+    <string name="notification_description_live_updates">Today\'s step count shown as a live update</string>
 
     <string name="header_about">App info</string>
     <string name="about_stepsy">About</string>

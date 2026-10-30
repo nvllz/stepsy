@@ -46,6 +46,7 @@ object AppPreferences {
         val BASE_TOTAL_STEPS                     = longPreferencesKey("base_total_steps")
         val LAST_NOTIFIED_MILESTONE              = longPreferencesKey("last_notified_milestone")
         val MILESTONE_NOTIFICATIONS_ENABLED      = booleanPreferencesKey("milestone_notifications_enabled")
+        val LIVE_UPDATES_ENABLED                 = booleanPreferencesKey("live_updates_enabled")
         val LAST_SEEN_ANNOUNCEMENT_VERSION       = intPreferencesKey("last_seen_announcement_version")
         val STAR_PROMPT_HANDLED                  = booleanPreferencesKey("star_prompt_handled")
     }
@@ -270,6 +271,15 @@ object AppPreferences {
         }.first() }
         set(value) = runBlocking {
             dataStore.edit { it[PreferenceKeys.MILESTONE_NOTIFICATIONS_ENABLED] = value }
+        }
+
+    // Live updates
+    var liveUpdatesEnabled: Boolean
+        get() = runBlocking { dataStore.data.map {
+            it[PreferenceKeys.LIVE_UPDATES_ENABLED] ?: false
+        }.first() }
+        set(value) = runBlocking {
+            dataStore.edit { it[PreferenceKeys.LIVE_UPDATES_ENABLED] = value }
         }
 
     // Announcements

@@ -1,8 +1,11 @@
 package com.nvllz.stepsy.ui
 
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.InputType
 import android.text.method.DigitsKeyListener
 import android.text.method.LinkMovementMethod
@@ -54,6 +57,12 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var vehicleFilterSwitch: MaterialSwitch
     private lateinit var vehicleFilterPrefCard: View
     private var vehicleFilterProgrammatic = false
+    private lateinit var liveUpdatesSummary: TextView
+    private lateinit var liveUpdatesSwitch: MaterialSwitch
+    private lateinit var liveUpdatesPrefCard: View
+
+    private val isLiveUpdatesSupported: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA
 
     private val isImperial: Boolean
         get() = AppPreferences.unitSystem == UnitSystem.IMPERIAL
@@ -111,6 +120,11 @@ class SettingsActivity : AppCompatActivity() {
         setupClickListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshLiveUpdatesSummary()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> { finish(); true }
@@ -134,6 +148,9 @@ class SettingsActivity : AppCompatActivity() {
         vehicleFilterSummary  = findViewById(R.id.pref_vehicle_filter_summary)
         vehicleFilterSwitch   = findViewById(R.id.pref_vehicle_filter_switch)
         vehicleFilterPrefCard = findViewById(R.id.pref_vehicle_filter_card)
+        liveUpdatesSummary    = findViewById(R.id.pref_live_updates_summary)
+        liveUpdatesSwitch     = findViewById(R.id.pref_live_updates_switch)
+        liveUpdatesPrefCard   = findViewById(R.id.pref_live_updates_card)
     }
 
     private fun initSummaries() {
@@ -173,6 +190,39 @@ class SettingsActivity : AppCompatActivity() {
             getString(R.string.pref_vehicle_filter_summary)
         }
         vehicleFilterPrefCard.alpha = if (hasPlayServices) 1f else 0.4f
+
+        liveUpdatesSwitch.isEnabled = isLiveUpdatesSupported
+        liveUpdatesSwitch.isChecked = isLiveUpdatesSupported && AppPreferences.liveUpdatesEnabled
+        liveUpdatesPrefCard.alpha = if (isLiveUpdatesSupported) 1f else 0.4f
+        refreshLiveUpdatesSummary()
+    }
+
+    private fun canPostPromotedNotifications(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.BAKLAVA) return false
+        return getSystemService(NotificationManager::class.java).canPostPromotedNotifications()
+    }
+
+    private fun refreshLiveUpdatesSummary() {
+        liveUpdatesSummary.text = when {
+            !isLiveUpdatesSupported -> getString(R.string.pref_live_updates_unsupported)
+            liveUpdatesSwitch.isChecked && !canPostPromotedNotifications() ->
+                getString(R.string.pref_live_updates_blocked)
+            else -> getString(R.string.pref_live_updates_summary)
+        }
+    }
+
+    private fun openPromotionSettings() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.BAKLAVA) return
+        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_PROMOTION_SETTINGS).apply {
+            putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+        }
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            startActivity(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            })
+        }
     }
 
     private fun refreshPersonalDataTitles() {
@@ -468,6 +518,35 @@ class SettingsActivity : AppCompatActivity() {
                 AppPreferences.dataStore.edit { prefs ->
                     prefs[AppPreferences.PreferenceKeys.VEHICLE_FILTER_ENABLED] = isChecked
                 }
+            }
+        }
+
+        liveUpdatesPrefCard.setOnClickListener {
+            if (liveUpdatesSwitch.isEnabled) {
+                liveUpdatesSwitch.performClick()
+            }
+        }
+
+        liveUpdatesSwitch.setOnCheckedChangeListener { _, isChecked ->
+            lifecycleScope.launch {
+                AppPreferences.dataStore.edit { prefs ->
+                    prefs[AppPreferences.PreferenceKeys.LIVE_UPDATES_ENABLED] = isChecked
+                }
+            }
+
+            startService(Intent(this, MotionService::class.java).apply {
+                action = MotionService.ACTION_UPDATE_NOTIFICATION
+                putExtra(MotionService.EXTRA_LIVE_UPDATES, isChecked)
+            })
+
+            refreshLiveUpdatesSummary()
+            if (isChecked && !canPostPromotedNotifications()) {
+                Snackbar.make(
+                    findViewById(R.id.root),
+                    R.string.pref_live_updates_blocked,
+                    Snackbar.LENGTH_LONG
+                ).setAction(R.string.live_updates_open_settings) { openPromotionSettings() }
+                    .show()
             }
         }
 

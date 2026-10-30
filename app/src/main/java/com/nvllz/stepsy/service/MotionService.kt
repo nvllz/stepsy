@@ -42,6 +42,7 @@ internal class MotionService : Service() {
     private var mCurrentDate: String = ""
     private var mCachedDailyTarget: Int = 0
     private var mCachedShowProgressbar: Boolean = false
+    private var mCachedLiveUpdates: Boolean = false
     private var receiver: ResultReceiver? = null
     private lateinit var mListener: SensorEventListener
     private lateinit var mNotificationManager: NotificationManager
@@ -74,6 +75,7 @@ internal class MotionService : Service() {
         mTodaysSteps = AppPreferences.steps
         mCachedDailyTarget = AppPreferences.dailyGoalTarget
         mCachedShowProgressbar = AppPreferences.dailyGoalNotificationProgressbar
+        mCachedLiveUpdates = AppPreferences.liveUpdatesEnabled
         isCountingPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean(KEY_IS_PAUSED, false)
         goalReachedToday = AppPreferences.dailyGoalNotification
                 && AppPreferences.dailyGoalTarget > 0
@@ -298,7 +300,9 @@ internal class MotionService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        return NotificationCompat.Builder(this, STEP_CHANNEL_ID)
+        val liveUpdate = mCachedLiveUpdates && Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA
+
+        return NotificationCompat.Builder(this, if (liveUpdate) LIVE_UPDATE_CHANNEL_ID else STEP_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setOnlyAlertOnce(true)
             .setSilent(true)
@@ -317,8 +321,18 @@ internal class MotionService : Service() {
                         setContentTitle(notificationTitleRaw)
                         setContentText(getString(R.string.notification_step_goal_completed))
                     }
+                } else if (liveUpdate) {
+                    // Live updates require a content title to be promoted
+                    setContentTitle(notificationTitleRaw)
                 } else {
                     setContentText(notificationTitleRaw)
+                }
+
+                if (liveUpdate) {
+                    // Status bar chip shows the small (app) icon followed by the step count
+                    setOngoing(true)
+                    setRequestPromotedOngoing(true)
+                    setShortCriticalText(formattedSteps)
                 }
             }
     }
@@ -389,6 +403,7 @@ internal class MotionService : Service() {
                 "UPDATE_NOTIFICATION" -> {
                     mCachedShowProgressbar = intent.getBooleanExtra("show_progressbar", mCachedShowProgressbar)
                     mCachedDailyTarget = intent.getIntExtra("daily_target", mCachedDailyTarget)
+                    mCachedLiveUpdates = intent.getBooleanExtra(EXTRA_LIVE_UPDATES, mCachedLiveUpdates)
 
                     if (!isCountingPaused) {
                         val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
@@ -433,6 +448,7 @@ internal class MotionService : Service() {
             ?: throw IllegalStateException("Could not get notification service")
 
         createStepNotificationChannel()
+        createLiveUpdateNotificationChannel()
         createPauseNotificationChannel()
 
         if (isCountingPaused) {
@@ -494,6 +510,20 @@ internal class MotionService : Service() {
             )
             stepNotificationChannel.description = getString(R.string.notification_description_steps_day)
             mNotificationManager.createNotificationChannel(stepNotificationChannel)
+        }
+    }
+
+    // Promoted (live update) notifications can't be posted to an IMPORTANCE_MIN channel
+    private fun createLiveUpdateNotificationChannel() {
+        if (mNotificationManager.getNotificationChannel(LIVE_UPDATE_CHANNEL_ID) == null) {
+            val liveUpdateChannel = NotificationChannel(
+                LIVE_UPDATE_CHANNEL_ID,
+                getString(R.string.notification_category_live_updates),
+                NotificationManager.IMPORTANCE_LOW
+            )
+            liveUpdateChannel.description = getString(R.string.notification_description_live_updates)
+            liveUpdateChannel.setShowBadge(false)
+            mNotificationManager.createNotificationChannel(liveUpdateChannel)
         }
     }
 
@@ -600,5 +630,8 @@ internal class MotionService : Service() {
         internal const val ACTION_RESUME_COUNTING = "com.nvllz.stepsy.action.RESUME_COUNTING"
         private const val FOREGROUND_ID = 3843
         private const val STEP_CHANNEL_ID = "com.nvllz.stepsy.STEP_CHANNEL_ID"
+        private const val LIVE_UPDATE_CHANNEL_ID = "com.nvllz.stepsy.LIVE_UPDATE_CHANNEL_ID"
+        internal const val ACTION_UPDATE_NOTIFICATION = "UPDATE_NOTIFICATION"
+        internal const val EXTRA_LIVE_UPDATES = "live_updates"
     }
 }

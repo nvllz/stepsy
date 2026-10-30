@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.nvllz.stepsy'
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
         applicationId "com.nvllz.stepsy"
         minSdkVersion 26
@@ -74,6 +74,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.core:core-ktx:1.17.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'com.google.code.gson:gson:2.11.0'

@@ -109,6 +109,13 @@
     <string name="pref_vehicle_filter_summary">Игнорируйте шаги в машине, автобусе или на велосипеде с помощью Activity Recognition API. Требуются сервисы Google Play.</string>
     <string name="pref_vehicle_filter_summary_foss">Более точное распознавание через Google Play Services API, доступно только в полной версии. Скачайте на Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API недоступно на этом устройстве</string>
+    <string name="pref_live_updates_title">Live updates</string>
+    <string name="pref_live_updates_summary">Показывать количество шагов за сегодня с иконкой приложения в строке состояния и на экране блокировки</string>
+    <string name="pref_live_updates_unsupported">Требуется Android 16 или новее</string>
+    <string name="pref_live_updates_blocked">Live updates для Stepsy отключены в настройках системы</string>
+    <string name="live_updates_open_settings">Настройки</string>
+    <string name="notification_category_live_updates">Live updates</string>
+    <string name="notification_description_live_updates">Количество шагов за сегодня в виде live update</string>
 
     <string name="header_about">Информация о приложении</string>
     <string name="about_stepsy">О программе</string>
