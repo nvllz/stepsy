@@ -1,131 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d ккал</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">Седмица %1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">Няма данни за %1$s</string>
-    <string name="calories">%1$d ккал</string>
-    <string name="steps_month">Този месец</string>
-    <string name="avg_distance">Средно на ден</string>
-    <string name="total_distance">Общо разстояние</string>
-    <string name="goal_streak_line">Цел: %1$s · %2$s %3$s поредица</string>
-    <string name="goal_streak_dead_line">Дневна цел: %1$s</string>
 
-    <string name="no_sensor">Устройството няма сензор за броене на крачки</string>
-    <string name="no_activity_permission">Липсва разрешение ACTIVITY_RECOGNITION</string>
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="one">крачка</item>
+        <item quantity="other">крачки</item>
+    </plurals>
+    <plurals name="steps_formatted">
+        <item quantity="one">%1$s крачка</item>
+        <item quantity="other">%1$s крачки</item>
+    </plurals>
+    <plurals name="days_word_only">
+        <item quantity="one">ден</item>
+        <item quantity="other">дни</item>
+    </plurals>
 
-    <!-- Header section -->
-    <string name="expand_collapse">Разгъване/сгъване</string>
+    <!-- Screen: Home -->
     <string name="header_today">Днес</string>
     <string name="header_week">Тази седмица</string>
     <string name="header_month">Този месец</string>
     <string name="header_7d">Последни 7 дни</string>
     <string name="header_30d">Последни 30 дни</string>
-    <string name="header_all_time">Общо</string>
     <string name="header_year">Година %1$d</string>
-
+    <string name="header_all_time">Общо</string>
     <string name="label_today">Днес</string>
     <string name="label_week">Седмица</string>
     <string name="label_month">Месец</string>
     <string name="label_7d">7 дни</string>
     <string name="label_30d">30 дни</string>
     <string name="label_all_time">От началото</string>
-
-    <!-- Plurals -->
-    <plurals name="steps_formatted">
-        <item quantity="one">%1$s крачка</item>
-        <item quantity="other">%1$s крачки</item>
+    <string name="week_display_format">Седмица %1$d</string>
+    <string name="filters_title">Видими филтри</string>
+    <string name="filters_years">Общо по години</string>
+    <string name="home_show_filter_bar">Показване на лентата с филтри</string>
+    <string name="calories">%1$d ккал</string>
+    <string name="avg_per_day_pill">%1$s / ден</string>
+    <plurals name="goal_reached_times">
+        <item quantity="one">Целта е достигната %d път</item>
+        <item quantity="other">Целта е достигната %d пъти</item>
     </plurals>
-
+    <string name="goal_streak_line">Цел: %1$s · %2$s %3$s поредица</string>
     <plurals name="streak_record_count">
         <item quantity="one">%d ден</item>
         <item quantity="other">%d дни</item>
     </plurals>
-
-    <plurals name="days_word_only">
-        <item quantity="one">ден</item>
-        <item quantity="other">дни</item>
+    <plurals name="streak_segment_description">
+        <item quantity="one">Поредица от %1$d ден за целта</item>
+        <item quantity="other">Поредица от %1$d дни за целта</item>
     </plurals>
+    <string name="edit_step_count">Промяна на крачките</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
+    <string name="confirm_decrease_title">Намаляване на броя</string>
+    <string name="confirm_decrease_message">„Стойността е по-ниска от текущия брой крачки. Сигурни ли сте?“</string>
+    <string name="invalid_step_count">Въведете приемлив брой</string>
+    <string name="steps_updated">Броят крачки е обновен</string>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">Броенето е спряно</string>
-    <string name="notification_category_steps_day">Информация за крачки</string>
-    <string name="notification_description_paused">Извести при спиране на броенето</string>
-    <string name="notification_description_steps_day">Крачки за деня</string>
-    <string name="notification_step_counting_paused">Броенето на крачки е спряно</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">Цел: %1$s — остават %2$s</string>
-    <string name="notification_step_goal_completed">Целта за брой крачки е изпълнена!</string>
-    <string name="step_counting_paused">Броенето на крачки е спряно</string>
-    <string name="step_counting_resumed">Броенето на крачки е възобновяване</string>
-    <string name="action_pause">Пауза</string>
-    <string name="action_resume">Възобновяване</string>
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">Постижения</string>
+    <string name="milestone_achievements">Етапи</string>
+    <string name="milestone_next">Следваща значка</string>
+    <string name="milestone_to_go">Остават %1$s</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
+    <string name="milestone_label_distance">Разстояние</string>
+    <string name="milestone_label_date">Постигнато</string>
+    <string name="milestone_label_took">Отне време</string>
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d ден</item>
+        <item quantity="other">%d дни</item>
+    </plurals>
+    <string name="milestone_notifications_toggle">Известия за постижения</string>
+    <string name="milestone_notifications_enabled">Известията за постижения са включени</string>
+    <string name="milestone_notifications_disabled">Известията за постижения са изключени</string>
+    <string name="milestone_notifications_tooltip">Известия за постижения</string>
+    <string name="no_milestones_reached">Все още няма постигнати етапи. Продължавайте да ходите!</string>
+    <string name="personal_records">Лични рекорди</string>
+    <string name="most_walked_month">Месец с най-голяма активност</string>
+    <string name="streak_record">Най-дългата поредица от ≥ %1$s крачки</string>
+    <string name="top_3_days">Топ 3 дни</string>
+    <string name="best_week">Най-добра седмица</string>
+    <string name="records_goal_reached">Постигната цел</string>
+    <string name="records_percent_of_days">%1$d%% от всички дни</string>
+    <string name="since_date">От %1$s</string>
+    <string name="loading_data">Зареждане на данни…\n</string>
+    <string name="no_data_available">Няма налични данни\n</string>
+    <string name="error_loading_data">Грешка при зареждане на данни\n</string>
 
-    <!-- Preferences -->
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">Дневна цел</string>
+    <string name="section_notifications">Известия</string>
+    <string name="section_goal_alerts">Известия за целта</string>
+    <string name="daily_goal_notification">Извести при достигане</string>
+    <string name="daily_goal_target">Дневна цел за крачки</string>
+    <string name="daily_goal_hint">Въведете дневната цел за крачки</string>
+    <string name="daily_goal_none">Без цел</string>
+    <string name="goal_preset_off">Изкл.</string>
+    <string name="goal_preset_custom">Своя</string>
+    <string name="encouraging_notifications">Мотивиращи известия</string>
+    <string name="encouraging_notifications_summary">До две напомняния на ден, когато се приближавате към целта</string>
+    <string name="encouraging_sample">Изпращане на пример</string>
+    <string name="reminders_one">Едно напомняне</string>
+    <string name="reminders_two">Две напомняния</string>
+    <string name="reminder_single_summary">Напомняне при %1$s от дневната цел</string>
+    <string name="reminder_double_summary">Напомняния при %1$s и %2$s от дневната цел</string>
+    <string name="live_notification_title">Известие на живо</string>
+    <string name="live_steps_only">Само брой крачки</string>
+    <string name="live_steps_progress">Брой крачки + напредък към целта</string>
+    <string name="live_notification_off">Изключено</string>
+    <string name="notification_settings_row">Звук и сигнали</string>
+    <string name="notification_settings_summary">Изберете вид известие</string>
+    <string name="channel_blocked">Блокирано в системните настройки</string>
+
+    <!-- Screen: Settings -->
     <string name="settings">Настройки</string>
     <string name="header_personal_data">Лични данни</string>
-    <string name="header_appearance">Външен вид</string>
     <string name="header_general">Общи</string>
+    <string name="header_appearance">Външен вид</string>
+    <string name="header_data">Данни на приложението</string>
     <string name="header_data_backup">Резервно копие</string>
-
-    <string name="preference_system">Според системата</string>
-    <string name="theme_light">Светла</string>
-    <string name="theme_dark">Тъмна</string>
     <string name="pref_height">Височина</string>
     <string name="pref_step_length">Дължина на крачка</string>
     <string name="pref_weight">Тегло</string>
-    <string name="first_day_of_the_week">Начало на седмицата</string>
-    <string name="app_language">Език</string>
-    <string name="theme">Тема</string>
-    <string name="date_format">Форма̀т на дата</string>
-    <string name="unit_system">Мерни единици</string>
-    <string name="export_data">Изнасяне</string>
-    <string name="backup_frequency">Честота на автом. резервно копие</string>
-    <string name="backup_retention_count">Брой на копията</string>
-    <string name="backup_retention_hint">(0 за неограничени)</string>
-    <string name="backup_retention_unlimited">Неограничено</string>
-    <string name="backup_location">Местоположение на копията</string>
-    <string name="backup_location_not_set">Не е зададено</string>
-    <string name="manual_backup">Ръчно резервно копие</string>
-    <string name="import_data">Внасяне</string>
-    <string name="import_data_summary">Възстановяване от файл</string>
-    <string name="next_backup_scheduled">Следващо автом. резервно копие\n%1$s в %2$s</string>
-    <string name="import_invalid_file">Файлът е невалиден</string>
-    <string name="import_warning_title">Замяна на данните за стъпки</string>
-    <string name="import_warning_message">Това ще изтрие всички текущи данни за стъпки и ще ги замени с импортираните. Да продължи ли?</string>
     <string name="pref_vehicle_filter_title">Точно филтриране на стъпките</string>
     <string name="pref_vehicle_filter_summary">Използвайте Activity Recognition API за игнориране на стъпки в кола, автобус или велосипед. Изисква Google Play Services.</string>
     <string name="pref_vehicle_filter_summary_foss">По-точно разпознаване на стъпки чрез Google Play Services API, достъпно само в пълната версия. Вижте в Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API не е налично на това устройство</string>
+    <string name="unit_system">Мерни единици</string>
+    <string name="date_format">Формат на дата</string>
+    <string name="first_day_of_the_week">Начало на седмицата</string>
+    <string name="app_language">Език</string>
+    <string name="theme">Тема</string>
+    <string name="preference_system">Според системата</string>
+    <string name="theme_light">Светла</string>
+    <string name="theme_dark">Тъмна</string>
 
-    <string name="header_about">Информация за приложението</string>
-    <string name="about_stepsy">Относно</string>
-    <string name="about_version">Издание</string>
-    <string name="about_license">Лиценз</string>
-    <string name="about_html">
-    <![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        Поддържано от <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        Базирано на приложението <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> от <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">Съобщаване за грешка</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">Страница в интернет</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">Лиценз GPL-3.0</a>
-    ]]>
-    </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">Въведете приемлива стойност</string>
-    <string name="cannot_open_file">Файлът не може да бъте отворен</string>
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">Изнасяне и възстановяване на данните на приложението</string>
+    <string name="backup_frequency">Честота на автом. резервно копие</string>
+    <string name="backup_retention_count">Брой на копията</string>
+    <string name="backup_location">Местоположение на копията</string>
+    <string name="backup_location_not_set">Не е зададено</string>
+    <string name="manual_backup">Ръчно резервно копие</string>
     <string name="manual_backup_successful">Ръчното резервно копие е успешно</string>
-    <string name="select_backup_location_first">Първо изберете място за резервни копия</string>
+    <string name="import_data">Внасяне</string>
+    <string name="import_data_summary">Възстановяване от файл</string>
+    <string name="import_invalid_file">Файлът е невалиден</string>
+    <string name="import_warning_title">Замяна на данните за стъпки</string>
+    <string name="import_warning_message">Това ще изтрие всички текущи данни за стъпки и ще ги замени с импортираните. Да продължи ли?</string>
+    <string name="section_import">Внасяне</string>
+    <string name="section_export">Изнасяне</string>
+    <string name="backup_retention_all">Всички</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
+    <string name="cannot_open_file">Файлът не може да бъде отворен</string>
     <string name="import_result">Внесени са %1$d записа (%2$d неуспешни). %3$s</string>
     <string name="today_steps_set">Днешният брой крачки е зададен на %1$d.</string>
+
+    <!-- Screen: About -->
+    <string name="about_stepsy">Относно</string>
+    <string name="about_version">Издание</string>
+    <string name="about_source_code">Изходен код</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">Съобщаване за грешка</string>
+    <string name="about_author">Автор</string>
+    <string name="about_original_creator">Първоначална идея</string>
+    <string name="about_original_creator_summary">MotionMate от 0xf4b1</string>
+    <string name="about_license">Лиценз</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
 
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Негативен цвят на фона</string>
@@ -134,101 +180,148 @@
     <string name="widget_pref_bg_opacity">Непрозрачност на фона</string>
     <string name="widget_pref_btn_save">Запазване</string>
 
-    <!-- Achievements -->
-    <string name="achievements_title">Постижения</string>
-    <string name="milestone_achievements">Етапи</string>
-    <string name="no_milestones_reached">Все още няма постигнати етапи. Продължавайте да ходите!</string>
-    <string name="milestone_new">Ново</string>
+    <!-- Units -->
+    <string name="unit_ft">ft</string>
+    <string name="unit_in">in</string>
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
 
-    <!-- Data Placeholders -->
-    <string name="loading_data">Зареждане на данни…\n</string>
-    <string name="no_data_available">Няма налични данни\n</string>
-    <string name="error_loading_data">Грешка при зареждане на данни\n</string>
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">Устройството няма сензор за броене на крачки</string>
+    <string name="notification_category_counting_paused">Броенето е спряно</string>
+    <string name="notification_category_steps_day">Информация за крачки</string>
+    <string name="notification_description_paused">Извести при спиране на броенето</string>
+    <string name="notification_description_steps_day">Крачки за деня</string>
+    <string name="notification_step_counting_paused">Броенето на крачки е спряно</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s ккал</string>
+    <string name="notification_step_goal_completed">Целта за брой крачки е изпълнена!</string>
+    <string name="step_counting_paused">Броенето на крачки е спряно</string>
+    <string name="step_counting_resumed">Броенето на крачки е възобновено</string>
+    <string name="action_pause">Пауза</string>
+    <string name="action_resume">Възобновяване</string>
 
-    <!-- Daily Goals -->
-    <string name="daily_goals">Дневна цел</string>
-    <string name="daily_goal_notification">Извести при достигане</string>
-    <string name="progress_in_notification">Показване на напредъка в известието</string>
-    <string name="daily_goal_target">Дневна цел за крачки</string>
-    <string name="daily_goal_hint">Въведете дневната цел за крачки</string>
-    <string name="encouraging_notifications">Мотивиращи известия</string>
-    <string name="goal_chart_line">Покажи целевата линия на графиката</string>
-
-    <!-- Records -->
-    <string name="personal_records">Лични рекорди</string>
-    <string name="most_steps_day">Най-много крачки за ден</string>
-    <string name="most_walked_month">Месец с най-голяма активност</string>
-    <string name="streak_record">Най-дългата поредица от ≥ %1$s крачки</string>
-    <string name="top_3_days">Топ 3 дни</string>
-    <string name="best_week">Най-добра седмица</string>
-    <string name="avg_steps_per_day">Средно на ден</string>
-    <string name="since_date">От %1$s</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">Известия за дневната цел</string>
-    <string name="daily_goal_notification_channel_desc">Получавайте известия за дневния напредък</string>
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">Постигната цел</string>
+    <string name="channel_goal_desc">Малка награда, когато достигнете дневната си цел за крачки</string>
+    <string name="channel_reminders_name">Мотивиращи напомняния</string>
+    <string name="channel_reminders_desc">Напомняния, когато наближавате целта</string>
     <string name="goal_achieved_title">Достигнахте целта!</string>
     <string name="goal_achieved_message">Достигнахте %1$s!</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
-    <string name="million_steps_with_distance">%1$dM • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">Промяна на крачките от днес</string>
-    <string name="confirm_decrease_title">Намаляване на броя</string>
-    <string name="confirm_decrease_message">„Стойността е по-ниска от текущия брой крачки. Сигурни ли сте?“</string>
-    <string name="invalid_step_count">Въведете приемлив брой</string>
-    <string name="steps_updated">Броят крачки е обновен</string>
-
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">Продължавайте все така!</string>
-    <string name="encouraging_notification_15_percent">Добър старт! Изпълнили сте %1$d%% от дневната цел. Остават %2$d крачки!</string>
-    <string name="encouraging_notification_75_percent">Почти стигнахте! %1$d%% завършени. Остават %2$d крачки!</string>
-
-    <string name="encouraging_notification_15_percent_alt1">Добър напредък! Изминали сте %1$d%% от целта. Продължавайте!</string>
-    <string name="encouraging_notification_15_percent_alt2">На прав път сте! %1$d%% завършени. Остават %2$d крачки!</string>
-    <string name="encouraging_notification_15_percent_alt3">Добра работа! Завършили сте %1$d%% от целта. Продължавейте да се движите!</string>
-
-    <string name="encouraging_notification_75_percent_alt1">Толкова сте близо! %1$d%% от целта. Остават %2$d крачки!</string>
-    <string name="encouraging_notification_75_percent_alt2">Финален спринт! %1$d%% готови. Можете го – остава още %2$d крачки!</string>
-    <string name="encouraging_notification_75_percent_alt3">На финалната праве сте! %1$d%% завършени. %2$d крачки до завършване!</string>
-
-    <!-- Milestone notification strings -->
+    <string name="encouraging_title">Продължавайте!</string>
+    <string name="encouraging_early_1">Добро начало: вече %1$s, остават %2$s.</string>
+    <string name="encouraging_early_2">Движите се! Вече %1$s, остават %2$s.</string>
+    <string name="encouraging_late_1">Почти сте там! Вече %1$s, остават само %2$s.</string>
+    <string name="encouraging_late_2">Последен тласък: %1$s, остават %2$s.</string>
     <string name="milestone_notification_title">Достигнахте %s!</string>
     <string name="milestone_notification_text">Това са общо %s стъпки!\nПродължавайте.</string>
     <string name="notification_category_milestone">Постижения</string>
     <string name="notification_description_milestone">Известия за достигане на цели за стъпки</string>
-    <string name="milestone_notifications_toggle">Известия за постижения</string>
-    <string name="mute_milestone_notifications_action">Заглушаване</string>
-    <string name="milestone_notifications_tooltip">Известия за постижения</string>
-
-    <!-- Milestone number shorthand -->
-    <string name="milestone_short_millions">%1$дмлн.</string>
+    <string name="milestone_short_millions">%1$dмлн.</string>
     <string name="milestone_short_millions_decimal">%.1fмлн.</string>
-    <string name="milestone_short_thousands">%1$дхил.</string>
-
-    <!-- Milestone detail dialog -->
-    <string name="milestone_label_distance">Разстояние</string>
-    <string name="milestone_label_date">Постигнато</string>
-    <string name="milestone_label_took">Отне време</string>
-
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d ден</item>
-        <item quantity="other">%d дни</item>
-    </plurals>
+    <string name="milestone_short_thousands">%1$dхил.</string>
+    <string name="mute_notifications_action">Заглушаване</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">Възобнови в избран час</string>
-    <string name="pause_when_to_resume">Изберете кога да се възобнови броенето</string>
     <string name="pause_step_counting">Пауза на броенето на стъпки</string>
     <string name="pause_30_minutes">30 минути</string>
     <string name="pause_1_hour">1 час</string>
     <string name="pause_2_hours">2 часа</string>
     <string name="pause_custom_time">Друг час</string>
     <string name="pause_indefinitely">Докато не го включа отново</string>
+    <string name="resume_at_time">Възобнови в избран час</string>
     <string name="step_counting_paused_until">Броенето е спряно до %s</string>
     <string name="step_counting_resumed_auto">Броенето на стъпки е възобновено автоматично</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">Разбрах</string>
+    <string name="translate">Превод</string>
+    <string name="star_title">Харесва ли ви приложението?</string>
+    <string name="star_body">Stepsy е с отворен код! Ако ви е полезно, ще се радвам да дадете звезда на проекта в Github. Така и други хора ще открият Stepsy, а на мен ми дава мотивация да го подобрявам.</string>
+    <string name="star_button">Звезда в Github</string>
+    <string name="star_dismiss">Не, благодаря</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">Пропускане на настройването</string>
+    <string name="onboarding_get_started">Начало</string>
+    <string name="onboarding_continue">Продължаване</string>
+    <string name="onboarding_done">Готово</string>
+    <string name="onboarding_allow">Разрешаване</string>
+    <string name="onboarding_not_now">Не сега</string>
+    <string name="onboarding_ask_again">Питане отново</string>
+    <string name="onboarding_open_settings">Отваряне на настройките</string>
+    <string name="onboarding_status_on">Вкл.</string>
+    <string name="onboarding_status_off">Изкл.</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">Този телефон не отчита сензор за крачки, затова Stepsy не може да брои тук.</string>
+    <string name="onboarding_restore_title">Внасяне на данни за крачки</string>
+    <string name="onboarding_restore_summary">Възстановяване от резервно копие</string>
+    <string name="onboarding_restore_busy">Възстановяване...</string>
+    <string name="onboarding_restore_done_title">Копието е възстановено</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="one">Възстановен е %d ден история</item>
+        <item quantity="other">Възстановени са %d дни история</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">Физическа активност</string>
+    <string name="onboarding_steps_title">Позволете на Stepsy да отчита крачките ви</string>
+    <string name="onboarding_steps_body">Това разрешение е необходимо за използване на сензора за крачки на телефона.</string>
+    <string name="onboarding_steps_row">Физическа активност</string>
+    <string name="onboarding_steps_idle">Още не е разрешено</string>
+    <string name="onboarding_steps_on">Разрешено</string>
+    <string name="onboarding_steps_denied">Не е разрешено</string>
+    <string name="onboarding_steps_blocked">Блокирано от Android</string>
+    <string name="onboarding_steps_note_on">След няколко крачки ще видите как броят расте.</string>
+    <string name="onboarding_steps_note_denied">Докато разрешението не е включено, Stepsy не може да брои.</string>
+    <string name="onboarding_steps_note_blocked">Android няма да покаже отново тази заявка. Разрешението трябва да се даде ръчно в настройките на приложението.</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">Батерия</string>
+    <string name="onboarding_pocket_title">Надеждно броене в джоба</string>
+    <string name="onboarding_pocket_body">За да пести батерия, Android може да пречи на Stepsy да следи сензора във фонов режим. За да не се губят крачки, е нужно да изключите оптимизацията на батерията за това приложение. То ползва нискоенергиен сензор и обработва данните ефективно, докато ходите, така че разходът на батерия е минимален.</string>
+    <string name="onboarding_pocket_row">Оптимизация на батерията</string>
+    <string name="onboarding_pocket_on">Разрешено във фонов режим</string>
+    <string name="onboarding_pocket_off">Не е разрешено във фонов режим</string>
+    <string name="onboarding_pocket_note_on">Готово! Stepsy продължава да брои, докато телефонът е в покой. Някои телефони добавят свои правила за батерията; ако броенето пак спира, проверете дали на Stepsy е разрешено да работи във фонов режим.</string>
+    <string name="onboarding_pocket_note_tried">Можете да го промените по-късно в настройките.</string>
+    <string name="onboarding_pocket_note_manual">Този телефон няма бърза заявка с едно докосване. Намерете Stepsy в следващия списък и изберете \"Без ограничения\" или \"Не оптимизирай\".</string>
+    <string name="onboarding_pocket_note_none">На този телефон не се отвори екран с настройки за батерията. Потърсете в Настройки > Приложения > Stepsy > Батерия.</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">За вас</string>
+    <string name="onboarding_body_title">лични данни за изчисленията</string>
+    <string name="onboarding_body_body">Височината определя дължината на крачката, а теглото – изчислението на изгорените калории. И двете остават само на този телефон.</string>
+    <string name="onboarding_body_note">Можете да промените тези предпочитания по-късно в настройките.</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">Дневна цел</string>
+    <string name="onboarding_goal_title">Избор на дневна цел</string>
+    <string name="onboarding_goal_body">Запълвайте лентата за напредък на началния екран всеки ден! Можете да изберете готова стойност, да зададете своя или изобщо да изключите целта. Тя може да се променя по всяко време и не влияе на данните за крачките.</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s и %3$d ккал / ден</string>
+    <string name="onboarding_reminders_title">Известия</string>
+    <string name="onboarding_reminders_summary">По избор: напредък в известието на живо, мотивиращи напомняния при приближаване към целта за крачки и още. Препоръчително.</string>
+    <string name="onboarding_reminders_on">Разрешени</string>
+    <string name="onboarding_reminders_blocked">Блокирани от Android. Докоснете, за да отворите настройките за известия</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">Отхвърляне</string>
+    <string name="onboarding_card_activity_title">Достъп до активността</string>
+    <string name="onboarding_card_activity_summary">Това разрешение е необходимо за използване на сензора за крачки на телефона.</string>
+    <string name="onboarding_card_battery_title">Стабилност във фонов режим</string>
+    <string name="onboarding_card_battery_summary">Stepsy е лек по замисъл, но системата може да му пречи да брои крачките надеждно. Разрешете на приложението да работи във фонов режим.</string>
+    <string name="onboarding_card_notifications_title">Известия</string>
+    <string name="onboarding_card_notifications_summary">По избор: напредък в известието на живо, мотивиращи напомняния при приближаване към целта за крачки и още. Препоръчително.</string>
+    <string name="onboarding_strip_title">Крачките не се броят</string>
+    <string name="onboarding_strip_summary">Докоснете, за да разрешите отчитането на крачки.</string>
+    <string name="onboarding_welcome_headline_b">Лек брояч на крачки.</string>
+    <string name="onboarding_welcome_point_offline">Без интернет по замисъл</string>
+    <string name="onboarding_welcome_point_battery">Щади батерията</string>
+    <string name="onboarding_welcome_point_backups">Настройте автоматични локални резервни копия</string>
+    <string name="onboarding_welcome_point_pressure">Напредък без натиск</string>
 </resources>

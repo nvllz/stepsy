@@ -1,22 +1,16 @@
 package com.nvllz.stepsy.ui.announcement
 
 import android.content.Context
-import androidx.fragment.app.FragmentActivity
 import com.nvllz.stepsy.util.AppPreferences
 
 object AnnouncementManager {
 
-    private const val STAR_DELAY_MS = 7L * 24 * 60 * 60 * 1000
+    private const val STAR_DELAY_MS = 14L * 24 * 60 * 60 * 1000
 
-    fun showIfNeeded(activity: FragmentActivity) {
-        val fm = activity.supportFragmentManager
-        if (fm.isStateSaved || fm.findFragmentByTag(AnnouncementSheet.TAG) != null) return
-
-        if (hasPendingAnnouncement()) {
-            AnnouncementSheet.show(fm, AnnouncementSheet.Kind.ANNOUNCEMENT)
-        } else if (shouldShowStarPrompt(activity)) {
-            AnnouncementSheet.show(fm, AnnouncementSheet.Kind.STAR)
-        }
+    fun pendingKind(context: Context): Kind? {
+        if (hasPendingAnnouncement()) return Kind.ANNOUNCEMENT
+        if (shouldShowStarPrompt(context)) return Kind.STAR
+        return null
     }
 
     private fun hasPendingAnnouncement(): Boolean {
@@ -35,11 +29,11 @@ object AnnouncementManager {
         }
     }
 
-    internal fun markHandled(kind: AnnouncementSheet.Kind) {
+    internal fun markHandled(kind: Kind) {
         when (kind) {
-            AnnouncementSheet.Kind.ANNOUNCEMENT ->
+            Kind.ANNOUNCEMENT ->
                 AnnouncementContent.current?.let { AppPreferences.lastSeenAnnouncementVersion = it.id }
-            AnnouncementSheet.Kind.STAR -> AppPreferences.starPromptHandled = true
+            Kind.STAR -> AppPreferences.starPromptHandled = true
         }
     }
 }

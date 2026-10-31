@@ -1,194 +1,24 @@
 package com.nvllz.stepsy.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
-import android.text.method.DigitsKeyListener
-import android.view.inputmethod.EditorInfo
-import android.widget.LinearLayout
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
-import androidx.core.widget.addTextChangedListener
-import androidx.datastore.preferences.core.edit
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.materialswitch.MaterialSwitch
-import com.google.android.material.textfield.TextInputEditText
-import com.nvllz.stepsy.R
-import com.nvllz.stepsy.service.MotionService
+import com.nvllz.stepsy.ui.theme.StepsyTheme
 import com.nvllz.stepsy.util.AppPreferences
-import com.nvllz.stepsy.util.Database
-import com.nvllz.stepsy.util.GoalNotificationWorker
-import kotlinx.coroutines.launch
+import com.nvllz.stepsy.util.Util
 
 class DailyGoalsActivity : AppCompatActivity() {
-    private lateinit var database: Database
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Util.applyTheme(AppPreferences.theme)
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_daily_goals)
 
-        supportActionBar?.apply {
-            title = getString(R.string.daily_goals)
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-            setBackgroundDrawable(
-                ContextCompat.getColor(
-                    this@DailyGoalsActivity,
-                    R.color.colorBackground
-                ).toDrawable()
-            )
-            elevation = 0f
-        }
-
-        database = Database.getInstance(this)
-
-        setupViews()
-        initializePreferences()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val input = findViewById<TextInputEditText>(R.id.goal_target_input)
-        saveGoalTargetIfValid(input.text.toString())
-        finish()
-        return true
-    }
-
-    private fun setupViews() {
-        val notificationSwitch = findViewById<MaterialSwitch>(R.id.notification_switch)
-
-        notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
-            lifecycleScope.launch {
-                AppPreferences.dataStore.edit { preferences ->
-                    preferences[AppPreferences.PreferenceKeys.DAILY_GOAL_NOTIFICATION] = isChecked
-                }
+        setContent {
+            StepsyTheme {
+                DailyGoalsScreen(onBack = { onBackPressedDispatcher.onBackPressed() })
             }
         }
-
-        val notificationProgressbarSwitch = findViewById<MaterialSwitch>(R.id.notification_progressbar_switch)
-
-        notificationProgressbarSwitch.setOnCheckedChangeListener { _, isChecked ->
-            lifecycleScope.launch {
-                AppPreferences.dataStore.edit { preferences ->
-                    preferences[AppPreferences.PreferenceKeys.DAILY_GOAL_NOTIFICATION_PROGRESSBAR] = isChecked
-                }
-                updateNotification()
-            }
-        }
-
-        findViewById<TextInputEditText>(R.id.goal_target_input).apply {
-            inputType = InputType.TYPE_CLASS_NUMBER
-            keyListener = DigitsKeyListener.getInstance("0123456789")
-
-            setOnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus) {
-                    saveGoalTargetIfValid(text.toString())
-                }
-            }
-
-            setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    saveGoalTargetIfValid(text.toString())
-                    clearFocus()
-                    true
-                } else {
-                    false
-                }
-            }
-        }
-
-        val encouragingNotificationsSwitch = findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications)
-
-        encouragingNotificationsSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (!encouragingNotificationsSwitch.isPressed) return@setOnCheckedChangeListener
-            lifecycleScope.launch {
-                AppPreferences.dataStore.edit { preferences ->
-                    preferences[AppPreferences.PreferenceKeys.ENCOURAGING_NOTIFICATIONS] = isChecked
-                }
-                if (isChecked) {
-                    GoalNotificationWorker.resetEncouragingNotificationFlags()
-                    GoalNotificationWorker.showEncouragingNotification(
-                        applicationContext,
-                        AppPreferences.dailyGoalTarget,
-                        AppPreferences.steps,
-                        demo = true
-                    )
-                }
-            }
-        }
-
-        val goalChartLineSwitch = findViewById<MaterialSwitch>(R.id.goal_chart_line_switch)
-
-        goalChartLineSwitch.setOnCheckedChangeListener { _, isChecked ->
-            lifecycleScope.launch {
-                AppPreferences.dataStore.edit { preferences ->
-                    preferences[AppPreferences.PreferenceKeys.DAILY_GOAL_CHART_LINE] = isChecked
-                }
-                updateNotification()
-            }
-        }
-    }
-
-    private fun saveGoalTargetIfValid(text: String) {
-        val target = text.toIntOrNull() ?: 0
-
-        if (target >= 0) {
-            lifecycleScope.launch {
-                AppPreferences.dataStore.edit { preferences ->
-                    preferences[AppPreferences.PreferenceKeys.DAILY_GOAL_TARGET] = target
-                }
-                updateNotification()
-            }
-        }
-    }
-
-    private fun initializePreferences() {
-        val notificationEnabled = AppPreferences.dailyGoalNotification
-        val notificationProgressbar = AppPreferences.dailyGoalNotificationProgressbar
-        val encouragingNotifications = AppPreferences.encouragingNotifications
-        val dailyGoalChartLine = AppPreferences.dailyGoalChartLine
-
-        val notificationSwitch = findViewById<MaterialSwitch>(R.id.notification_switch)
-        val progressSwitch = findViewById<MaterialSwitch>(R.id.notification_progressbar_switch)
-        val encouragingSwitch = findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications)
-        val chartSwitch = findViewById<MaterialSwitch>(R.id.goal_chart_line_switch)
-
-        notificationSwitch.isChecked = notificationEnabled
-        progressSwitch.isChecked = notificationProgressbar
-        encouragingSwitch.isChecked = encouragingNotifications
-        chartSwitch.isChecked = dailyGoalChartLine
-
-        val dailyTarget = AppPreferences.dailyGoalTarget
-        val input = findViewById<TextInputEditText>(R.id.goal_target_input)
-        input.setText(dailyTarget.toString())
-
-        updateSwitchesState(dailyTarget)
-
-        input.addTextChangedListener {
-            val value = it.toString().toIntOrNull() ?: 0
-            updateSwitchesState(value)
-        }
-    }
-
-    private fun updateSwitchesState(dailyTarget: Int) {
-        val enabled = dailyTarget != 0
-
-        val switchContainer = findViewById<LinearLayout>(R.id.switches_container)
-        switchContainer.alpha = if (enabled) 1f else 0.4f
-
-        findViewById<MaterialSwitch>(R.id.notification_switch).isEnabled = enabled
-        findViewById<MaterialSwitch>(R.id.notification_progressbar_switch).isEnabled = enabled
-        findViewById<MaterialSwitch>(R.id.streaks_encouraging_notifications).isEnabled = enabled
-        findViewById<MaterialSwitch>(R.id.goal_chart_line_switch).isEnabled = enabled
-    }
-
-    private fun updateNotification() {
-        val intent = Intent(this, MotionService::class.java)
-        intent.action = "UPDATE_NOTIFICATION"
-
-        intent.putExtra("show_progressbar", findViewById<MaterialSwitch>(R.id.notification_progressbar_switch).isChecked)
-        intent.putExtra("daily_target", findViewById<TextInputEditText>(R.id.goal_target_input).text.toString().toIntOrNull() ?: 0)
-
-        startService(intent)
     }
 }

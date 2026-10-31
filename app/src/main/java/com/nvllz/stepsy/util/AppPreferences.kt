@@ -42,12 +42,16 @@ object AppPreferences {
         val DAILY_GOAL_TARGET                    = intPreferencesKey("daily_goal_target")
         val DAILY_GOAL_NOTIFICATION_PROGRESSBAR  = booleanPreferencesKey("daily_goal_notification_progressbar")
         val ENCOURAGING_NOTIFICATIONS            = booleanPreferencesKey("encouraging_notifications")
-        val DAILY_GOAL_CHART_LINE                = booleanPreferencesKey("daily_goal_chart_line")
+        val ENCOURAGING_THRESHOLDS               = stringSetPreferencesKey("encouraging_thresholds")
+        val ENCOURAGING_STATE                    = stringPreferencesKey("encouraging_state")
         val BASE_TOTAL_STEPS                     = longPreferencesKey("base_total_steps")
         val LAST_NOTIFIED_MILESTONE              = longPreferencesKey("last_notified_milestone")
         val MILESTONE_NOTIFICATIONS_ENABLED      = booleanPreferencesKey("milestone_notifications_enabled")
+        val IS_PAUSED                            = booleanPreferencesKey("is_paused")
         val LAST_SEEN_ANNOUNCEMENT_VERSION       = intPreferencesKey("last_seen_announcement_version")
         val STAR_PROMPT_HANDLED                  = booleanPreferencesKey("star_prompt_handled")
+        val ONBOARDING_COMPLETED                 = booleanPreferencesKey("onboarding_completed")
+        val SETUP_CARD_DISMISSED                 = stringSetPreferencesKey("setup_card_dismissed")
     }
 
     lateinit var dataStore: DataStore<Preferences>
@@ -58,6 +62,7 @@ object AppPreferences {
             dataStore = context.appDataStore
         }
         runBlocking {
+            settleOnboardingState(context)
             updateAppVersion()
             stepDataStoreMigration(context)
         }
@@ -70,7 +75,17 @@ object AppPreferences {
         }
     }
 
-    // Steps
+    private suspend fun settleOnboardingState(context: Context) {
+        val prefs = dataStore.data.first()
+        if (prefs[PreferenceKeys.ONBOARDING_COMPLETED] != null) return
+        val upgrade = prefs[PreferenceKeys.APP_VERSION_CODE] != null ||
+            prefs[PreferenceKeys.STEPS] != null ||
+            PreferenceManager.getDefaultSharedPreferences(context).contains("STEPS")
+        dataStore.edit {
+            it[PreferenceKeys.ONBOARDING_COMPLETED] = upgrade
+            if (upgrade) it[PreferenceKeys.SETUP_CARD_DISMISSED] = setOf("battery", "notifications")
+        }
+    }
 
     fun stepsFlow(): Flow<Int> = dataStore.data.map { it[PreferenceKeys.STEPS] ?: 0 }
 
@@ -78,7 +93,11 @@ object AppPreferences {
         get() = runBlocking { stepsFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.STEPS] = value } }
 
-    // Date
+    fun isPausedFlow(): Flow<Boolean> = dataStore.data.map { it[PreferenceKeys.IS_PAUSED] ?: false }
+
+    var isPaused: Boolean
+        get() = runBlocking { isPausedFlow().first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.IS_PAUSED] = value } }
 
     fun dateFlow(): Flow<String> = dataStore.data.map { prefs ->
         val raw = prefs.asMap()
@@ -96,15 +115,11 @@ object AppPreferences {
         get() = runBlocking { dateFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.DATE] = value } }
 
-    // Theme
-
     fun themeFlow(): Flow<String> = dataStore.data.map { it[PreferenceKeys.THEME] ?: "system" }
 
     var theme: String
         get() = runBlocking { themeFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.THEME] = value } }
-
-    // Height
 
     fun heightFlow(): Flow<Int> = dataStore.data.map { it[PreferenceKeys.HEIGHT]?.toIntOrNull() ?: 180 }
 
@@ -112,31 +127,21 @@ object AppPreferences {
         get() = runBlocking { heightFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.HEIGHT] = value.toString() } }
 
-    // Weight
-
     fun weightFlow(): Flow<Int> = dataStore.data.map { it[PreferenceKeys.WEIGHT]?.toIntOrNull() ?: 70 }
 
     var weight: Int
         get() = runBlocking { weightFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.WEIGHT] = value.toString() } }
 
-    // Step length
-
-    fun resetStepLength() {
-        runBlocking { dataStore.edit { it.remove(PreferenceKeys.STEP_LENGTH) } }
-    }
-
     fun stepLengthFlow(): Flow<Float> = dataStore.data.map {
         val height = it[PreferenceKeys.HEIGHT]?.toIntOrNull() ?: 180
-        val estimatedStepLength = (height * 0.415).toFloat()
+        val estimatedStepLength = Util.estimatedStepLengthCm(height)
         it[PreferenceKeys.STEP_LENGTH] ?: estimatedStepLength
     }
 
     var stepLength: Float
         get() = runBlocking { stepLengthFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.STEP_LENGTH] = value } }
-
-    // Unit system
 
     fun unitSystemFlow(): Flow<UnitSystem> = dataStore.data.map {
         when (it[PreferenceKeys.UNIT_SYSTEM]) {
@@ -153,16 +158,12 @@ object AppPreferences {
             }
         }
 
-    // Date format
-
     fun dateFormatStringFlow(): Flow<String> =
         dataStore.data.map { it[PreferenceKeys.DATE_FORMAT] ?: "yyyy-MM-dd" }
 
     var dateFormatString: String
         get() = runBlocking { dateFormatStringFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.DATE_FORMAT] = value } }
-
-    // First day of week
 
     fun firstDayOfWeekFlow(): Flow<Int> = dataStore.data.map {
         it[PreferenceKeys.FIRST_DAY_OF_WEEK]?.toIntOrNull() ?: Calendar.MONDAY
@@ -171,8 +172,6 @@ object AppPreferences {
     var firstDayOfWeek: Int
         get() = runBlocking { firstDayOfWeekFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.FIRST_DAY_OF_WEEK] = value.toString() } }
-
-    // Backup
 
     fun backupLocationUriFlow(): Flow<String?> = dataStore.data.map { it[PreferenceKeys.BACKUP_LOCATION_URI] }
 
@@ -200,8 +199,6 @@ object AppPreferences {
     var backupRetention: Int
         get() = runBlocking { backupRetentionFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.BACKUP_RETENTION_COUNT] = value } }
-
-    // Notifications
 
     fun dailyGoalNotificationFlow(): Flow<Boolean> = dataStore.data.map {
         it[PreferenceKeys.DAILY_GOAL_NOTIFICATION] == true
@@ -235,15 +232,28 @@ object AppPreferences {
         get() = runBlocking { encouragingNotificationsFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.ENCOURAGING_NOTIFICATIONS] = value } }
 
-    fun dailyGoalChartLineFlow(): Flow<Boolean> = dataStore.data.map {
-        it[PreferenceKeys.DAILY_GOAL_CHART_LINE] ?: true
+    val defaultEncouragingThresholds: Set<Int> = setOf(85)
+
+    fun encouragingThresholdsFlow(): Flow<Set<Int>> = dataStore.data.map { prefs ->
+        prefs[PreferenceKeys.ENCOURAGING_THRESHOLDS]
+            ?.mapNotNull { it.toIntOrNull() }
+            ?.filter { it in 1..99 }
+            ?.toSet()
+            ?.takeIf { it.isNotEmpty() }
+            ?: defaultEncouragingThresholds
     }
 
-    var dailyGoalChartLine: Boolean
-        get() = runBlocking { dailyGoalChartLineFlow().first() }
-        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.DAILY_GOAL_CHART_LINE] = value } }
+    var encouragingThresholds: Set<Int>
+        get() = runBlocking { encouragingThresholdsFlow().first() }
+        set(value) = runBlocking {
+            dataStore.edit {
+                it[PreferenceKeys.ENCOURAGING_THRESHOLDS] = value.map { n -> n.toString() }.toSet()
+            }
+        }
 
-    // Vehicle filter
+    var encouragingState: String
+        get() = runBlocking { dataStore.data.map { it[PreferenceKeys.ENCOURAGING_STATE] ?: "" }.first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.ENCOURAGING_STATE] = value } }
 
     fun vehicleFilterEnabledFlow(): Flow<Boolean> = dataStore.data.map {
         it[PreferenceKeys.VEHICLE_FILTER_ENABLED] ?: true
@@ -253,17 +263,14 @@ object AppPreferences {
         get() = runBlocking { vehicleFilterEnabledFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.VEHICLE_FILTER_ENABLED] = value } }
 
-    // Base total (sum of all days except today)
     var baseTotalSteps: Long
         get() = runBlocking { dataStore.data.map { it[PreferenceKeys.BASE_TOTAL_STEPS] ?: 0L }.first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.BASE_TOTAL_STEPS] = value } }
 
-    // Highest milestone already handled
     var lastNotifiedMilestone: Long
         get() = runBlocking { dataStore.data.map { it[PreferenceKeys.LAST_NOTIFIED_MILESTONE] ?: 0L }.first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.LAST_NOTIFIED_MILESTONE] = value } }
 
-    // Milestone notifications
     var milestoneNotificationsEnabled: Boolean
         get() = runBlocking { dataStore.data.map {
             it[PreferenceKeys.MILESTONE_NOTIFICATIONS_ENABLED] ?: true
@@ -272,7 +279,6 @@ object AppPreferences {
             dataStore.edit { it[PreferenceKeys.MILESTONE_NOTIFICATIONS_ENABLED] = value }
         }
 
-    // Announcements
     var lastSeenAnnouncementVersion: Int
         get() = runBlocking { dataStore.data.map { it[PreferenceKeys.LAST_SEEN_ANNOUNCEMENT_VERSION] ?: 0 }.first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.LAST_SEEN_ANNOUNCEMENT_VERSION] = value } }
@@ -280,6 +286,20 @@ object AppPreferences {
     var starPromptHandled: Boolean
         get() = runBlocking { dataStore.data.map { it[PreferenceKeys.STAR_PROMPT_HANDLED] ?: false }.first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.STAR_PROMPT_HANDLED] = value } }
+
+    fun onboardingCompletedFlow(): Flow<Boolean> =
+        dataStore.data.map { it[PreferenceKeys.ONBOARDING_COMPLETED] ?: true }
+
+    var onboardingCompleted: Boolean
+        get() = runBlocking { onboardingCompletedFlow().first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.ONBOARDING_COMPLETED] = value } }
+
+    fun setupCardDismissedFlow(): Flow<Set<String>> =
+        dataStore.data.map { it[PreferenceKeys.SETUP_CARD_DISMISSED] ?: emptySet() }
+
+    var setupCardDismissed: Set<String>
+        get() = runBlocking { setupCardDismissedFlow().first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.SETUP_CARD_DISMISSED] = value } }
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun stepDataStoreMigration(context: Context) {

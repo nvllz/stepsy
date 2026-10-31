@@ -46,7 +46,6 @@ class MidnightResetReceiver : BroadcastReceiver() {
 
             val triggerTime = calendar.timeInMillis
 
-            // Using setWindow for battery efficiency
             alarmManager.setWindow(
                 AlarmManager.RTC_WAKEUP,
                 triggerTime,

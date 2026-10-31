@@ -34,7 +34,7 @@ class WidgetPlainProvider : AppWidgetProvider() {
 
         fun updateWidget(context: Context, appWidgetId: Int, steps: Int) {
 
-            val prefs = context.getSharedPreferences("widget_prefs_$appWidgetId", Context.MODE_MULTI_PROCESS)
+            val prefs = context.getSharedPreferences("widget_prefs_$appWidgetId", Context.MODE_PRIVATE)
 
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_plain)
@@ -46,7 +46,7 @@ class WidgetPlainProvider : AppWidgetProvider() {
             )
             remoteViews.setTextViewText(R.id.widget_plain_steps, stepsStr)
 
-            val useDynamicColors = prefs.getBoolean("use_dynamic_colors", android.os.Build.VERSION.SDK_INT >= 31)
+            val useDynamicColors = prefs.getBoolean("use_dynamic_colors", false)
             val opacity = prefs.getInt("opacity", 100)
             val textScale = prefs.getInt("text_scale", 100)
             val scaleFactor = textScale / 100f
@@ -71,7 +71,6 @@ class WidgetPlainProvider : AppWidgetProvider() {
                 remoteViews.setInt(R.id.widget_plain_container, "setBackgroundColor", alphaBgColor)
                 remoteViews.setTextColor(R.id.widget_plain_steps, primaryColor)
             }
-
 
             remoteViews.setTextViewTextSize(
                 R.id.widget_plain_steps,

@@ -53,6 +53,11 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         }
     }
 
+    internal fun totalStepsExcluding(excludeDate: String): Long {
+        val result = querySingle(arrayOf("sum(stepsy)"), "date <> ?", arrayOf(excludeDate))
+        return (result as? Long) ?: 0L
+    }
+
     internal fun getEntries(minDate: String?, maxDate: String?): List<Entry> {
         val entries = mutableListOf<Entry>()
         val cursor = readableDatabase.query(
@@ -69,7 +74,6 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         return entries
     }
 
-    /** Overwrites the step count for the given date. Used by MotionService for live tracking. */
     internal fun addEntry(date: String, steps: Int) {
         val values = ContentValues().apply {
             put("date", date)
@@ -220,25 +224,14 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
             )
         """
 
-        private var instance: Database? = null
+        @Volatile private var instance: Database? = null
 
         internal fun getInstance(context: Context): Database {
-            return instance ?: Database(context.applicationContext).also { instance = it }
+            return instance ?: synchronized(this) {
+                instance ?: Database(context.applicationContext).also { instance = it }
+            }
         }
 
-        /**
-         * Converts a legacy unix-ms "midnight local" timestamp to a yyyy-MM-dd string
-         * without relying on the current device timezone.
-         *
-         * The old schema stored the start of each local day (midnight) as a unix
-         * millisecond timestamp. That timestamp is always within ±12 h of a UTC
-         * midnight boundary. Snapping to the nearest UTC midnight and reading the
-         * UTC date therefore always recovers the intended calendar date, regardless
-         * of what timezone the device is currently in or whether DST has changed.
-         *
-         * DST transitions (±1 h) may produce two legacy rows that snap to the same
-         * date; callers are responsible for merging those (summing steps).
-         */
         internal fun snapTimestampToDate(timestampMs: Long): String {
             val msIntoDay = timestampMs % 86_400_000L
             val snappedMs = if (msIntoDay >= 12 * 3_600_000L) {

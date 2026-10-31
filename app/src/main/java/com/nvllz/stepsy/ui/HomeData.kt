@@ -1,0 +1,193 @@
+package com.nvllz.stepsy.ui
+
+import android.content.Context
+import android.text.format.DateFormat
+import androidx.annotation.StringRes
+import androidx.core.content.edit
+import com.nvllz.stepsy.R
+import com.nvllz.stepsy.util.AchievementsCacheUtil
+import com.nvllz.stepsy.util.AppPreferences
+import com.nvllz.stepsy.util.Database
+import com.nvllz.stepsy.util.Util
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.YearMonth
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+
+enum class StepRange(val key: String, @StringRes val label: Int, @StringRes val header: Int) {
+    TODAY("TODAY", R.string.label_today, R.string.header_today),
+    WEEK("WEEK", R.string.label_week, R.string.header_week),
+    MONTH("MONTH", R.string.label_month, R.string.header_month),
+    SEVEN("7 DAYS", R.string.label_7d, R.string.header_7d),
+    THIRTY("30 DAYS", R.string.label_30d, R.string.header_30d),
+    ALL("ALL TIME", R.string.label_all_time, R.string.header_all_time),
+}
+
+sealed interface Selection {
+    data class Range(val range: StepRange) : Selection
+    data class Year(val year: Int) : Selection
+    data class Month(val year: Int, val month: Int) : Selection
+}
+
+fun monthTitle(year: Int, month: Int): String {
+    val locale = Locale.getDefault()
+    val pattern = DateFormat.getBestDateTimePattern(locale, "yMMMM")
+    val date = Calendar.getInstance().apply { clear(); set(year, month - 1, 1) }.time
+    return SimpleDateFormat(pattern, locale).format(date)
+        .replaceFirstChar { it.titlecase(locale) }
+}
+
+data class Summary(val header: String, val steps: Int, val avg: Int?, val distance: String, val kcal: String, val goalDays: Int = 0)
+data class ChartData(val header: String, val range: String, val values: List<Int>, val labels: List<String>, val dates: List<LocalDate>, val past7: Boolean)
+
+private const val PREFS = "RangePrefs"
+private const val KEY_RANGE = "selected_range"
+
+private fun rangeFromKey(key: String?) = Selection.Range(StepRange.entries.firstOrNull { it.key == key } ?: StepRange.TODAY)
+
+fun loadSelection(ctx: Context): Selection {
+    val p = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+    val monthOfYear = p.getInt("selected_month", -1)
+    if (p.getBoolean("is_month_selected", false) && monthOfYear != -1)
+        return Selection.Month(monthOfYear / 12, monthOfYear % 12 + 1)
+    val year = p.getInt("selected_year", -1)
+    if (p.getBoolean("is_year_selected", false) && year != -1) return Selection.Year(year)
+    return rangeFromKey(p.getString(KEY_RANGE, null))
+}
+
+fun loadSavedRange(ctx: Context) = rangeFromKey(ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_RANGE, null))
+
+fun saveSelection(ctx: Context, s: Selection) = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit {
+    when (s) {
+        is Selection.Range -> putString("selected_range", s.range.key)
+        is Selection.Year -> putInt("selected_year", s.year)
+        is Selection.Month -> putInt("selected_month", s.year * 12 + (s.month - 1))
+    }
+    putBoolean("is_month_selected", s is Selection.Month)
+    putBoolean("is_year_selected", s is Selection.Year)
+}
+
+fun hasUnseenMilestones(context: Context): Boolean {
+    val ceiling = AppPreferences.lastNotifiedMilestone
+    if (ceiling <= 0L) return false
+    val seen = runCatching {
+        AchievementsCacheUtil.loadSeenMilestones(context.applicationContext)
+    }.getOrNull() ?: emptySet()
+    return Util.MILESTONES.any { it <= ceiling && it.toInt() !in seen }
+}
+
+private fun dateFormat() = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
+private fun dist(c: Context, steps: Int) = c.getString(R.string.distance_today, Util.stepsToDistance(steps), Util.distanceUnit())
+private fun kcal(c: Context, steps: Int) = c.getString(R.string.calories, Util.stepsToCalories(steps))
+
+data class FilterVisibility(val years: Boolean = true, val ranges: Set<StepRange> = StepRange.entries.toSet())
+
+fun loadFilterVisibility(ctx: Context): FilterVisibility {
+    val raw = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString("visible_filters", null)
+        ?: return FilterVisibility()
+    val keys = raw.split(",").filter { it.isNotEmpty() }.toSet()
+    return FilterVisibility(
+        years = "YEARS" in keys,
+        ranges = StepRange.entries.filter { it.key in keys }.toSet(),
+    )
+}
+
+fun saveFilterVisibility(ctx: Context, v: FilterVisibility) {
+    val keys = v.ranges.map { it.key } + (if (v.years) listOf("YEARS") else emptyList())
+    ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit {
+        putString("visible_filters", keys.joinToString(","))
+        remove("filter_order")
+    }
+}
+
+fun firstEntryDate(ctx: Context): LocalDate =
+    Database.getInstance(ctx).firstEntry?.let { runCatching { LocalDate.parse(it) }.getOrNull() } ?: LocalDate.now()
+
+fun stepsByDay(ctx: Context): Map<LocalDate, Int> {
+    val db = Database.getInstance(ctx)
+    val first = db.firstEntry ?: return emptyMap()
+    val last = db.lastEntry ?: return emptyMap()
+    return db.getEntries(first, last).mapNotNull { e ->
+        runCatching { LocalDate.parse(e.date) }.getOrNull()?.let { it to e.steps }
+    }.toMap()
+}
+
+private fun rangeDates(range: StepRange, db: Database): Pair<String, String> {
+    val c = Util.calendar
+    fun back(days: Int): Pair<String, String> {
+        val end = Util.calendarToDateString(c)
+        c.add(Calendar.DAY_OF_YEAR, -days)
+        return Util.calendarToDateString(c) to end
+    }
+    return when (range) {
+        StepRange.WEEK -> {
+            c.set(Calendar.DAY_OF_WEEK, c.firstDayOfWeek)
+            val s = Util.calendarToDateString(c); c.add(Calendar.DAY_OF_YEAR, 6); s to Util.calendarToDateString(c)
+        }
+        StepRange.MONTH -> {
+            c.set(Calendar.DAY_OF_MONTH, 1)
+            val s = Util.calendarToDateString(c)
+            c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH)); s to Util.calendarToDateString(c)
+        }
+        StepRange.SEVEN -> back(6)
+        StepRange.THIRTY -> back(29)
+        else -> { val t = Util.todayDateString(); (db.firstEntry ?: t) to (db.lastEntry ?: t) }
+    }
+}
+
+fun loadSummary(ctx: Context, sel: Selection, picked: LocalDate?, live: Int): Summary {
+    val db = Database.getInstance(ctx)
+    val df = dateFormat()
+    if (picked != null) {
+        val s = db.getSumSteps(picked.toString(), picked.toString())
+        return Summary(df.format(Date(Util.dateStringToCalendarMillis(picked.toString()))), s, null, dist(ctx, s), kcal(ctx, s))
+    }
+    if (sel == Selection.Range(StepRange.TODAY))
+        return Summary(ctx.getString(R.string.header_today), live, null, dist(ctx, live), kcal(ctx, live))
+
+    val (header, dates) = when (sel) {
+        is Selection.Month -> monthTitle(sel.year, sel.month) to
+                ("%04d-%02d-01".format(sel.year, sel.month) to
+                "%04d-%02d-%02d".format(sel.year, sel.month, YearMonth.of(sel.year, sel.month).lengthOfMonth()))
+        is Selection.Year -> ctx.getString(R.string.header_year, sel.year) to
+                ("%04d-01-01".format(sel.year) to "%04d-12-31".format(sel.year))
+        is Selection.Range -> {
+            val d = rangeDates(sel.range, db)
+            val h = if (sel.range == StepRange.ALL)
+                ctx.getString(R.string.since_date, df.format(Date(Util.dateStringToCalendarMillis(d.first))))
+            else ctx.getString(sel.range.header)
+            h to d
+        }
+    }
+    val total = db.getSumSteps(dates.first, dates.second)
+    val gt = AppPreferences.dailyGoalTarget
+    val todayStr = Util.todayDateString()
+    val goalDays = if (gt > 0) db.getEntries(dates.first, dates.second)
+        .count { (if (it.date == todayStr) live else it.steps) >= gt } else 0
+    return Summary(header, total, db.avgSteps(dates.first, dates.second), dist(ctx, total), kcal(ctx, total), goalDays)
+}
+
+fun loadChart(ctx: Context, past7: Boolean, selected: LocalDate, live: Int): ChartData {
+    val start = Util.calendar.apply {
+        if (past7) add(Calendar.DAY_OF_YEAR, -6) else {
+            timeInMillis = Util.dateStringToCalendarMillis(selected.toString())
+            firstDayOfWeek = AppPreferences.firstDayOfWeek
+            set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
+        }
+    }
+    val days = (0 until 7).map { (start.clone() as Calendar).apply { add(Calendar.DAY_OF_YEAR, it) } }
+    val dates = days.map(Util::calendarToDateString)
+    val byDate = Database.getInstance(ctx).getEntries(dates.first(), dates.last()).associate { it.date to it.steps }
+    val today = Util.todayDateString()
+    val df = dateFormat()
+    return ChartData(
+        header = if (past7) ctx.getString(R.string.header_7d) else ctx.getString(R.string.week_display_format, start.get(Calendar.WEEK_OF_YEAR)),
+        range = ctx.getString(R.string.week_display_range, df.format(days.first().time), df.format(days.last().time)),
+        values = dates.map { if (it == today) live else byDate[it] ?: 0 },
+        labels = days.map { it.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()).orEmpty() },
+        dates = dates.map(LocalDate::parse),
+        past7 = past7,
+    )
+}

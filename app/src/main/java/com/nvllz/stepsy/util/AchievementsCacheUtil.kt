@@ -17,6 +17,9 @@ data class AchievementResults(
     val firstDayOfWeek: Int,
     val firstDate: String?,
     val avgStepsPerDay: Int,
+    val totalSteps: Int,
+    val goalReachedDays: Int,
+    val daysTracked: Int,
     val top3Days: List<DayRecord>,
     val bestWeek: RangeRecord?,
     val bestMonth: MonthRecord?,
@@ -27,7 +30,18 @@ data class AchievementResults(
 
     companion object {
         fun empty(goal: Int, firstDow: Int) = AchievementResults(
-            goal, firstDow, null, 0, emptyList(), null, null, null, emptyList()
+            dailyGoal = goal,
+            firstDayOfWeek = firstDow,
+            firstDate = null,
+            avgStepsPerDay = 0,
+            totalSteps = 0,
+            goalReachedDays = 0,
+            daysTracked = 0,
+            top3Days = emptyList(),
+            bestWeek = null,
+            bestMonth = null,
+            longestStreak = null,
+            milestones = emptyList(),
         )
     }
 }
@@ -37,7 +51,7 @@ object AchievementsCacheUtil {
     private const val PREF_NAME = "achievements_cache"
     private const val LEGACY_PREF_NAME = "goals_cache"
     private const val KEY_PAYLOAD = "payload"
-    private const val SCHEMA_VERSION = 3
+    private const val SCHEMA_VERSION = 4
     private const val KEY_SEEN = "seen_milestones"
 
     private val ISO_DATE = Regex("[0-9]{4}-[0-9]{2}-[0-9]{2}")
@@ -46,7 +60,6 @@ object AchievementsCacheUtil {
     private fun prefs(context: Context) =
         context.applicationContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
-    /** Returns valid cached results, or null (and wipes the cache) if missing/corrupt/outdated. */
     fun load(context: Context): AchievementResults? {
         val raw = prefs(context).getString(KEY_PAYLOAD, null) ?: return null
         return try {
@@ -74,7 +87,6 @@ object AchievementsCacheUtil {
         prefs(context).edit { remove(KEY_PAYLOAD) }
     }
 
-    /** null = never stored (first launch after update) */
     fun loadSeenMilestones(context: Context): Set<Int>? =
         prefs(context).getStringSet(KEY_SEEN, null)?.mapNotNull { it.toIntOrNull() }?.toSet()
 
@@ -89,6 +101,9 @@ object AchievementsCacheUtil {
         o.put("firstDayOfWeek", r.firstDayOfWeek)
         o.putOpt("firstDate", r.firstDate)
         o.put("avg", r.avgStepsPerDay)
+        o.put("total", r.totalSteps)
+        o.put("goalDays", r.goalReachedDays)
+        o.put("daysTracked", r.daysTracked)
 
         val top3 = JSONArray()
         r.top3Days.forEach { top3.put(JSONObject().put("date", it.date).put("steps", it.steps)) }
@@ -110,7 +125,6 @@ object AchievementsCacheUtil {
         return o
     }
 
-    /** Strict: throws on anything unexpected, so the caller discards the cache. */
     private fun fromJson(o: JSONObject): AchievementResults {
         check(o.getInt("schema") == SCHEMA_VERSION) { "schema mismatch" }
         return AchievementResults(
@@ -118,6 +132,9 @@ object AchievementsCacheUtil {
             firstDayOfWeek = o.getInt("firstDayOfWeek"),
             firstDate = o.isoDate("firstDate"),
             avgStepsPerDay = o.nonNegInt("avg"),
+            totalSteps = o.nonNegInt("total"),
+            goalReachedDays = o.nonNegInt("goalDays"),
+            daysTracked = o.nonNegInt("daysTracked"),
             top3Days = o.getJSONArray("top3").mapObjects { DayRecord(it.isoDate("date"), it.nonNegInt("steps")) },
             bestWeek = o.optObject("bestWeek")?.let {
                 RangeRecord(it.nonNegInt("steps"), it.isoDate("start"), it.isoDate("end"))

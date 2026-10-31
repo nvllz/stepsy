@@ -1,131 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d কিলোক্যালরি</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">সপ্তাহ %1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">%1$s এর জন্য কোন রেকর্ড নেই</string>
-    <string name="calories">%1$d কিলোক্যালরি</string>
-    <string name="steps_month">এই মাসে</string>
-    <string name="avg_distance">প্রতিদিনের গড়</string>
-    <string name="total_distance">মোট দূরত্ব</string>
-    <string name="goal_streak_line">লক্ষ্য: %1$s · %2$s %3$s স্ট্রিক</string>
-    <string name="goal_streak_dead_line">দৈনিক লক্ষ্য: %1$s</string>
 
-    <string name="no_sensor">আপনার ডিভাইসে পদক্ষেপ গণনার সেন্সর নেই</string>
-    <string name="no_activity_permission">ACTIVITY_RECOGNITION অনুমতি নেই</string>
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="one">পদক্ষেপ</item>
+        <item quantity="other">পদক্ষেপ</item>
+    </plurals>
+    <plurals name="steps_formatted">
+        <item quantity="one">%1$s পদক্ষেপ</item>
+        <item quantity="other">%1$s পদক্ষেপ</item>
+    </plurals>
+    <plurals name="days_word_only">
+        <item quantity="one" tools:ignore="ImpliedQuantity">দিন</item>
+        <item quantity="other">দিন</item>
+    </plurals>
 
-    <!-- Header section -->
-    <string name="expand_collapse">বিস্তার/সংকোচন</string>
+    <!-- Screen: Home -->
     <string name="header_today">আজ</string>
     <string name="header_week">এই সপ্তাহ</string>
     <string name="header_month">এই মাস</string>
     <string name="header_7d">গত ৭ দিন</string>
     <string name="header_30d">গত ৩০ দিন</string>
-    <string name="header_all_time">সর্বমোট</string>
     <string name="header_year">%1$d সাল</string>
-
+    <string name="header_all_time">সর্বমোট</string>
     <string name="label_today">আজ</string>
     <string name="label_week">সপ্তাহ</string>
     <string name="label_month">মাস</string>
     <string name="label_7d">৭ দিন</string>
     <string name="label_30d">৩০ দিন</string>
     <string name="label_all_time">সর্বমোট</string>
-
-    <!-- Plurals -->
-    <plurals name="steps_formatted">
-        <item quantity="one">%1$s পদক্ষেপ</item>
-        <item quantity="other">%1$s পদক্ষেপ</item>
+    <string name="week_display_format">সপ্তাহ %1$d</string>
+    <string name="filters_title">দৃশ্যমান ফিল্টার</string>
+    <string name="filters_years">বছরভিত্তিক মোট</string>
+    <string name="home_show_filter_bar">ফিল্টার বার দেখান</string>
+    <string name="calories">%1$d কিলোক্যালরি</string>
+    <string name="avg_per_day_pill">%1$s / দিন</string>
+    <plurals name="goal_reached_times">
+        <item quantity="one">লক্ষ্য %d বার পূরণ হয়েছে</item>
+        <item quantity="other">লক্ষ্য %d বার পূরণ হয়েছে</item>
     </plurals>
-
+    <string name="goal_streak_line">লক্ষ্য: %1$s · %2$s %3$s স্ট্রিক</string>
     <plurals name="streak_record_count">
         <item quantity="one">%d দিন</item>
         <item quantity="other">%d দিন</item>
     </plurals>
-
-    <plurals name="days_word_only">
-        <item quantity="one" tools:ignore="ImpliedQuantity">দিন</item>
-        <item quantity="other">দিন</item>
+    <plurals name="streak_segment_description">
+        <item quantity="one">%1$d দিনের লক্ষ্যের ধারাবাহিকতা</item>
+        <item quantity="other">%1$d দিনের লক্ষ্যের ধারাবাহিকতা</item>
     </plurals>
+    <string name="edit_step_count">পদক্ষেপ সংখ্যা সমন্বয় করুন</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
+    <string name="confirm_decrease_title">কম পদক্ষেপ সংখ্যা</string>
+    <string name="confirm_decrease_message">এই মানটি বর্তমান পদক্ষেপ সংখ্যার চেয়ে কম। আপনি কি নিশ্চিতভাবে এগিয়ে যেতে চান?</string>
+    <string name="invalid_step_count">অনুগ্রহ করে একটি বৈধ সংখ্যা লিখুন</string>
+    <string name="steps_updated">পদক্ষেপ সংখ্যা আপডেট হয়েছে</string>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">গণনা বন্ধ</string>
-    <string name="notification_category_steps_day">পদক্ষেপের তথ্য</string>
-    <string name="notification_description_paused">পদক্ষেপ গণনা বন্ধ হলে জানান</string>
-    <string name="notification_description_steps_day">আজকের পদক্ষেপ</string>
-    <string name="notification_step_counting_paused">পদক্ষেপ গণনা বন্ধ আছে</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">লক্ষ্য: %1$s — বাকি %2$s</string>
-    <string name="notification_step_goal_completed">পদক্ষেপের লক্ষ্য পূরণ হয়েছে!</string>
-    <string name="step_counting_paused">পদক্ষেপ গণনা বন্ধ</string>
-    <string name="step_counting_resumed">পদক্ষেপ গণনা পুনরায় শুরু</string>
-    <string name="action_pause">বিরতি</string>
-    <string name="action_resume">পুনরায় শুরু</string>
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">সাফল্য</string>
+    <string name="milestone_achievements">মাইলস্টোন</string>
+    <string name="milestone_next">পরবর্তী ব্যাজ</string>
+    <string name="milestone_to_go">আর %1$s বাকি</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
+    <string name="milestone_label_distance">দূরত্ব</string>
+    <string name="milestone_label_date">অর্জিত</string>
+    <string name="milestone_label_took">সময় লেগেছে</string>
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d দিন</item>
+        <item quantity="other">%d দিন</item>
+    </plurals>
+    <string name="milestone_notifications_toggle">মাইলস্টোন বিজ্ঞপ্তি চালু/বন্ধ করুন</string>
+    <string name="milestone_notifications_enabled">মাইলস্টোন বিজ্ঞপ্তি চালু আছে</string>
+    <string name="milestone_notifications_disabled">মাইলস্টোন বিজ্ঞপ্তি বন্ধ আছে</string>
+    <string name="milestone_notifications_tooltip">মাইলস্টোন বিজ্ঞপ্তি</string>
+    <string name="no_milestones_reached">এখনো কোনো মাইলস্টোনে পৌঁছানো হয়নি। হাঁটতে থাকুন!</string>
+    <string name="personal_records">ব্যক্তিগত রেকর্ড</string>
+    <string name="most_walked_month">সর্বাধিক সক্রিয় মাস</string>
+    <string name="streak_record">%1$s+ পদক্ষেপের দীর্ঘতম ধারাবাহিকতা</string>
+    <string name="top_3_days">সেরা ৩ দিন</string>
+    <string name="best_week">সেরা সপ্তাহ</string>
+    <string name="records_goal_reached">লক্ষ্য পূরণ</string>
+    <string name="records_percent_of_days">সব দিনের %1$d%%</string>
+    <string name="since_date">%1$s থেকে</string>
+    <string name="loading_data">তথ্য লোড হচ্ছে…\n</string>
+    <string name="no_data_available">তথ্য পাওয়া যায়নি\n</string>
+    <string name="error_loading_data">তথ্য লোড করতে সমস্যা\n</string>
 
-    <!-- Preferences -->
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">দৈনিক লক্ষ্য</string>
+    <string name="section_notifications">বিজ্ঞপ্তি</string>
+    <string name="section_goal_alerts">লক্ষ্য সতর্কতা</string>
+    <string name="daily_goal_notification">লক্ষ্য পেলে নোটিশ দাও</string>
+    <string name="daily_goal_target">দৈনিক পদচারণার লক্ষ্য</string>
+    <string name="daily_goal_hint">আপনার দৈনিক পদচারণার লক্ষ্য লিখুন</string>
+    <string name="daily_goal_none">কোনো লক্ষ্য নেই</string>
+    <string name="goal_preset_off">বন্ধ</string>
+    <string name="goal_preset_custom">নিজস্ব</string>
+    <string name="encouraging_notifications">উৎসাহজনক বিজ্ঞপ্তি</string>
+    <string name="encouraging_notifications_summary">লক্ষ্যের কাছাকাছি পৌঁছালে দিনে সর্বোচ্চ দুটি রিমাইন্ডার</string>
+    <string name="encouraging_sample">একটি নমুনা পাঠান</string>
+    <string name="reminders_one">একটি রিমাইন্ডার</string>
+    <string name="reminders_two">দুটি রিমাইন্ডার</string>
+    <string name="reminder_single_summary">দৈনিক লক্ষ্যের %1$s-এ রিমাইন্ডার</string>
+    <string name="reminder_double_summary">দৈনিক লক্ষ্যের %1$s ও %2$s-এ রিমাইন্ডার</string>
+    <string name="live_notification_title">লাইভ বিজ্ঞপ্তি</string>
+    <string name="live_steps_only">শুধু পদক্ষেপ সংখ্যা</string>
+    <string name="live_steps_progress">পদক্ষেপ সংখ্যা + লক্ষ্যের অগ্রগতি</string>
+    <string name="live_notification_off">বন্ধ</string>
+    <string name="notification_settings_row">শব্দ ও সতর্কতা</string>
+    <string name="notification_settings_summary">বিজ্ঞপ্তির ধরন বেছে নিন</string>
+    <string name="channel_blocked">সিস্টেম সেটিংসে ব্লক করা আছে</string>
+
+    <!-- Screen: Settings -->
     <string name="settings">সেটিংস</string>
     <string name="header_personal_data">ব্যক্তিগত তথ্য</string>
-    <string name="header_appearance">অ্যাপের চেহারা</string>
     <string name="header_general">সাধারণ</string>
+    <string name="header_appearance">অ্যাপের চেহারা</string>
+    <string name="header_data">অ্যাপের ডেটা</string>
     <string name="header_data_backup">ব্যাকআপ</string>
-
-    <string name="preference_system">সিস্টেম</string>
-    <string name="theme_light">লাইট</string>
-    <string name="theme_dark">ডার্ক</string>
     <string name="pref_height">উচ্চতা</string>
     <string name="pref_step_length">পদক্ষেপের দৈর্ঘ্য</string>
     <string name="pref_weight">ওজন</string>
-    <string name="first_day_of_the_week">সপ্তাহের প্রথম দিন</string>
-    <string name="app_language">ভাষা</string>
-    <string name="theme">থিম</string>
-    <string name="date_format">তারিখের ফরম্যাট</string>
-    <string name="unit_system">একক পদ্ধতি</string>
-    <string name="export_data">রপ্তানি</string>
-    <string name="backup_frequency">স্বয়ংক্রিয় ব্যাকআপের ফ্রিকোয়েন্সি</string>
-    <string name="backup_retention_count">রাখার জন্য ব্যাকআপের সংখ্যা</string>
-    <string name="backup_retention_hint">(সব রাখতে ০ দিন)</string>
-    <string name="backup_retention_unlimited">অসীম</string>
-    <string name="backup_location">ব্যাকআপ লোকেশন</string>
-    <string name="backup_location_not_set">নির্ধারিত নয়</string>
-    <string name="manual_backup">ম্যানুয়াল ব্যাকআপ</string>
-    <string name="import_data">আমদানি</string>
-    <string name="import_data_summary">একটি ফাইল থেকে পদক্ষেপের ডেটা পুনরুদ্ধার করুন</string>
-    <string name="next_backup_scheduled">পরবর্তী স্বয়ংক্রিয় ব্যাকআপ\n%1$s %2$s-এ</string>
-    <string name="import_invalid_file">এই ফাইলটি বৈধ নয়</string>
-    <string name="import_warning_title">ধাপের ডেটা প্রতিস্থাপন করুন</string>
-    <string name="import_warning_message">এতে বর্তমান সব ধাপের ডেটা মুছে যাবে এবং আমদানি করা ডেটা দিয়ে প্রতিস্থাপিত হবে। চালিয়ে যাবেন?</string>
     <string name="pref_vehicle_filter_title">সঠিক ধাপ ফিল্টারিং</string>
     <string name="pref_vehicle_filter_summary">গাড়ি, বাস বা বাইকে থাকাকালীন ধাপগুলো উপেক্ষা করতে অ্যাক্টিভিটি রিকগনিশন API ব্যবহার করুন। Google Play Services প্রয়োজন।</string>
     <string name="pref_vehicle_filter_summary_foss">Google Play Services API ব্যবহার করে আরও নির্ভুল ধাপ শনাক্তকরণ, যা শুধুমাত্র ফুল বিল্ডে উপলব্ধ। এটি Github-এ পাবেন (github.com/nvllz/stepsy)।</string>
     <string name="vehicle_filter_unavailable">অ্যাক্টিভিটি রিকগনিশন API এই ডিভাইসে উপলব্ধ নেই</string>
+    <string name="unit_system">একক পদ্ধতি</string>
+    <string name="date_format">তারিখের ফরম্যাট</string>
+    <string name="first_day_of_the_week">সপ্তাহের প্রথম দিন</string>
+    <string name="app_language">ভাষা</string>
+    <string name="theme">থিম</string>
+    <string name="preference_system">সিস্টেম</string>
+    <string name="theme_light">লাইট</string>
+    <string name="theme_dark">ডার্ক</string>
 
-    <string name="header_about">অ্যাপ তথ্য</string>
-    <string name="about_stepsy">সম্পর্কে</string>
-    <string name="about_version">সংস্করণ</string>
-    <string name="about_license">লাইসেন্স</string>
-    <string name="about_html">
-    <![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        প্রকল্পটি রক্ষণাবেক্ষণ করছেন <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> এর উপর ভিত্তি করে <a href="https://github.com/0xf4b1">0xf4b1</a> দ্বারা<br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">বাগ রিপোর্ট করুন</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">প্রকল্পের ওয়েবসাইট</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">লাইসেন্স GPL-3.0</a>
-    ]]>
-    </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">একটি বৈধ মান লিখুন</string>
-    <string name="cannot_open_file">ফাইল খোলা যাচ্ছে না</string>
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">অ্যাপের ডেটা এক্সপোর্ট ও পুনরুদ্ধার</string>
+    <string name="backup_frequency">স্বয়ংক্রিয় ব্যাকআপের ফ্রিকোয়েন্সি</string>
+    <string name="backup_retention_count">রাখার জন্য ব্যাকআপের সংখ্যা</string>
+    <string name="backup_location">ব্যাকআপ লোকেশন</string>
+    <string name="backup_location_not_set">নির্ধারিত নয়</string>
+    <string name="manual_backup">ম্যানুয়াল ব্যাকআপ</string>
     <string name="manual_backup_successful">ম্যানুয়াল ব্যাকআপ সফল হয়েছে</string>
-    <string name="select_backup_location_first">প্রথমে ব্যাকআপ লোকেশন নির্বাচন করুন</string>
+    <string name="import_data">আমদানি</string>
+    <string name="import_data_summary">একটি ফাইল থেকে পদক্ষেপের ডেটা পুনরুদ্ধার করুন</string>
+    <string name="import_invalid_file">এই ফাইলটি বৈধ নয়</string>
+    <string name="import_warning_title">ধাপের ডেটা প্রতিস্থাপন করুন</string>
+    <string name="import_warning_message">এতে বর্তমান সব ধাপের ডেটা মুছে যাবে এবং আমদানি করা ডেটা দিয়ে প্রতিস্থাপিত হবে। চালিয়ে যাবেন?</string>
+    <string name="section_import">আমদানি</string>
+    <string name="section_export">রপ্তানি</string>
+    <string name="backup_retention_all">সবগুলো</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
+    <string name="cannot_open_file">ফাইল খোলা যাচ্ছে না</string>
     <string name="import_result">%1$d টি এন্ট্রি ইমপোর্ট হয়েছে (%2$d ব্যর্থ)। %3$s</string>
     <string name="today_steps_set">আজকের পদক্ষেপ %1$d এ সেট করা হয়েছে।</string>
+
+    <!-- Screen: About -->
+    <string name="about_stepsy">সম্পর্কে</string>
+    <string name="about_version">সংস্করণ</string>
+    <string name="about_source_code">সোর্স কোড</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">বাগ জানান</string>
+    <string name="about_author">নির্মাতা</string>
+    <string name="about_original_creator">মূল ধারণা</string>
+    <string name="about_original_creator_summary">0xf4b1-এর MotionMate</string>
+    <string name="about_license">লাইসেন্স</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
 
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">পটভূমির রঙ উল্টান</string>
@@ -134,101 +180,148 @@
     <string name="widget_pref_bg_opacity">পটভূমির অস্পষ্টতা</string>
     <string name="widget_pref_btn_save">সংরক্ষণ করুন</string>
 
-    <!-- Achievements -->
-    <string name="achievements_title">সাফল্য</string>
-    <string name="milestone_achievements">মাইলস্টোন</string>
-    <string name="no_milestones_reached">এখনো কোনো মাইলস্টোন ছুঁইনি। হাঁটতে থাকুন!</string>
-    <string name="milestone_new">নতুন</string>
+    <!-- Units -->
+    <string name="unit_ft">ft</string>
+    <string name="unit_in">in</string>
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
 
-    <!-- Data Placeholders -->
-    <string name="loading_data">তথ্য লোড হচ্ছে…\n</string>
-    <string name="no_data_available">তথ্য পাওয়া যায়নি\n</string>
-    <string name="error_loading_data">তথ্য লোড করতে সমস্যা\n</string>
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">আপনার ডিভাইসে পদক্ষেপ গণনার সেন্সর নেই</string>
+    <string name="notification_category_counting_paused">গণনা বন্ধ</string>
+    <string name="notification_category_steps_day">পদক্ষেপের তথ্য</string>
+    <string name="notification_description_paused">পদক্ষেপ গণনা বন্ধ হলে জানান</string>
+    <string name="notification_description_steps_day">আজকের পদক্ষেপ</string>
+    <string name="notification_step_counting_paused">পদক্ষেপ গণনা বন্ধ আছে</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s কিলোক্যালরি</string>
+    <string name="notification_step_goal_completed">পদক্ষেপের লক্ষ্য পূরণ হয়েছে!</string>
+    <string name="step_counting_paused">পদক্ষেপ গণনা বন্ধ</string>
+    <string name="step_counting_resumed">পদক্ষেপ গণনা পুনরায় শুরু</string>
+    <string name="action_pause">বিরতি</string>
+    <string name="action_resume">পুনরায় শুরু</string>
 
-    <!-- Daily Goals -->
-    <string name="daily_goals">দৈনিক লক্ষ্য</string>
-    <string name="daily_goal_notification">লক্ষ্য পেলে নোটিশ দাও</string>
-    <string name="progress_in_notification">বিজ্ঞপ্তিতে অগ্রগতি দেখান</string>
-    <string name="daily_goal_target">দৈনিক পদচারণার লক্ষ্য</string>
-    <string name="daily_goal_hint">আপনার দৈনিক পদচারণার লক্ষ্য লিখুন</string>
-    <string name="encouraging_notifications">উৎসাহজনক বিজ্ঞপ্তি</string>
-    <string name="goal_chart_line">চার্টে লক্ষ্য রেখা দেখাও</string>
-
-    <!-- Records -->
-    <string name="personal_records">ব্যক্তিগত রেকর্ড</string>
-    <string name="most_steps_day">সর্বোচ্চ পদক্ষেপ একদিনে</string>
-    <string name="most_walked_month">সর্বাধিক সক্রিয় মাস</string>
-    <string name="streak_record">সর্বাধিক ১০ %1$s+ পদক্ষেপের ধারাবাহিকতা</string>
-    <string name="top_3_days">সেরা ৩ দিন</string>
-    <string name="best_week">সেরা সপ্তাহ</string>
-    <string name="avg_steps_per_day">প্রতিদিন গড়ে</string>
-    <string name="since_date">%1$s থেকে পর থেকে</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">দৈনিক পদক্ষেপের লক্ষ্যের বিজ্ঞপ্তি</string>
-    <string name="daily_goal_notification_channel_desc">দৈনিক পদক্ষেপের লক্ষ্য অগ্রগতি সম্পর্কে আপডেট পান</string>
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">লক্ষ্য পূরণ</string>
+    <string name="channel_goal_desc">দৈনিক পদক্ষেপের লক্ষ্যে পৌঁছালে ছোট্ট একটি পুরস্কার</string>
+    <string name="channel_reminders_name">উৎসাহমূলক রিমাইন্ডার</string>
+    <string name="channel_reminders_desc">লক্ষ্যের কাছাকাছি পৌঁছালে রিমাইন্ডার</string>
     <string name="goal_achieved_title">🎉 আপনি লক্ষ্য পূরণ করলেন!</string>
     <string name="goal_achieved_message">%1$s লক্ষ্য পূরণ করেছেন!</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
-    <string name="million_steps_with_distance">%1$dM • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">আজকের পদক্ষেপ সংখ্যা সমন্বয় করুন</string>
-    <string name="confirm_decrease_title">কম পদক্ষেপ সংখ্যা</string>
-    <string name="confirm_decrease_message">এই মানটি বর্তমান পদক্ষেপ সংখ্যার চেয়ে কম। আপনি কি নিশ্চিতভাবে এগিয়ে যেতে চান?</string>
-    <string name="invalid_step_count">অনুগ্রহ করে একটি বৈধ সংখ্যা লিখুন</string>
-    <string name="steps_updated">পদক্ষেপ সংখ্যা আপডেট হয়েছে</string>
-
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">চলেই যাও!</string>
-    <string name="encouraging_notification_15_percent">দারুণ শুরু! %1$d%% সম্পন্ন হয়েছে। আর মাত্র %2$d পা চলতে হবে!</string>
-    <string name="encouraging_notification_75_percent">প্রায় হয়ে গেছে! %1$d%% শেষ। মাত্র %2$d পা বাকি!</string>
-
-    <string name="encouraging_notification_15_percent_alt1">ভালোই এগিয়ে যাচ্ছো! %1$d%% শেষ হয়েছে। চালিয়ে যাও!</string>
-    <string name="encouraging_notification_15_percent_alt2">তুমি ঠিক পথেই আছো! %1$d%% শেষ। %2$d পা বাকি!</string>
-    <string name="encouraging_notification_15_percent_alt3">চমৎকার কাজ! %1$d%% শেষ হয়েছে। সক্রিয় থেকো!</string>
-
-    <string name="encouraging_notification_75_percent_alt1">একদম কাছাকাছি! %1$d%% শেষ। মাত্র %2$d পা বাকি!</string>
-    <string name="encouraging_notification_75_percent_alt2">শেষ ধাপ! %1$d%% সম্পন্ন। পারবে—আর %2$d পা!</string>
-    <string name="encouraging_notification_75_percent_alt3">শেষ প্রান্তে পৌঁছে গেছো! %1$d%% শেষ। %2$d পা এগিয়ে জয় করো!</string>
-
-    <!-- Milestone notification strings -->
+    <string name="encouraging_title">চালিয়ে যান!</string>
+    <string name="encouraging_early_1">ভালো শুরু: %1$s হয়েছে, বাকি %2$s।</string>
+    <string name="encouraging_early_2">এগোচ্ছেন! %1$s হয়েছে, বাকি %2$s।</string>
+    <string name="encouraging_late_1">প্রায় পৌঁছে গেছেন! %1$s হয়েছে, বাকি মাত্র %2$s।</string>
+    <string name="encouraging_late_2">শেষ ধাক্কা: %1$s হয়েছে, বাকি %2$s।</string>
     <string name="milestone_notification_title">%s-এ পৌঁছেছেন!</string>
     <string name="milestone_notification_text">মোট %sটি পদক্ষেপ!\nচলতে থাকুন।</string>
     <string name="notification_category_milestone">মাইলস্টোন</string>
     <string name="notification_description_milestone">পদক্ষেপের মাইলস্টোনে পৌঁছানোর বিজ্ঞপ্তি</string>
-    <string name="milestone_notifications_toggle">মাইলস্টোন বিজ্ঞপ্তি চালু/বন্ধ করুন</string>
-    <string name="mute_milestone_notifications_action">নীরব করুন</string>
-    <string name="milestone_notifications_tooltip">মাইলস্টোন বিজ্ঞপ্তি</string>
-
-    <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$dমি</string>
     <string name="milestone_short_millions_decimal">%.1fমি</string>
     <string name="milestone_short_thousands">%1$dহা</string>
-
-    <!-- Milestone detail dialog -->
-    <string name="milestone_label_distance">দূরত্ব</string>
-    <string name="milestone_label_date">অর্জিত</string>
-    <string name="milestone_label_took">সময় লেগেছে</string>
-
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d দিন</item>
-        <item quantity="other">%d দিন</item>
-    </plurals>
+    <string name="mute_notifications_action">নীরব করুন</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">নির্বাচিত সময়ে আবার শুরু করুন</string>
-    <string name="pause_when_to_resume">কবে আবার ধাপ গণনা শুরু হবে তা নির্বাচন করুন</string>
     <string name="pause_step_counting">ধাপ গণনা বিরতি দিন</string>
     <string name="pause_30_minutes">৩০ মিনিট</string>
     <string name="pause_1_hour">১ ঘণ্টা</string>
     <string name="pause_2_hours">২ ঘণ্টা</string>
     <string name="pause_custom_time">নিজস্ব সময়</string>
     <string name="pause_indefinitely">আমি আবার চালু না করা পর্যন্ত</string>
+    <string name="resume_at_time">নির্বাচিত সময়ে আবার শুরু করুন</string>
     <string name="step_counting_paused_until">ধাপ গণনা %s পর্যন্ত বিরতিতে আছে</string>
     <string name="step_counting_resumed_auto">ধাপ গণনা স্বয়ংক্রিয়ভাবে আবার শুরু হয়েছে</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">বুঝেছি</string>
+    <string name="translate">অনুবাদ</string>
+    <string name="star_title">অ্যাপটি কেমন লাগছে?</string>
+    <string name="star_body">Stepsy ওপেন সোর্স! কাজে লাগলে অনুগ্রহ করে Github-এ প্রজেক্টটিতে একটি স্টার দিন। এতে অন্যরা Stepsy খুঁজে পাবেন, আর আমিও এটি আরও উন্নত করার অনুপ্রেরণা পাব।</string>
+    <string name="star_button">Github-এ স্টার দিন</string>
+    <string name="star_dismiss">না, ধন্যবাদ</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">সেটআপ এড়িয়ে যান</string>
+    <string name="onboarding_get_started">শুরু করুন</string>
+    <string name="onboarding_continue">চালিয়ে যান</string>
+    <string name="onboarding_done">হয়েছে</string>
+    <string name="onboarding_allow">অনুমতি দিন</string>
+    <string name="onboarding_not_now">এখন নয়</string>
+    <string name="onboarding_ask_again">আবার জিজ্ঞাসা করুন</string>
+    <string name="onboarding_open_settings">সেটিংস খুলুন</string>
+    <string name="onboarding_status_on">চালু</string>
+    <string name="onboarding_status_off">বন্ধ</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">এই ফোন কোনো পদক্ষেপ সেন্সরের তথ্য দেয় না, তাই Stepsy এখানে গণনা করতে পারবে না।</string>
+    <string name="onboarding_restore_title">পদক্ষেপের ডেটা আমদানি</string>
+    <string name="onboarding_restore_summary">ব্যাকআপ ফাইল পুনরুদ্ধার করুন</string>
+    <string name="onboarding_restore_busy">পুনরুদ্ধার হচ্ছে...</string>
+    <string name="onboarding_restore_done_title">ব্যাকআপ পুনরুদ্ধার হয়েছে</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="one">%d দিনের ইতিহাস ফিরে এসেছে</item>
+        <item quantity="other">%d দিনের ইতিহাস ফিরে এসেছে</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">শারীরিক কার্যকলাপ</string>
+    <string name="onboarding_steps_title">Stepsy-কে আপনার পদক্ষেপ শনাক্ত করতে দিন</string>
+    <string name="onboarding_steps_body">ফোনের পদক্ষেপ শনাক্তকরণ সেন্সর ব্যবহার করতে এই অনুমতি প্রয়োজন।</string>
+    <string name="onboarding_steps_row">শারীরিক কার্যকলাপ</string>
+    <string name="onboarding_steps_idle">এখনো অনুমতি দেওয়া হয়নি</string>
+    <string name="onboarding_steps_on">অনুমতি দেওয়া হয়েছে</string>
+    <string name="onboarding_steps_denied">অনুমতি দেওয়া হয়নি</string>
+    <string name="onboarding_steps_blocked">Android ব্লক করেছে</string>
+    <string name="onboarding_steps_note_on">কয়েক পা হাঁটলেই দেখবেন সংখ্যাটা বাড়ছে।</string>
+    <string name="onboarding_steps_note_denied">এই অনুমতি চালু না করলে Stepsy গণনা করতে পারবে না।</string>
+    <string name="onboarding_steps_note_blocked">Android এই অনুরোধ আর দেখাবে না। অ্যাপের সেটিংস থেকে নিজে অনুমতি দিতে হবে।</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">ব্যাটারি</string>
+    <string name="onboarding_pocket_title">পকেটে থাকলেও নির্ভরযোগ্য গণনা</string>
+    <string name="onboarding_pocket_body">ব্যাটারি বাঁচাতে Android ব্যাকগ্রাউন্ডে Stepsy-কে সেন্সরের পরিবর্তন অনুসরণ করতে বাধা দিতে পারে। পদক্ষেপ সংখ্যা ঠিক রাখতে এই অ্যাপের জন্য ব্যাটারি অপ্টিমাইজেশন বন্ধ করা দরকার। এটি কম শক্তি খরচের সেন্সর ব্যবহার করে এবং হাঁটার সময় ডেটা দক্ষভাবে সামলায়, তাই ব্যাটারির খরচ খুবই কম হওয়ার কথা।</string>
+    <string name="onboarding_pocket_row">ব্যাটারি অপ্টিমাইজেশন</string>
+    <string name="onboarding_pocket_on">ব্যাকগ্রাউন্ডে চলার অনুমতি আছে</string>
+    <string name="onboarding_pocket_off">ব্যাকগ্রাউন্ডে চলার অনুমতি নেই</string>
+    <string name="onboarding_pocket_note_on">হয়ে গেছে! ফোন ঘুমিয়ে থাকলেও Stepsy গণনা চালিয়ে যায়। কিছু ফোনে নিজস্ব ব্যাটারি নিয়ম থাকে; গণনা তবু থেমে গেলে নিশ্চিত করুন Stepsy-কে আপনার ডিভাইসে ব্যাকগ্রাউন্ডে চলতে দেওয়া হয়েছে।</string>
+    <string name="onboarding_pocket_note_tried">পরে সেটিংস থেকে এটি বদলাতে পারবেন।</string>
+    <string name="onboarding_pocket_note_manual">এই ফোনে এক ট্যাপের অনুরোধ নেই। নিচের তালিকায় Stepsy খুঁজে \"সীমাবদ্ধ নয়\" বা \"অপ্টিমাইজ করবেন না\" বেছে নিন।</string>
+    <string name="onboarding_pocket_note_none">এই ফোনে ব্যাটারি সেটিংসের স্ক্রিন খোলেনি। সেটিংস > অ্যাপ > Stepsy > ব্যাটারি-তে দেখুন।</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">আপনার সম্পর্কে</string>
+    <string name="onboarding_body_title">অনুমানের জন্য ব্যক্তিগত তথ্য</string>
+    <string name="onboarding_body_body">উচ্চতা ঠিক করে পদক্ষেপের দৈর্ঘ্য, আর ওজন ঠিক করে ক্যালরি খরচের অনুমান। দুটোই শুধু এই ফোনেই থাকে।</string>
+    <string name="onboarding_body_note">এই পছন্দগুলো পরে সেটিংস থেকে বদলাতে পারবেন।</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">দৈনিক লক্ষ্য</string>
+    <string name="onboarding_goal_title">দৈনিক লক্ষ্য বেছে নেওয়া</string>
+    <string name="onboarding_goal_body">প্রতিদিন হোম স্ক্রিনের অগ্রগতি বার ভরে তুলুন! একটি প্রিসেট বেছে নিতে পারেন, নিজের মতো ঠিক করতে পারেন, বা পুরোপুরি বন্ধ রাখতে পারেন। যখন খুশি বদলানো যায়, আর এতে পদক্ষেপের ডেটার কোনো ক্ষতি হয় না।</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s এবং %3$d কিলোক্যালরি / দিন</string>
+    <string name="onboarding_reminders_title">বিজ্ঞপ্তি</string>
+    <string name="onboarding_reminders_summary">ঐচ্ছিক: লাইভ বিজ্ঞপ্তিতে অগ্রগতি, লক্ষ্যের কাছাকাছি পৌঁছালে উৎসাহমূলক রিমাইন্ডার, এবং আরও কিছু। প্রস্তাবিত।</string>
+    <string name="onboarding_reminders_on">অনুমতি দেওয়া হয়েছে</string>
+    <string name="onboarding_reminders_blocked">Android ব্লক করেছে। বিজ্ঞপ্তি সেটিংস খুলতে ট্যাপ করুন</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">বাদ দিন</string>
+    <string name="onboarding_card_activity_title">কার্যকলাপে প্রবেশাধিকার দিন</string>
+    <string name="onboarding_card_activity_summary">ফোনের পদক্ষেপ শনাক্তকরণ সেন্সর ব্যবহার করতে এই অনুমতি প্রয়োজন।</string>
+    <string name="onboarding_card_battery_title">ব্যাকগ্রাউন্ডে স্থিতিশীলতা</string>
+    <string name="onboarding_card_battery_summary">Stepsy নকশাগতভাবেই হালকা, কিন্তু আপনার সিস্টেম এটিকে নির্ভরযোগ্যভাবে পদক্ষেপ গুনতে বাধা দিতে পারে। অ্যাপটিকে ব্যাকগ্রাউন্ডে চলতে দিন।</string>
+    <string name="onboarding_card_notifications_title">বিজ্ঞপ্তি</string>
+    <string name="onboarding_card_notifications_summary">ঐচ্ছিক: লাইভ বিজ্ঞপ্তিতে অগ্রগতি, লক্ষ্যের কাছাকাছি পৌঁছালে উৎসাহমূলক রিমাইন্ডার, এবং আরও কিছু। প্রস্তাবিত।</string>
+    <string name="onboarding_strip_title">পদক্ষেপ গোনা হচ্ছে না</string>
+    <string name="onboarding_strip_summary">পদক্ষেপ শনাক্তকরণের অনুমতি দিতে ট্যাপ করুন।</string>
+    <string name="onboarding_welcome_headline_b">হালকা পদক্ষেপ গণনাকারী।</string>
+    <string name="onboarding_welcome_point_offline">নকশাগতভাবেই অফলাইন</string>
+    <string name="onboarding_welcome_point_battery">ব্যাটারিতে হালকা</string>
+    <string name="onboarding_welcome_point_backups">স্বয়ংক্রিয় লোকাল ব্যাকআপ সেট করুন</string>
+    <string name="onboarding_welcome_point_pressure">চাপ ছাড়াই অগ্রগতি</string>
 </resources>

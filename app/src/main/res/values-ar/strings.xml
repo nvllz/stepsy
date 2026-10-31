@@ -1,42 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d سعرة حرارية</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">الأسبوع %1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">لا يوجد سجل لـ %1$s</string>
-    <string name="calories">%1$d سعرة حرارية</string>
-    <string name="steps_month">هذا الشهر</string>
-    <string name="avg_distance">المعدل اليومي</string>
-    <string name="total_distance">المسافة الكلية</string>
-    <string name="goal_streak_line">الهدف: %1$s · %2$s %3$s متتالية</string>
-    <string name="goal_streak_dead_line">الهدف اليومي: %1$s</string>
 
-    <string name="no_sensor">جهازك لا يحتوي على حساس عد الخطوات</string>
-    <string name="no_activity_permission">إذن ACTIVITY_RECOGNITION مفقود</string>
-
-    <!-- Header section -->
-    <string name="expand_collapse">توسيع/تصغير</string>
-    <string name="header_today">اليوم</string>
-    <string name="header_week">هذا الأسبوع</string>
-    <string name="header_month">هذا الشهر</string>
-    <string name="header_7d">آخر ٧ أيام</string>
-    <string name="header_30d">آخر ٣٠ يومًا</string>
-    <string name="header_all_time">الإجمالي</string>
-    <string name="header_year">سنة %1$d</string>
-    <string name="label_today">اليوم</string>
-    <string name="label_week">الأسبوع</string>
-    <string name="label_month">الشهر</string>
-    <string name="label_7d">٧ أيام</string>
-    <string name="label_30d">٣٠ يوم</string>
-    <string name="label_all_time">كل الوقت</string>
-
-    <!-- Plurals -->
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="zero">خطوة</item>
+        <item quantity="one">خطوة</item>
+        <item quantity="two">خطوتان</item>
+        <item quantity="few">خطوات</item>
+        <item quantity="many">خطوة</item>
+        <item quantity="other">خطوة</item>
+    </plurals>
     <plurals name="steps_formatted">
         <item quantity="zero">%1$s خطوة</item>
         <item quantity="one">%1$s خطوة</item>
@@ -45,16 +25,6 @@
         <item quantity="many">%1$s خطوة</item>
         <item quantity="other">%1$s خطوة</item>
     </plurals>
-
-    <plurals name="streak_record_count">
-        <item quantity="zero">%d يوم</item>
-        <item quantity="one">%d يوم</item>
-        <item quantity="two">%d يومان</item>
-        <item quantity="few">%d أيام</item>
-        <item quantity="many">%d يوماً</item>
-        <item quantity="other">%d يوم</item>
-    </plurals>
-
     <plurals name="days_word_only">
         <item quantity="zero">يوم</item>
         <item quantity="one">يوم</item>
@@ -64,168 +34,67 @@
         <item quantity="other">يوم</item>
     </plurals>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">تم إيقاف العد</string>
-    <string name="notification_category_steps_day">بيانات الخطوات</string>
-    <string name="notification_description_paused">إشعار عند إيقاف عد الخطوات</string>
-    <string name="notification_description_steps_day">خطوات اليوم</string>
-    <string name="notification_step_counting_paused">تم إيقاف عد الخطوات</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">الهدف: %1$s — تبقّى %2$s</string>
-    <string name="notification_step_goal_completed">تم الوصول لهدف الخطوات!</string>
-    <string name="step_counting_paused">إيقاف عد الخطوات</string>
-    <string name="step_counting_resumed">استئناف عد الخطوات</string>
-    <string name="action_pause">إيقاف مؤقت</string>
-    <string name="action_resume">استئناف</string>
-
-    <!-- Preferences -->
-    <string name="settings">الإعدادات</string>
-    <string name="header_personal_data">البيانات الشخصية</string>
-    <string name="header_appearance">المظهر</string>
-    <string name="header_general">عام</string>
-    <string name="header_data_backup">النسخ الاحتياطي</string>
-
-    <string name="preference_system">النظام</string>
-    <string name="theme_light">فاتح</string>
-    <string name="theme_dark">داكن</string>
-    <string name="pref_height">الطول</string>
-    <string name="pref_step_length">طول الخطوة</string>
-    <string name="pref_weight">الوزن</string>
-    <string name="first_day_of_the_week">أول يوم في الأسبوع</string>
-    <string name="app_language">اللغة</string>
-    <string name="theme">الثيم</string>
-    <string name="date_format">تنسيق التاريخ</string>
-    <string name="unit_system">نظام الوحدات</string>
-    <string name="export_data">تصدير</string>
-    <string name="backup_frequency">تكرار النسخ الاحتياطي التلقائي</string>
-    <string name="backup_retention_count">عدد النسخ الاحتياطية للاحتفاظ بها</string>
-    <string name="backup_retention_hint">(0 للاحتفاظ بالجميع)</string>
-    <string name="backup_retention_unlimited">غير محدود</string>
-    <string name="backup_location">موقع النسخة الاحتياطية</string>
-    <string name="backup_location_not_set">غير محدد</string>
-    <string name="manual_backup">نسخ احتياطي يدوي</string>
-    <string name="import_data">استيراد</string>
-    <string name="import_data_summary">استعادة بيانات الخطوات من ملف</string>
-    <string name="next_backup_scheduled">النسخ الاحتياطي التلقائي القادم\n%1$s في %2$s</string>
-    <string name="import_invalid_file">هذا الملف غير صالح</string>
-    <string name="import_warning_title">استبدال بيانات الخطوات</string>
-    <string name="import_warning_message">سيؤدي هذا إلى حذف جميع بيانات الخطوات الحالية واستبدالها بالبيانات المستوردة. هل تريد المتابعة؟</string>
-    <string name="pref_vehicle_filter_title">تصفية الخطوات بدقة</string>
-    <string name="pref_vehicle_filter_summary">استخدم واجهة برمجة تطبيقات النشاط لتجاهل الخطوات أثناء التواجد في سيارة أو حافلة أو دراجة. يتطلب خدمات Google Play</string>
-    <string name="pref_vehicle_filter_summary_foss">تعرف أكثر دقة على الخطوات باستخدام Google Play Services، متوفر فقط في الإصدار الكامل. يمكن الحصول عليه من Github (github.com/nvllz/stepsy)</string>
-    <string name="vehicle_filter_unavailable">واجهة برمجة تطبيقات التعرف على النشاط غير متوفرة على هذا الجهاز</string>
-
-    <string name="header_about">عن التطبيق</string>
-    <string name="about_stepsy">حول</string>
-    <string name="about_version">الإصدار</string>
-    <string name="about_license">الرخصة</string>
-    <string name="about_html">
-    <![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">الإصدار v%s</a><br><br>
-        مشروع يُدار بواسطة <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        مبني على <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> لـ <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">الإبلاغ عن مشكلة</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">صفحة المشروع</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">رخصة GPL-3.0</a>
-    ]]>
-    </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">يرجى إدخال قيمة صحيحة</string>
-    <string name="cannot_open_file">لا يمكن فتح الملف</string>
-    <string name="manual_backup_successful">تم النسخ الاحتياطي اليدوي بنجاح</string>
-    <string name="select_backup_location_first">يرجى تحديد موقع النسخ الاحتياطي أولاً</string>
-    <string name="import_result">%1$d مدخلات تم استيرادها (%2$d فشل). %3$s</string>
-    <string name="today_steps_set">تم تعيين خطوات اليوم إلى %1$d.</string>
-
-    <!-- Widgets -->
-    <string name="widget_pref_invert_bg">عكس لون الخلفية</string>
-    <string name="widget_pref_dynamic_colors">ألوان ديناميكية</string>
-    <string name="widget_pref_text_scale">مقياس النص</string>
-    <string name="widget_pref_bg_opacity">شفافية الخلفية</string>
-    <string name="widget_pref_btn_save">حفظ</string>
-
-    <!-- Achievements -->
-    <string name="achievements_title">الإنجازات</string>
-    <string name="milestone_achievements">الإنجازات الكبرى</string>
-    <string name="no_milestones_reached">لم تحقق أي إنجاز بعد. واصل المشي!</string>
-    <string name="milestone_new">جديد</string>
-
-    <!-- Data Placeholders -->
-    <string name="loading_data">جار تحميل البيانات…\n</string>
-    <string name="no_data_available">لا توجد بيانات متاحة\n</string>
-    <string name="error_loading_data">حدث خطأ أثناء تحميل البيانات\n</string>
-
-    <!-- Daily Goals -->
-    <string name="daily_goals">الهدف اليومي</string>
-    <string name="daily_goal_notification">إشعار عند تحقيق الهدف</string>
-    <string name="progress_in_notification">عرض التقدم في الإشعارت</string>
-    <string name="daily_goal_target">هدف الخطوات اليومي</string>
-    <string name="daily_goal_hint">أدخل هدفك اليومي للخطوات</string>
-    <string name="encouraging_notifications">إشعارات مشجعة</string>
-    <string name="goal_chart_line">إظهار خط الهدف على الرسم البياني</string>
-
-    <!-- Records -->
-    <string name="personal_records">الأرقام القياسية الشخصية</string>
-    <string name="most_steps_day">أكبر عدد خطوات في يوم واحد</string>
-    <string name="most_walked_month">أكثر شهر نشاطًا</string>
-    <string name="streak_record">أطول سلسلة تتجاوز %1$s خطوة</string>
-    <string name="top_3_days">أفضل 3 أيام</string>
-    <string name="best_week">أفضل أسبوع</string>
-    <string name="avg_steps_per_day">المتوسط يومياً</string>
-    <string name="since_date">منذ %1$s</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">تنبيهات الهدف اليومي</string>
-    <string name="daily_goal_notification_channel_desc">استلم تحديثات حول تقدمك اليومي</string>
-    <string name="goal_achieved_title">🎉 تم تحقيق الهدف!</string>
-    <string name="goal_achieved_message">لقد وصلت إلى هدفك %1$s!</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$d ألف • %2$s</string>
-    <string name="million_steps_with_distance">%1$d مليون • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1f مليون • %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">تعديل عدد خطوات اليوم</string>
+    <!-- Screen: Home -->
+    <string name="header_today">اليوم</string>
+    <string name="header_week">هذا الأسبوع</string>
+    <string name="header_month">هذا الشهر</string>
+    <string name="header_7d">آخر ٧ أيام</string>
+    <string name="header_30d">آخر ٣٠ يومًا</string>
+    <string name="header_year">سنة %1$d</string>
+    <string name="header_all_time">الإجمالي</string>
+    <string name="label_today">اليوم</string>
+    <string name="label_week">الأسبوع</string>
+    <string name="label_month">الشهر</string>
+    <string name="label_7d">٧ أيام</string>
+    <string name="label_30d">٣٠ يوم</string>
+    <string name="label_all_time">كل الوقت</string>
+    <string name="week_display_format">الأسبوع %1$d</string>
+    <string name="filters_title">المرشحات الظاهرة</string>
+    <string name="filters_years">إجمالي السنوات</string>
+    <string name="home_show_filter_bar">إظهار شريط المرشحات</string>
+    <string name="calories">%1$d سعرة حرارية</string>
+    <string name="avg_per_day_pill">%1$s / يوم</string>
+    <plurals name="goal_reached_times">
+        <item quantity="zero">تحقيق الهدف: %d مرة</item>
+        <item quantity="one">تحقيق الهدف: %d مرة</item>
+        <item quantity="two">تحقيق الهدف: %d مرتان</item>
+        <item quantity="few">تحقيق الهدف: %d مرات</item>
+        <item quantity="many">تحقيق الهدف: %d مرة</item>
+        <item quantity="other">تحقيق الهدف: %d مرة</item>
+    </plurals>
+    <string name="goal_streak_line">الهدف: %1$s · %2$s %3$s متتالية</string>
+    <plurals name="streak_record_count">
+        <item quantity="zero">%d يوم</item>
+        <item quantity="one">%d يوم</item>
+        <item quantity="two">%d يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يوماً</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+    <plurals name="streak_segment_description">
+        <item quantity="zero">سلسلة هدف: %1$d يوم</item>
+        <item quantity="one">سلسلة هدف: %1$d يوم</item>
+        <item quantity="two">سلسلة هدف: %1$d يومان</item>
+        <item quantity="few">سلسلة هدف: %1$d أيام</item>
+        <item quantity="many">سلسلة هدف: %1$d يوماً</item>
+        <item quantity="other">سلسلة هدف: %1$d يوم</item>
+    </plurals>
+    <string name="edit_step_count">تعديل عدد الخطوات</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
     <string name="confirm_decrease_title">تقليل عدد الخطوات</string>
     <string name="confirm_decrease_message">هذه القيمة أقل من العدد الحالي للخطوات. هل تريد المتابعة؟</string>
     <string name="invalid_step_count">يرجى إدخال رقم صحيح</string>
     <string name="steps_updated">تم تحديث عدد الخطوات</string>
 
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">استمر في المشي!</string>
-    <string name="encouraging_notification_15_percent">بداية ممتازة! أنجزت %1$d%% من هدفك اليومي. تبقّى %2$d خطوة فقط!</string>
-    <string name="encouraging_notification_75_percent">شارفت على إنهاء هدفك! %1$d%% منجز. تبقّى %2$d خطوة فقط!</string>
-
-    <string name="encouraging_notification_15_percent_alt1">تقدّم رائع! أنجزت %1$d%% من هدفك اليومي. واصل الحركة!</string>
-    <string name="encouraging_notification_15_percent_alt2">في الطريق الصحيح! أنجزت %1$d%%. تبقّى %2$d خطوة!</string>
-    <string name="encouraging_notification_15_percent_alt3">عمل ممتاز! أتممت %1$d%% من هدفك. حافظ على نشاطك!</string>
-
-    <string name="encouraging_notification_75_percent_alt1">قريب جداً! أنجزت %1$d%% من هدفك. فقط %2$d خطوة تفصلك!</string>
-    <string name="encouraging_notification_75_percent_alt2">الدفعة الأخيرة! أنجزت %1$d%%. تقدر تكمل — تبقّى %2$d خطوة فقط!</string>
-    <string name="encouraging_notification_75_percent_alt3">قربت توصل! %1$d%% منجز. %2$d خطوة تفصلك عن الانتصار!</string>
-
-    <!-- Milestone notification strings -->
-    <string name="milestone_notification_title">%s وصل!</string>
-    <string name="milestone_notification_text">هذا إجمالي %s خطوة!\nاستمر.</string>
-    <string name="notification_category_milestone">الإنجازات</string>
-    <string name="notification_description_milestone">إشعارات الوصول إلى إنجازات الخطوات</string>
-    <string name="milestone_notifications_toggle">تفعيل إشعارات الإنجازات</string>
-    <string name="mute_milestone_notifications_action">كتم</string>
-    <string name="milestone_notifications_tooltip">إشعارات الإنجازات</string>
-
-    <!-- Milestone number shorthand -->
-    <string name="milestone_short_millions">%1$دم</string>
-    <string name="milestone_short_millions_decimal">%.1فم</string>
-    <string name="milestone_short_thousands">%1$دألف</string>
-
-    <!-- Milestone detail dialog -->
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">الإنجازات</string>
+    <string name="milestone_achievements">الإنجازات الكبرى</string>
+    <string name="milestone_next">الشارة التالية</string>
+    <string name="milestone_to_go">المتبقي %1$s</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
     <string name="milestone_label_distance">المسافة</string>
     <string name="milestone_label_date">تم تحقيقه</string>
     <string name="milestone_label_took">الوقت المستغرق</string>
-
     <plurals name="milestone_reached_in_days">
         <item quantity="zero">%d يوم</item>
         <item quantity="one">%d يوم</item>
@@ -234,16 +103,257 @@
         <item quantity="many">%d يوماً</item>
         <item quantity="other">%d يوم</item>
     </plurals>
+    <string name="milestone_notifications_toggle">تفعيل إشعارات الإنجازات</string>
+    <string name="milestone_notifications_enabled">إشعارات الإنجازات مفعّلة</string>
+    <string name="milestone_notifications_disabled">إشعارات الإنجازات معطّلة</string>
+    <string name="milestone_notifications_tooltip">إشعارات الإنجازات</string>
+    <string name="no_milestones_reached">لم تحقق أي إنجاز بعد. واصل المشي!</string>
+    <string name="personal_records">الأرقام القياسية الشخصية</string>
+    <string name="most_walked_month">أكثر شهر نشاطًا</string>
+    <string name="streak_record">أطول سلسلة تتجاوز %1$s خطوة</string>
+    <string name="top_3_days">أفضل 3 أيام</string>
+    <string name="best_week">أفضل أسبوع</string>
+    <string name="records_goal_reached">تحقيق الهدف</string>
+    <string name="records_percent_of_days">%1$d%% من جميع الأيام</string>
+    <string name="since_date">منذ %1$s</string>
+    <string name="loading_data">جار تحميل البيانات…\n</string>
+    <string name="no_data_available">لا توجد بيانات متاحة\n</string>
+    <string name="error_loading_data">حدث خطأ أثناء تحميل البيانات\n</string>
+
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">الهدف اليومي</string>
+    <string name="section_notifications">الإشعارات</string>
+    <string name="section_goal_alerts">تنبيهات الهدف</string>
+    <string name="daily_goal_notification">إشعار عند تحقيق الهدف</string>
+    <string name="daily_goal_target">هدف الخطوات اليومي</string>
+    <string name="daily_goal_hint">أدخل هدفك اليومي للخطوات</string>
+    <string name="daily_goal_none">بدون هدف</string>
+    <string name="goal_preset_off">إيقاف</string>
+    <string name="goal_preset_custom">مخصص</string>
+    <string name="encouraging_notifications">إشعارات مشجعة</string>
+    <string name="encouraging_notifications_summary">حتى تذكيرين يوميًا كلما اقتربت من هدفك</string>
+    <string name="encouraging_sample">إرسال عيّنة</string>
+    <string name="reminders_one">تذكير واحد</string>
+    <string name="reminders_two">تذكيران</string>
+    <string name="reminder_single_summary">تذكير عند %1$s من هدفك اليومي</string>
+    <string name="reminder_double_summary">تذكيران عند %1$s و%2$s من هدفك اليومي</string>
+    <string name="live_notification_title">الإشعار المباشر</string>
+    <string name="live_steps_only">عدد الخطوات فقط</string>
+    <string name="live_steps_progress">عدد الخطوات + تقدّم الهدف</string>
+    <string name="live_notification_off">إيقاف</string>
+    <string name="notification_settings_row">الصوت والتنبيهات</string>
+    <string name="notification_settings_summary">اختر نوع الإشعار</string>
+    <string name="channel_blocked">محظور في إعدادات النظام</string>
+
+    <!-- Screen: Settings -->
+    <string name="settings">الإعدادات</string>
+    <string name="header_personal_data">البيانات الشخصية</string>
+    <string name="header_general">عام</string>
+    <string name="header_appearance">المظهر</string>
+    <string name="header_data">بيانات التطبيق</string>
+    <string name="header_data_backup">النسخ الاحتياطي</string>
+    <string name="pref_height">الطول</string>
+    <string name="pref_step_length">طول الخطوة</string>
+    <string name="pref_weight">الوزن</string>
+    <string name="pref_vehicle_filter_title">تصفية الخطوات بدقة</string>
+    <string name="pref_vehicle_filter_summary">استخدم واجهة برمجة تطبيقات النشاط لتجاهل الخطوات أثناء التواجد في سيارة أو حافلة أو دراجة. يتطلب خدمات Google Play</string>
+    <string name="pref_vehicle_filter_summary_foss">تعرف أكثر دقة على الخطوات باستخدام Google Play Services، متوفر فقط في الإصدار الكامل. يمكن الحصول عليه من Github (github.com/nvllz/stepsy)</string>
+    <string name="vehicle_filter_unavailable">واجهة برمجة تطبيقات التعرف على النشاط غير متوفرة على هذا الجهاز</string>
+    <string name="unit_system">نظام الوحدات</string>
+    <string name="date_format">تنسيق التاريخ</string>
+    <string name="first_day_of_the_week">أول يوم في الأسبوع</string>
+    <string name="app_language">اللغة</string>
+    <string name="theme">الثيم</string>
+    <string name="preference_system">النظام</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">تصدير بيانات التطبيق واستعادتها</string>
+    <string name="backup_frequency">تكرار النسخ الاحتياطي التلقائي</string>
+    <string name="backup_retention_count">عدد النسخ الاحتياطية للاحتفاظ بها</string>
+    <string name="backup_location">موقع النسخة الاحتياطية</string>
+    <string name="backup_location_not_set">غير محدد</string>
+    <string name="manual_backup">نسخ احتياطي يدوي</string>
+    <string name="manual_backup_successful">تم النسخ الاحتياطي اليدوي بنجاح</string>
+    <string name="import_data">استيراد</string>
+    <string name="import_data_summary">استعادة بيانات الخطوات من ملف</string>
+    <string name="import_invalid_file">هذا الملف غير صالح</string>
+    <string name="import_warning_title">استبدال بيانات الخطوات</string>
+    <string name="import_warning_message">سيؤدي هذا إلى حذف جميع بيانات الخطوات الحالية واستبدالها بالبيانات المستوردة. هل تريد المتابعة؟</string>
+    <string name="section_import">استيراد</string>
+    <string name="section_export">تصدير</string>
+    <string name="backup_retention_all">الكل</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
+    <string name="cannot_open_file">لا يمكن فتح الملف</string>
+    <string name="import_result">%1$d مدخلات تم استيرادها (%2$d فشل). %3$s</string>
+    <string name="today_steps_set">تم تعيين خطوات اليوم إلى %1$d.</string>
+
+    <!-- Screen: About -->
+    <string name="about_stepsy">حول</string>
+    <string name="about_version">الإصدار</string>
+    <string name="about_source_code">الشيفرة المصدرية</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">الإبلاغ عن خطأ</string>
+    <string name="about_author">المطوّر</string>
+    <string name="about_original_creator">الفكرة الأصلية</string>
+    <string name="about_original_creator_summary">MotionMate من 0xf4b1</string>
+    <string name="about_license">الرخصة</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
+
+    <!-- Widgets -->
+    <string name="widget_pref_invert_bg">عكس لون الخلفية</string>
+    <string name="widget_pref_dynamic_colors">ألوان ديناميكية</string>
+    <string name="widget_pref_text_scale">مقياس النص</string>
+    <string name="widget_pref_bg_opacity">شفافية الخلفية</string>
+    <string name="widget_pref_btn_save">حفظ</string>
+
+    <!-- Units -->
+    <string name="unit_ft">ft</string>
+    <string name="unit_in">in</string>
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
+
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">جهازك لا يحتوي على حساس عد الخطوات</string>
+    <string name="notification_category_counting_paused">تم إيقاف العد</string>
+    <string name="notification_category_steps_day">بيانات الخطوات</string>
+    <string name="notification_description_paused">إشعار عند إيقاف عد الخطوات</string>
+    <string name="notification_description_steps_day">خطوات اليوم</string>
+    <string name="notification_step_counting_paused">تم إيقاف عد الخطوات</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s سعرة حرارية</string>
+    <string name="notification_step_goal_completed">تم الوصول لهدف الخطوات!</string>
+    <string name="step_counting_paused">إيقاف عد الخطوات</string>
+    <string name="step_counting_resumed">استئناف عد الخطوات</string>
+    <string name="action_pause">إيقاف مؤقت</string>
+    <string name="action_resume">استئناف</string>
+
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">تحقيق الهدف</string>
+    <string name="channel_goal_desc">مكافأة صغيرة عند بلوغ هدف الخطوات اليومي</string>
+    <string name="channel_reminders_name">تذكيرات مشجعة</string>
+    <string name="channel_reminders_desc">تذكيرات عندما تقترب من هدفك</string>
+    <string name="goal_achieved_title">🎉 تم تحقيق الهدف!</string>
+    <string name="goal_achieved_message">لقد وصلت إلى هدفك %1$s!</string>
+    <string name="encouraging_title">استمر!</string>
+    <string name="encouraging_early_1">بداية جيدة: أنجزت %1$s، وتبقّى %2$s.</string>
+    <string name="encouraging_early_2">أنت في حركة! أنجزت %1$s، وتبقّى %2$s.</string>
+    <string name="encouraging_late_1">اقتربت جدًا! أنجزت %1$s، وتبقّى %2$s فقط.</string>
+    <string name="encouraging_late_2">الدفعة الأخيرة: أنجزت %1$s، وتبقّى %2$s.</string>
+    <string name="milestone_notification_title">%s وصل!</string>
+    <string name="milestone_notification_text">هذا إجمالي %s خطوة!\nاستمر.</string>
+    <string name="notification_category_milestone">الإنجازات</string>
+    <string name="notification_description_milestone">إشعارات الوصول إلى إنجازات الخطوات</string>
+    <string name="milestone_short_millions">%1$dم</string>
+    <string name="milestone_short_millions_decimal">%.1fم</string>
+    <string name="milestone_short_thousands">%1$dألف</string>
+    <string name="mute_notifications_action">كتم</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">استئناف في وقت محدد</string>
-    <string name="pause_when_to_resume">اختر متى يتم استئناف عدّ الخطوات</string>
     <string name="pause_step_counting">إيقاف عدّ الخطوات مؤقتًا</string>
     <string name="pause_30_minutes">30 دقيقة</string>
     <string name="pause_1_hour">ساعة واحدة</string>
     <string name="pause_2_hours">ساعتان</string>
     <string name="pause_custom_time">وقت مخصص</string>
     <string name="pause_indefinitely">حتى أعيد تشغيله</string>
+    <string name="resume_at_time">استئناف في وقت محدد</string>
     <string name="step_counting_paused_until">تم إيقاف عدّ الخطوات حتى %s</string>
     <string name="step_counting_resumed_auto">تم استئناف عدّ الخطوات تلقائيًا</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">حسنًا</string>
+    <string name="translate">ترجمة</string>
+    <string name="star_title">هل يعجبك التطبيق؟</string>
+    <string name="star_body">Stepsy مفتوح المصدر! إن وجدته مفيدًا، يسعدني أن تمنح المشروع نجمة على Github. هذا يساعد الآخرين على اكتشاف Stepsy ويحفّزني على الاستمرار في تحسينه.</string>
+    <string name="star_button">نجمة على Github</string>
+    <string name="star_dismiss">لا، شكرًا</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">تخطي الإعداد</string>
+    <string name="onboarding_get_started">ابدأ</string>
+    <string name="onboarding_continue">متابعة</string>
+    <string name="onboarding_done">تم</string>
+    <string name="onboarding_allow">سماح</string>
+    <string name="onboarding_not_now">ليس الآن</string>
+    <string name="onboarding_ask_again">اسأل مرة أخرى</string>
+    <string name="onboarding_open_settings">فتح الإعدادات</string>
+    <string name="onboarding_status_on">مفعّل</string>
+    <string name="onboarding_status_off">معطّل</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">هذا الهاتف لا يُظهر وجود حساس خطوات، لذلك لا يستطيع Stepsy العد هنا.</string>
+    <string name="onboarding_restore_title">استيراد بيانات الخطوات</string>
+    <string name="onboarding_restore_summary">استعادة ملف نسخة احتياطية</string>
+    <string name="onboarding_restore_busy">جارٍ الاستعادة...</string>
+    <string name="onboarding_restore_done_title">تمت استعادة النسخة</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="zero">تمت استعادة سجل %d يوم</item>
+        <item quantity="one">تمت استعادة سجل %d يوم</item>
+        <item quantity="two">تمت استعادة سجل %d يومان</item>
+        <item quantity="few">تمت استعادة سجل %d أيام</item>
+        <item quantity="many">تمت استعادة سجل %d يوماً</item>
+        <item quantity="other">تمت استعادة سجل %d يوم</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">النشاط البدني</string>
+    <string name="onboarding_steps_title">السماح لـ Stepsy باكتشاف خطواتك</string>
+    <string name="onboarding_steps_body">هذا الإذن مطلوب لاستخدام حساس اكتشاف الخطوات في هاتفك.</string>
+    <string name="onboarding_steps_row">النشاط البدني</string>
+    <string name="onboarding_steps_idle">لم يُسمح بعد</string>
+    <string name="onboarding_steps_on">مسموح</string>
+    <string name="onboarding_steps_denied">غير مسموح</string>
+    <string name="onboarding_steps_blocked">محظور من Android</string>
+    <string name="onboarding_steps_note_on">بضع خطوات تكفي لترى العدّاد يرتفع.</string>
+    <string name="onboarding_steps_note_denied">لا يستطيع Stepsy العد قبل تفعيل هذا الإذن.</string>
+    <string name="onboarding_steps_note_blocked">لن يعرض Android هذا الطلب مجددًا. عليك منح الإذن يدويًا من إعدادات التطبيق.</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">البطارية</string>
+    <string name="onboarding_pocket_title">عدّ موثوق وهاتفك في جيبك</string>
+    <string name="onboarding_pocket_body">قد يمنع Android تطبيق Stepsy من متابعة الحساس في الخلفية لتوفير البطارية. ولكي يبقى عدد خطواتك كاملًا، عليك إيقاف تحسين البطارية لهذا التطبيق. فهو يستخدم حساسًا منخفض الطاقة ويعالج البيانات بكفاءة أثناء المشي، لذا يكون استهلاك البطارية ضئيلًا.</string>
+    <string name="onboarding_pocket_row">تحسين البطارية</string>
+    <string name="onboarding_pocket_on">مسموح في الخلفية</string>
+    <string name="onboarding_pocket_off">غير مسموح في الخلفية</string>
+    <string name="onboarding_pocket_note_on">تم! يواصل Stepsy العد بينما هاتفك في وضع السكون. تضيف بعض الهواتف قواعدها الخاصة للبطارية؛ فإن توقف العد رغم ذلك، تأكد من السماح لـ Stepsy بالعمل في الخلفية على جهازك.</string>
+    <string name="onboarding_pocket_note_tried">يمكنك تغيير ذلك لاحقًا من الإعدادات.</string>
+    <string name="onboarding_pocket_note_manual">لا يوفر هذا الهاتف طلبًا بنقرة واحدة. ابحث عن Stepsy في القائمة التالية واختر \"غير مقيّد\" أو \"عدم التحسين\".</string>
+    <string name="onboarding_pocket_note_none">لم يفتح هذا الهاتف شاشة إعدادات البطارية. ابحث في الإعدادات > التطبيقات > Stepsy > البطارية.</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">عنك</string>
+    <string name="onboarding_body_title">بيانات شخصية للتقديرات</string>
+    <string name="onboarding_body_body">يحدد الطول طول الخطوة، ويحدد الوزن تقدير السعرات المحروقة. كلاهما يبقى على هذا الهاتف فقط.</string>
+    <string name="onboarding_body_note">يمكنك تعديل هذه التفضيلات لاحقًا من الإعدادات.</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">الهدف اليومي</string>
+    <string name="onboarding_goal_title">اختيار هدف يومي</string>
+    <string name="onboarding_goal_body">املأ شريط التقدّم في الشاشة الرئيسية كل يوم! يمكنك اختيار قيمة جاهزة أو تحديد هدفك الخاص أو إيقافه تمامًا. ويمكن تعديله متى شئت، ولا يؤثر ذلك على بيانات خطواتك.</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s و%3$d سعرة حرارية / يوم</string>
+    <string name="onboarding_reminders_title">الإشعارات</string>
+    <string name="onboarding_reminders_summary">اختياري: التقدّم في الإشعار المباشر، وتذكيرات مشجعة عند اقترابك من هدف الخطوات، والمزيد. موصى به.</string>
+    <string name="onboarding_reminders_on">مسموح</string>
+    <string name="onboarding_reminders_blocked">محظور من Android. اضغط لفتح إعدادات الإشعارات</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">إغلاق</string>
+    <string name="onboarding_card_activity_title">منح الوصول إلى النشاط</string>
+    <string name="onboarding_card_activity_summary">هذا الإذن مطلوب لاستخدام حساس اكتشاف الخطوات في هاتفك.</string>
+    <string name="onboarding_card_battery_title">الثبات في الخلفية</string>
+    <string name="onboarding_card_battery_summary">Stepsy خفيف بطبيعته، لكن النظام قد يمنعه من عد الخطوات بشكل موثوق. اسمح للتطبيق بالعمل في الخلفية.</string>
+    <string name="onboarding_card_notifications_title">الإشعارات</string>
+    <string name="onboarding_card_notifications_summary">اختياري: التقدّم في الإشعار المباشر، وتذكيرات مشجعة عند اقترابك من هدف الخطوات، والمزيد. موصى به.</string>
+    <string name="onboarding_strip_title">الخطوات لا تُحتسب</string>
+    <string name="onboarding_strip_summary">اضغط للسماح باكتشاف الخطوات.</string>
+    <string name="onboarding_welcome_headline_b">عدّاد خطوات خفيف.</string>
+    <string name="onboarding_welcome_point_offline">بدون إنترنت بالتصميم</string>
+    <string name="onboarding_welcome_point_battery">خفيف على البطارية</string>
+    <string name="onboarding_welcome_point_backups">إعداد نسخ احتياطي محلي تلقائي</string>
+    <string name="onboarding_welcome_point_pressure">تقدّم بلا ضغط</string>
 </resources>

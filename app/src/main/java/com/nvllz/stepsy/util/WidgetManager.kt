@@ -9,10 +9,6 @@ import com.nvllz.stepsy.ui.WidgetCompactProvider
 import com.nvllz.stepsy.ui.WidgetIconProvider
 import com.nvllz.stepsy.ui.WidgetPlainProvider
 
-/**
- * Centralized widget management to ensure consistent updates
- * and avoid race conditions between different update paths.
- */
 object WidgetManager {
     private val updateHandler = Handler(Looper.getMainLooper())
     private var isUpdateQueued = false
@@ -30,7 +26,7 @@ object WidgetManager {
                     updateHandler.postDelayed({
                         performWidgetUpdates(context, stepsToUse)
                         isUpdateQueued = false
-                    }, 150) // Short delay to batch rapid updates
+                    }, 150)
                 }
             }
         }
@@ -39,21 +35,18 @@ object WidgetManager {
     private fun performWidgetUpdates(context: Context, steps: Int) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
 
-        // Update Compact Widget
         appWidgetManager.getAppWidgetIds(
             ComponentName(context, WidgetCompactProvider::class.java)
         ).forEach { widgetId ->
             WidgetCompactProvider.updateWidget(context, widgetId, steps)
         }
 
-        // Update Icon Widget
         appWidgetManager.getAppWidgetIds(
             ComponentName(context, WidgetIconProvider::class.java)
         ).forEach { widgetId ->
             WidgetIconProvider.updateWidget(context, widgetId, steps)
         }
 
-        // Update Plain Widget
         appWidgetManager.getAppWidgetIds(
             ComponentName(context, WidgetPlainProvider::class.java)
         ).forEach { widgetId ->

@@ -14,7 +14,7 @@ import android.service.quicksettings.TileService
 import android.widget.Toast
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.ui.TileDialogActivity
-import androidx.core.content.edit
+import com.nvllz.stepsy.util.AppPreferences
 
 class StepsyTileService : TileService() {
 
@@ -50,7 +50,6 @@ class StepsyTileService : TileService() {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                // API 34+
                 val pendingIntent = PendingIntent.getActivity(
                     this,
                     0,
@@ -59,7 +58,6 @@ class StepsyTileService : TileService() {
                 )
                 startActivityAndCollapse(pendingIntent)
             } else {
-                // Older Android
                 @Suppress("DEPRECATION")
                 startActivityAndCollapse(intent)
             }
@@ -72,9 +70,7 @@ class StepsyTileService : TileService() {
             startService(it)
         }
 
-        getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-            putBoolean(MotionService.KEY_IS_PAUSED, false)
-        }
+        AppPreferences.isPaused = false
 
         Toast.makeText(this, R.string.step_counting_resumed, Toast.LENGTH_SHORT).show()
         updateTile(false)
@@ -95,9 +91,7 @@ class StepsyTileService : TileService() {
     }
 
     private fun isPaused(): Boolean =
-        applicationContext
-            .getSharedPreferences("StepsyPrefs", MODE_MULTI_PROCESS)
-            .getBoolean(MotionService.KEY_IS_PAUSED, false)
+        AppPreferences.isPaused
 
     override fun onDestroy() {
         super.onDestroy()

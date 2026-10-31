@@ -1,131 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">Woche %1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">Kein Eintrag für %1$s</string>
-    <string name="calories">%1$d kcal</string>
-    <string name="steps_month">Diesen Monat</string>
-    <string name="avg_distance">Durchschnitt pro Tag</string>
-    <string name="total_distance">Gesamtstrecke</string>
-    <string name="goal_streak_line">Ziel: %1$s · %2$s %3$s Serie</string>
-    <string name="goal_streak_dead_line">Tagesziel: %1$s</string>
 
-    <string name="no_sensor">Ihr Gerät hat keinen Schrittzähler-Sensor</string>
-    <string name="no_activity_permission">ACTIVITY_RECOGNITION-Berechtigung fehlt</string>
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="one">Schritt</item>
+        <item quantity="other">Schritte</item>
+    </plurals>
+    <plurals name="steps_formatted">
+        <item quantity="one">%1$s Schritt</item>
+        <item quantity="other">%1$s Schritte</item>
+    </plurals>
+    <plurals name="days_word_only">
+        <item quantity="one">Tag</item>
+        <item quantity="other">Tage</item>
+    </plurals>
 
-    <!-- Header section -->
-    <string name="expand_collapse">Ein-/Ausklappen</string>
+    <!-- Screen: Home -->
     <string name="header_today">Heute</string>
     <string name="header_week">Diese Woche</string>
     <string name="header_month">Diesen Monat</string>
     <string name="header_7d">Letzte 7 Tage</string>
     <string name="header_30d">Letzte 30 Tage</string>
-    <string name="header_all_time">Gesamt</string>
     <string name="header_year">Jahr %1$d</string>
-
+    <string name="header_all_time">Gesamt</string>
     <string name="label_today">Heute</string>
     <string name="label_week">Woche</string>
     <string name="label_month">Monat</string>
     <string name="label_7d">7 Tage</string>
     <string name="label_30d">30 Tage</string>
     <string name="label_all_time">Gesamte Zeit</string>
-
-    <!-- Plurals -->
-    <plurals name="steps_formatted">
-        <item quantity="one">%1$s Schritt</item>
-        <item quantity="other">%1$s Schritte</item>
+    <string name="week_display_format">Woche %1$d</string>
+    <string name="filters_title">Sichtbare Filter</string>
+    <string name="filters_years">Jahressummen</string>
+    <string name="home_show_filter_bar">Filterleiste anzeigen</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="avg_per_day_pill">%1$s / Tag</string>
+    <plurals name="goal_reached_times">
+        <item quantity="one">Ziel %d Mal erreicht</item>
+        <item quantity="other">Ziel %d Mal erreicht</item>
     </plurals>
-
+    <string name="goal_streak_line">Ziel: %1$s · %2$s %3$s Serie</string>
     <plurals name="streak_record_count">
         <item quantity="one">%d Tag</item>
         <item quantity="other">%d Tage</item>
     </plurals>
-
-    <plurals name="days_word_only">
-        <item quantity="one">Tag</item>
-        <item quantity="other">Tage</item>
+    <plurals name="streak_segment_description">
+        <item quantity="one">Zielserie über %1$d Tag</item>
+        <item quantity="other">Zielserie über %1$d Tage</item>
     </plurals>
+    <string name="edit_step_count">Schrittzahl anpassen</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
+    <string name="confirm_decrease_title">Niedrigere Schrittzahl</string>
+    <string name="confirm_decrease_message">Dieser Wert ist niedriger als die aktuelle Schrittzahl. Möchten Sie fortfahren?</string>
+    <string name="invalid_step_count">Bitte geben Sie eine gültige Zahl ein</string>
+    <string name="steps_updated">Schrittzahl aktualisiert</string>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">Zählung pausiert</string>
-    <string name="notification_category_steps_day">Schrittdaten</string>
-    <string name="notification_description_paused">Benachrichtigung bei pausierter Schrittzählung</string>
-    <string name="notification_description_steps_day">Schritte heute</string>
-    <string name="notification_step_counting_paused">Schrittzählung pausiert</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">Ziel: %1$s — noch %2$s</string>
-    <string name="notification_step_goal_completed">Schrittziel erreicht!</string>
-    <string name="step_counting_paused">Schrittzählung pausiert</string>
-    <string name="step_counting_resumed">Schrittzählung fortgesetzt</string>
-    <string name="action_pause">Pausieren</string>
-    <string name="action_resume">Fortsetzen</string>
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">Erfolge</string>
+    <string name="milestone_achievements">Meilensteine</string>
+    <string name="milestone_next">Nächstes Abzeichen</string>
+    <string name="milestone_to_go">Noch %1$s</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
+    <string name="milestone_label_distance">Distanz</string>
+    <string name="milestone_label_date">Erreicht</string>
+    <string name="milestone_label_took">Benötigte Zeit</string>
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
+    </plurals>
+    <string name="milestone_notifications_toggle">Meilenstein-Benachrichtigungen</string>
+    <string name="milestone_notifications_enabled">Meilenstein-Benachrichtigungen aktiviert</string>
+    <string name="milestone_notifications_disabled">Meilenstein-Benachrichtigungen deaktiviert</string>
+    <string name="milestone_notifications_tooltip">Meilenstein-Benachrichtigungen</string>
+    <string name="no_milestones_reached">Noch keine Meilensteine erreicht. Weiter geht’s!</string>
+    <string name="personal_records">Persönliche Rekorde</string>
+    <string name="most_walked_month">Aktivster Monat</string>
+    <string name="streak_record">Längste Serie mit %1$s+ Schritten</string>
+    <string name="top_3_days">Beste 3 Tage</string>
+    <string name="best_week">Beste Woche</string>
+    <string name="records_goal_reached">Ziel erreicht</string>
+    <string name="records_percent_of_days">%1$d%% aller Tage</string>
+    <string name="since_date">Seit %1$s</string>
+    <string name="loading_data">Daten werden geladen…\n</string>
+    <string name="no_data_available">Keine Daten verfügbar\n</string>
+    <string name="error_loading_data">Fehler beim Laden der Daten\n</string>
 
-    <!-- Preferences -->
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">Tagesziel</string>
+    <string name="section_notifications">Benachrichtigungen</string>
+    <string name="section_goal_alerts">Zielhinweise</string>
+    <string name="daily_goal_notification">Bei Zielerreichung benachrichtigen</string>
+    <string name="daily_goal_target">Tägliches Schrittziel</string>
+    <string name="daily_goal_hint">Geben Sie Ihr tägliches Schrittziel ein</string>
+    <string name="daily_goal_none">Kein Ziel</string>
+    <string name="goal_preset_off">Aus</string>
+    <string name="goal_preset_custom">Eigenes</string>
+    <string name="encouraging_notifications">Ermutigende Benachrichtigungen</string>
+    <string name="encouraging_notifications_summary">Bis zu zwei Erinnerungen am Tag, wenn das Ziel näher rückt</string>
+    <string name="encouraging_sample">Beispiel senden</string>
+    <string name="reminders_one">Eine Erinnerung</string>
+    <string name="reminders_two">Zwei Erinnerungen</string>
+    <string name="reminder_single_summary">Erinnerung bei %1$s des Tagesziels</string>
+    <string name="reminder_double_summary">Erinnerungen bei %1$s und %2$s des Tagesziels</string>
+    <string name="live_notification_title">Live-Benachrichtigung</string>
+    <string name="live_steps_only">Nur Schrittzahl</string>
+    <string name="live_steps_progress">Schrittzahl + Zielfortschritt</string>
+    <string name="live_notification_off">Aus</string>
+    <string name="notification_settings_row">Ton und Hinweise</string>
+    <string name="notification_settings_summary">Benachrichtigungsart wählen</string>
+    <string name="channel_blocked">In den Systemeinstellungen blockiert</string>
+
+    <!-- Screen: Settings -->
     <string name="settings">Einstellungen</string>
     <string name="header_personal_data">Persönliche Daten</string>
-    <string name="header_appearance">Darstellung</string>
     <string name="header_general">Allgemein</string>
+    <string name="header_appearance">Darstellung</string>
+    <string name="header_data">App-Daten</string>
     <string name="header_data_backup">Backup</string>
-
-    <string name="preference_system">Systemvorgabe</string>
-    <string name="theme_light">Hell</string>
-    <string name="theme_dark">Dunkel</string>
     <string name="pref_height">Größe</string>
     <string name="pref_step_length">Schrittlänge</string>
     <string name="pref_weight">Gewicht</string>
-    <string name="first_day_of_the_week">Erster Tag der Woche</string>
-    <string name="app_language">Sprache</string>
-    <string name="theme">Design</string>
-    <string name="date_format">Datumsformat</string>
-    <string name="unit_system">Einheitensystem</string>
-    <string name="export_data">Exportieren</string>
-    <string name="backup_frequency">Häufigkeit automatischer Backups</string>
-    <string name="backup_retention_count">Anzahl der aufzubewahrenden Backups</string>
-    <string name="backup_retention_hint">(0 = alle behalten)</string>
-    <string name="backup_retention_unlimited">Unbegrenzt</string>
-    <string name="backup_location">Backup-Speicherort</string>
-    <string name="backup_location_not_set">Nicht festgelegt</string>
-    <string name="manual_backup">Manuelles Backup</string>
-    <string name="import_data">Importieren</string>
-    <string name="import_data_summary">Schrittdaten aus einer Datei wiederherstellen</string>
-    <string name="next_backup_scheduled">Nächstes automatisches Backup\n%1$s um %2$s</string>
-    <string name="import_invalid_file">Diese Datei ist ungültig</string>
-    <string name="import_warning_title">Schrittdaten ersetzen</string>
-    <string name="import_warning_message">Dabei werden alle aktuellen Schrittdaten gelöscht und durch die importierten ersetzt. Möchten Sie fortfahren?</string>
     <string name="pref_vehicle_filter_title">Genaue Schrittfilterung</string>
     <string name="pref_vehicle_filter_summary">Nutzen Sie die Activity Recognition API, um Schritte im Auto, Bus oder auf dem Rad zu ignorieren. Erfordert Google Play Services.</string>
     <string name="pref_vehicle_filter_summary_foss">Präzisere Schritterkennung via Google Play Services API, nur im Full-Build verfügbar. Erhältlich auf Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API ist auf diesem Gerät nicht verfügbar</string>
+    <string name="unit_system">Einheitensystem</string>
+    <string name="date_format">Datumsformat</string>
+    <string name="first_day_of_the_week">Erster Tag der Woche</string>
+    <string name="app_language">Sprache</string>
+    <string name="theme">Design</string>
+    <string name="preference_system">Systemvorgabe</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
 
-    <string name="header_about">App-Informationen</string>
-    <string name="about_stepsy">Über</string>
-    <string name="about_version">Version</string>
-    <string name="about_license">Lizenz</string>
-    <string name="about_html">
-    <![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        Projekt gepflegt von <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        Basierend auf <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> von <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">Fehler melden</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">Projektwebseite</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">Lizenz GPL-3.0</a>
-    ]]>
-    </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">Bitte einen gültigen Wert eingeben</string>
-    <string name="cannot_open_file">Datei kann nicht geöffnet werden</string>
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">App-Daten exportieren und wiederherstellen</string>
+    <string name="backup_frequency">Häufigkeit automatischer Backups</string>
+    <string name="backup_retention_count">Anzahl der aufzubewahrenden Backups</string>
+    <string name="backup_location">Backup-Speicherort</string>
+    <string name="backup_location_not_set">Nicht festgelegt</string>
+    <string name="manual_backup">Manuelles Backup</string>
     <string name="manual_backup_successful">Manuelles Backup erfolgreich</string>
-    <string name="select_backup_location_first">Backup-Speicherort zuerst auswählen</string>
+    <string name="import_data">Importieren</string>
+    <string name="import_data_summary">Schrittdaten aus einer Datei wiederherstellen</string>
+    <string name="import_invalid_file">Diese Datei ist ungültig</string>
+    <string name="import_warning_title">Schrittdaten ersetzen</string>
+    <string name="import_warning_message">Dabei werden alle aktuellen Schrittdaten gelöscht und durch die importierten ersetzt. Möchten Sie fortfahren?</string>
+    <string name="section_import">Import</string>
+    <string name="section_export">Export</string>
+    <string name="backup_retention_all">Alle</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
+    <string name="cannot_open_file">Datei kann nicht geöffnet werden</string>
     <string name="import_result">%1$d Einträge importiert (%2$d fehlgeschlagen). %3$s</string>
     <string name="today_steps_set">Schritte für heute auf %1$d gesetzt.</string>
+
+    <!-- Screen: About -->
+    <string name="about_stepsy">Über</string>
+    <string name="about_version">Version</string>
+    <string name="about_source_code">Quellcode</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">Fehler melden</string>
+    <string name="about_author">Autor</string>
+    <string name="about_original_creator">Ursprüngliche Idee</string>
+    <string name="about_original_creator_summary">MotionMate von 0xf4b1</string>
+    <string name="about_license">Lizenz</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
 
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Hintergrundfarbe umkehren</string>
@@ -134,101 +180,148 @@
     <string name="widget_pref_bg_opacity">Hintergrunddeckkraft</string>
     <string name="widget_pref_btn_save">Speichern</string>
 
-    <!-- Achievements -->
-    <string name="achievements_title">Erfolge</string>
-    <string name="milestone_achievements">Meilensteine</string>
-    <string name="no_milestones_reached">Noch keine Meilensteine erreicht. Weiter geht’s!</string>
-    <string name="milestone_new">Neu</string>
+    <!-- Units -->
+    <string name="unit_ft">ft</string>
+    <string name="unit_in">in</string>
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
 
-    <!-- Data Placeholders -->
-    <string name="loading_data">Daten werden geladen…\n</string>
-    <string name="no_data_available">Keine Daten verfügbar\n</string>
-    <string name="error_loading_data">Fehler beim Laden der Daten\n</string>
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">Ihr Gerät hat keinen Schrittzähler-Sensor</string>
+    <string name="notification_category_counting_paused">Zählung pausiert</string>
+    <string name="notification_category_steps_day">Schrittdaten</string>
+    <string name="notification_description_paused">Benachrichtigung bei pausierter Schrittzählung</string>
+    <string name="notification_description_steps_day">Schritte heute</string>
+    <string name="notification_step_counting_paused">Schrittzählung pausiert</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s kcal</string>
+    <string name="notification_step_goal_completed">Schrittziel erreicht!</string>
+    <string name="step_counting_paused">Schrittzählung pausiert</string>
+    <string name="step_counting_resumed">Schrittzählung fortgesetzt</string>
+    <string name="action_pause">Pausieren</string>
+    <string name="action_resume">Fortsetzen</string>
 
-    <!-- Daily Goals -->
-    <string name="daily_goals">Tagesziel</string>
-    <string name="daily_goal_notification">Bei Zielerreichung benachrichtigen</string>
-    <string name="progress_in_notification">Fortschritt in Benachrichtigung anzeigen</string>
-    <string name="daily_goal_target">Tägliches Schrittziel</string>
-    <string name="daily_goal_hint">Geben Sie Ihr tägliches Schrittziel ein</string>
-    <string name="encouraging_notifications">Ermutigende Benachrichtigungen</string>
-    <string name="goal_chart_line">Ziellinie im Diagramm anzeigen</string>
-
-    <!-- Records -->
-    <string name="personal_records">Persönliche Rekorde</string>
-    <string name="most_steps_day">Tagesrekord Schritte</string>
-    <string name="most_walked_month">Aktivster Monat</string>
-    <string name="streak_record">Längste %1$s+ Schritte Serie</string>
-    <string name="top_3_days">Beste 3 Tage</string>
-    <string name="best_week">Beste Woche</string>
-    <string name="avg_steps_per_day">Durchschnitt pro Tag</string>
-    <string name="since_date">Seit %1$s</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">Benachrichtigungen Tagesziel</string>
-    <string name="daily_goal_notification_channel_desc">Erhalten Sie Updates zu Ihrem Fortschritt beim Schrittziel</string>
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">Ziel erreicht</string>
+    <string name="channel_goal_desc">Ein Erfolgsmoment, sobald das tägliche Schrittziel erreicht ist</string>
+    <string name="channel_reminders_name">Ermutigende Erinnerungen</string>
+    <string name="channel_reminders_desc">Hinweise, wenn das Ziel näher rückt</string>
     <string name="goal_achieved_title">🎉 Ziel erreicht!</string>
     <string name="goal_achieved_message">Sie haben Ihr Schrittziel von %1$s erreicht!</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$d Tsd. • %2$s</string>
-    <string name="million_steps_with_distance">%1$d Mio. • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1f Mio. • %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">Heutige Schrittzahl anpassen</string>
-    <string name="confirm_decrease_title">Niedrigere Schrittzahl</string>
-    <string name="confirm_decrease_message">Dieser Wert ist niedriger als die aktuelle Schrittzahl. Möchten Sie fortfahren?</string>
-    <string name="invalid_step_count">Bitte geben Sie eine gültige Zahl ein</string>
-    <string name="steps_updated">Schrittzahl aktualisiert</string>
-
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">Weiter so!</string>
-    <string name="encouraging_notification_15_percent">Starker Start! Du hast %1$d%% deines Tagesziels erreicht. Noch %2$d Schritte!</string>
-    <string name="encouraging_notification_75_percent">Fast geschafft! %1$d%% erledigt. Nur noch %2$d Schritte bis zum Ziel!</string>
-
-    <string name="encouraging_notification_15_percent_alt1">Gute Fortschritte! %1$d%% deines Ziels sind erreicht. Bleib in Bewegung!</string>
-    <string name="encouraging_notification_15_percent_alt2">Du bist auf dem richtigen Weg! %1$d%% erledigt. Noch %2$d Schritte!</string>
-    <string name="encouraging_notification_15_percent_alt3">Super gemacht! %1$d%% deines Ziels sind erreicht. Bleib aktiv!</string>
-
-    <string name="encouraging_notification_75_percent_alt1">Schon fast da! %1$d%% geschafft. Nur noch %2$d Schritte!</string>
-    <string name="encouraging_notification_75_percent_alt2">Letzter Schub! %1$d%% erledigt. Du schaffst das — nur %2$d Schritte!</string>
-    <string name="encouraging_notification_75_percent_alt3">Ziel in Sicht! %1$d%% geschafft. Noch %2$d Schritte bis zum Sieg!</string>
-
-    <!-- Milestone notification strings -->
+    <string name="encouraging_title">Weiter so!</string>
+    <string name="encouraging_early_1">Guter Start: %1$s des Ziels geschafft. Noch %2$s.</string>
+    <string name="encouraging_early_2">Es läuft! %1$s geschafft, noch %2$s.</string>
+    <string name="encouraging_late_1">Fast geschafft! %1$s erledigt, nur noch %2$s.</string>
+    <string name="encouraging_late_2">Endspurt: %1$s geschafft, noch %2$s.</string>
     <string name="milestone_notification_title">%s erreicht!</string>
     <string name="milestone_notification_text">Das sind insgesamt %s Schritte!\nWeiter so.</string>
     <string name="notification_category_milestone">Meilensteine</string>
     <string name="notification_description_milestone">Benachrichtigungen beim Erreichen von Schritt-Meilensteinen</string>
-    <string name="milestone_notifications_toggle">Meilenstein-Benachrichtigungen</string>
-    <string name="mute_milestone_notifications_action">Stummschalten</string>
-    <string name="milestone_notifications_tooltip">Meilenstein-Benachrichtigungen</string>
-
-    <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d Mio.</string>
     <string name="milestone_short_millions_decimal">%.1f Mio.</string>
     <string name="milestone_short_thousands">%1$d Tsd.</string>
-
-    <!-- Milestone detail dialog -->
-    <string name="milestone_label_distance">Distanz</string>
-    <string name="milestone_label_date">Erreicht</string>
-    <string name="milestone_label_took">Benötigte Zeit</string>
-
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d Tag</item>
-        <item quantity="other">%d Tage</item>
-    </plurals>
+    <string name="mute_notifications_action">Stummschalten</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">Fortsetzen um</string>
-    <string name="pause_when_to_resume">Wählen Sie, wann das Zählen fortgesetzt wird</string>
     <string name="pause_step_counting">Schrittzählen pausieren</string>
     <string name="pause_30_minutes">30 Minuten</string>
     <string name="pause_1_hour">1 Stunde</string>
     <string name="pause_2_hours">2 Stunden</string>
     <string name="pause_custom_time">Eigene Zeit</string>
     <string name="pause_indefinitely">Bis ich es wieder einschalte</string>
+    <string name="resume_at_time">Fortsetzen um</string>
     <string name="step_counting_paused_until">Schrittzählen pausiert bis %s</string>
     <string name="step_counting_resumed_auto">Schrittzählen automatisch fortgesetzt</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">Verstanden</string>
+    <string name="translate">Übersetzen</string>
+    <string name="star_title">Gefällt Ihnen die App?</string>
+    <string name="star_body">Stepsy ist Open Source! Wenn die App für Sie nützlich ist, freue ich mich über einen Stern auf Github. So finden andere Stepsy leichter, und ich bleibe motiviert, die App weiter zu verbessern.</string>
+    <string name="star_button">Stern auf Github geben</string>
+    <string name="star_dismiss">Nein, danke</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">Einrichtung überspringen</string>
+    <string name="onboarding_get_started">Los geht’s</string>
+    <string name="onboarding_continue">Weiter</string>
+    <string name="onboarding_done">Fertig</string>
+    <string name="onboarding_allow">Erlauben</string>
+    <string name="onboarding_not_now">Nicht jetzt</string>
+    <string name="onboarding_ask_again">Erneut fragen</string>
+    <string name="onboarding_open_settings">Einstellungen öffnen</string>
+    <string name="onboarding_status_on">Ein</string>
+    <string name="onboarding_status_off">Aus</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">Dieses Handy meldet keinen Schrittsensor, daher kann Stepsy hier nicht zählen.</string>
+    <string name="onboarding_restore_title">Schrittdaten importieren</string>
+    <string name="onboarding_restore_summary">Backup-Datei wiederherstellen</string>
+    <string name="onboarding_restore_busy">Wird wiederhergestellt...</string>
+    <string name="onboarding_restore_done_title">Backup wiederhergestellt</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="one">%d Tag Verlauf ist wieder da</item>
+        <item quantity="other">%d Tage Verlauf sind wieder da</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">Körperliche Aktivität</string>
+    <string name="onboarding_steps_title">Schritterkennung für Stepsy erlauben</string>
+    <string name="onboarding_steps_body">Diese Berechtigung wird benötigt, um den Schrittsensor des Handys zu nutzen.</string>
+    <string name="onboarding_steps_row">Körperliche Aktivität</string>
+    <string name="onboarding_steps_idle">Noch nicht erlaubt</string>
+    <string name="onboarding_steps_on">Erlaubt</string>
+    <string name="onboarding_steps_denied">Nicht erlaubt</string>
+    <string name="onboarding_steps_blocked">Von Android blockiert</string>
+    <string name="onboarding_steps_note_on">Einfach ein paar Schritte gehen und zusehen, wie die Zahl wächst.</string>
+    <string name="onboarding_steps_note_denied">Ohne diese Berechtigung kann Stepsy nicht zählen.</string>
+    <string name="onboarding_steps_note_blocked">Android zeigt diese Abfrage nicht noch einmal an. Die Berechtigung muss dann in den App-Einstellungen manuell erteilt werden.</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">Akku</string>
+    <string name="onboarding_pocket_title">Zuverlässig zählen, auch in der Tasche</string>
+    <string name="onboarding_pocket_body">Um Akku zu sparen, kann Android verhindern, dass Stepsy im Hintergrund Sensoränderungen erfasst. Damit die Schrittzahl vollständig bleibt, sollte die Akku-Optimierung für diese App ausgeschaltet sein. Stepsy nutzt einen stromsparenden Sensor und verarbeitet die Daten beim Gehen effizient, der Akkuverbrauch bleibt minimal.</string>
+    <string name="onboarding_pocket_row">Akku-Optimierung</string>
+    <string name="onboarding_pocket_on">Für den Hintergrund erlaubt</string>
+    <string name="onboarding_pocket_off">Für den Hintergrund nicht erlaubt</string>
+    <string name="onboarding_pocket_note_on">Geschafft! Stepsy zählt weiter, während das Handy schläft. Manche Hersteller fügen eigene Akku-Regeln hinzu. Falls die Zählung trotzdem stockt, sollte Stepsy in den Geräteeinstellungen im Hintergrund laufen dürfen.</string>
+    <string name="onboarding_pocket_note_tried">Das lässt sich später in den Einstellungen ändern.</string>
+    <string name="onboarding_pocket_note_manual">Dieses Handy bietet keine Ein-Tipp-Abfrage. In der folgenden Liste Stepsy suchen und \"Uneingeschränkt\" oder \"Nicht optimieren\" wählen.</string>
+    <string name="onboarding_pocket_note_none">Auf diesem Handy hat sich kein Akku-Einstellungsbildschirm geöffnet. Zu finden unter Einstellungen > Apps > Stepsy > Akku.</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">Über Sie</string>
+    <string name="onboarding_body_title">persönliche Angaben für Schätzwerte</string>
+    <string name="onboarding_body_body">Die Größe bestimmt die Schrittlänge, das Gewicht die geschätzten verbrannten Kalorien. Beides bleibt nur auf diesem Handy.</string>
+    <string name="onboarding_body_note">Diese Angaben lassen sich später in den Einstellungen ändern.</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">Tagesziel</string>
+    <string name="onboarding_goal_title">Ein Tagesziel wählen</string>
+    <string name="onboarding_goal_body">Jeden Tag den Fortschrittsbalken auf dem Startbildschirm füllen! Zur Wahl stehen Vorgaben, ein eigenes Ziel oder gar keins. Es lässt sich jederzeit ändern und hat keinen Einfluss auf Ihre Schrittdaten.</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s und %3$d kcal / Tag</string>
+    <string name="onboarding_reminders_title">Benachrichtigungen</string>
+    <string name="onboarding_reminders_summary">Optional: Fortschritt in der Live-Benachrichtigung, ermutigende Erinnerungen kurz vor dem Schrittziel und mehr. Empfohlen.</string>
+    <string name="onboarding_reminders_on">Erlaubt</string>
+    <string name="onboarding_reminders_blocked">Von Android blockiert. Tippen, um die Benachrichtigungseinstellungen zu öffnen</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">Schließen</string>
+    <string name="onboarding_card_activity_title">Zugriff auf Aktivität erlauben</string>
+    <string name="onboarding_card_activity_summary">Diese Berechtigung wird benötigt, um den Schrittsensor des Handys zu nutzen.</string>
+    <string name="onboarding_card_battery_title">Stabil im Hintergrund</string>
+    <string name="onboarding_card_battery_summary">Stepsy ist bewusst schlank gehalten, doch das System kann das zuverlässige Zählen ausbremsen. Der App den Hintergrundbetrieb erlauben.</string>
+    <string name="onboarding_card_notifications_title">Benachrichtigungen</string>
+    <string name="onboarding_card_notifications_summary">Optional: Fortschritt in der Live-Benachrichtigung, ermutigende Erinnerungen kurz vor dem Schrittziel und mehr. Empfohlen.</string>
+    <string name="onboarding_strip_title">Schritte werden nicht gezählt</string>
+    <string name="onboarding_strip_summary">Tippen, um die Schritterkennung zu erlauben.</string>
+    <string name="onboarding_welcome_headline_b">Schlanker Schrittzähler.</string>
+    <string name="onboarding_welcome_point_offline">Bewusst offline</string>
+    <string name="onboarding_welcome_point_battery">Schont den Akku</string>
+    <string name="onboarding_welcome_point_backups">Automatische lokale Backups einrichten</string>
+    <string name="onboarding_welcome_point_pressure">Fortschritt ohne Druck</string>
 </resources>

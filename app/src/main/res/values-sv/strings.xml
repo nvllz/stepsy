@@ -1,131 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">Vecka%1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">Ingen data för %1$s</string>
-    <string name="calories">%1$d kcal</string>
-    <string name="steps_month">Denna månad</string>
-    <string name="avg_distance">Dagligt genomsnitt</string>
-    <string name="total_distance">Sammanlagt avstånd</string>
-    <string name="goal_streak_line">Mål: %1$s · %2$s %3$s streak</string>
-    <string name="goal_streak_dead_line">Dagsmål: %1$s</string>
 
-    <string name="no_sensor">Din enhet har ingen sensor för stegräkning</string>
-    <string name="no_activity_permission">Saknar tillåtelse för ACTIVITY_RECOGNITION</string>
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="one">steg</item>
+        <item quantity="other">steg</item>
+    </plurals>
+    <plurals name="steps_formatted">
+        <item quantity="one">%1$s steg</item>
+        <item quantity="other">%1$s steg</item>
+    </plurals>
+    <plurals name="days_word_only">
+        <item quantity="one">dag</item>
+        <item quantity="other">dagar</item>
+    </plurals>
 
-    <!-- Header section -->
-    <string name="expand_collapse">Utvidga/Slå ihop</string>
+    <!-- Screen: Home -->
     <string name="header_today">Idag</string>
     <string name="header_week">Denna vecka</string>
     <string name="header_month">Denna månad</string>
     <string name="header_7d">Senaste 7 dagar</string>
     <string name="header_30d">Senaste 30 dagar</string>
-    <string name="header_all_time">Överlag</string>
     <string name="header_year">År %1$d</string>
-
+    <string name="header_all_time">Överlag</string>
     <string name="label_today">Idag</string>
     <string name="label_week">Vecka</string>
     <string name="label_month">Månad</string>
     <string name="label_7d">7 dagar</string>
     <string name="label_30d">30 dagar</string>
     <string name="label_all_time">Överlag</string>
-
-    <!-- Plurals -->
-    <plurals name="steps_formatted">
-        <item quantity="one">%1$s steg</item>
-        <item quantity="other">%1$s steg</item>
+    <string name="week_display_format">Vecka %1$d</string>
+    <string name="filters_title">Synliga filter</string>
+    <string name="filters_years">Årssummor</string>
+    <string name="home_show_filter_bar">Visa filterfält</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="avg_per_day_pill">%1$s / dag</string>
+    <plurals name="goal_reached_times">
+        <item quantity="one">Mål uppnått %d gång</item>
+        <item quantity="other">Mål uppnått %d gånger</item>
     </plurals>
-
+    <string name="goal_streak_line">Mål: %1$s · %2$s %3$s streak</string>
     <plurals name="streak_record_count">
         <item quantity="one">%d dag</item>
         <item quantity="other">%d dagar</item>
     </plurals>
-
-    <plurals name="days_word_only">
-        <item quantity="one">dag</item>
-        <item quantity="other">dagar</item>
+    <plurals name="streak_segment_description">
+        <item quantity="one">Målserie på %1$d dag</item>
+        <item quantity="other">Målserie på %1$d dagar</item>
     </plurals>
+    <string name="edit_step_count">Justera stegräkningen</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
+    <string name="confirm_decrease_title">Lägre stegräkning</string>
+    <string name="confirm_decrease_message">Detta värde är lägre än det aktuella stegtalet. Vill du fortsätta?</string>
+    <string name="invalid_step_count">Ange ett giltigt nummer</string>
+    <string name="steps_updated">Stegräkning uppdaterad</string>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">Räkning pausad</string>
-    <string name="notification_category_steps_day">Stegdata</string>
-    <string name="notification_description_paused">Avisera när stegräkning är pausad</string>
-    <string name="notification_description_steps_day">Steg idag</string>
-    <string name="notification_step_counting_paused">Stegräkning är pausad</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">Mål: %1$s — %2$s kvar</string>
-    <string name="notification_step_goal_completed">Stegmål uppnått!</string>
-    <string name="step_counting_paused">Pausat stegräkning</string>
-    <string name="step_counting_resumed">Återupptagit stegräkning</string>
-    <string name="action_pause">Pausa</string>
-    <string name="action_resume">Återuppta</string>
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">Bedrifter</string>
+    <string name="milestone_achievements">Milstolpar</string>
+    <string name="milestone_next">Nästa märke</string>
+    <string name="milestone_to_go">%1$s kvar</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
+    <string name="milestone_label_distance">Distans</string>
+    <string name="milestone_label_date">Uppnått</string>
+    <string name="milestone_label_took">Tid det tog</string>
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+    <string name="milestone_notifications_toggle">Aviseringar om milstolpar</string>
+    <string name="milestone_notifications_enabled">Aviseringar om milstolpar aktiverade</string>
+    <string name="milestone_notifications_disabled">Aviseringar om milstolpar inaktiverade</string>
+    <string name="milestone_notifications_tooltip">Aviseringar om milstolpar</string>
+    <string name="no_milestones_reached">Inga milstolpar uppnådda än. Fortsätt gå!</string>
+    <string name="personal_records">Personliga rekord</string>
+    <string name="most_walked_month">Mest aktiva månad</string>
+    <string name="streak_record">Längsta serien med %1$s+ steg</string>
+    <string name="top_3_days">Topp 3 dagar</string>
+    <string name="best_week">Bästa veckan</string>
+    <string name="records_goal_reached">Mål uppnått</string>
+    <string name="records_percent_of_days">%1$d%% av alla dagar</string>
+    <string name="since_date">Sedan %1$s</string>
+    <string name="loading_data">Laddar data…\n</string>
+    <string name="no_data_available">Ingen data tillgänglig\n</string>
+    <string name="error_loading_data">Fel vid dataladdning\n</string>
 
-    <!-- Preferences -->
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">Dagligt mål</string>
+    <string name="section_notifications">Aviseringar</string>
+    <string name="section_goal_alerts">Målaviseringar</string>
+    <string name="daily_goal_notification">Avisera vid uppnåelse</string>
+    <string name="daily_goal_target">Dagligt stegmål</string>
+    <string name="daily_goal_hint">Ange ditt dagliga stegmål</string>
+    <string name="daily_goal_none">Inget mål</string>
+    <string name="goal_preset_off">Av</string>
+    <string name="goal_preset_custom">Eget</string>
+    <string name="encouraging_notifications">Uppmuntrande aviseringar</string>
+    <string name="encouraging_notifications_summary">Upp till två påminnelser om dagen när du närmar dig målet</string>
+    <string name="encouraging_sample">Skicka ett exempel</string>
+    <string name="reminders_one">En påminnelse</string>
+    <string name="reminders_two">Två påminnelser</string>
+    <string name="reminder_single_summary">Påminnelse vid %1$s av ditt dagliga mål</string>
+    <string name="reminder_double_summary">Påminnelser vid %1$s och %2$s av ditt dagliga mål</string>
+    <string name="live_notification_title">Liveavisering</string>
+    <string name="live_steps_only">Endast stegantal</string>
+    <string name="live_steps_progress">Stegantal + målframsteg</string>
+    <string name="live_notification_off">Av</string>
+    <string name="notification_settings_row">Ljud och varningar</string>
+    <string name="notification_settings_summary">Välj typ av avisering</string>
+    <string name="channel_blocked">Blockerad i systeminställningarna</string>
+
+    <!-- Screen: Settings -->
     <string name="settings">Inställningar</string>
     <string name="header_personal_data">Personlig data</string>
-    <string name="header_appearance">Utseende</string>
     <string name="header_general">Allmänt</string>
+    <string name="header_appearance">Utseende</string>
+    <string name="header_data">Appdata</string>
     <string name="header_data_backup">Säkerhetskopiering</string>
-
-    <string name="preference_system">System</string>
-    <string name="theme_light">Ljust</string>
-    <string name="theme_dark">Mörkt</string>
-    <string name="pref_height">Höjd</string>
+    <string name="pref_height">Längd</string>
     <string name="pref_step_length">Steglängd</string>
     <string name="pref_weight">Vikt</string>
-    <string name="first_day_of_the_week">Första veckodagen</string>
-    <string name="app_language">Språk</string>
-    <string name="theme">Tema</string>
-    <string name="date_format">Datumformat</string>
-    <string name="unit_system">Enhetssystem</string>
-    <string name="export_data">Exportera</string>
-    <string name="backup_frequency">Automatisk säkerhetskopieringsfrekvens</string>
-    <string name="backup_retention_count">Antal säkerhetskopior att behålla</string>
-    <string name="backup_retention_hint">(0 för att behålla alla)</string>
-    <string name="backup_retention_unlimited">Obegränsat</string>
-    <string name="backup_location">Plats för säkerhetskopiering</string>
-    <string name="backup_location_not_set">Ej angivet</string>
-    <string name="manual_backup">Manuell säkerhetskopiering</string>
-    <string name="import_data">Importera</string>
-    <string name="import_data_summary">Återställ stegdata från en fil</string>
-    <string name="next_backup_scheduled">Nästa automatiska säkerhetskopiering\n%1$s kl. %2$s</string>
-    <string name="import_invalid_file">Den här filen är ogiltig</string>
-    <string name="import_warning_title">Ersätt stegdatan</string>
-    <string name="import_warning_message">Detta tar bort all nuvarande stegdata och ersätter den med importerad data. Vill du fortsätta?</string>
     <string name="pref_vehicle_filter_title">Noggrann stegfiltrering</string>
     <string name="pref_vehicle_filter_summary">Använd Activity Recognition API för att ignorera steg i bil, buss eller på cykel. Kräver Google Play Services.</string>
     <string name="pref_vehicle_filter_summary_foss">Mer exakt stegigenkänning via Google Play Services API, endast i den fullständiga versionen. Finns på Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API är inte tillgängligt på denna enhet</string>
+    <string name="unit_system">Enhetssystem</string>
+    <string name="date_format">Datumformat</string>
+    <string name="first_day_of_the_week">Första veckodagen</string>
+    <string name="app_language">Språk</string>
+    <string name="theme">Tema</string>
+    <string name="preference_system">System</string>
+    <string name="theme_light">Ljust</string>
+    <string name="theme_dark">Mörkt</string>
 
-    <string name="header_about">Appinfo</string>
-    <string name="about_stepsy">Om</string>
-    <string name="about_version">Version</string>
-    <string name="about_license">Licens</string>
-    <string name="about_html">
-    <![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        Underhållen av <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        Baserad på <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> by <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">Rapportera en bugg</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">Projektets webbsida</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">Licens GPL-3.0</a>
-    ]]>
-    </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">Vänligen ange ett giltigt värde</string>
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">Exportera och återställ appdata</string>
+    <string name="backup_frequency">Automatisk säkerhetskopieringsfrekvens</string>
+    <string name="backup_retention_count">Antal säkerhetskopior att behålla</string>
+    <string name="backup_location">Plats för säkerhetskopiering</string>
+    <string name="backup_location_not_set">Ej angivet</string>
+    <string name="manual_backup">Manuell säkerhetskopiering</string>
+    <string name="manual_backup_successful">Manuell säkerhetskopiering lyckades</string>
+    <string name="import_data">Importera</string>
+    <string name="import_data_summary">Återställ stegdata från en fil</string>
+    <string name="import_invalid_file">Den här filen är ogiltig</string>
+    <string name="import_warning_title">Ersätt stegdatan</string>
+    <string name="import_warning_message">Detta tar bort all nuvarande stegdata och ersätter den med importerad data. Vill du fortsätta?</string>
+    <string name="section_import">Importera</string>
+    <string name="section_export">Exportera</string>
+    <string name="backup_retention_all">Alla</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
     <string name="cannot_open_file">Kan ej öppna fil</string>
-    <string name="manual_backup_successful">Manuell säkerhetskopiering framgångsrik</string>
-    <string name="select_backup_location_first">Välj plats för säkerhetskopiering först</string>
     <string name="import_result">Importerade %1$d inmatningar (%2$d misslyckades). %3$s</string>
     <string name="today_steps_set">Dagens steg satta på %1$d.</string>
+
+    <!-- Screen: About -->
+    <string name="about_stepsy">Om</string>
+    <string name="about_version">Version</string>
+    <string name="about_source_code">Källkod</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">Rapportera en bugg</string>
+    <string name="about_author">Författare</string>
+    <string name="about_original_creator">Ursprunglig idé</string>
+    <string name="about_original_creator_summary">MotionMate av 0xf4b1</string>
+    <string name="about_license">Licens</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
 
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Invertera bakgrundsfärg</string>
@@ -134,101 +180,148 @@
     <string name="widget_pref_bg_opacity">Bakgrundsgenomskinlighet</string>
     <string name="widget_pref_btn_save">Spara</string>
 
-    <!-- Achievements -->
-    <string name="achievements_title">Bedrifter</string>
-    <string name="milestone_achievements">Milstolpar</string>
-    <string name="no_milestones_reached">Inga milstolpar uppnådda än. Fortsätt gå!</string>
-    <string name="milestone_new">Ny</string>
+    <!-- Units -->
+    <string name="unit_ft">ft</string>
+    <string name="unit_in">in</string>
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
 
-    <!-- Data Placeholders -->
-    <string name="loading_data">Laddar data…\n</string>
-    <string name="no_data_available">Ingen data tillgänglig\n</string>
-    <string name="error_loading_data">Fel vid dataladdning\n</string>
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">Din enhet har ingen sensor för stegräkning</string>
+    <string name="notification_category_counting_paused">Räkning pausad</string>
+    <string name="notification_category_steps_day">Stegdata</string>
+    <string name="notification_description_paused">Avisera när stegräkning är pausad</string>
+    <string name="notification_description_steps_day">Steg idag</string>
+    <string name="notification_step_counting_paused">Stegräkning är pausad</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s kcal</string>
+    <string name="notification_step_goal_completed">Stegmål uppnått!</string>
+    <string name="step_counting_paused">Pausat stegräkning</string>
+    <string name="step_counting_resumed">Återupptagit stegräkning</string>
+    <string name="action_pause">Pausa</string>
+    <string name="action_resume">Återuppta</string>
 
-    <!-- Daily Goals -->
-    <string name="daily_goals">Dagligt mål</string>
-    <string name="daily_goal_notification">Avisera vid uppnåelse</string>
-    <string name="progress_in_notification">Visa framsteg i aviseringen</string>
-    <string name="daily_goal_target">Dagligt stegmål</string>
-    <string name="daily_goal_hint">Ange ditt dagliga stegmål</string>
-    <string name="encouraging_notifications">Uppmuntrande aviseringar</string>
-    <string name="goal_chart_line">Visa mållinje i diagram</string>
-
-    <!-- Records -->
-    <string name="personal_records">Personliga mål</string>
-    <string name="most_steps_day">Högsta stegantal</string>
-    <string name="most_walked_month">Mest aktiva månad</string>
-    <string name="streak_record">Längsta serien med %1$s+ steg</string>
-    <string name="top_3_days">Topp 3 dagar</string>
-    <string name="best_week">Bästa veckan</string>
-    <string name="avg_steps_per_day">Snitt per dag</string>
-    <string name="since_date">Sedan %1$s</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">Dagliga stegmålsavsieringar</string>
-    <string name="daily_goal_notification_channel_desc">Få uppdateringar om din dagliga stegmålsutveckling</string>
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">Mål uppnått</string>
+    <string name="channel_goal_desc">Ett litet ögonblick av glädje när du når ditt dagliga stegmål</string>
+    <string name="channel_reminders_name">Uppmuntrande påminnelser</string>
+    <string name="channel_reminders_desc">Påminnelser när du närmar dig målet</string>
     <string name="goal_achieved_title">🎉 Du nådde ditt mål!</string>
     <string name="goal_achieved_message">Du nådde ditt stegmål om %1$s!</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
-    <string name="million_steps_with_distance">%1$dM • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">Justera dagens stegräkning</string>
-    <string name="confirm_decrease_title">Lägre stegräkning</string>
-    <string name="confirm_decrease_message">Detta värde är lägre än det aktuella stegtalet. Vill du fortsätta?</string>
-    <string name="invalid_step_count">Ange ett giltigt nummer</string>
-    <string name="steps_updated">Stegräkning uppdaterad</string>
-
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">Fortsätt så!</string>
-    <string name="encouraging_notification_15_percent">Bra start! Du har gjort %1$d%% av ditt mål. Bara %2$d steg kvar!</string>
-    <string name="encouraging_notification_75_percent">Snart framme! %1$d%% klart. Bara %2$d steg till mål!</string>
-
-    <string name="encouraging_notification_15_percent_alt1">Snyggt jobbat! Du är %1$d%% klar. Fortsätt gå!</string>
-    <string name="encouraging_notification_15_percent_alt2">Du är på gång! %1$d%% klart. %2$d steg kvar!</string>
-    <string name="encouraging_notification_15_percent_alt3">Bra jobbat! %1$d%% klart. Håll igång!</string>
-
-    <string name="encouraging_notification_75_percent_alt1">Nästan där! %1$d%% gjort. Bara %2$d steg kvar!</string>
-    <string name="encouraging_notification_75_percent_alt2">Sista rycket! %1$d%% klart. Du fixar det — %2$d steg kvar!</string>
-    <string name="encouraging_notification_75_percent_alt3">Målet är nära! %1$d%% klart. Bara %2$d steg till seger!</string>
-
-    <!-- Milestone notification strings -->
+    <string name="encouraging_title">Fortsätt så!</string>
+    <string name="encouraging_early_1">Bra start: %1$s av målet avklarat. %2$s kvar.</string>
+    <string name="encouraging_early_2">Nu rullar det! %1$s klart, %2$s kvar.</string>
+    <string name="encouraging_late_1">Nästan där! %1$s klart, bara %2$s kvar.</string>
+    <string name="encouraging_late_2">Sista spurten: %1$s klart, %2$s kvar.</string>
     <string name="milestone_notification_title">%s uppnått!</string>
     <string name="milestone_notification_text">Det är totalt %s steg!\nFortsätt så.</string>
     <string name="notification_category_milestone">Milstolpar</string>
     <string name="notification_description_milestone">Aviseringar när du når milstolpar för antal steg</string>
-    <string name="milestone_notifications_toggle">Aviseringar om milstolpar</string>
-    <string name="mute_milestone_notifications_action">Stäng av ljud</string>
-    <string name="milestone_notifications_tooltip">Aviseringar om milstolpar</string>
-
-    <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d mn</string>
     <string name="milestone_short_millions_decimal">%.1f mn</string>
     <string name="milestone_short_thousands">%1$d tus.</string>
-
-    <!-- Milestone detail dialog -->
-    <string name="milestone_label_distance">Distans</string>
-    <string name="milestone_label_date">Uppnått</string>
-    <string name="milestone_label_took">Tid det tog</string>
-
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dagar</item>
-    </plurals>
+    <string name="mute_notifications_action">Stäng av ljud</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">Återuppta vid vald tid</string>
-    <string name="pause_when_to_resume">Välj när stegräkningen ska återupptas</string>
     <string name="pause_step_counting">Pausa stegräkning</string>
     <string name="pause_30_minutes">30 minuter</string>
     <string name="pause_1_hour">1 timme</string>
     <string name="pause_2_hours">2 timmar</string>
     <string name="pause_custom_time">Anpassad tid</string>
     <string name="pause_indefinitely">Tills jag slår på igen</string>
+    <string name="resume_at_time">Återuppta vid vald tid</string>
     <string name="step_counting_paused_until">Stegräkning pausad till %s</string>
     <string name="step_counting_resumed_auto">Stegräkning återupptagen automatiskt</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">Förstått</string>
+    <string name="translate">Översätt</string>
+    <string name="star_title">Gillar du appen?</string>
+    <string name="star_body">Stepsy är öppen källkod! Tycker du att den är användbar får du gärna ge projektet en stjärna på Github. Det hjälper andra att hitta Stepsy och motiverar mig att fortsätta förbättra den.</string>
+    <string name="star_button">Ge en stjärna på Github</string>
+    <string name="star_dismiss">Nej tack</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">Hoppa över konfigurationen</string>
+    <string name="onboarding_get_started">Kom igång</string>
+    <string name="onboarding_continue">Fortsätt</string>
+    <string name="onboarding_done">Klar</string>
+    <string name="onboarding_allow">Tillåt</string>
+    <string name="onboarding_not_now">Inte nu</string>
+    <string name="onboarding_ask_again">Fråga igen</string>
+    <string name="onboarding_open_settings">Öppna inställningar</string>
+    <string name="onboarding_status_on">På</string>
+    <string name="onboarding_status_off">Av</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">Den här telefonen rapporterar ingen stegsensor, så Stepsy kan inte räkna här.</string>
+    <string name="onboarding_restore_title">Importera stegdata</string>
+    <string name="onboarding_restore_summary">Återställ en säkerhetskopia</string>
+    <string name="onboarding_restore_busy">Återställer...</string>
+    <string name="onboarding_restore_done_title">Säkerhetskopia återställd</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="one">%d dags historik är tillbaka</item>
+        <item quantity="other">%d dagars historik är tillbaka</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">Fysisk aktivitet</string>
+    <string name="onboarding_steps_title">Låt Stepsy upptäcka dina steg</string>
+    <string name="onboarding_steps_body">Den här tillåtelsen behövs för att använda telefonens stegsensor.</string>
+    <string name="onboarding_steps_row">Fysisk aktivitet</string>
+    <string name="onboarding_steps_idle">Inte tillåtet än</string>
+    <string name="onboarding_steps_on">Tillåtet</string>
+    <string name="onboarding_steps_denied">Inte tillåtet</string>
+    <string name="onboarding_steps_blocked">Blockerat av Android</string>
+    <string name="onboarding_steps_note_on">Ta några steg och se hur räknaren ökar.</string>
+    <string name="onboarding_steps_note_denied">Stepsy kan inte räkna förrän tillåtelsen är aktiverad.</string>
+    <string name="onboarding_steps_note_blocked">Android visar inte den frågan igen. Tillåtelsen måste ges manuellt i appens inställningar.</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">Batteri</string>
+    <string name="onboarding_pocket_title">Räkna pålitligt i fickan</string>
+    <string name="onboarding_pocket_body">För att spara batteri kan Android hindra Stepsy från att följa sensorn i bakgrunden. För att stegen ska räknas fullt ut behöver batterioptimeringen stängas av för den här appen. Den använder en strömsnål sensor och hanterar datan effektivt när du går, så batteriförbrukningen bör vara minimal.</string>
+    <string name="onboarding_pocket_row">Batterioptimering</string>
+    <string name="onboarding_pocket_on">Tillåten i bakgrunden</string>
+    <string name="onboarding_pocket_off">Inte tillåten i bakgrunden</string>
+    <string name="onboarding_pocket_note_on">Klart! Stepsy fortsätter räkna medan telefonen sover. Vissa telefoner lägger till egna batteriregler. Om räkningen ändå stannar, kontrollera att Stepsy får köras i bakgrunden på din enhet.</string>
+    <string name="onboarding_pocket_note_tried">Du kan ändra det senare i inställningarna.</string>
+    <string name="onboarding_pocket_note_manual">Den här telefonen har ingen fråga med ett tryck. Hitta Stepsy i listan nedan och välj \"Obegränsad\" eller \"Optimera inte\".</string>
+    <string name="onboarding_pocket_note_none">Telefonen öppnade ingen sida för batteriinställningar. Titta under Inställningar > Appar > Stepsy > Batteri.</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">Om dig</string>
+    <string name="onboarding_body_title">personliga uppgifter för uppskattningar</string>
+    <string name="onboarding_body_body">Längden avgör din steglängd och vikten uppskattningen av förbrända kalorier. Båda stannar bara på den här telefonen.</string>
+    <string name="onboarding_body_note">Du kan ändra de här inställningarna senare.</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">Dagligt mål</string>
+    <string name="onboarding_goal_title">Välja ett dagligt mål</string>
+    <string name="onboarding_goal_body">Fyll förloppsindikatorn på startskärmen varje dag! Du kan välja en förinställning, ange ett eget mål eller stänga av det helt. Det går att ändra när som helst och påverkar inte din stegdata.</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s och %3$d kcal / dag</string>
+    <string name="onboarding_reminders_title">Aviseringar</string>
+    <string name="onboarding_reminders_summary">Valfritt: framsteg i liveaviseringen, uppmuntrande påminnelser när du närmar dig stegmålet och mer. Rekommenderas.</string>
+    <string name="onboarding_reminders_on">Tillåtna</string>
+    <string name="onboarding_reminders_blocked">Blockerade av Android. Tryck för att öppna aviseringsinställningarna</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">Stäng</string>
+    <string name="onboarding_card_activity_title">Ge åtkomst till aktivitet</string>
+    <string name="onboarding_card_activity_summary">Den här tillåtelsen behövs för att använda telefonens stegsensor.</string>
+    <string name="onboarding_card_battery_title">Stabil i bakgrunden</string>
+    <string name="onboarding_card_battery_summary">Stepsy är lätt av design, men systemet kan hindra appen från att räkna steg pålitligt. Låt appen arbeta i bakgrunden.</string>
+    <string name="onboarding_card_notifications_title">Aviseringar</string>
+    <string name="onboarding_card_notifications_summary">Valfritt: framsteg i liveaviseringen, uppmuntrande påminnelser när du närmar dig stegmålet och mer. Rekommenderas.</string>
+    <string name="onboarding_strip_title">Räknar inte steg</string>
+    <string name="onboarding_strip_summary">Tryck för att tillåta stegavkänning.</string>
+    <string name="onboarding_welcome_headline_b">Lätt stegräknare.</string>
+    <string name="onboarding_welcome_point_offline">Offline av design</string>
+    <string name="onboarding_welcome_point_battery">Snål mot batteriet</string>
+    <string name="onboarding_welcome_point_backups">Ställ in automatiska lokala säkerhetskopior</string>
+    <string name="onboarding_welcome_point_pressure">Framsteg utan press</string>
 </resources>

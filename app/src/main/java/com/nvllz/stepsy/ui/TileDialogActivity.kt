@@ -1,76 +1,93 @@
 package com.nvllz.stepsy.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
-import android.widget.Toast
-import androidx.core.content.edit
+import com.nvllz.stepsy.ui.components.PauseStepCountingDialog
+import com.nvllz.stepsy.ui.components.TimePickerDialog
+import com.nvllz.stepsy.ui.theme.StepsyTheme
+import com.nvllz.stepsy.util.AppPreferences
+import com.nvllz.stepsy.util.Util
 import java.util.Calendar
 
 class TileDialogActivity : AppCompatActivity() {
 
+    private val fromApp: Boolean
+        get() = intent?.getBooleanExtra(EXTRA_FROM_APP, false) == true
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        Util.applyTheme(AppPreferences.theme)
         super.onCreate(savedInstanceState)
-        showPauseOptionsDialog()
-    }
-
-    private fun showPauseOptionsDialog() {
-        data class Option(val labelRes: Int, val action: () -> Unit)
-
-        val options = listOf(
-            Option(R.string.pause_30_minutes)  { pauseForDuration(30) },
-            Option(R.string.pause_1_hour)      { pauseForDuration(60) },
-            Option(R.string.pause_2_hours)     { pauseForDuration(120) },
-            Option(R.string.pause_custom_time) { showCustomDurationDialog() },
-            Option(R.string.pause_indefinitely){ pauseIndefinitely() }
-        )
-
-        val entries = options.map { getString(it.labelRes) }.toTypedArray()
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.pause_step_counting)
-            .setSingleChoiceItems(entries, -1) { dialog, which ->
-                options[which].action()
-                dialog.dismiss()
+        setContent {
+            StepsyTheme(drawBackground = false) {
+                PauseDialogHost(
+                    onDismiss = { finish() },
+                    onPauseForMinutes = { pauseForDuration(it) },
+                    onPauseIndefinitely = { pauseIndefinitely() },
+                    onPauseUntil = { hour, minute, now -> pauseUntil(hour, minute, now) },
+                )
             }
-            .setNegativeButton(android.R.string.cancel) { _, _ -> finish() }
-            .setOnCancelListener { finish() }
-            .show()
-    }
-
-    private fun showCustomDurationDialog() {
-        val now = Calendar.getInstance()
-
-        val picker = MaterialTimePicker.Builder()
-            .setTitleText(R.string.resume_at_time)
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(now.get(Calendar.HOUR_OF_DAY))
-            .setMinute((now.get(Calendar.MINUTE) + 1).coerceAtMost(59))
-            .setTheme(R.style.ThemeOverlay_stepsy_TimePicker)
-            .build()
-
-        picker.addOnPositiveButtonClickListener {
-            val resumeTime = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, picker.hour)
-                set(Calendar.MINUTE, picker.minute)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-                if (before(now)) add(Calendar.DAY_OF_MONTH, 1)
-            }
-            val durationMinutes =
-                ((resumeTime.timeInMillis - now.timeInMillis) / 60_000L).toInt()
-            pauseForDuration(durationMinutes, resumeTime.timeInMillis)
         }
+    }
 
-        picker.addOnNegativeButtonClickListener { finish() }
-        picker.addOnCancelListener { finish() }
+    @Composable
+    private fun PauseDialogHost(
+        onDismiss: () -> Unit,
+        onPauseForMinutes: (Int) -> Unit,
+        onPauseIndefinitely: () -> Unit,
+        onPauseUntil: (hour: Int, minute: Int, now: Calendar) -> Unit,
+    ) {
+        var showCustomTime by rememberSaveable { mutableStateOf(false) }
+        var customNowMillis by rememberSaveable { mutableStateOf(0L) }
 
-        picker.show(supportFragmentManager, "tile_time_picker")
+        if (showCustomTime) {
+            val now = remember(customNowMillis) {
+                Calendar.getInstance().apply { timeInMillis = customNowMillis }
+            }
+            TimePickerDialog(
+                title = stringResource(R.string.resume_at_time),
+                initialHour = now.get(Calendar.HOUR_OF_DAY),
+                initialMinute = (now.get(Calendar.MINUTE) + 1).coerceAtMost(59),
+                onConfirm = { hour, minute -> onPauseUntil(hour, minute, now) },
+                onDismiss = onDismiss,
+            )
+        } else {
+            PauseStepCountingDialog(
+                onDismiss = onDismiss,
+                onPauseForMinutes = onPauseForMinutes,
+                onCustomTime = {
+                    customNowMillis = System.currentTimeMillis()
+                    showCustomTime = true
+                },
+                onPauseIndefinitely = onPauseIndefinitely,
+            )
+        }
+    }
+
+    private fun pauseUntil(hour: Int, minute: Int, now: Calendar) {
+        val resumeTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            if (before(now)) add(Calendar.DAY_OF_MONTH, 1)
+        }
+        val durationMinutes =
+            ((resumeTime.timeInMillis - now.timeInMillis + 59_999L) / 60_000L).toInt()
+                .coerceAtLeast(1)
+        pauseForDuration(durationMinutes, resumeTime.timeInMillis)
     }
 
     private fun pauseForDuration(durationMinutes: Int, specificEndTime: Long = 0L) {
@@ -85,21 +102,15 @@ class TileDialogActivity : AppCompatActivity() {
             startService(it)
         }
 
-        getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-            putBoolean(MotionService.KEY_IS_PAUSED, true)
-        }
+        AppPreferences.isPaused = true
 
         val formatted = android.text.format.DateFormat
             .getTimeFormat(this)
             .format(java.util.Date(endTime))
-        Toast.makeText(
-            this,
-            getString(R.string.step_counting_paused_until, formatted),
-            Toast.LENGTH_LONG
-        ).show()
+        val message = getString(R.string.step_counting_paused_until, formatted)
 
-        sendBroadcast(Intent("com.nvllz.stepsy.STATE_UPDATE"))
-        finish()
+        sendBroadcast(Intent("com.nvllz.stepsy.STATE_UPDATE").setPackage(packageName))
+        finishWithPauseToast(message, Toast.LENGTH_LONG)
     }
 
     private fun pauseIndefinitely() {
@@ -109,12 +120,23 @@ class TileDialogActivity : AppCompatActivity() {
             startService(it)
         }
 
-        getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-            putBoolean(MotionService.KEY_IS_PAUSED, true)
-        }
+        AppPreferences.isPaused = true
 
-        Toast.makeText(this, R.string.step_counting_paused, Toast.LENGTH_SHORT).show()
-        sendBroadcast(Intent("com.nvllz.stepsy.STATE_UPDATE"))
+        sendBroadcast(Intent("com.nvllz.stepsy.STATE_UPDATE").setPackage(packageName))
+        finishWithPauseToast(getString(R.string.step_counting_paused), Toast.LENGTH_SHORT)
+    }
+
+    private fun finishWithPauseToast(message: String, systemDuration: Int) {
+        if (fromApp) {
+            setResult(Activity.RESULT_OK, Intent().putExtra(EXTRA_TOAST_TEXT, message))
+        } else {
+            Toast.makeText(this, message, systemDuration).show()
+        }
         finish()
+    }
+
+    companion object {
+        const val EXTRA_FROM_APP = "FROM_APP"
+        const val EXTRA_TOAST_TEXT = "TOAST_TEXT"
     }
 }

@@ -1,128 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d 千卡</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">第 %1$d 周</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">%1$s 没有记录</string>
-    <string name="calories">%1$d 千卡</string>
-    <string name="steps_month">本月</string>
-    <string name="avg_distance">每日平均</string>
-    <string name="total_distance">总距离</string>
-    <string name="goal_streak_line">目标：%1$s · %2$s %3$s 连续</string>
-    <string name="goal_streak_dead_line">每日目标：%1$s</string>
 
-    <string name="no_sensor">您的设备没有计步传感器</string>
-    <string name="no_activity_permission">缺少活动识别权限</string>
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="other">步</item>
+    </plurals>
+    <plurals name="steps_formatted">
+        <item quantity="other">%1$s 步</item>
+    </plurals>
+    <plurals name="days_word_only">
+        <item quantity="other">天</item>
+    </plurals>
 
-    <!-- Header section -->
-    <string name="expand_collapse">展开/收起</string>
+    <!-- Screen: Home -->
     <string name="header_today">今日</string>
     <string name="header_week">本周</string>
     <string name="header_month">本月</string>
     <string name="header_7d">最近 7 日</string>
     <string name="header_30d">最近 30 日</string>
-    <string name="header_all_time">总共</string>
     <string name="header_year">%1$d 年</string>
-
+    <string name="header_all_time">总共</string>
     <string name="label_today">今日</string>
     <string name="label_week">周</string>
     <string name="label_month">月</string>
     <string name="label_7d">7 日</string>
     <string name="label_30d">30 日</string>
     <string name="label_all_time">总共</string>
-
-    <!-- Plurals -->
-    <plurals name="steps_formatted">
-        <item quantity="other">%1$s 步</item>
+    <string name="week_display_format">第 %1$d 周</string>
+    <string name="filters_title">显示的筛选项</string>
+    <string name="filters_years">年度合计</string>
+    <string name="home_show_filter_bar">显示筛选栏</string>
+    <string name="calories">%1$d 千卡</string>
+    <string name="avg_per_day_pill">%1$s / 天</string>
+    <plurals name="goal_reached_times">
+        <item quantity="other">已达成目标 %d 次</item>
     </plurals>
-
+    <string name="goal_streak_line">目标：%1$s · %2$s %3$s 连续</string>
     <plurals name="streak_record_count">
         <item quantity="other">%d 天</item>
     </plurals>
-
-    <plurals name="days_word_only">
-        <item quantity="other">天</item>
+    <plurals name="streak_segment_description">
+        <item quantity="other">连续 %1$d 天达成目标</item>
     </plurals>
+    <string name="edit_step_count">调整步数</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
+    <string name="confirm_decrease_title">步数减少确认</string>
+    <string name="confirm_decrease_message">该数值低于当前记录的步数。确定要继续吗？</string>
+    <string name="invalid_step_count">请输入有效数字</string>
+    <string name="steps_updated">步数已更新</string>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">暂停计步</string>
-    <string name="notification_category_steps_day">步数</string>
-    <string name="notification_description_paused">计步暂停时将提醒</string>
-    <string name="notification_description_steps_day">今日步数</string>
-    <string name="notification_step_counting_paused">计步已暂停</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">目标：%1$s — 剩余 %2$s</string>
-    <string name="notification_step_goal_completed">步数目标已达成！</string>
-    <string name="step_counting_paused">暂停计步</string>
-    <string name="step_counting_resumed">恢复计步</string>
-    <string name="action_pause">暂停</string>
-    <string name="action_resume">回复</string>
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">成就</string>
+    <string name="milestone_achievements">里程碑</string>
+    <string name="milestone_next">下一个徽章</string>
+    <string name="milestone_to_go">还差 %1$s</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
+    <string name="milestone_label_distance">距离</string>
+    <string name="milestone_label_date">达成日期</string>
+    <string name="milestone_label_took">所用时间</string>
+    <plurals name="milestone_reached_in_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <string name="milestone_notifications_toggle">里程碑通知</string>
+    <string name="milestone_notifications_enabled">里程碑通知已开启</string>
+    <string name="milestone_notifications_disabled">里程碑通知已关闭</string>
+    <string name="milestone_notifications_tooltip">里程碑通知</string>
+    <string name="no_milestones_reached">尚未达成任何里程碑，继续加油！</string>
+    <string name="personal_records">个人记录</string>
+    <string name="most_walked_month">最活跃的月份</string>
+    <string name="streak_record">最长连续%1$s+步记录</string>
+    <string name="top_3_days">前 3 天</string>
+    <string name="best_week">最佳周</string>
+    <string name="records_goal_reached">达成目标</string>
+    <string name="records_percent_of_days">占全部天数的 %1$d%%</string>
+    <string name="since_date">自 %1$s 起</string>
+    <string name="loading_data">正在加载数据…\n</string>
+    <string name="no_data_available">暂无数据\n</string>
+    <string name="error_loading_data">加载数据出错\n</string>
 
-    <!-- Preferences -->
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">每日目标</string>
+    <string name="section_notifications">通知</string>
+    <string name="section_goal_alerts">目标提醒</string>
+    <string name="daily_goal_notification">达成时提醒</string>
+    <string name="daily_goal_target">每日步数目标</string>
+    <string name="daily_goal_hint">请输入你的每日步数目标</string>
+    <string name="daily_goal_none">无目标</string>
+    <string name="goal_preset_off">关闭</string>
+    <string name="goal_preset_custom">自定义</string>
+    <string name="encouraging_notifications">激励性通知</string>
+    <string name="encouraging_notifications_summary">接近目标时，每天最多两次提醒</string>
+    <string name="encouraging_sample">发送示例</string>
+    <string name="reminders_one">一次提醒</string>
+    <string name="reminders_two">两次提醒</string>
+    <string name="reminder_single_summary">在达到每日目标的 %1$s 时提醒</string>
+    <string name="reminder_double_summary">在达到每日目标的 %1$s 和 %2$s 时提醒</string>
+    <string name="live_notification_title">实时通知</string>
+    <string name="live_steps_only">仅步数</string>
+    <string name="live_steps_progress">步数 + 目标进度</string>
+    <string name="live_notification_off">关闭</string>
+    <string name="notification_settings_row">声音和提醒</string>
+    <string name="notification_settings_summary">选择通知类型</string>
+    <string name="channel_blocked">已在系统设置中屏蔽</string>
+
+    <!-- Screen: Settings -->
     <string name="settings">设置</string>
     <string name="header_personal_data">个人数据</string>
-    <string name="header_appearance">外观</string>
     <string name="header_general">常规</string>
+    <string name="header_appearance">外观</string>
+    <string name="header_data">应用数据</string>
     <string name="header_data_backup">备份</string>
-
-    <string name="preference_system">系统</string>
-    <string name="theme_light">浅色</string>
-    <string name="theme_dark">深色</string>
     <string name="pref_height">身高</string>
     <string name="pref_step_length">步长</string>
     <string name="pref_weight">体重</string>
-    <string name="first_day_of_the_week">一周的第一天</string>
-    <string name="app_language">语言</string>
-    <string name="theme">主题</string>
-    <string name="date_format">日期格式</string>
-    <string name="unit_system">单位制式</string>
-    <string name="export_data">导出</string>
-    <string name="backup_frequency">自动备份频率</string>
-    <string name="backup_retention_count">保留的备份数量</string>
-    <string name="backup_retention_hint">(0 表示保留所有)</string>
-    <string name="backup_retention_unlimited">无限制</string>
-    <string name="backup_location">备份位置</string>
-    <string name="backup_location_not_set">未设置</string>
-    <string name="manual_backup">手动备份</string>
-    <string name="import_data">导入</string>
-    <string name="import_data_summary">从文件中恢复步数数据</string>
-    <string name="next_backup_scheduled">下一次自动备份\n%1$s %2$s</string>
-    <string name="import_invalid_file">该文件无效</string>
-    <string name="import_warning_title">替换步数数据</string>
-    <string name="import_warning_message">这将删除当前所有步数数据，并用导入的数据替换。是否继续？</string>
     <string name="pref_vehicle_filter_title">精确步数过滤</string>
     <string name="pref_vehicle_filter_summary">使用活动识别 API 忽略在汽车、公交或骑行时的步数。需要 Google Play 服务。</string>
     <string name="pref_vehicle_filter_summary_foss">通过 Google Play 服务 API 实现更精准的步数识别，仅限完整版。可在 Github 获取 (github.com/nvllz/stepsy)。</string>
     <string name="vehicle_filter_unavailable">此设备不支持活动识别 API</string>
+    <string name="unit_system">单位制式</string>
+    <string name="date_format">日期格式</string>
+    <string name="first_day_of_the_week">一周的第一天</string>
+    <string name="app_language">语言</string>
+    <string name="theme">主题</string>
+    <string name="preference_system">系统</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
 
-    <string name="header_about">应用信息</string>
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">导出和恢复应用数据</string>
+    <string name="backup_frequency">自动备份频率</string>
+    <string name="backup_retention_count">保留的备份数量</string>
+    <string name="backup_location">备份位置</string>
+    <string name="backup_location_not_set">未设置</string>
+    <string name="manual_backup">手动备份</string>
+    <string name="manual_backup_successful">手动备份成功</string>
+    <string name="import_data">导入</string>
+    <string name="import_data_summary">从文件中恢复步数数据</string>
+    <string name="import_invalid_file">该文件无效</string>
+    <string name="import_warning_title">替换步数数据</string>
+    <string name="import_warning_message">这将删除当前所有步数数据，并用导入的数据替换。是否继续？</string>
+    <string name="section_import">导入</string>
+    <string name="section_export">导出</string>
+    <string name="backup_retention_all">全部</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
+    <string name="cannot_open_file">无法打开文件</string>
+    <string name="import_result">已导入 %1$d 组数据 (%2$d 组失败)。 %3$s</string>
+    <string name="today_steps_set">今日的步数已设定为 %1$d 步。</string>
+
+    <!-- Screen: About -->
     <string name="about_stepsy">关于应用</string>
     <string name="about_version">版本</string>
+    <string name="about_source_code">源代码</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">反馈问题</string>
+    <string name="about_author">作者</string>
+    <string name="about_original_creator">最初的创意</string>
+    <string name="about_original_creator_summary">0xf4b1 的 MotionMate</string>
     <string name="about_license">许可</string>
-    <string name="about_html">
-    <![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        项目由 <a href="https://github.com/nvllz"><b>nvllz</b></a> 维护<br>
-        基于 <a href="https://github.com/0xf4b1/motionmate">MotionMate</a>，原作者为 <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">报告问题</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">项目网站</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">许可证 GPL-3.0</a>
-    ]]>
-    </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">请输入一个有效的数字</string>
-    <string name="cannot_open_file">无法打开文件</string>
-    <string name="manual_backup_successful">手动备份成功</string>
-    <string name="select_backup_location_first">请先选择备份位置</string>
-    <string name="import_result">已导入 %1$d 组数据 (%2$d 导出失败)。 %3$s</string>
-    <string name="today_steps_set">今日的步数已设定为 %1$d 步。</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
 
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">反转背景颜色</string>
@@ -131,100 +173,147 @@
     <string name="widget_pref_bg_opacity">背景不透明度</string>
     <string name="widget_pref_btn_save">保存</string>
 
-    <!-- Achievements -->
-    <string name="achievements_title">成就</string>
-    <string name="milestone_achievements">里程碑</string>
-    <string name="no_milestones_reached">尚未达成任何里程碑，继续加油！</string>
-    <string name="milestone_new">新</string>
+    <!-- Units -->
+    <string name="unit_ft">ft</string>
+    <string name="unit_in">in</string>
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
 
-    <!-- Data Placeholders -->
-    <string name="loading_data">正在加载数据…\n</string>
-    <string name="no_data_available">暂无数据\n</string>
-    <string name="error_loading_data">加载数据出错\n</string>
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">您的设备没有计步传感器</string>
+    <string name="notification_category_counting_paused">暂停计步</string>
+    <string name="notification_category_steps_day">步数</string>
+    <string name="notification_description_paused">计步暂停时将提醒</string>
+    <string name="notification_description_steps_day">今日步数</string>
+    <string name="notification_step_counting_paused">计步已暂停</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s 千卡</string>
+    <string name="notification_step_goal_completed">步数目标已达成！</string>
+    <string name="step_counting_paused">暂停计步</string>
+    <string name="step_counting_resumed">恢复计步</string>
+    <string name="action_pause">暂停</string>
+    <string name="action_resume">恢复</string>
 
-    <!-- Daily Goals -->
-    <string name="daily_goals">每日目标</string>
-    <string name="daily_goal_notification">达成时提醒</string>
-    <string name="progress_in_notification">在通知中显示进度</string>
-    <string name="daily_goal_target">每日步数目标</string>
-    <string name="daily_goal_hint">请输入你的每日步数目标</string>
-    <string name="encouraging_notifications">激励性通知</string>
-    <string name="goal_chart_line">在图表中显示目标线</string>
-
-    <!-- Records -->
-    <string name="personal_records">个人记录</string>
-    <string name="most_steps_day">单日最高步数</string>
-    <string name="most_walked_month">最活跃的月份</string>
-    <string name="streak_record">最长连续%1$s+步记录</string>
-    <string name="top_3_days">前 3 天</string>
-    <string name="best_week">最佳周</string>
-    <string name="avg_steps_per_day">日均步数</string>
-    <string name="since_date">自 %1$s 起</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">每日步数提醒</string>
-    <string name="daily_goal_notification_channel_desc">获取每日步数目标的进度更新</string>
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">达成目标</string>
+    <string name="channel_goal_desc">达成每日步数目标时的小小奖励</string>
+    <string name="channel_reminders_name">鼓励提醒</string>
+    <string name="channel_reminders_desc">接近目标时提醒你</string>
     <string name="goal_achieved_title">🎉 达成目标！</string>
     <string name="goal_achieved_message">你已达成 %1$s 目标！</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$d 万 • %2$s</string>
-    <string name="million_steps_with_distance">%1$d 百万 • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1f 百 • %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">调整今天的步数</string>
-    <string name="confirm_decrease_title">步数减少确认</string>
-    <string name="confirm_decrease_message">该数值低于当前记录的步数。确定要继续吗？</string>
-    <string name="invalid_step_count">请输入有效数字</string>
-    <string name="steps_updated">步数已更新</string>
-
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">继续加油！</string>
-    <string name="encouraging_notification_15_percent">不错的开始！你已完成 %1$d%% 的目标。还有 %2$d 步就达标！</string>
-    <string name="encouraging_notification_75_percent">快完成啦！已完成 %1$d%%。只差 %2$d 步！</string>
-
-    <string name="encouraging_notification_15_percent_alt1">进展不错！你已完成 %1$d%%。继续走下去！</string>
-    <string name="encouraging_notification_15_percent_alt2">你走在正确的路上！%1$d%% 已完成，还有 %2$d 步！</string>
-    <string name="encouraging_notification_15_percent_alt3">做得好！目标已达成 %1$d%%。保持活力！</string>
-
-    <string name="encouraging_notification_75_percent_alt1">快到了！%1$d%% 完成。剩下 %2$d 步！</string>
-    <string name="encouraging_notification_75_percent_alt2">最后冲刺！%1$d%% 完成了。你可以的 — 只差 %2$d 步！</string>
-    <string name="encouraging_notification_75_percent_alt3">终点在望！%1$d%% 已完成。%2$d 步就胜利了！</string>
-
-    <!-- Milestone notification strings -->
+    <string name="encouraging_title">继续加油！</string>
+    <string name="encouraging_early_1">开了个好头：已完成 %1$s，还差 %2$s。</string>
+    <string name="encouraging_early_2">动起来了！已完成 %1$s，还剩 %2$s。</string>
+    <string name="encouraging_late_1">就快到了！已完成 %1$s，只差 %2$s。</string>
+    <string name="encouraging_late_2">最后冲刺：已完成 %1$s，还剩 %2$s。</string>
     <string name="milestone_notification_title">已达到 %s！</string>
     <string name="milestone_notification_text">累计 %s 步啦！\n继续加油。</string>
     <string name="notification_category_milestone">里程碑</string>
     <string name="notification_description_milestone">达到步数里程碑时的通知</string>
-    <string name="milestone_notifications_toggle">里程碑通知</string>
-    <string name="mute_milestone_notifications_action">静音</string>
-    <string name="milestone_notifications_tooltip">里程碑通知</string>
-
-    <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d百万</string>
     <string name="milestone_short_millions_decimal">%.1f百万</string>
     <string name="milestone_short_thousands">%1$d千</string>
-
-    <!-- Milestone detail dialog -->
-    <string name="milestone_label_distance">距离</string>
-    <string name="milestone_label_date">达成日期</string>
-    <string name="milestone_label_took">所用时间</string>
-
-    <plurals name="milestone_reached_in_days">
-        <item quantity="other">%d 天</item>
-    </plurals>
+    <string name="mute_notifications_action">静音</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">在指定时间恢复</string>
-    <string name="pause_when_to_resume">选择何时恢复计步</string>
     <string name="pause_step_counting">暂停计步</string>
     <string name="pause_30_minutes">30分钟</string>
     <string name="pause_1_hour">1小时</string>
     <string name="pause_2_hours">2小时</string>
     <string name="pause_custom_time">自定义时间</string>
     <string name="pause_indefinitely">直到我重新开启</string>
+    <string name="resume_at_time">在指定时间恢复</string>
     <string name="step_counting_paused_until">计步暂停至 %s</string>
     <string name="step_counting_resumed_auto">计步已自动恢复</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">知道了</string>
+    <string name="translate">翻译</string>
+    <string name="star_title">喜欢这个应用吗？</string>
+    <string name="star_body">Stepsy 是开源的！如果觉得有用，欢迎在 Github 上给项目点个 Star。这能让更多人发现 Stepsy，也让我更有动力继续改进。</string>
+    <string name="star_button">在 Github 上点 Star</string>
+    <string name="star_dismiss">不用了</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">跳过设置</string>
+    <string name="onboarding_get_started">开始使用</string>
+    <string name="onboarding_continue">继续</string>
+    <string name="onboarding_done">完成</string>
+    <string name="onboarding_allow">允许</string>
+    <string name="onboarding_not_now">暂不</string>
+    <string name="onboarding_ask_again">再次询问</string>
+    <string name="onboarding_open_settings">打开设置</string>
+    <string name="onboarding_status_on">开</string>
+    <string name="onboarding_status_off">关</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">这台手机没有上报计步传感器，所以 Stepsy 无法在这里计步。</string>
+    <string name="onboarding_restore_title">导入步数数据</string>
+    <string name="onboarding_restore_summary">恢复备份文件</string>
+    <string name="onboarding_restore_busy">正在恢复...</string>
+    <string name="onboarding_restore_done_title">备份已恢复</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="other">已找回 %d 天的历史记录</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">身体活动</string>
+    <string name="onboarding_steps_title">允许 Stepsy 检测你的步数</string>
+    <string name="onboarding_steps_body">需要此权限才能使用手机的计步传感器。</string>
+    <string name="onboarding_steps_row">身体活动</string>
+    <string name="onboarding_steps_idle">尚未允许</string>
+    <string name="onboarding_steps_on">已允许</string>
+    <string name="onboarding_steps_denied">未允许</string>
+    <string name="onboarding_steps_blocked">已被 Android 屏蔽</string>
+    <string name="onboarding_steps_note_on">走几步，看看计数是不是涨起来了。</string>
+    <string name="onboarding_steps_note_denied">开启此权限之前，Stepsy 无法计步。</string>
+    <string name="onboarding_steps_note_blocked">Android 不会再次显示该请求，需要在应用设置中手动允许此权限。</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">电池</string>
+    <string name="onboarding_pocket_title">放在口袋里也能稳定计步</string>
+    <string name="onboarding_pocket_body">为了省电，Android 可能会阻止 Stepsy 在后台追踪传感器变化。为了让步数不丢失，需要为此应用关闭电池优化。它使用低功耗传感器，并在你走路时高效处理数据，耗电量应当很小。</string>
+    <string name="onboarding_pocket_row">电池优化</string>
+    <string name="onboarding_pocket_on">允许后台运行</string>
+    <string name="onboarding_pocket_off">不允许后台运行</string>
+    <string name="onboarding_pocket_note_on">好了！手机休眠时 Stepsy 也会继续计步。有些手机还有自己的省电规则；如果计步仍然中断，请确认 Stepsy 在你的设备上被允许在后台运行。</string>
+    <string name="onboarding_pocket_note_tried">之后可以在设置中调整。</string>
+    <string name="onboarding_pocket_note_manual">这台手机没有一键授权的弹窗。请在下面的列表中找到 Stepsy，选择“无限制”或“不优化”。</string>
+    <string name="onboarding_pocket_note_none">这台手机没有打开电池设置页面。请到 设置 > 应用 > Stepsy > 电池 中查看。</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">关于你</string>
+    <string name="onboarding_body_title">用于估算的个人信息</string>
+    <string name="onboarding_body_body">身高用来确定步长，体重用来估算消耗的热量。这两项数据只保存在这台手机上。</string>
+    <string name="onboarding_body_note">之后可以在设置中调整这些选项。</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">每日目标</string>
+    <string name="onboarding_goal_title">选择每日目标</string>
+    <string name="onboarding_goal_body">每天把主屏幕上的进度条填满吧！可以选择预设值、自己设定，或者完全关闭。随时都能调整，这不会影响你的步数数据。</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s 和 %3$d 千卡 / 天</string>
+    <string name="onboarding_reminders_title">通知</string>
+    <string name="onboarding_reminders_summary">可选：在实时通知中显示进度、接近步数目标时的鼓励提醒等。推荐开启。</string>
+    <string name="onboarding_reminders_on">已允许</string>
+    <string name="onboarding_reminders_blocked">已被 Android 屏蔽。点按可打开通知设置</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">忽略</string>
+    <string name="onboarding_card_activity_title">授予活动访问权限</string>
+    <string name="onboarding_card_activity_summary">需要此权限才能使用手机的计步传感器。</string>
+    <string name="onboarding_card_battery_title">后台稳定运行</string>
+    <string name="onboarding_card_battery_summary">Stepsy 在设计上很轻量，但系统可能会妨碍它可靠地计步。请允许应用在后台运行。</string>
+    <string name="onboarding_card_notifications_title">通知</string>
+    <string name="onboarding_card_notifications_summary">可选：在实时通知中显示进度、接近步数目标时的鼓励提醒等。推荐开启。</string>
+    <string name="onboarding_strip_title">未在计步</string>
+    <string name="onboarding_strip_summary">点按以允许检测步数。</string>
+    <string name="onboarding_welcome_headline_b">轻量计步器。</string>
+    <string name="onboarding_welcome_point_offline">天生离线</string>
+    <string name="onboarding_welcome_point_battery">省电</string>
+    <string name="onboarding_welcome_point_backups">设置自动本地备份</string>
+    <string name="onboarding_welcome_point_pressure">没有压力的进步</string>
 </resources>

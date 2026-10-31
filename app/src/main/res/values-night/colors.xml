@@ -8,6 +8,16 @@
     <color name="colorBackground">#000000</color>
     <color name="colorSpecial">#FFD54F</color>
 
+    <!-- Hero-bar lap ramp (night): same climb, tuned bright enough to read on black. -->
+    <color name="colorLap2">#A6A6A6</color>
+    <color name="colorLap3">#BEBEBE</color>
+    <color name="colorLap4">#D4D4D4</color>
+    <color name="colorLap5">#E6E6E6</color>
+    <!-- Hero-bar strata: laps 6-10 ease from colorLap5 to Peak. Sheen lifts layer tips,
+         the knob core and the inner hairline. -->
+    <color name="colorLapPeak">#FFFFFF</color>
+    <color name="colorLapSheen">#FFFFFF</color>
+
     <color name="widgetPrimary">#E9E9E9</color>
     <color name="widgetSecondary">#BCBCBC</color>
     <color name="widgetBackground">#80000000</color>
@@ -17,4 +27,9 @@
 
     <color name="colorDialogSurface">#090909</color>
     <color name="colorAccentOpaque">#12999999</color>
+
+    <color name="colorGoal">#8F8F8F</color>
+    <color name="colorSilver">#D6D6D6</color>
+    <color name="colorDistance">#8FB4D9</color>
+    <color name="colorStepsDay">#9CC596</color>
 </resources>

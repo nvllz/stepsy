@@ -2,7 +2,6 @@ package com.nvllz.stepsy.util
 
 import android.content.Context
 import com.nvllz.stepsy.R
-import java.text.NumberFormat
 import java.util.*
 
 internal object StreakCalculator {
@@ -18,7 +17,7 @@ internal object StreakCalculator {
 
         if (streak <= 1) return null
 
-        val formattedGoal = formatNumber(dailyGoalTarget)
+        val formattedGoal = Util.formatSteps(dailyGoalTarget)
         val stepsText = getStepsText(context, dailyGoalTarget, formattedGoal)
         val daysText = getDaysText(context, streak)
 
@@ -68,14 +67,6 @@ internal object StreakCalculator {
         }
 
         return streakCount
-    }
-
-    private fun formatNumber(number: Int): String {
-        return if (number >= 10_000) {
-            NumberFormat.getIntegerInstance(Locale.getDefault()).format(number)
-        } else {
-            number.toString()
-        }
     }
 
     private fun getStepsText(context: Context, steps: Int, formattedSteps: String): String {
