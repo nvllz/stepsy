@@ -19,7 +19,6 @@ object BackupScheduler {
     private const val IMMEDIATE_BACKUP_WORK_NAME = "stepsy_immediate_backup"
     private const val IMMEDIATE_CLEANUP_WORK_NAME = "stepsy_immediate_cleanup"
     private const val PERIODIC_BACKUP_WORK_NAME = "stepsy_periodic_backup"
-    private const val MANUAL_EXPORT_WORK_NAME = "stepsy_manual_export"
 
     fun ensureBackupScheduled(context: Context) {
         Log.d(TAG, "Ensuring backup is properly scheduled...")
@@ -128,33 +127,6 @@ object BackupScheduler {
         )
     }
 
-    fun scheduleManualExport(context: Context) {
-        Log.d(TAG, "Scheduling manual export...")
-
-        if (AppPreferences.backupLocationUri == null) {
-            Log.d(TAG, "Backup location not set - cannot perform manual export")
-            return
-        }
-
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-            .build()
-
-        val exportWork = OneTimeWorkRequestBuilder<BackupWorker>()
-            .setConstraints(constraints)
-            .addTag("manual_export")
-            .build()
-
-        WorkManager.getInstance(context)
-            .enqueueUniqueWork(
-                MANUAL_EXPORT_WORK_NAME,
-                ExistingWorkPolicy.REPLACE,
-                exportWork
-            )
-
-        Log.d(TAG, "Manual export scheduled")
-    }
-
     private fun calculateNextBackupTime(intervalDays: Long): Long {
         val now = System.currentTimeMillis()
 
@@ -230,10 +202,6 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
 
         return try {
             when {
-                tags.contains("manual_export") -> {
-                    Log.d(TAG, "Running manual export task")
-                    performBackup()
-                }
                 tags.contains("cleanup") -> {
                     Log.d(TAG, "Running cleanup task only")
                     cleanupOldBackups()
@@ -274,7 +242,6 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
             return Result.failure()
         }
 
-        // Log.d(TAG, "Backup URI: $uriString")
         val uri = uriString.toUri()
         val db = Database.getInstance(applicationContext)
 

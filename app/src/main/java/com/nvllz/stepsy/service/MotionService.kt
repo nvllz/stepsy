@@ -1,6 +1,7 @@
 package com.nvllz.stepsy.service
 
 import android.Manifest
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -8,6 +9,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -15,15 +17,16 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.HandlerThread
 import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
 import android.os.ResultReceiver
+import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.ui.MainActivity
 import com.nvllz.stepsy.util.Database
@@ -34,7 +37,6 @@ import com.nvllz.stepsy.util.GoalNotificationWorker
 import com.nvllz.stepsy.util.TimedPauseManager
 import com.nvllz.stepsy.util.Util.distanceUnit
 import com.nvllz.stepsy.util.WidgetManager
-import java.text.NumberFormat
 
 internal class MotionService : Service() {
     private var mTodaysSteps: Int = 0
@@ -48,10 +50,11 @@ internal class MotionService : Service() {
     private var isCountingPaused = false
     private var goalReachedToday = false
     private lateinit var activityRecognitionManager: ActivityRecognitionManager
-    private var timedPauseHandler = Handler(Looper.getMainLooper())
-    private var timedPauseRunnable: Runnable? = null
     private var mBaseTotal: Long = 0L
     private var mLastNotifiedMilestone: Long = 0L
+    private var mCachedVehicleFilter: Boolean = false
+    private var mCachedEncouraging: Boolean = false
+    private var mSensorManager: SensorManager? = null
 
     private val pauseChannelId = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
     private val pauseNotificationId = 3844
@@ -65,94 +68,98 @@ internal class MotionService : Service() {
 
     override fun onCreate() {
         Log.d(TAG, "Creating MotionService")
+
+        serviceThread = HandlerThread(TAG)
+        serviceThread.start()
+        handler = Handler(serviceThread.getLooper())
+
         startService()
 
-        MidnightResetReceiver.scheduleNextMidnightAlarm(this)
-        checkForExistingTimedPause()
+        handler.post {
+            MidnightResetReceiver.scheduleNextMidnightAlarm(this@MotionService)
+            checkForExistingTimedPause()
 
-        mCurrentDate = AppPreferences.date
-        mTodaysSteps = AppPreferences.steps
-        mCachedDailyTarget = AppPreferences.dailyGoalTarget
-        mCachedShowProgressbar = AppPreferences.dailyGoalNotificationProgressbar
-        isCountingPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean(KEY_IS_PAUSED, false)
-        goalReachedToday = AppPreferences.dailyGoalNotification
-                && AppPreferences.dailyGoalTarget > 0
-                && mTodaysSteps >= AppPreferences.dailyGoalTarget
-        mBaseTotal = AppPreferences.baseTotalSteps
-        mLastNotifiedMilestone = AppPreferences.lastNotifiedMilestone
-        if (mBaseTotal == 0L) {
-            recalcBaseTotal()
-            val total = mBaseTotal + mTodaysSteps
-            mLastNotifiedMilestone = Util.MILESTONES.lastOrNull { it <= total } ?: 0L
-            AppPreferences.lastNotifiedMilestone = mLastNotifiedMilestone
-        }
+            mCurrentDate = AppPreferences.date
+            mTodaysSteps = AppPreferences.steps
+            mCachedShowProgressbar = AppPreferences.dailyGoalNotificationProgressbar
+            isCountingPaused = AppPreferences.isPaused
+            refreshCachedSettings(force = true)
 
-        if (mCurrentDate.isEmpty()) {
-            mCurrentDate = Util.todayDateString()
-            AppPreferences.date = mCurrentDate
-        }
-
-        val mSensorManager = getSystemService(SENSOR_SERVICE) as? SensorManager
-            ?: throw IllegalStateException("Could not get sensor service")
-
-        if (packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
-            (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED)
-        ) {
-            Log.d(TAG, "Using step counter sensor")
-            val mStepSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-
-            if (mStepSensor == null) {
-                Toast.makeText(this, getString(R.string.no_sensor), Toast.LENGTH_LONG).show()
-                stopSelf()
-                return
+            if (mCurrentDate.isEmpty()) {
+                mCurrentDate = Util.todayDateString()
+                mTodaysSteps = Database.getInstance(this@MotionService).getSumSteps(mCurrentDate, mCurrentDate)
+                AppPreferences.date = mCurrentDate
             }
 
-            mListener = object : SensorEventListener {
-                override fun onSensorChanged(event: SensorEvent) {
-                    handleEvent(event.values[0].toInt())
+            recalcBaseTotal()
+            mLastNotifiedMilestone = AppPreferences.lastNotifiedMilestone
+            if (mLastNotifiedMilestone <= 0L) {
+                mLastNotifiedMilestone = Util.MILESTONES.lastOrNull { it <= mBaseTotal + mTodaysSteps } ?: 0L
+                AppPreferences.lastNotifiedMilestone = mLastNotifiedMilestone
+            }
+
+            goalReachedToday = AppPreferences.dailyGoalNotification
+                    && AppPreferences.dailyGoalTarget > 0
+                    && mTodaysSteps >= AppPreferences.dailyGoalTarget
+
+            val sensorManager = getSystemService(SENSOR_SERVICE) as? SensorManager
+                ?: throw IllegalStateException("Could not get sensor service")
+
+            if (packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
+                (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || ContextCompat.checkSelfPermission(this@MotionService, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED)
+            ) {
+                Log.d(TAG, "Using step counter sensor")
+                val mStepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+
+                if (mStepSensor == null) {
+                    toastOnMain(R.string.no_sensor)
+                    stopSelf()
+                    return@post
                 }
 
-                override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+                mSensorManager = sensorManager
+                mListener = object : SensorEventListener {
+                    override fun onSensorChanged(event: SensorEvent) {
+                        handleEvent(event.values[0].toInt())
+                    }
+
+                    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+                }
+
+                sensorManager.registerListener(mListener, mStepSensor, SensorManager.SENSOR_DELAY_UI, 1000000, handler)
+            } else {
+                stopSelf()
+                return@post
             }
 
-            mSensorManager.registerListener(mListener, mStepSensor, SensorManager.SENSOR_DELAY_UI, 1000000)
-        } else {
-            Toast.makeText(this, getString(R.string.no_activity_permission), Toast.LENGTH_LONG).show()
-            stopSelf()
+            activityRecognitionManager = ActivityRecognitionManager(this@MotionService)
+            activityRecognitionManager.start()
         }
-
-        activityRecognitionManager = ActivityRecognitionManager(this)
-        activityRecognitionManager.start()
     }
 
-    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var serviceThread: HandlerThread
+    private lateinit var handler: Handler
     private val delayedWriteRunnable = Runnable {
         handleStepUpdate(delayedTrigger = true)
     }
 
     private fun handleEvent(value: Int) {
         if (!isCountingPaused) {
-            if (mLastSteps == -1 || value < mLastSteps) {
-                mLastSteps = value
-                return
-            }
 
-            val delta = value - mLastSteps
-            mLastSteps = value
-            if (AppPreferences.vehicleFilterEnabled && activityRecognitionManager.isInVehicle) {
-                return
-            }
+            refreshCachedSettings()
+            val delta = deltaFresh(value)
+            if (mCachedVehicleFilter && activityRecognitionManager.isInVehicle) return
+
             mTodaysSteps += delta
             checkMilestones()
 
-            val target = AppPreferences.dailyGoalTarget
+            val target = mCachedDailyTarget
             if (target > 0 && mTodaysSteps >= target && !goalReachedToday) {
                 goalReachedToday = true
                 GoalNotificationWorker.showDailyGoalNotification(this, target)
             }
 
-            val encouragingNotifications = AppPreferences.encouragingNotifications
-            if (encouragingNotifications && !goalReachedToday && target > 0) {
+            if (mCachedEncouraging && !goalReachedToday && target > 0) {
                 GoalNotificationWorker.showEncouragingNotification(this, target, mTodaysSteps)
             }
 
@@ -163,6 +170,27 @@ internal class MotionService : Service() {
         } else {
             mLastSteps = value
         }
+    }
+
+    private var lastPrefReadTime: Long = 0
+    private fun refreshCachedSettings(force: Boolean = false) {
+        val currentTime = System.currentTimeMillis()
+        if (force || currentTime - lastPrefReadTime >= dataStoreWriteInterval) {
+            mCachedVehicleFilter = AppPreferences.vehicleFilterEnabled
+            mCachedDailyTarget = AppPreferences.dailyGoalTarget
+            mCachedEncouraging = AppPreferences.encouragingNotifications
+            lastPrefReadTime = currentTime
+        }
+    }
+
+    private fun deltaFresh(value: Int): Int {
+        if (mLastSteps == -1 || value < mLastSteps) {
+            mLastSteps = value
+            return 0
+        }
+        val delta = value - mLastSteps
+        mLastSteps = value
+        return delta
     }
 
     private var lastSharedPrefsWriteTime: Long = 0
@@ -240,9 +268,13 @@ internal class MotionService : Service() {
     }
 
     private fun sendUpdate() {
-        sendBroadcast(Intent("com.nvllz.stepsy.STATE_UPDATE"))
+        sendBroadcast(Intent("com.nvllz.stepsy.STATE_UPDATE").setPackage(packageName))
 
         if (isCountingPaused) {
+            if (TimedPauseManager.shouldResumeCounting(this)) {
+                resumeCountingAutomatically()
+                return
+            }
             sendPauseNotification()
             sendBundleUpdate(true)
             return
@@ -258,33 +290,34 @@ internal class MotionService : Service() {
         sendBundleUpdate(false)
     }
 
+    private fun formatString(context: Context, @StringRes id: Int, vararg args: Any?): String =
+        runCatching { context.getString(id).format(Locale.getDefault(), *args) }.getOrElse {
+            val en = context.createConfigurationContext(
+                Configuration(context.resources.configuration).apply { setLocale(Locale.ENGLISH) }
+            ).getString(id)
+            runCatching { en.format(Locale.getDefault(), *args) }.getOrDefault("")
+        }
+
     private fun createStepsNotification(
         showProgressbar: Boolean = AppPreferences.dailyGoalNotificationProgressbar,
         dailyTarget: Int = AppPreferences.dailyGoalTarget
     ): NotificationCompat.Builder {
 
-        fun formatNumber(number: Int) = if (number >= 10_000) {
-            NumberFormat.getIntegerInstance(Locale.getDefault()).format(number)
-        } else {
-            number.toString()
-        }
-
-        val formattedSteps = formatNumber(mTodaysSteps)
-        val formattedTarget = formatNumber(dailyTarget)
+        val formattedSteps = Util.formatSteps(mTodaysSteps)
+        val formattedTarget = Util.formatSteps(dailyTarget)
 
         val stepsPlural = resources.getQuantityString(R.plurals.steps_formatted, mTodaysSteps, formattedSteps)
+        val stepsWord = resources.getQuantityString(R.plurals.steps_word, mTodaysSteps)
         val stepGoalPercentage = (mTodaysSteps.toFloat() / dailyTarget * 100).toInt()
-        val stepGoalLeft = dailyTarget - mTodaysSteps
 
-        val notificationTextProgress = getString(R.string.notification_step_goal_progress)
-            .format(Locale.getDefault(), formattedTarget, stepGoalLeft)
+        val notificationTextProgress = formatString(this, R.string.notification_step_goal_progress,
+            Util.stepsToDistance(mTodaysSteps), distanceUnit(), Util.stepsToCalories(mTodaysSteps))
 
-        val notificationTitleRaw = getString(R.string.steps_format)
-            .format(Locale.getDefault(), stepsPlural, Util.stepsToDistance(mTodaysSteps), distanceUnit())
+        val notificationTitleRaw = formatString(this, R.string.notification_step_count_raw,
+            stepsPlural, Util.stepsToDistance(mTodaysSteps), distanceUnit())
 
-        val notificationTitleProgress = getString(R.string.notification_step_goal_progress_title)
-            .format(Locale.getDefault(), stepsPlural, Util.stepsToDistance(mTodaysSteps),
-                distanceUnit(), stepGoalPercentage)
+        val notificationTitleProgress = formatString(this, R.string.notification_step_goal_progress_title,
+            formattedSteps, formattedTarget, stepsWord, stepGoalPercentage)
 
         val pausePendingIntent = PendingIntent.getService(
             this, 1,
@@ -350,7 +383,17 @@ internal class MotionService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "Received start id $startId: $intent")
+        handler.post { handleStartCommand(intent) }
+        return START_STICKY
+    }
 
+    private fun toastOnMain(resId: Int) {
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun handleStartCommand(intent: Intent?) {
         intent?.let {
             when (it.action) {
                 ACTION_SUBSCRIBE -> receiver = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -377,16 +420,25 @@ internal class MotionService : Service() {
                     } else {
                         stopTimedPauseMonitoring()
                         TimedPauseManager.clearPauseEndTime(this)
-                        Toast.makeText(this, R.string.step_counting_paused, Toast.LENGTH_SHORT).show()
+                        if (!it.getBooleanExtra(EXTRA_SUPPRESS_TOAST, false)) {
+                            toastOnMain(R.string.step_counting_paused)
+                        }
                     }
                 }
                 ACTION_RESUME_COUNTING -> {
                     isCountingPaused = false
                     stopTimedPauseMonitoring()
                     TimedPauseManager.clearPauseEndTime(this)
-                    Toast.makeText(this, R.string.step_counting_resumed, Toast.LENGTH_SHORT).show()
+                    if (!it.getBooleanExtra(EXTRA_SUPPRESS_TOAST, false)) {
+                        toastOnMain(R.string.step_counting_resumed)
+                    }
+                }
+                ACTION_TIMED_PAUSE_END -> {
+                    resumeCountingAutomatically()
+                    return
                 }
                 "UPDATE_NOTIFICATION" -> {
+                    refreshCachedSettings(force = true)
                     mCachedShowProgressbar = intent.getBooleanExtra("show_progressbar", mCachedShowProgressbar)
                     mCachedDailyTarget = intent.getIntExtra("daily_target", mCachedDailyTarget)
 
@@ -394,13 +446,11 @@ internal class MotionService : Service() {
                         val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
                         startForeground(FOREGROUND_ID, builder.build())
                     }
-                    return START_STICKY
+                    return
                 }
             }
 
-            getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-                putBoolean(KEY_IS_PAUSED, isCountingPaused)
-            }
+            AppPreferences.isPaused = isCountingPaused
 
             if (it.hasExtra("FORCE_UPDATE")) {
                 mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
@@ -409,9 +459,9 @@ internal class MotionService : Service() {
                 mLastSteps = -1
                 AppPreferences.steps = mTodaysSteps
                 AppPreferences.date = mCurrentDate
+                handleStepUpdate()
                 recalcBaseTotal()
                 checkMilestones()
-                handleStepUpdate()
             }
 
             if (it.hasExtra("MANUAL_STEP_COUNT_CHANGE")) {
@@ -424,8 +474,6 @@ internal class MotionService : Service() {
 
             sendUpdate()
         }
-
-        return START_STICKY
     }
 
     private fun startService() {
@@ -520,38 +568,44 @@ internal class MotionService : Service() {
             return
         }
 
-        val delayMillis = endTime - now
-        timedPauseRunnable = Runnable { resumeCountingAutomatically() }
-        timedPauseHandler.postDelayed(timedPauseRunnable!!, delayMillis)
-
-        timedPauseHandler.postDelayed({
-            if (TimedPauseManager.isTimedPauseActive(this@MotionService)) {
-                Log.w(TAG, "Safety check: pause should have ended but didn't - forcing resume")
-                resumeCountingAutomatically()
-            }
-        }, delayMillis + 30000L)
+        val pi = PendingIntent.getBroadcast(
+            this, PAUSE_ALARM_REQ,
+            Intent(this, TimedPauseReceiver::class.java)
+                .setAction(ACTION_TIMED_PAUSE_END),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        val am = getSystemService(AlarmManager::class.java)
+        if (Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms()) {
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, endTime, pi)
+        } else {
+            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, endTime, pi)
+        }
     }
 
     private fun resumeCountingAutomatically() {
         TimedPauseManager.clearPauseEndTime(this@MotionService)
         isCountingPaused = false
 
-        getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-            putBoolean(KEY_IS_PAUSED, false)
-        }
+        AppPreferences.isPaused = false
+
+        mLastSteps = -1
+
+        mNotificationManager.cancel(pauseNotificationId)
 
         sendUpdate()
-        Toast.makeText(this@MotionService, R.string.step_counting_resumed_auto, Toast.LENGTH_SHORT).show()
+        toastOnMain(R.string.step_counting_resumed_auto)
 
         stopTimedPauseMonitoring()
     }
 
     private fun stopTimedPauseMonitoring() {
-        timedPauseRunnable?.let { runnable ->
-            timedPauseHandler.removeCallbacks(runnable)
-            timedPauseRunnable = null
-        }
-        timedPauseHandler.removeCallbacksAndMessages(null)
+        val pi = PendingIntent.getBroadcast(
+            this, PAUSE_ALARM_REQ,
+            Intent(this, TimedPauseReceiver::class.java)
+                .setAction(ACTION_TIMED_PAUSE_END),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        getSystemService(AlarmManager::class.java).cancel(pi)
     }
 
     private fun checkForExistingTimedPause() {
@@ -564,11 +618,8 @@ internal class MotionService : Service() {
     }
 
     private fun recalcBaseTotal() {
-        val db = Database.getInstance(this)
-        val today = Util.todayDateString()
-        val all = db.getSumSteps("2000-01-01", "9999-12-31")
-        val todayInDb = db.getSumSteps(today, today)
-        mBaseTotal = (all - todayInDb).toLong().coerceAtLeast(0L)
+        val tracked = mCurrentDate.ifEmpty { Util.todayDateString() }
+        mBaseTotal = Database.getInstance(this).totalStepsExcluding(tracked)
         AppPreferences.baseTotalSteps = mBaseTotal
     }
 
@@ -586,7 +637,10 @@ internal class MotionService : Service() {
     override fun onDestroy() {
         stopTimedPauseMonitoring()
         MidnightResetReceiver.cancelMidnightAlarm(this)
+        if (::mListener.isInitialized) mSensorManager?.unregisterListener(mListener)
         if (::activityRecognitionManager.isInitialized) activityRecognitionManager.stop()
+        if (::handler.isInitialized) handler.removeCallbacksAndMessages(null)
+        if (::serviceThread.isInitialized) serviceThread.quitSafely()
         super.onDestroy()
     }
 
@@ -598,7 +652,10 @@ internal class MotionService : Service() {
         internal const val KEY_IS_PAUSED = "IS_PAUSED"
         internal const val ACTION_PAUSE_COUNTING = "com.nvllz.stepsy.action.PAUSE_COUNTING"
         internal const val ACTION_RESUME_COUNTING = "com.nvllz.stepsy.action.RESUME_COUNTING"
+        internal const val ACTION_TIMED_PAUSE_END = "com.nvllz.stepsy.action.TIMED_PAUSE_END"
+        internal const val EXTRA_SUPPRESS_TOAST = "SUPPRESS_TOAST"
+        private const val PAUSE_ALARM_REQ = 4201
         private const val FOREGROUND_ID = 3843
-        private const val STEP_CHANNEL_ID = "com.nvllz.stepsy.STEP_CHANNEL_ID"
+        internal const val STEP_CHANNEL_ID = "com.nvllz.stepsy.STEP_CHANNEL_ID"
     }
 }

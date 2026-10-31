@@ -30,7 +30,7 @@ object AnnouncementContent {
 
             Both versions work entirely offline, with no Internet access or changes to your privacy. You can switch builds without uninstalling the app.<br><br>
 
-            Have Google Play Services installed? Get <a href='https://github.com/nvllz/stepsy/releases/latest'><b><tt>app-full-release.apk</tt></b></a> from GitHub Releases, or use <a href='https://github.com/ImranR98/Obtainium'>Obtainium</a> to track the Full build. See the <a href='https://github.com/nvllz/stepsy#build-flavors'>build differences</a> for details.
+            Have Google Play Services installed? Get <a href='https://github.com/nvllz/stepsy/releases/latest'><b><tt>Stepsy-full-2.0.apk</tt></b></a> from GitHub Releases, or use <a href='https://github.com/ImranR98/Obtainium'>Obtainium</a> to track the Full build. See the <a href='https://github.com/nvllz/stepsy#build-flavors'>build differences</a> for details.
         """.trimIndent()
         /*
         actionLabel = "Open app settings",

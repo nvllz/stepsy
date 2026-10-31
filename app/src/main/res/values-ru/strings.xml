@@ -1,57 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d ккал</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">Неделя %1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">Нет данных за %1$s</string>
-    <string name="calories">%1$d ккал</string>
-    <string name="steps_month">Этот месяц</string>
-    <string name="avg_distance">Среднее за день</string>
-    <string name="total_distance">Общее расстояние</string>
-    <string name="goal_streak_line">Цель: %1$s · %2$s серия из %3$s</string>
-    <string name="goal_streak_dead_line">Ежедневная цель: %1$s</string>
 
-    <string name="no_sensor">Ваше устройство не имеет датчика подсчёта шагов</string>
-    <string name="no_activity_permission">Не хватает разрешения ACTIVITY_RECOGNITION</string>
-
-    <!-- Header section -->
-    <string name="expand_collapse">Развернуть/Свернуть</string>
-    <string name="header_today">Сегодня</string>
-    <string name="header_week">На этой неделе</string>
-    <string name="header_month">В этом месяце</string>
-    <string name="header_7d">Последние 7 дней</string>
-    <string name="header_30d">Последние 30 дней</string>
-    <string name="header_all_time">За всё время</string>
-    <string name="header_year">Год %1$d</string>
-
-    <string name="label_today">Сегодня</string>
-    <string name="label_week">Неделя</string>
-    <string name="label_month">Месяц</string>
-    <string name="label_7d">7 дней</string>
-    <string name="label_30d">30 дней</string>
-    <string name="label_all_time">Всё время</string>
-
-    <!-- Plurals -->
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="one">шаг</item>
+        <item quantity="few">шага</item>
+        <item quantity="many">шагов</item>
+        <item quantity="other">шага</item>
+    </plurals>
     <plurals name="steps_formatted">
         <item quantity="one">%1$s шаг</item>
         <item quantity="few">%1$s шага</item>
         <item quantity="many">%1$s шагов</item>
         <item quantity="other">%1$s шага</item>
     </plurals>
-
-    <plurals name="streak_record_count">
-        <item quantity="one">%d день</item>
-        <item quantity="few">%d дня</item>
-        <item quantity="many">%d дней</item>
-        <item quantity="other">%d дня</item>
-    </plurals>
-
     <plurals name="days_word_only" tools:ignore="ImpliedQuantity">
         <item quantity="one">день</item>
         <item quantity="few">дня</item>
@@ -59,79 +28,164 @@
         <item quantity="other">дня</item>
     </plurals>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">Подсчёт приостановлен</string>
-    <string name="notification_category_steps_day">Данные о шагах</string>
-    <string name="notification_description_paused">Уведомлять при приостановке подсчёта шагов</string>
-    <string name="notification_description_steps_day">Шаги за сегодня</string>
-    <string name="notification_step_counting_paused">Подсчёт шагов приостановлен</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">Цель: %1$s — осталось %2$s</string>
-    <string name="notification_step_goal_completed">Цель по шагам достигнута!</string>
-    <string name="step_counting_paused">Подсчёт шагов приостановлен</string>
-    <string name="step_counting_resumed">Подсчёт шагов возобновлён</string>
-    <string name="action_pause">Пауза</string>
-    <string name="action_resume">Продолжить</string>
+    <!-- Screen: Home -->
+    <string name="header_today">Сегодня</string>
+    <string name="header_week">На этой неделе</string>
+    <string name="header_month">В этом месяце</string>
+    <string name="header_7d">Последние 7 дней</string>
+    <string name="header_30d">Последние 30 дней</string>
+    <string name="header_year">Год %1$d</string>
+    <string name="header_all_time">За всё время</string>
+    <string name="label_today">Сегодня</string>
+    <string name="label_week">Неделя</string>
+    <string name="label_month">Месяц</string>
+    <string name="label_7d">7 дней</string>
+    <string name="label_30d">30 дней</string>
+    <string name="label_all_time">Всё время</string>
+    <string name="week_display_format">Неделя %1$d</string>
+    <string name="filters_title">Видимые фильтры</string>
+    <string name="filters_years">Итоги по годам</string>
+    <string name="home_show_filter_bar">Показывать панель фильтров</string>
+    <string name="calories">%1$d ккал</string>
+    <string name="avg_per_day_pill">%1$s / день</string>
+    <plurals name="goal_reached_times">
+        <item quantity="one">Цель достигнута %d раз</item>
+        <item quantity="few">Цель достигнута %d раза</item>
+        <item quantity="many">Цель достигнута %d раз</item>
+        <item quantity="other">Цель достигнута %d раза</item>
+    </plurals>
+    <string name="goal_streak_line">Цель: %1$s · серия %2$s %3$s</string>
+    <plurals name="streak_record_count">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+    <plurals name="streak_segment_description">
+        <item quantity="one">Серия по цели: %1$d день</item>
+        <item quantity="few">Серия по цели: %1$d дня</item>
+        <item quantity="many">Серия по цели: %1$d дней</item>
+        <item quantity="other">Серия по цели: %1$d дня</item>
+    </plurals>
+    <string name="edit_step_count">Изменить количество шагов</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
+    <string name="confirm_decrease_title">Снижение количества шагов</string>
+    <string name="confirm_decrease_message">Это значение меньше текущего количества шагов. Вы уверены, что хотите продолжить?</string>
+    <string name="invalid_step_count">Пожалуйста, введите корректное число</string>
+    <string name="steps_updated">Количество шагов обновлено</string>
 
-    <!-- Preferences -->
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">Достижения</string>
+    <string name="milestone_achievements">Вехи</string>
+    <string name="milestone_next">Следующий значок</string>
+    <string name="milestone_to_go">Осталось %1$s</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
+    <string name="milestone_label_distance">Расстояние</string>
+    <string name="milestone_label_date">Достигнуто</string>
+    <string name="milestone_label_took">Затраченное время</string>
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+    <string name="milestone_notifications_toggle">Уведомления о достижениях</string>
+    <string name="milestone_notifications_enabled">Уведомления о достижениях включены</string>
+    <string name="milestone_notifications_disabled">Уведомления о достижениях отключены</string>
+    <string name="milestone_notifications_tooltip">Уведомления о достижениях</string>
+    <string name="no_milestones_reached">Вехи ещё не достигнуты. Продолжайте прогулку!</string>
+    <string name="personal_records">Личные рекорды</string>
+    <string name="most_walked_month">Самый активный месяц</string>
+    <string name="streak_record">Самая длинная серия из %1$s+ шагов</string>
+    <string name="top_3_days">Топ-3 дня</string>
+    <string name="best_week">Лучшая неделя</string>
+    <string name="records_goal_reached">Цель достигнута</string>
+    <string name="records_percent_of_days">%1$d%% всех дней</string>
+    <string name="since_date">С %1$s</string>
+    <string name="loading_data">Загрузка данных…\n</string>
+    <string name="no_data_available">Данные отсутствуют\n</string>
+    <string name="error_loading_data">Ошибка при загрузке данных\n</string>
+
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">Ежедневная цель</string>
+    <string name="section_notifications">Уведомления</string>
+    <string name="section_goal_alerts">Оповещения о цели</string>
+    <string name="daily_goal_notification">Оповещать при достижении</string>
+    <string name="daily_goal_target">Цель по шагам в день</string>
+    <string name="daily_goal_hint">Введите вашу дневную цель шагов</string>
+    <string name="daily_goal_none">Без цели</string>
+    <string name="goal_preset_off">Выкл.</string>
+    <string name="goal_preset_custom">Своя</string>
+    <string name="encouraging_notifications">Мотивирующие уведомления</string>
+    <string name="encouraging_notifications_summary">До двух напоминаний в день по мере приближения к цели</string>
+    <string name="encouraging_sample">Отправить пример</string>
+    <string name="reminders_one">Одно напоминание</string>
+    <string name="reminders_two">Два напоминания</string>
+    <string name="reminder_single_summary">Напоминание при %1$s от дневной цели</string>
+    <string name="reminder_double_summary">Напоминания при %1$s и %2$s от дневной цели</string>
+    <string name="live_notification_title">Живое уведомление</string>
+    <string name="live_steps_only">Только количество шагов</string>
+    <string name="live_steps_progress">Количество шагов + прогресс цели</string>
+    <string name="live_notification_off">Выкл.</string>
+    <string name="notification_settings_row">Звук и оповещения</string>
+    <string name="notification_settings_summary">Выберите тип уведомления</string>
+    <string name="channel_blocked">Заблокировано в системных настройках</string>
+
+    <!-- Screen: Settings -->
     <string name="settings">Настройки</string>
     <string name="header_personal_data">Персональные данные</string>
-    <string name="header_appearance">Внешний вид</string>
     <string name="header_general">Общие</string>
+    <string name="header_appearance">Внешний вид</string>
+    <string name="header_data">Данные приложения</string>
     <string name="header_data_backup">Резервная копия</string>
-
-    <string name="preference_system">Системная</string>
-    <string name="theme_light">Светлая</string>
-    <string name="theme_dark">Темная</string>
     <string name="pref_height">Рост</string>
     <string name="pref_step_length">Длина шага</string>
     <string name="pref_weight">Вес</string>
-    <string name="first_day_of_the_week">Первый день недели</string>
-    <string name="app_language">Язык</string>
-    <string name="theme">Тема</string>
-    <string name="date_format">Формат даты</string>
-    <string name="unit_system">Система измерений</string>
-    <string name="export_data">Экспорт</string>
-    <string name="backup_frequency">Частота автоматического резервного копирования</string>
-    <string name="backup_retention_count">Количество хранимых резервных копий</string>
-    <string name="backup_retention_hint">(0 — хранить все)</string>
-    <string name="backup_retention_unlimited">Без ограничений</string>
-    <string name="backup_location">Место резервной копии</string>
-    <string name="backup_location_not_set">Не задано</string>
-    <string name="manual_backup">Резервное копирование вручную</string>
-    <string name="import_data">Импорт</string>
-    <string name="import_data_summary">Восстановить данные шагов из файла</string>
-    <string name="next_backup_scheduled">Следующее автоматическое резервное копирование\n%1$s в %2$s</string>
-    <string name="import_invalid_file">Этот файл недействителен</string>
-    <string name="import_warning_title">Заменить данные шагов</string>
-    <string name="import_warning_message">Все текущие данные шагов будут удалены и заменены импортированными. Продолжить?</string>
     <string name="pref_vehicle_filter_title">Точная фильтрация шагов</string>
     <string name="pref_vehicle_filter_summary">Игнорируйте шаги в машине, автобусе или на велосипеде с помощью Activity Recognition API. Требуются сервисы Google Play.</string>
     <string name="pref_vehicle_filter_summary_foss">Более точное распознавание через Google Play Services API, доступно только в полной версии. Скачайте на Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API недоступно на этом устройстве</string>
+    <string name="unit_system">Система измерений</string>
+    <string name="date_format">Формат даты</string>
+    <string name="first_day_of_the_week">Первый день недели</string>
+    <string name="app_language">Язык</string>
+    <string name="theme">Тема</string>
+    <string name="preference_system">Системная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
 
-    <string name="header_about">Информация о приложении</string>
-    <string name="about_stepsy">О программе</string>
-    <string name="about_version">Версия</string>
-    <string name="about_license">Лицензия</string>
-    <string name="about_html">
-    <![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        Проект поддерживается <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        Основан на <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> от <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">Сообщить об ошибке</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">Сайт проекта</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">Лицензия GPL-3.0</a>
-    ]]>
-    </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">Пожалуйста, введите допустимое значение</string>
-    <string name="cannot_open_file">Не удаётся открыть файл</string>
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">Экспорт и восстановление данных приложения</string>
+    <string name="backup_frequency">Частота автоматического резервного копирования</string>
+    <string name="backup_retention_count">Количество хранимых резервных копий</string>
+    <string name="backup_location">Место резервной копии</string>
+    <string name="backup_location_not_set">Не задано</string>
+    <string name="manual_backup">Резервное копирование вручную</string>
     <string name="manual_backup_successful">Резервное копирование вручную выполнено успешно</string>
-    <string name="select_backup_location_first">Сначала выберите место для резервной копии</string>
+    <string name="import_data">Импорт</string>
+    <string name="import_data_summary">Восстановить данные шагов из файла</string>
+    <string name="import_invalid_file">Этот файл недействителен</string>
+    <string name="import_warning_title">Заменить данные шагов</string>
+    <string name="import_warning_message">Все текущие данные шагов будут удалены и заменены импортированными. Продолжить?</string>
+    <string name="section_import">Импорт</string>
+    <string name="section_export">Экспорт</string>
+    <string name="backup_retention_all">Все</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
+    <string name="cannot_open_file">Не удаётся открыть файл</string>
     <string name="import_result">Импортировано: %1$d записей (%2$d не удалось). %3$s</string>
     <string name="today_steps_set">Сегодняшние шаги установлены на %1$d.</string>
+
+    <!-- Screen: About -->
+    <string name="about_stepsy">О программе</string>
+    <string name="about_version">Версия</string>
+    <string name="about_source_code">Исходный код</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">Сообщить об ошибке</string>
+    <string name="about_author">Автор</string>
+    <string name="about_original_creator">Исходная идея</string>
+    <string name="about_original_creator_summary">MotionMate от 0xf4b1</string>
+    <string name="about_license">Лицензия</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
 
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Инвертировать цвет фона</string>
@@ -140,103 +194,150 @@
     <string name="widget_pref_bg_opacity">Прозрачность фона</string>
     <string name="widget_pref_btn_save">Сохранить</string>
 
-    <!-- Achievements -->
-    <string name="achievements_title">Достижения</string>
-    <string name="milestone_achievements">Вехи</string>
-    <string name="no_milestones_reached">Вехи ещё не достигнуты. Продолжайте прогулку!</string>
-    <string name="milestone_new">Новое</string>
+    <!-- Units -->
+    <string name="unit_ft">фт</string>
+    <string name="unit_in">дюйм</string>
+    <string name="unit_lbs">фнт</string>
+    <string name="unit_cm">см</string>
+    <string name="unit_kg">кг</string>
+    <string name="unit_km">км</string>
+    <string name="unit_mi">ми</string>
 
-    <!-- Data Placeholders -->
-    <string name="loading_data">Загрузка данных…\n</string>
-    <string name="no_data_available">Данные отсутствуют\n</string>
-    <string name="error_loading_data">Ошибка при загрузке данных\n</string>
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">Ваше устройство не имеет датчика подсчёта шагов</string>
+    <string name="notification_category_counting_paused">Подсчёт приостановлен</string>
+    <string name="notification_category_steps_day">Данные о шагах</string>
+    <string name="notification_description_paused">Уведомлять при приостановке подсчёта шагов</string>
+    <string name="notification_description_steps_day">Шаги за сегодня</string>
+    <string name="notification_step_counting_paused">Подсчёт шагов приостановлен</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s ккал</string>
+    <string name="notification_step_goal_completed">Цель по шагам достигнута!</string>
+    <string name="step_counting_paused">Подсчёт шагов приостановлен</string>
+    <string name="step_counting_resumed">Подсчёт шагов возобновлён</string>
+    <string name="action_pause">Пауза</string>
+    <string name="action_resume">Продолжить</string>
 
-    <!-- Daily Goals -->
-    <string name="daily_goals">Ежедневная цель</string>
-    <string name="daily_goal_notification">Оповещать при достижении</string>
-    <string name="progress_in_notification">Показать прогресс в уведомлении</string>
-    <string name="daily_goal_target">Цель по шагам в день</string>
-    <string name="daily_goal_hint">Введите вашу дневную цель шагов</string>
-    <string name="encouraging_notifications">Мотивирующие уведомления</string>
-    <string name="goal_chart_line">Показывать линию цели на графике</string>
-
-    <!-- Records -->
-    <string name="personal_records">Личные рекорды</string>
-    <string name="most_steps_day">Максимум шагов за день</string>
-    <string name="most_walked_month">Самый активный месяц</string>
-    <string name="streak_record">Самая длинная серия из %1$s+ шагов</string>
-    <string name="top_3_days">Топ-3 дня</string>
-    <string name="best_week">Лучшая неделя</string>
-    <string name="avg_steps_per_day">В среднем за день</string>
-    <string name="since_date">С %1$s</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">Оповещения о ежедневной цели</string>
-    <string name="daily_goal_notification_channel_desc">Получайте уведомления о достижении суточной нормы шагов</string>
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">Цель достигнута</string>
+    <string name="channel_goal_desc">Небольшая награда за достижение дневной цели по шагам</string>
+    <string name="channel_reminders_name">Мотивирующие напоминания</string>
+    <string name="channel_reminders_desc">Напоминания по мере приближения к цели</string>
     <string name="goal_achieved_title">🎉 Цель достигнута!</string>
     <string name="goal_achieved_message">Вы достигли цели в %1$s!</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$d тыс. • %2$s</string>
-    <string name="million_steps_with_distance">%1$d млн • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1f млн • %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">Изменить количество шагов за сегодня</string>
-    <string name="confirm_decrease_title">Снижение количества шагов</string>
-    <string name="confirm_decrease_message">Это значение меньше текущего количества шагов. Вы уверены, что хотите продолжить?</string>
-    <string name="invalid_step_count">Пожалуйста, введите корректное число</string>
-    <string name="steps_updated">Количество шагов обновлено</string>
-
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">Так держать!</string>
-    <string name="encouraging_notification_15_percent">Отличное начало! Выполнено %1$d%% от цели. Осталось всего %2$d шагов!</string>
-    <string name="encouraging_notification_75_percent">Ты почти у цели! %1$d%% сделано. Осталось %2$d шагов!</string>
-
-    <string name="encouraging_notification_15_percent_alt1">Хороший прогресс! %1$d%% цели выполнено. Продолжай идти!</string>
-    <string name="encouraging_notification_15_percent_alt2">Ты на верном пути! %1$d%% завершено. Осталось %2$d шагов!</string>
-    <string name="encouraging_notification_15_percent_alt3">Молодец! Уже %1$d%% сделано. Оставайся активным!</string>
-
-    <string name="encouraging_notification_75_percent_alt1">Почти финиш! %1$d%% достигнуто. Всего %2$d шагов!</string>
-    <string name="encouraging_notification_75_percent_alt2">Финальный рывок! %1$d%% готово. Ты сможешь — %2$d шагов до цели!</string>
-    <string name="encouraging_notification_75_percent_alt3">Финишная прямая! %1$d%% позади. %2$d шагов до победы!</string>
-
-    <!-- Milestone notification strings -->
+    <string name="encouraging_title">Так держать!</string>
+    <string name="encouraging_early_1">Хорошее начало: выполнено %1$s от цели, осталось %2$s.</string>
+    <string name="encouraging_early_2">Вы в движении! Пройдено %1$s, осталось %2$s.</string>
+    <string name="encouraging_late_1">Совсем немного! Пройдено %1$s, осталось всего %2$s.</string>
+    <string name="encouraging_late_2">Финишная прямая: пройдено %1$s, осталось %2$s.</string>
     <string name="milestone_notification_title">Достигнуто: %s!</string>
     <string name="milestone_notification_text">Всего %s шагов!\nТак держать.</string>
     <string name="notification_category_milestone">Достижения</string>
     <string name="notification_description_milestone">Уведомления о достижении целей по шагам</string>
-    <string name="milestone_notifications_toggle">Уведомления о достижениях</string>
-    <string name="mute_milestone_notifications_action">Отключить звук</string>
-    <string name="milestone_notifications_tooltip">Уведомления о достижениях</string>
-
-    <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d млн</string>
     <string name="milestone_short_millions_decimal">%.1f млн</string>
     <string name="milestone_short_thousands">%1$d тыс.</string>
-
-    <!-- Milestone detail dialog -->
-    <string name="milestone_label_distance">Расстояние</string>
-    <string name="milestone_label_date">Достигнуто</string>
-    <string name="milestone_label_took">Затраченное время</string>
-
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d день</item>
-        <item quantity="few">%d дня</item>
-        <item quantity="many">%d дней</item>
-        <item quantity="other">%d дня</item>
-    </plurals>
+    <string name="mute_notifications_action">Отключить звук</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">Возобновить в указанное время</string>
-    <string name="pause_when_to_resume">Выберите, когда возобновить подсчёт шагов</string>
     <string name="pause_step_counting">Приостановить подсчёт шагов</string>
     <string name="pause_30_minutes">30 минут</string>
     <string name="pause_1_hour">1 час</string>
     <string name="pause_2_hours">2 часа</string>
     <string name="pause_custom_time">Другое время</string>
     <string name="pause_indefinitely">Пока не включу снова</string>
+    <string name="resume_at_time">Возобновить в указанное время</string>
     <string name="step_counting_paused_until">Подсчёт шагов приостановлен до %s</string>
     <string name="step_counting_resumed_auto">Подсчёт шагов возобновлён автоматически</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">Понятно</string>
+    <string name="translate">Перевести</string>
+    <string name="star_title">Нравится приложение?</string>
+    <string name="star_body">Stepsy — открытый проект! Если приложение оказалось полезным, поставьте проекту звезду на Github. Так о Stepsy узнают другие, а меня это мотивирует и дальше его улучшать.</string>
+    <string name="star_button">Поставить звезду на Github</string>
+    <string name="star_dismiss">Нет, спасибо</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">Пропустить настройку</string>
+    <string name="onboarding_get_started">Начать</string>
+    <string name="onboarding_continue">Продолжить</string>
+    <string name="onboarding_done">Готово</string>
+    <string name="onboarding_allow">Разрешить</string>
+    <string name="onboarding_not_now">Не сейчас</string>
+    <string name="onboarding_ask_again">Спросить снова</string>
+    <string name="onboarding_open_settings">Открыть настройки</string>
+    <string name="onboarding_status_on">Вкл.</string>
+    <string name="onboarding_status_off">Выкл.</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">Этот телефон не сообщает о датчике шагов, поэтому Stepsy здесь считать не сможет.</string>
+    <string name="onboarding_restore_title">Импорт данных о шагах</string>
+    <string name="onboarding_restore_summary">Восстановить файл резервной копии</string>
+    <string name="onboarding_restore_busy">Восстановление...</string>
+    <string name="onboarding_restore_done_title">Копия восстановлена</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="one">Восстановлен %d день истории</item>
+        <item quantity="few">Восстановлено %d дня истории</item>
+        <item quantity="many">Восстановлено %d дней истории</item>
+        <item quantity="other">Восстановлено %d дня истории</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">Физическая активность</string>
+    <string name="onboarding_steps_title">Разрешите Stepsy определять ваши шаги</string>
+    <string name="onboarding_steps_body">Это разрешение нужно, чтобы использовать датчик шагов телефона.</string>
+    <string name="onboarding_steps_row">Физическая активность</string>
+    <string name="onboarding_steps_idle">Пока не разрешено</string>
+    <string name="onboarding_steps_on">Разрешено</string>
+    <string name="onboarding_steps_denied">Не разрешено</string>
+    <string name="onboarding_steps_blocked">Заблокировано Android</string>
+    <string name="onboarding_steps_note_on">Достаточно пройти несколько шагов, и счётчик начнёт расти.</string>
+    <string name="onboarding_steps_note_denied">Пока разрешение не включено, Stepsy не сможет считать шаги.</string>
+    <string name="onboarding_steps_note_blocked">Android больше не покажет этот запрос. Разрешение придётся выдать вручную в настройках приложения.</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">Батарея</string>
+    <string name="onboarding_pocket_title">Надёжный подсчёт в кармане</string>
+    <string name="onboarding_pocket_body">Чтобы экономить заряд, Android может не давать Stepsy отслеживать датчик в фоне. Чтобы шаги не терялись, для этого приложения нужно отключить оптимизацию батареи. Оно использует энергоэффективный датчик и экономно обрабатывает данные во время ходьбы, так что расход заряда будет минимальным.</string>
+    <string name="onboarding_pocket_row">Оптимизация батареи</string>
+    <string name="onboarding_pocket_on">Разрешено работать в фоне</string>
+    <string name="onboarding_pocket_off">Не разрешено работать в фоне</string>
+    <string name="onboarding_pocket_note_on">Готово! Stepsy продолжает считать, пока телефон спит. Некоторые телефоны добавляют собственные правила экономии; если подсчёт всё равно останавливается, проверьте, что Stepsy разрешена работа в фоне на вашем устройстве.</string>
+    <string name="onboarding_pocket_note_tried">Это можно изменить позже в настройках.</string>
+    <string name="onboarding_pocket_note_manual">На этом телефоне нет быстрого запроса. Найдите Stepsy в списке ниже и выберите \"Без ограничений\" или \"Не оптимизировать\".</string>
+    <string name="onboarding_pocket_note_none">На этом телефоне не открылся экран настроек батареи. Загляните в Настройки > Приложения > Stepsy > Батарея.</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">О вас</string>
+    <string name="onboarding_body_title">личные данные для расчётов</string>
+    <string name="onboarding_body_body">Рост определяет длину шага, а вес — расчёт сожжённых калорий. Оба значения остаются только на этом телефоне.</string>
+    <string name="onboarding_body_note">Эти параметры можно изменить позже в настройках.</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">Ежедневная цель</string>
+    <string name="onboarding_goal_title">Выбор ежедневной цели</string>
+    <string name="onboarding_goal_body">Заполняйте индикатор прогресса на главном экране каждый день! Можно выбрать готовое значение, задать своё или полностью отключить цель. Её можно менять в любой момент, на данные о шагах это не влияет.</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s и %3$d ккал / день</string>
+    <string name="onboarding_reminders_title">Уведомления</string>
+    <string name="onboarding_reminders_summary">По желанию: прогресс в живом уведомлении, мотивирующие напоминания по мере приближения к цели по шагам и не только. Рекомендуется.</string>
+    <string name="onboarding_reminders_on">Разрешено</string>
+    <string name="onboarding_reminders_blocked">Заблокировано Android. Нажмите, чтобы открыть настройки уведомлений</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">Закрыть</string>
+    <string name="onboarding_card_activity_title">Доступ к активности</string>
+    <string name="onboarding_card_activity_summary">Это разрешение нужно, чтобы использовать датчик шагов телефона.</string>
+    <string name="onboarding_card_battery_title">Стабильность в фоне</string>
+    <string name="onboarding_card_battery_summary">Stepsy задумано лёгким, но система может мешать ему надёжно считать шаги. Разрешите приложению работать в фоне.</string>
+    <string name="onboarding_card_notifications_title">Уведомления</string>
+    <string name="onboarding_card_notifications_summary">По желанию: прогресс в живом уведомлении, мотивирующие напоминания по мере приближения к цели по шагам и не только. Рекомендуется.</string>
+    <string name="onboarding_strip_title">Шаги не считаются</string>
+    <string name="onboarding_strip_summary">Нажмите, чтобы разрешить определение шагов.</string>
+    <string name="onboarding_welcome_headline_b">Лёгкий шагомер.</string>
+    <string name="onboarding_welcome_point_offline">Работает офлайн</string>
+    <string name="onboarding_welcome_point_battery">Бережёт батарею</string>
+    <string name="onboarding_welcome_point_backups">Настройте автоматические локальные копии</string>
+    <string name="onboarding_welcome_point_pressure">Прогресс без давления</string>
 </resources>

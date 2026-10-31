@@ -1,131 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">Week %1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">Geen gegevens voor %1$s</string>
-    <string name="calories">%1$d kcal</string>
-    <string name="steps_month">Deze maand</string>
-    <string name="avg_distance">Gemiddeld per dag</string>
-    <string name="total_distance">Totale afstand</string>
-    <string name="goal_streak_line">Doel: %1$s · %2$s %3$s reeks</string>
-    <string name="goal_streak_dead_line">Dagelijks doel: %1$s</string>
 
-    <string name="no_sensor">Je apparaat bevat geen stappenteller</string>
-    <string name="no_activity_permission">ACTIVITY_RECOGNITION ontbreekt</string>
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="one">stap</item>
+        <item quantity="other">stappen</item>
+    </plurals>
+    <plurals name="steps_formatted">
+        <item quantity="one">%1$s stap</item>
+        <item quantity="other">%1$s stappen</item>
+    </plurals>
+    <plurals name="days_word_only">
+        <item quantity="one">dag</item>
+        <item quantity="other">dagen</item>
+    </plurals>
 
-    <!-- Header section -->
-    <string name="expand_collapse">Uitvouwen/Invouwen</string>
+    <!-- Screen: Home -->
     <string name="header_today">Vandaag</string>
     <string name="header_week">Deze week</string>
     <string name="header_month">Deze maand</string>
     <string name="header_7d">Laatste 7 dagen</string>
     <string name="header_30d">Laatste 30 dagen</string>
-    <string name="header_all_time">Alles</string>
     <string name="header_year">Jaar %1$d</string>
-
+    <string name="header_all_time">Alles</string>
     <string name="label_today">Vandaag</string>
     <string name="label_week">Week</string>
     <string name="label_month">Maand</string>
     <string name="label_7d">7 dagen</string>
     <string name="label_30d">30 dagen</string>
     <string name="label_all_time">Alles</string>
-
-    <!-- Plurals -->
-    <plurals name="steps_formatted">
-        <item quantity="one">%1$s stap</item>
-        <item quantity="other">%1$s stappen</item>
+    <string name="week_display_format">Week %1$d</string>
+    <string name="filters_title">Zichtbare filters</string>
+    <string name="filters_years">Jaartotalen</string>
+    <string name="home_show_filter_bar">Filterbalk tonen</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="avg_per_day_pill">%1$s / dag</string>
+    <plurals name="goal_reached_times">
+        <item quantity="one">Doel %d keer bereikt</item>
+        <item quantity="other">Doel %d keer bereikt</item>
     </plurals>
-
+    <string name="goal_streak_line">Doel: %1$s · %2$s %3$s reeks</string>
     <plurals name="streak_record_count">
         <item quantity="one">%d dag</item>
         <item quantity="other">%d dagen</item>
     </plurals>
-
-    <plurals name="days_word_only">
-        <item quantity="one">dag</item>
-        <item quantity="other">dagen</item>
+    <plurals name="streak_segment_description">
+        <item quantity="one">Doelreeks van %1$d dag</item>
+        <item quantity="other">Doelreeks van %1$d dagen</item>
     </plurals>
+    <string name="edit_step_count">Stappen wijzigen</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
+    <string name="confirm_decrease_title">Minder stappen</string>
+    <string name="confirm_decrease_message">"Deze waarde is lager dan het huidige aantal stappen. Weet je zeker dat je door wilt gaan?"</string>
+    <string name="invalid_step_count">Voer een geldig getal in</string>
+    <string name="steps_updated">Aantal stappen bijgewerkt</string>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">Stappenteller onderbroken</string>
-    <string name="notification_category_steps_day">Statistieken</string>
-    <string name="notification_description_paused">Melding wanneer de stappenteller is onderbroken</string>
-    <string name="notification_description_steps_day">Aantal stappen vandaag</string>
-    <string name="notification_step_counting_paused">Stappenteller is onderbroken</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">Doel: %1$s — %2$s resterend</string>
-    <string name="notification_step_goal_completed">Doelstelling is bereikt!</string>
-    <string name="step_counting_paused">Stappenteller onderbroken</string>
-    <string name="step_counting_resumed">Stappenteller hervat</string>
-    <string name="action_pause">Onderbreken</string>
-    <string name="action_resume">Hervatten</string>
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">Prestaties</string>
+    <string name="milestone_achievements">Mijlpalen</string>
+    <string name="milestone_next">Volgende badge</string>
+    <string name="milestone_to_go">Nog %1$s te gaan</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
+    <string name="milestone_label_distance">Afstand</string>
+    <string name="milestone_label_date">Bereikt</string>
+    <string name="milestone_label_took">Benodigde tijd</string>
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagen</item>
+    </plurals>
+    <string name="milestone_notifications_toggle">Meldingen voor mijlpalen</string>
+    <string name="milestone_notifications_enabled">Meldingen voor mijlpalen ingeschakeld</string>
+    <string name="milestone_notifications_disabled">Meldingen voor mijlpalen uitgeschakeld</string>
+    <string name="milestone_notifications_tooltip">Meldingen voor mijlpalen</string>
+    <string name="no_milestones_reached">Nog geen mijlpalen bereikt. Blijf doorlopen!</string>
+    <string name="personal_records">Persoonlijke records</string>
+    <string name="most_walked_month">Meest actieve maand</string>
+    <string name="streak_record">Langste reeks van %1$s+ stappen</string>
+    <string name="top_3_days">Beste 3 dagen</string>
+    <string name="best_week">Beste week</string>
+    <string name="records_goal_reached">Doel bereikt</string>
+    <string name="records_percent_of_days">%1$d%% van alle dagen</string>
+    <string name="since_date">Sinds %1$s</string>
+    <string name="loading_data">Gegevens laden…\n</string>
+    <string name="no_data_available">Geen gegevens beschikbaar\n</string>
+    <string name="error_loading_data">Fout bij het laden van gegevens\n</string>
 
-    <!-- Preferences -->
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">Dagelijks doel</string>
+    <string name="section_notifications">Meldingen</string>
+    <string name="section_goal_alerts">Doelmeldingen</string>
+    <string name="daily_goal_notification">Melden wanneer doel is bereikt</string>
+    <string name="daily_goal_target">Dagelijks doel</string>
+    <string name="daily_goal_hint">Voer je doelstelling in</string>
+    <string name="daily_goal_none">Geen doel</string>
+    <string name="goal_preset_off">Uit</string>
+    <string name="goal_preset_custom">Eigen</string>
+    <string name="encouraging_notifications">Aanmoedigende meldingen tonen</string>
+    <string name="encouraging_notifications_summary">Maximaal twee herinneringen per dag naarmate je je doel nadert</string>
+    <string name="encouraging_sample">Voorbeeld sturen</string>
+    <string name="reminders_one">Eén herinnering</string>
+    <string name="reminders_two">Twee herinneringen</string>
+    <string name="reminder_single_summary">Herinnering bij %1$s van je dagdoel</string>
+    <string name="reminder_double_summary">Herinneringen bij %1$s en %2$s van je dagdoel</string>
+    <string name="live_notification_title">Live-melding</string>
+    <string name="live_steps_only">Alleen aantal stappen</string>
+    <string name="live_steps_progress">Aantal stappen + voortgang van je doel</string>
+    <string name="live_notification_off">Uit</string>
+    <string name="notification_settings_row">Geluid en waarschuwingen</string>
+    <string name="notification_settings_summary">Kies een type melding</string>
+    <string name="channel_blocked">Geblokkeerd in de systeeminstellingen</string>
+
+    <!-- Screen: Settings -->
     <string name="settings">Instellingen</string>
     <string name="header_personal_data">Persoonlijke gegevens</string>
-    <string name="header_appearance">Uiterlijk</string>
     <string name="header_general">Algemeen</string>
+    <string name="header_appearance">Uiterlijk</string>
+    <string name="header_data">Appgegevens</string>
     <string name="header_data_backup">Back-up</string>
-
-    <string name="preference_system">Systeeminstelling</string>
-    <string name="theme_light">Licht</string>
-    <string name="theme_dark">Donker</string>
-    <string name="pref_height">Hoogte</string>
+    <string name="pref_height">Lengte</string>
     <string name="pref_step_length">Staplengte</string>
     <string name="pref_weight">Gewicht</string>
-    <string name="first_day_of_the_week">Eerste dag van de week</string>
-    <string name="app_language">Taal</string>
-    <string name="theme">Thema</string>
-    <string name="date_format">Datumformaat</string>
-    <string name="unit_system">Eenheid</string>
-    <string name="export_data">Exporteren</string>
-    <string name="backup_frequency">Frequentie automatische back-ups</string>
-    <string name="backup_retention_count">Aantal back-ups behouden</string>
-    <string name="backup_retention_hint">(0 om alles te behouden)</string>
-    <string name="backup_retention_unlimited">Onbeperkt</string>
-    <string name="backup_location">Back-uplocatie</string>
-    <string name="backup_location_not_set">Niet ingesteld</string>
-    <string name="manual_backup">Handmatige back-up</string>
-    <string name="import_data">Importeren</string>
-    <string name="import_data_summary">Herstel gegevens vanuit een bestand</string>
-    <string name="next_backup_scheduled">Volgende automatische back-up\n%1$s om %2$s</string>
-    <string name="import_invalid_file">Dit bestand is ongeldig</string>
-    <string name="import_warning_title">Stapgegevens vervangen</string>
-    <string name="import_warning_message">Dit verwijdert alle huidige stapgegevens en vervangt ze door de geïmporteerde gegevens. Doorgaan?</string>
-    <string name="pref_vehicle_filter_title">Nauwkeurige stappenfilter</string>
+    <string name="pref_vehicle_filter_title">Nauwkeurig stappenfilter</string>
     <string name="pref_vehicle_filter_summary">Gebruik de Activity Recognition API om stappen in de auto, bus of op de fiets te negeren. Vereist Google Play Services.</string>
     <string name="pref_vehicle_filter_summary_foss">Nauwkeurigere stapherkenning via Google Play Services API, alleen in de volledige build. Beschikbaar op Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API is niet beschikbaar op dit apparaat</string>
+    <string name="unit_system">Eenheid</string>
+    <string name="date_format">Datumformaat</string>
+    <string name="first_day_of_the_week">Eerste dag van de week</string>
+    <string name="app_language">Taal</string>
+    <string name="theme">Thema</string>
+    <string name="preference_system">Systeeminstelling</string>
+    <string name="theme_light">Licht</string>
+    <string name="theme_dark">Donker</string>
 
-    <string name="header_about">App-info</string>
-    <string name="about_stepsy">Over</string>
-    <string name="about_version">Versie</string>
-    <string name="about_license">Licentie</string>
-    <string name="about_html">
-    <![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        Onderhouden door <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        Gebaseerd op <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> door <a href="https://github.com/0xf4b1">0xf4b1</a><br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">Rapporteer een bug</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">Projectwebsite</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">Gelicentieerd onder GPL-3.0</a>
-    ]]>
-    </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">Voer een geldige waarde in</string>
-    <string name="cannot_open_file">Kan bestand niet openen</string>
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">Appgegevens exporteren en herstellen</string>
+    <string name="backup_frequency">Frequentie automatische back-ups</string>
+    <string name="backup_retention_count">Aantal back-ups behouden</string>
+    <string name="backup_location">Back-uplocatie</string>
+    <string name="backup_location_not_set">Niet ingesteld</string>
+    <string name="manual_backup">Handmatige back-up</string>
     <string name="manual_backup_successful">Handmatige back-up opgeslagen</string>
-    <string name="select_backup_location_first">Kies eerst de back-uplocatie</string>
+    <string name="import_data">Importeren</string>
+    <string name="import_data_summary">Herstel gegevens vanuit een bestand</string>
+    <string name="import_invalid_file">Dit bestand is ongeldig</string>
+    <string name="import_warning_title">Stapgegevens vervangen</string>
+    <string name="import_warning_message">Dit verwijdert alle huidige stapgegevens en vervangt ze door de geïmporteerde gegevens. Doorgaan?</string>
+    <string name="section_import">Importeren</string>
+    <string name="section_export">Exporteren</string>
+    <string name="backup_retention_all">Alle</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
+    <string name="cannot_open_file">Kan bestand niet openen</string>
     <string name="import_result">%1$d items geïmporteerd (%2$d mislukt). %3$s</string>
     <string name="today_steps_set">Stappen van vandaag gewijzigd naar %1$d.</string>
+
+    <!-- Screen: About -->
+    <string name="about_stepsy">Over</string>
+    <string name="about_version">Versie</string>
+    <string name="about_source_code">Broncode</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">Fout melden</string>
+    <string name="about_author">Auteur</string>
+    <string name="about_original_creator">Oorspronkelijk idee</string>
+    <string name="about_original_creator_summary">MotionMate van 0xf4b1</string>
+    <string name="about_license">Licentie</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
 
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Achtergrondkleur omkeren</string>
@@ -134,101 +180,148 @@
     <string name="widget_pref_bg_opacity">Dekking achtergrond</string>
     <string name="widget_pref_btn_save">Opslaan</string>
 
-    <!-- Achievements -->
-    <string name="achievements_title">Prestaties</string>
-    <string name="milestone_achievements">Mijlpalen</string>
-    <string name="no_milestones_reached">Nog geen mijlpalen bereikt. Blijf doorlopen!</string>
-    <string name="milestone_new">Nieuw</string>
+    <!-- Units -->
+    <string name="unit_ft">ft</string>
+    <string name="unit_in">in</string>
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
 
-    <!-- Data Placeholders -->
-    <string name="loading_data">Gegevens laden…\n</string>
-    <string name="no_data_available">Geen gegevens beschikbaar\n</string>
-    <string name="error_loading_data">Fout bij het laden van gegevens\n</string>
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">Je apparaat bevat geen stappenteller</string>
+    <string name="notification_category_counting_paused">Stappenteller onderbroken</string>
+    <string name="notification_category_steps_day">Statistieken</string>
+    <string name="notification_description_paused">Melding wanneer de stappenteller is onderbroken</string>
+    <string name="notification_description_steps_day">Aantal stappen vandaag</string>
+    <string name="notification_step_counting_paused">Stappenteller is onderbroken</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s kcal</string>
+    <string name="notification_step_goal_completed">Doelstelling is bereikt!</string>
+    <string name="step_counting_paused">Stappenteller onderbroken</string>
+    <string name="step_counting_resumed">Stappenteller hervat</string>
+    <string name="action_pause">Onderbreken</string>
+    <string name="action_resume">Hervatten</string>
 
-    <!-- Daily Goals -->
-    <string name="daily_goals">Dagelijks doel</string>
-    <string name="daily_goal_notification">Melden wanneer doel is bereikt</string>
-    <string name="progress_in_notification">Vooruitgang live in melding tonen</string>
-    <string name="daily_goal_target">Dagelijks doel</string>
-    <string name="daily_goal_hint">Voer je doelstelling in</string>
-    <string name="encouraging_notifications">Aanmoedigende meldingen tonen</string>
-    <string name="goal_chart_line">Doellijn weergeven in grafiek</string>
-
-    <!-- Records -->
-    <string name="personal_records">Persoonlijke records</string>
-    <string name="most_steps_day">Beste dag</string>
-    <string name="most_walked_month">Meest actieve maand</string>
-    <string name="streak_record">Langste reeks van %1$s+ stappen</string>
-    <string name="top_3_days">Beste 3 dagen</string>
-    <string name="best_week">Beste week</string>
-    <string name="avg_steps_per_day">Gemiddelde per dag</string>
-    <string name="since_date">Sinds %1$s</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">Meldingen over doelen</string>
-    <string name="daily_goal_notification_channel_desc">Ontvang updates over de voortgang van je dagelijkse doel</string>
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">Doel bereikt</string>
+    <string name="channel_goal_desc">Een kleine beloning zodra je je dagelijkse stappendoel haalt</string>
+    <string name="channel_reminders_name">Aanmoedigende herinneringen</string>
+    <string name="channel_reminders_desc">Herinneringen als je je doel nadert</string>
     <string name="goal_achieved_title">🎉 Doel bereikt!</string>
     <string name="goal_achieved_message">Je hebt je doel van %1$s bereikt!</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk • %2$s</string>
-    <string name="million_steps_with_distance">%1$dM • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">Stappen van vandaag wijzigen</string>
-    <string name="confirm_decrease_title">Minder stappen</string>
-    <string name="confirm_decrease_message">"Deze waarde is lager dan het huidige aantal stappen. Weet je zeker dat je door wilt gaan?"</string>
-    <string name="invalid_step_count">Voer een geldig getal in</string>
-    <string name="steps_updated">Aantal stappen bijgewerkt</string>
-
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">Ga zo door!</string>
-    <string name="encouraging_notification_15_percent">Dit is een geweldig begin! Je hebt %1$d%% van je doel bereikt. Nog %2$d stappen te gaan!</string>
-    <string name="encouraging_notification_75_percent">Je zit al op %1$d%%! Nog maar %2$d stappen om je doel te bereiken!</string>
-
-    <string name="encouraging_notification_15_percent_alt1">Je bent prima bezig! Je hebt %1$d%% van je doel bereikt. Blijf in beweging!</string>
-    <string name="encouraging_notification_15_percent_alt2">Je bent al goed op weg! Nu je op %1$d%% zit, zijn er nog maar %2$d stappen te gaan!</string>
-    <string name="encouraging_notification_15_percent_alt3">Goed gedaan! Je hebt %1$d%% van je doel bereikt. Blijf actief!</string>
-
-    <string name="encouraging_notification_75_percent_alt1">Zo dichtbij! Je hebt %1$d%% van je doel bereikt. Nog maar %2$d stappen te gaan!</string>
-    <string name="encouraging_notification_75_percent_alt2">Laatste zetje! Je hebt al %1$d%% van je doel bereikt, Nog maar %2$d stappen, je kunt het!</string>
-    <string name="encouraging_notification_75_percent_alt3">Bijna bij de finish! Je bent op %1$d%%. Nog %2$d stappen naar de overwinning!</string>
-
-    <!-- Milestone notification strings -->
+    <string name="encouraging_title">Ga zo door!</string>
+    <string name="encouraging_early_1">Goed begin: %1$s van je doel gehaald. Nog %2$s te gaan.</string>
+    <string name="encouraging_early_2">Je bent onderweg! %1$s gehaald, nog %2$s.</string>
+    <string name="encouraging_late_1">Bijna! %1$s gehaald, nog maar %2$s.</string>
+    <string name="encouraging_late_2">Laatste stukje: %1$s gehaald, nog %2$s.</string>
     <string name="milestone_notification_title">%s bereikt!</string>
     <string name="milestone_notification_text">Dat zijn in totaal %s stappen!\nGa zo door.</string>
     <string name="notification_category_milestone">Mijlpalen</string>
     <string name="notification_description_milestone">Meldingen bij het bereiken van stappenmijlpalen</string>
-    <string name="milestone_notifications_toggle">Meldingen voor mijlpalen</string>
-    <string name="mute_milestone_notifications_action">Dempen</string>
-    <string name="milestone_notifications_tooltip">Meldingen voor mijlpalen</string>
-
-    <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d mln.</string>
     <string name="milestone_short_millions_decimal">%.1f mln.</string>
     <string name="milestone_short_thousands">%1$d duiz.</string>
-
-    <!-- Milestone detail dialog -->
-    <string name="milestone_label_distance">Afstand</string>
-    <string name="milestone_label_date">Bereikt</string>
-    <string name="milestone_label_took">Benodigde tijd</string>
-
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dagen</item>
-    </plurals>
+    <string name="mute_notifications_action">Dempen</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">Hervatten om</string>
-    <string name="pause_when_to_resume">Kies wanneer het tellen wordt hervat</string>
     <string name="pause_step_counting">Stappenteller onderbreken</string>
     <string name="pause_30_minutes">30 minuten</string>
     <string name="pause_1_hour">1 uur</string>
     <string name="pause_2_hours">2 uur</string>
     <string name="pause_custom_time">Aangepaste tijd</string>
     <string name="pause_indefinitely">Totdat ik het weer aanzet</string>
+    <string name="resume_at_time">Hervatten om</string>
     <string name="step_counting_paused_until">Stappenteller onderbroken tot %s</string>
     <string name="step_counting_resumed_auto">Stappenteller automatisch hervat</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">Begrepen</string>
+    <string name="translate">Vertalen</string>
+    <string name="star_title">Bevalt de app?</string>
+    <string name="star_body">Stepsy is open source! Vind je de app handig, geef het project dan een ster op Github. Zo ontdekken anderen Stepsy ook, en het motiveert mij om de app te blijven verbeteren.</string>
+    <string name="star_button">Ster geven op Github</string>
+    <string name="star_dismiss">Nee, bedankt</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">Instellen overslaan</string>
+    <string name="onboarding_get_started">Aan de slag</string>
+    <string name="onboarding_continue">Doorgaan</string>
+    <string name="onboarding_done">Klaar</string>
+    <string name="onboarding_allow">Toestaan</string>
+    <string name="onboarding_not_now">Niet nu</string>
+    <string name="onboarding_ask_again">Opnieuw vragen</string>
+    <string name="onboarding_open_settings">Instellingen openen</string>
+    <string name="onboarding_status_on">Aan</string>
+    <string name="onboarding_status_off">Uit</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">Deze telefoon meldt geen stappensensor, dus Stepsy kan hier niet tellen.</string>
+    <string name="onboarding_restore_title">Stapgegevens importeren</string>
+    <string name="onboarding_restore_summary">Een back-upbestand herstellen</string>
+    <string name="onboarding_restore_busy">Herstellen...</string>
+    <string name="onboarding_restore_done_title">Back-up hersteld</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="one">%d dag aan geschiedenis is terug</item>
+        <item quantity="other">%d dagen aan geschiedenis zijn terug</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">Lichamelijke activiteit</string>
+    <string name="onboarding_steps_title">Stepsy toestaan je stappen te herkennen</string>
+    <string name="onboarding_steps_body">Deze toestemming is nodig om de stappensensor van je telefoon te gebruiken.</string>
+    <string name="onboarding_steps_row">Lichamelijke activiteit</string>
+    <string name="onboarding_steps_idle">Nog niet toegestaan</string>
+    <string name="onboarding_steps_on">Toegestaan</string>
+    <string name="onboarding_steps_denied">Niet toegestaan</string>
+    <string name="onboarding_steps_blocked">Geblokkeerd door Android</string>
+    <string name="onboarding_steps_note_on">Loop een paar stappen en zie de teller groeien.</string>
+    <string name="onboarding_steps_note_denied">Stepsy kan niet tellen zolang deze toestemming niet aan staat.</string>
+    <string name="onboarding_steps_note_blocked">Android toont deze vraag niet opnieuw. De toestemming moet dan handmatig worden gegeven in de app-instellingen.</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">Batterij</string>
+    <string name="onboarding_pocket_title">Betrouwbaar tellen in je zak</string>
+    <string name="onboarding_pocket_body">Om batterij te besparen kan Android voorkomen dat Stepsy op de achtergrond sensorwijzigingen bijhoudt. Om je stappen compleet te houden, moet je batterijoptimalisatie voor deze app uitschakelen. De app gebruikt een zuinige sensor en verwerkt de gegevens efficiënt terwijl je loopt, dus het batterijverbruik blijft minimaal.</string>
+    <string name="onboarding_pocket_row">Batterijoptimalisatie</string>
+    <string name="onboarding_pocket_on">Toegestaan op de achtergrond</string>
+    <string name="onboarding_pocket_off">Niet toegestaan op de achtergrond</string>
+    <string name="onboarding_pocket_note_on">Klaar! Stepsy blijft tellen terwijl je telefoon slaapt. Sommige telefoons voegen eigen batterijregels toe; als het tellen toch stokt, controleer dan of Stepsy op de achtergrond mag draaien op je apparaat.</string>
+    <string name="onboarding_pocket_note_tried">Je kunt dit later aanpassen in de instellingen.</string>
+    <string name="onboarding_pocket_note_manual">Deze telefoon heeft geen melding met één tik. Zoek Stepsy in de volgende lijst en kies \"Onbeperkt\" of \"Niet optimaliseren\".</string>
+    <string name="onboarding_pocket_note_none">Op deze telefoon ging geen batterij-instellingenscherm open. Kijk onder Instellingen > Apps > Stepsy > Batterij.</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">Over jou</string>
+    <string name="onboarding_body_title">persoonlijke gegevens voor schattingen</string>
+    <string name="onboarding_body_body">Je lengte bepaalt je staplengte en je gewicht de schatting van de verbrande calorieën. Beide blijven alleen op deze telefoon.</string>
+    <string name="onboarding_body_note">Je kunt deze voorkeuren later aanpassen in de instellingen.</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">Dagelijks doel</string>
+    <string name="onboarding_goal_title">Een dagelijks doel kiezen</string>
+    <string name="onboarding_goal_body">Vul elke dag de voortgangsbalk op het startscherm! Je kunt een voorinstelling kiezen, een eigen doel instellen of het helemaal uitzetten. Je kunt het altijd aanpassen en het heeft geen invloed op je stapgegevens.</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s en %3$d kcal / dag</string>
+    <string name="onboarding_reminders_title">Meldingen</string>
+    <string name="onboarding_reminders_summary">Optioneel: voortgang in de live-melding, aanmoedigende herinneringen als je je stappendoel nadert en meer. Aanbevolen.</string>
+    <string name="onboarding_reminders_on">Toegestaan</string>
+    <string name="onboarding_reminders_blocked">Geblokkeerd door Android. Tik om de meldingsinstellingen te openen</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">Sluiten</string>
+    <string name="onboarding_card_activity_title">Toegang tot activiteit geven</string>
+    <string name="onboarding_card_activity_summary">Deze toestemming is nodig om de stappensensor van je telefoon te gebruiken.</string>
+    <string name="onboarding_card_battery_title">Stabiel op de achtergrond</string>
+    <string name="onboarding_card_battery_summary">Stepsy is van nature licht, maar je systeem kan voorkomen dat de app betrouwbaar stappen telt. Sta toe dat de app op de achtergrond draait.</string>
+    <string name="onboarding_card_notifications_title">Meldingen</string>
+    <string name="onboarding_card_notifications_summary">Optioneel: voortgang in de live-melding, aanmoedigende herinneringen als je je stappendoel nadert en meer. Aanbevolen.</string>
+    <string name="onboarding_strip_title">Stappen worden niet geteld</string>
+    <string name="onboarding_strip_summary">Tik om stapherkenning toe te staan.</string>
+    <string name="onboarding_welcome_headline_b">Lichte stappenteller.</string>
+    <string name="onboarding_welcome_point_offline">Offline van nature</string>
+    <string name="onboarding_welcome_point_battery">Zuinig voor je batterij</string>
+    <string name="onboarding_welcome_point_backups">Automatische lokale back-ups instellen</string>
+    <string name="onboarding_welcome_point_pressure">Vooruitgang zonder druk</string>
 </resources>

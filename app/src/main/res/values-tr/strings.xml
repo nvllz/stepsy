@@ -1,131 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">Hafta %1$d</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">%1$s için kayıt yok</string>
-    <string name="calories">%1$d kcal</string>
-    <string name="steps_month">Bu ay</string>
-    <string name="avg_distance">Günlük ortalama</string>
-    <string name="total_distance">Toplam mesafe</string>
-    <string name="goal_streak_line">Hedef: %1$s · %2$s %3$s serisi</string>
-    <string name="goal_streak_dead_line">Günlük hedef: %1$s</string>
 
-    <string name="no_sensor">Cihazınızda adım sayma sensörü bulunmamaktadır</string>
-    <string name="no_activity_permission">ACTIVITY_RECOGNITION izni eksik</string>
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="one">adım</item>
+        <item quantity="other">adım</item>
+    </plurals>
+    <plurals name="steps_formatted">
+        <item quantity="one">%1$s adım</item>
+        <item quantity="other">%1$s adım</item>
+    </plurals>
+    <plurals name="days_word_only">
+        <item quantity="one">gün</item>
+        <item quantity="other">gün</item>
+    </plurals>
 
-    <!-- Header section -->
-    <string name="expand_collapse">Genişlet/Daralt</string>
+    <!-- Screen: Home -->
     <string name="header_today">Bugün</string>
     <string name="header_week">Bu hafta</string>
     <string name="header_month">Bu ay</string>
     <string name="header_7d">Son 7 gün</string>
     <string name="header_30d">Son 30 gün</string>
-    <string name="header_all_time">Tüm zamanlar</string>
     <string name="header_year">%1$d Yılı</string>
-
+    <string name="header_all_time">Tüm zamanlar</string>
     <string name="label_today">Bugün</string>
     <string name="label_week">Hafta</string>
     <string name="label_month">Ay</string>
     <string name="label_7d">7 gün</string>
     <string name="label_30d">30 gün</string>
     <string name="label_all_time">Tüm zamanlar</string>
-
-    <!-- Plurals -->
-    <plurals name="steps_formatted">
-        <item quantity="one">%1$s adım</item>
-        <item quantity="other">%1$s adım</item>
+    <string name="week_display_format">Hafta %1$d</string>
+    <string name="filters_title">Görünür filtreler</string>
+    <string name="filters_years">Yıllık toplamlar</string>
+    <string name="home_show_filter_bar">Filtre çubuğunu göster</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="avg_per_day_pill">%1$s / gün</string>
+    <plurals name="goal_reached_times">
+        <item quantity="one">Hedefe %d kez ulaşıldı</item>
+        <item quantity="other">Hedefe %d kez ulaşıldı</item>
     </plurals>
-
+    <string name="goal_streak_line">Hedef: %1$s · %2$s %3$s serisi</string>
     <plurals name="streak_record_count">
         <item quantity="one">%d gün</item>
         <item quantity="other">%d gün</item>
     </plurals>
-
-    <plurals name="days_word_only">
-        <item quantity="one">gün</item>
-        <item quantity="other">gün</item>
+    <plurals name="streak_segment_description">
+        <item quantity="one">%1$d günlük hedef serisi</item>
+        <item quantity="other">%1$d günlük hedef serisi</item>
     </plurals>
+    <string name="edit_step_count">Adım sayısını ayarla</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
+    <string name="confirm_decrease_title">Daha Düşük Adım Sayısı</string>
+    <string name="confirm_decrease_message">Bu değer mevcut adım sayısından daha düşük. Devam etmek istediğinizden emin misiniz?</string>
+    <string name="invalid_step_count">Lütfen geçerli bir sayı girin</string>
+    <string name="steps_updated">Adım sayısı güncellendi</string>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">Sayım duraklatıldı</string>
-    <string name="notification_category_steps_day">Adım verisi</string>
-    <string name="notification_description_paused">Adım sayımı duraklatıldığında bilgilendir</string>
-    <string name="notification_description_steps_day">Bugünkü adımlar</string>
-    <string name="notification_step_counting_paused">Adım sayımı duraklatıldı</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">Hedef: %1$s — kalan %2$s</string>
-    <string name="notification_step_goal_completed">Adım hedefi tamamlandı!</string>
-    <string name="step_counting_paused">Adım sayımı duraklatıldı</string>
-    <string name="step_counting_resumed">Adım sayımı devam ediyor</string>
-    <string name="action_pause">Duraklat</string>
-    <string name="action_resume">Devam et</string>
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">Başarılar</string>
+    <string name="milestone_achievements">Dönüm Noktaları</string>
+    <string name="milestone_next">Sonraki rozet</string>
+    <string name="milestone_to_go">%1$s kaldı</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
+    <string name="milestone_label_distance">Mesafe</string>
+    <string name="milestone_label_date">Ulaşıldı</string>
+    <string name="milestone_label_took">Alınan süre</string>
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <string name="milestone_notifications_toggle">Kilometre taşı bildirimleri</string>
+    <string name="milestone_notifications_enabled">Kilometre taşı bildirimleri açık</string>
+    <string name="milestone_notifications_disabled">Kilometre taşı bildirimleri kapalı</string>
+    <string name="milestone_notifications_tooltip">Kilometre taşı bildirimleri</string>
+    <string name="no_milestones_reached">Henüz dönüm noktasına ulaşılmadı. Devam et!</string>
+    <string name="personal_records">Kişisel Rekorlar</string>
+    <string name="most_walked_month">En Hareketli Ay</string>
+    <string name="streak_record">En Uzun %1$s+ Adım Serisi</string>
+    <string name="top_3_days">En iyi 3 gün</string>
+    <string name="best_week">En iyi hafta</string>
+    <string name="records_goal_reached">Hedefe ulaşıldı</string>
+    <string name="records_percent_of_days">Tüm günlerin %%%1$d kadarı</string>
+    <string name="since_date">%1$s tarihinden beri</string>
+    <string name="loading_data">Veri yükleniyor…\n</string>
+    <string name="no_data_available">Veri yok\n</string>
+    <string name="error_loading_data">Veri yüklenirken hata oluştu\n</string>
 
-    <!-- Preferences -->
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">Günlük Hedef</string>
+    <string name="section_notifications">Bildirimler</string>
+    <string name="section_goal_alerts">Hedef uyarıları</string>
+    <string name="daily_goal_notification">Ulaşıldığında bildir</string>
+    <string name="daily_goal_target">Günlük adım hedefi</string>
+    <string name="daily_goal_hint">Günlük adım hedefinizi girin</string>
+    <string name="daily_goal_none">Hedef yok</string>
+    <string name="goal_preset_off">Kapalı</string>
+    <string name="goal_preset_custom">Özel</string>
+    <string name="encouraging_notifications">Teşvik edici bildirimler</string>
+    <string name="encouraging_notifications_summary">Hedefe yaklaştıkça günde en fazla iki hatırlatma</string>
+    <string name="encouraging_sample">Örnek gönder</string>
+    <string name="reminders_one">Bir hatırlatma</string>
+    <string name="reminders_two">İki hatırlatma</string>
+    <string name="reminder_single_summary">Günlük hedefin %1$s noktasında hatırlatma</string>
+    <string name="reminder_double_summary">Günlük hedefin %1$s ve %2$s noktalarında hatırlatma</string>
+    <string name="live_notification_title">Canlı bildirim</string>
+    <string name="live_steps_only">Yalnızca adım sayısı</string>
+    <string name="live_steps_progress">Adım sayısı + hedef ilerlemesi</string>
+    <string name="live_notification_off">Kapalı</string>
+    <string name="notification_settings_row">Ses ve uyarılar</string>
+    <string name="notification_settings_summary">Bildirim türünü seçin</string>
+    <string name="channel_blocked">Sistem ayarlarında engellendi</string>
+
+    <!-- Screen: Settings -->
     <string name="settings">Ayarlar</string>
     <string name="header_personal_data">Kişisel veriler</string>
-    <string name="header_appearance">Görünüm</string>
     <string name="header_general">Genel</string>
+    <string name="header_appearance">Görünüm</string>
+    <string name="header_data">Uygulama verileri</string>
     <string name="header_data_backup">Yedekleme</string>
-
-    <string name="preference_system">Sistem varsayılanı</string>
-    <string name="theme_light">Açık</string>
-    <string name="theme_dark">Koyu</string>
     <string name="pref_height">Boy</string>
     <string name="pref_step_length">Adım uzunluğu</string>
     <string name="pref_weight">Kilo</string>
-    <string name="first_day_of_the_week">Haftanın ilk günü</string>
-    <string name="app_language">Dil</string>
-    <string name="theme">Tema</string>
-    <string name="date_format">Tarih biçimi</string>
-    <string name="unit_system">Birim sistemi</string>
-    <string name="export_data">Dışa aktar</string>
-    <string name="backup_frequency">Otomatik yedekleme sıklığı</string>
-    <string name="backup_retention_count">Saklanacak yedek sayısı</string>
-    <string name="backup_retention_hint">(Tümünü saklamak için 0)</string>
-    <string name="backup_retention_unlimited">Sınırsız</string>
-    <string name="backup_location">Yedekleme konumu</string>
-    <string name="backup_location_not_set">Ayarlanmadı</string>
-    <string name="manual_backup">Manuel yedekleme</string>
-    <string name="import_data">İçe aktar</string>
-    <string name="import_data_summary">Adım verilerini bir dosyadan geri yükle</string>
-    <string name="next_backup_scheduled">Sonraki otomatik yedekleme\n%1$s - %2$s</string>
-    <string name="import_invalid_file">Bu dosya geçersiz</string>
-    <string name="import_warning_title">Adım verilerini değiştir</string>
-    <string name="import_warning_message">Bu işlem mevcut tüm adım verilerini siler ve içe aktarılan verilerle değiştirir. Devam edilsin mi?</string>
     <string name="pref_vehicle_filter_title">Hassas adım filtreleme</string>
     <string name="pref_vehicle_filter_summary">Araba, otobüs veya bisikletteki adımları yoksaymak için Etkinlik Tanıma API\'sini kullanın. Google Play Hizmetleri gerektirir.</string>
     <string name="pref_vehicle_filter_summary_foss">Google Play Hizmetleri API\'si ile daha doğru adım tanıma, yalnızca tam sürümde mevcuttur. Github\'dan edinebilirsiniz (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Etkinlik Tanıma API\'si bu cihazda kullanılamıyor</string>
+    <string name="unit_system">Birim sistemi</string>
+    <string name="date_format">Tarih biçimi</string>
+    <string name="first_day_of_the_week">Haftanın ilk günü</string>
+    <string name="app_language">Dil</string>
+    <string name="theme">Tema</string>
+    <string name="preference_system">Sistem varsayılanı</string>
+    <string name="theme_light">Açık</string>
+    <string name="theme_dark">Koyu</string>
 
-    <string name="header_about">Uygulama bilgisi</string>
-    <string name="about_stepsy">Hakkında</string>
-    <string name="about_version">Sürüm</string>
-    <string name="about_license">Lisans</string>
-    <string name="about_html">
-    <![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        Proje sahibi: <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> temel alınarak <a href="https://github.com/0xf4b1">0xf4b1</a> tarafından geliştirilmiştir<br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">Hata bildir</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">Proje web sitesi</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">Lisans: GPL-3.0</a>
-    ]]>
-    </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">Lütfen geçerli bir değer girin</string>
-    <string name="cannot_open_file">Dosya açılamıyor</string>
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">Uygulama verilerini dışa aktar ve geri yükle</string>
+    <string name="backup_frequency">Otomatik yedekleme sıklığı</string>
+    <string name="backup_retention_count">Saklanacak yedek sayısı</string>
+    <string name="backup_location">Yedekleme konumu</string>
+    <string name="backup_location_not_set">Ayarlanmadı</string>
+    <string name="manual_backup">Manuel yedekleme</string>
     <string name="manual_backup_successful">Manuel yedekleme başarılı</string>
-    <string name="select_backup_location_first">Önce yedekleme konumunu seçin</string>
+    <string name="import_data">İçe aktar</string>
+    <string name="import_data_summary">Adım verilerini bir dosyadan geri yükle</string>
+    <string name="import_invalid_file">Bu dosya geçersiz</string>
+    <string name="import_warning_title">Adım verilerini değiştir</string>
+    <string name="import_warning_message">Bu işlem mevcut tüm adım verilerini siler ve içe aktarılan verilerle değiştirir. Devam edilsin mi?</string>
+    <string name="section_import">İçe aktar</string>
+    <string name="section_export">Dışa aktar</string>
+    <string name="backup_retention_all">Tümü</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
+    <string name="cannot_open_file">Dosya açılamıyor</string>
     <string name="import_result">%1$d giriş içe aktarıldı (%2$d başarısız). %3$s</string>
     <string name="today_steps_set">Bugünkü adımlar %1$d olarak ayarlandı.</string>
+
+    <!-- Screen: About -->
+    <string name="about_stepsy">Hakkında</string>
+    <string name="about_version">Sürüm</string>
+    <string name="about_source_code">Kaynak kodu</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">Hata bildir</string>
+    <string name="about_author">Geliştirici</string>
+    <string name="about_original_creator">Orijinal fikir</string>
+    <string name="about_original_creator_summary">MotionMate, 0xf4b1 tarafından</string>
+    <string name="about_license">Lisans</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
 
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Arka plan rengini tersine çevir</string>
@@ -134,101 +180,148 @@
     <string name="widget_pref_bg_opacity">Arka Plan Opaklığı</string>
     <string name="widget_pref_btn_save">Kaydet</string>
 
-    <!-- Achievements -->
-    <string name="achievements_title">Başarılar</string>
-    <string name="milestone_achievements">Dönüm Noktaları</string>
-    <string name="no_milestones_reached">Henüz dönüm noktasına ulaşılmadı. Devam et!</string>
-    <string name="milestone_new">Yeni</string>
+    <!-- Units -->
+    <string name="unit_ft">ft</string>
+    <string name="unit_in">in</string>
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
 
-    <!-- Data Placeholders -->
-    <string name="loading_data">Veri yükleniyor…\n</string>
-    <string name="no_data_available">Veri yok\n</string>
-    <string name="error_loading_data">Veri yüklenirken hata oluştu\n</string>
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">Cihazınızda adım sayma sensörü bulunmamaktadır</string>
+    <string name="notification_category_counting_paused">Sayım duraklatıldı</string>
+    <string name="notification_category_steps_day">Adım verisi</string>
+    <string name="notification_description_paused">Adım sayımı duraklatıldığında bilgilendir</string>
+    <string name="notification_description_steps_day">Bugünkü adımlar</string>
+    <string name="notification_step_counting_paused">Adım sayımı duraklatıldı</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s kcal</string>
+    <string name="notification_step_goal_completed">Adım hedefi tamamlandı!</string>
+    <string name="step_counting_paused">Adım sayımı duraklatıldı</string>
+    <string name="step_counting_resumed">Adım sayımı devam ediyor</string>
+    <string name="action_pause">Duraklat</string>
+    <string name="action_resume">Devam et</string>
 
-    <!-- Daily Goals -->
-    <string name="daily_goals">Günlük Hedef</string>
-    <string name="daily_goal_notification">Ulaşıldığında bildir</string>
-    <string name="progress_in_notification">Bildirimde ilerlemeyi göster</string>
-    <string name="daily_goal_target">Günlük adım hedefi</string>
-    <string name="daily_goal_hint">Günlük adım hedefinizi girin</string>
-    <string name="encouraging_notifications">Teşvik edici bildirimler</string>
-    <string name="goal_chart_line">Grafikte hedef çizgisini göster</string>
-
-    <!-- Records -->
-    <string name="personal_records">Kişisel Rekorlar</string>
-    <string name="most_steps_day">En Fazla Günlük Adım</string>
-    <string name="most_walked_month">En Hareketli Ay</string>
-    <string name="streak_record">En Uzun %1$s+ Adım Serisi</string>
-    <string name="top_3_days">En iyi 3 gün</string>
-    <string name="best_week">En iyi hafta</string>
-    <string name="avg_steps_per_day">Günlük ortalama</string>
-    <string name="since_date">%1$s tarihinden beri</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">Günlük Adım Hedefi Uyarıları</string>
-    <string name="daily_goal_notification_channel_desc">Günlük adım hedef ilerlemeniz hakkında güncellemeler alın</string>
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">Hedefe ulaşıldı</string>
+    <string name="channel_goal_desc">Günlük adım hedefine ulaşılınca küçük bir ödül</string>
+    <string name="channel_reminders_name">Teşvik edici hatırlatmalar</string>
+    <string name="channel_reminders_desc">Hedefe yaklaşırken hatırlatmalar</string>
     <string name="goal_achieved_title">🎉 Hedefe ulaştınız!</string>
     <string name="goal_achieved_message">%1$s hedefinizi tamamladınız!</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d • %2$s</string>
-    <string name="thousand_steps_with_distance">%1$d bin • %2$s</string>
-    <string name="million_steps_with_distance">%1$dM • %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM • %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">Bugünün adım sayısını ayarla</string>
-    <string name="confirm_decrease_title">Daha Düşük Adım Sayısı</string>
-    <string name="confirm_decrease_message">Bu değer mevcut adım sayısından daha düşük. Devam etmek istediğinizden emin misiniz?</string>
-    <string name="invalid_step_count">Lütfen geçerli bir sayı girin</string>
-    <string name="steps_updated">Adım sayısı güncellendi</string>
-
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">Devam et!</string>
-    <string name="encouraging_notification_15_percent">Harika bir başlangıç! Hedefinin %1$d%%\'ini tamamladın. Sadece %2$d adım kaldı!</string>
-    <string name="encouraging_notification_75_percent">Neredeyse bitti! %1$d%% tamamlandı. Hedefe sadece %2$d adım!</string>
-
-    <string name="encouraging_notification_15_percent_alt1">İyi gidiyorsun! Günlük hedefinin %1$d%%’ini yaptın. Hareket etmeye devam et!</string>
-    <string name="encouraging_notification_15_percent_alt2">Doğru yoldasın! %1$d%% tamam. %2$d adım kaldı!</string>
-    <string name="encouraging_notification_15_percent_alt3">Aferin! Hedefinin %1$d%%’i tamamlandı. Aktif kal!</string>
-
-    <string name="encouraging_notification_75_percent_alt1">Çok az kaldı! %1$d%% bitti. Sadece %2$d adım!</string>
-    <string name="encouraging_notification_75_percent_alt2">Son adımlar! %1$d%% tamamlandı. Yapabilirsin — sadece %2$d adım!</string>
-    <string name="encouraging_notification_75_percent_alt3">Hedef çok yakın! %1$d%% bitti. Zafer için %2$d adım kaldı!</string>
-
-    <!-- Milestone notification strings -->
+    <string name="encouraging_title">Devam et!</string>
+    <string name="encouraging_early_1">İyi başlangıç: %1$s tamam, %2$s kaldı.</string>
+    <string name="encouraging_early_2">Adımlar birikiyor! %1$s tamam, %2$s kaldı.</string>
+    <string name="encouraging_late_1">Çok az kaldı! %1$s tamam, sadece %2$s kaldı.</string>
+    <string name="encouraging_late_2">Son hamle: %1$s tamam, %2$s kaldı.</string>
     <string name="milestone_notification_title">%s adımına ulaştın!</string>
     <string name="milestone_notification_text">Toplam %s adım!\nDevam et.</string>
     <string name="notification_category_milestone">Kilometre Taşları</string>
     <string name="notification_description_milestone">Adım kilometre taşlarına ulaşıldığında bildirimler</string>
-    <string name="milestone_notifications_toggle">Kilometre taşı bildirimleri</string>
-    <string name="mute_milestone_notifications_action">Sessize al</string>
-    <string name="milestone_notifications_tooltip">Kilometre taşı bildirimleri</string>
-
-    <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d Mn</string>
     <string name="milestone_short_millions_decimal">%.1f Mn</string>
     <string name="milestone_short_thousands">%1$d B</string>
-
-    <!-- Milestone detail dialog -->
-    <string name="milestone_label_distance">Mesafe</string>
-    <string name="milestone_label_date">Ulaşıldı</string>
-    <string name="milestone_label_took">Alınan süre</string>
-
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d gün</item>
-        <item quantity="other">%d gün</item>
-    </plurals>
+    <string name="mute_notifications_action">Sessize al</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">Belirtilen saatte devam et</string>
-    <string name="pause_when_to_resume">Adım sayımı ne zaman devam etsin?</string>
     <string name="pause_step_counting">Adım sayımını duraklat</string>
     <string name="pause_30_minutes">30 dakika</string>
     <string name="pause_1_hour">1 saat</string>
     <string name="pause_2_hours">2 saat</string>
     <string name="pause_custom_time">Özel süre</string>
     <string name="pause_indefinitely">Ben açana kadar</string>
+    <string name="resume_at_time">Belirtilen saatte devam et</string>
     <string name="step_counting_paused_until">Adım sayımı %s kadar duraklatıldı</string>
     <string name="step_counting_resumed_auto">Adım sayımı otomatik devam etti</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">Anladım</string>
+    <string name="translate">Çevir</string>
+    <string name="star_title">Uygulamayı beğendiniz mi?</string>
+    <string name="star_body">Stepsy açık kaynaklıdır! Faydalı bulduysanız projeye Github\'da bir yıldız verirseniz çok sevinirim. Başkalarının Stepsy\'yi keşfetmesine yardımcı olur ve geliştirmeye devam etmem için beni motive eder.</string>
+    <string name="star_button">Github\'da yıldız ver</string>
+    <string name="star_dismiss">Hayır, teşekkürler</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">Kurulumu atla</string>
+    <string name="onboarding_get_started">Başla</string>
+    <string name="onboarding_continue">Devam</string>
+    <string name="onboarding_done">Bitti</string>
+    <string name="onboarding_allow">İzin ver</string>
+    <string name="onboarding_not_now">Şimdi değil</string>
+    <string name="onboarding_ask_again">Tekrar sor</string>
+    <string name="onboarding_open_settings">Ayarları aç</string>
+    <string name="onboarding_status_on">Açık</string>
+    <string name="onboarding_status_off">Kapalı</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">Bu telefon adım sensörü bildirmiyor, bu yüzden Stepsy burada sayım yapamaz.</string>
+    <string name="onboarding_restore_title">Adım verilerini içe aktar</string>
+    <string name="onboarding_restore_summary">Bir yedek dosyasını geri yükle</string>
+    <string name="onboarding_restore_busy">Geri yükleniyor...</string>
+    <string name="onboarding_restore_done_title">Yedek geri yüklendi</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="one">%d günlük geçmiş geri geldi</item>
+        <item quantity="other">%d günlük geçmiş geri geldi</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">Fiziksel Etkinlik</string>
+    <string name="onboarding_steps_title">Stepsy adımlarınızı algılasın</string>
+    <string name="onboarding_steps_body">Bu izin, telefonunuzun adım algılama sensörünü kullanmak için gereklidir.</string>
+    <string name="onboarding_steps_row">Fiziksel Etkinlik</string>
+    <string name="onboarding_steps_idle">Henüz izin verilmedi</string>
+    <string name="onboarding_steps_on">İzin verildi</string>
+    <string name="onboarding_steps_denied">İzin verilmedi</string>
+    <string name="onboarding_steps_blocked">Android tarafından engellendi</string>
+    <string name="onboarding_steps_note_on">Birkaç adım attığınızda sayacın yükseldiğini görebilirsiniz.</string>
+    <string name="onboarding_steps_note_denied">Bu izin verilmeden Stepsy sayım yapamaz.</string>
+    <string name="onboarding_steps_note_blocked">Android bu isteği bir daha göstermeyecek. İzni uygulama ayarlarından elle vermeniz gerekir.</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">Pil</string>
+    <string name="onboarding_pocket_title">Cepte güvenilir sayım</string>
+    <string name="onboarding_pocket_body">Android, pil tasarrufu için Stepsy\'nin arka planda sensör değişikliklerini izlemesini durdurabilir. Adım sayınızın eksik kalmaması için bu uygulamada pil optimizasyonunu kapatmanız gerekir. Düşük güçlü bir sensör kullanır ve siz yürürken veriyi verimli işler, bu nedenle pil tüketimi çok düşük kalmalıdır.</string>
+    <string name="onboarding_pocket_row">Pil optimizasyonu</string>
+    <string name="onboarding_pocket_on">Arka plan için izinli</string>
+    <string name="onboarding_pocket_off">Arka plan için izinli değil</string>
+    <string name="onboarding_pocket_note_on">Tamam! Telefonunuz uyurken Stepsy saymaya devam eder. Bazı telefonlar kendi pil kurallarını ekler; sayım yine de duruyorsa Stepsy\'nin cihazınızda arka planda çalışabildiğinden emin olun.</string>
+    <string name="onboarding_pocket_note_tried">Bunu daha sonra ayarlardan değiştirebilirsiniz.</string>
+    <string name="onboarding_pocket_note_manual">Bu telefonda tek dokunuşluk istek yok. Aşağıdaki listede Stepsy\'yi bulun ve \"Kısıtlanmamış\" veya \"Optimize etme\" seçeneğini seçin.</string>
+    <string name="onboarding_pocket_note_none">Bu telefonda pil ayarları ekranı açılmadı. Ayarlar > Uygulamalar > Stepsy > Pil bölümüne bakın.</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">Sizin hakkınızda</string>
+    <string name="onboarding_body_title">tahminler için kişisel bilgiler</string>
+    <string name="onboarding_body_body">Boy adım uzunluğunu, kilo ise yakılan kalori tahminini belirler. İkisi de yalnızca bu telefonda kalır.</string>
+    <string name="onboarding_body_note">Bu tercihleri daha sonra ayarlardan değiştirebilirsiniz.</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">Günlük hedef</string>
+    <string name="onboarding_goal_title">Günlük hedef seçmek</string>
+    <string name="onboarding_goal_body">Ana ekrandaki ilerleme çubuğunu her gün doldurun! Hazır bir değer seçebilir, kendi hedefinizi belirleyebilir ya da tamamen kapatabilirsiniz. İstediğiniz zaman değiştirilebilir ve adım verilerinizi etkilemez.</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s ve %3$d kcal / gün</string>
+    <string name="onboarding_reminders_title">Bildirimler</string>
+    <string name="onboarding_reminders_summary">İsteğe bağlı: canlı bildirimde ilerleme, adım hedefine yaklaşırken teşvik edici hatırlatmalar ve daha fazlası. Önerilir.</string>
+    <string name="onboarding_reminders_on">İzin verildi</string>
+    <string name="onboarding_reminders_blocked">Android tarafından engellendi. Bildirim ayarlarını açmak için dokunun</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">Kapat</string>
+    <string name="onboarding_card_activity_title">Etkinliğe erişim ver</string>
+    <string name="onboarding_card_activity_summary">Bu izin, telefonunuzun adım algılama sensörünü kullanmak için gereklidir.</string>
+    <string name="onboarding_card_battery_title">Arka planda kararlılık</string>
+    <string name="onboarding_card_battery_summary">Stepsy tasarım gereği hafiftir, ancak sisteminiz adımları güvenilir biçimde saymasını engelleyebilir. Uygulamanın arka planda çalışmasına izin verin.</string>
+    <string name="onboarding_card_notifications_title">Bildirimler</string>
+    <string name="onboarding_card_notifications_summary">İsteğe bağlı: canlı bildirimde ilerleme, adım hedefine yaklaşırken teşvik edici hatırlatmalar ve daha fazlası. Önerilir.</string>
+    <string name="onboarding_strip_title">Adımlar sayılmıyor</string>
+    <string name="onboarding_strip_summary">Adım algılamaya izin vermek için dokunun.</string>
+    <string name="onboarding_welcome_headline_b">Hafif adım sayar.</string>
+    <string name="onboarding_welcome_point_offline">Tasarım gereği çevrimdışı</string>
+    <string name="onboarding_welcome_point_battery">Pile hafif</string>
+    <string name="onboarding_welcome_point_backups">Otomatik yerel yedeklemeler kurun</string>
+    <string name="onboarding_welcome_point_pressure">Baskı olmadan ilerleme</string>
 </resources>

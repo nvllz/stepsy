@@ -6,7 +6,18 @@
     <color name="colorSurface">#FFFFFF</color>
     <color name="colorOnSurface">#121212</color>
     <color name="colorBackground">#FFFFFF</color>
-    <color name="colorSpecial">#CCAA3F</color>
+    <color name="colorSpecial">#CB2B66</color>
+    <color name="colorFlame">#E65100</color>
+
+    <!-- Hero-bar lap ramp: each lap is one grey step lighter, light accumulating with progress. -->
+    <color name="colorLap2">#757575</color>
+    <color name="colorLap3">#8F8F8F</color>
+    <color name="colorLap4">#AAAAAA</color>
+    <color name="colorLap5">#C4C4C4</color>
+    <!-- Hero-bar strata: laps 6-10 ease from colorLap5 to Peak. Sheen lifts layer tips,
+         the knob core and the inner hairline. -->
+    <color name="colorLapPeak">#CCCCCC</color>
+    <color name="colorLapSheen">#F5F5F5</color>
 
     <color name="widgetPrimary">#161616</color>
     <color name="widgetSecondary">#292929</color>
@@ -17,4 +28,9 @@
 
     <color name="colorDialogSurface">#F4F4F4</color>
     <color name="colorAccentOpaque">#12575757</color>
+
+    <color name="colorGoal">#5A5A5A</color>
+    <color name="colorSilver">#6F6F6F</color>
+    <color name="colorDistance">#4A6F92</color>
+    <color name="colorStepsDay">#5E7F54</color>
 </resources>

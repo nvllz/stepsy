@@ -1,1223 +1,213 @@
 package com.nvllz.stepsy.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
-import android.graphics.Typeface
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.os.PowerManager
-import android.os.ResultReceiver
-import android.provider.Settings
-import android.text.format.DateUtils
-import android.view.View
-import android.view.ViewGroup
-import android.widget.CalendarView
-import android.widget.ImageButton
-import android.widget.TextView
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
-import androidx.core.net.toUri
-import androidx.core.view.WindowCompat
-import androidx.transition.AutoTransition
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
-import com.google.android.flexbox.FlexboxLayout
-import com.google.android.material.button.MaterialButton
+import androidx.lifecycle.compose.LifecycleResumeEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
+import com.nvllz.stepsy.service.StepSnapshot
+import com.nvllz.stepsy.service.StepUpdates
+import com.nvllz.stepsy.ui.announcement.AnnouncementManager
+import com.nvllz.stepsy.ui.announcement.AnnouncementSheet
+import com.nvllz.stepsy.ui.components.LocalToast
+import com.nvllz.stepsy.ui.components.ToastHost
+import com.nvllz.stepsy.ui.components.ToastKind
+import com.nvllz.stepsy.ui.components.ToastState
+import com.nvllz.stepsy.ui.components.rememberToastState
+import com.nvllz.stepsy.ui.onboarding.OnboardingFlow
+import com.nvllz.stepsy.ui.theme.StepsyTheme
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.BackupScheduler
-import com.nvllz.stepsy.util.Database
-import com.nvllz.stepsy.util.Util
-import java.text.SimpleDateFormat
-import java.util.*
-import android.view.Menu
-import android.view.MenuItem
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.graphics.drawable.toDrawable
-import com.nvllz.stepsy.util.GoalNotificationWorker
-import java.text.NumberFormat
-import android.text.InputType
-import android.text.method.DigitsKeyListener
-import android.util.Log
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.nvllz.stepsy.util.StreakCalculator
-import kotlinx.coroutines.launch
-import java.text.DateFormat
-import java.util.Date
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import com.nvllz.stepsy.ui.announcement.AnnouncementManager
 import com.nvllz.stepsy.util.TimedPauseManager
-import java.util.concurrent.TimeUnit
+import com.nvllz.stepsy.util.TrackingAccess
+import com.nvllz.stepsy.util.Util
+import kotlinx.coroutines.flow.flowOf
 
 internal class MainActivity : AppCompatActivity() {
-    private lateinit var mTextViewMeters: TextView
-    private lateinit var mTextViewSteps: TextView
-    private lateinit var mTextViewCalories: TextView
-    private lateinit var mCalendarView: CalendarView
-    private lateinit var mChart: Chart
-    private lateinit var mTextViewChartHeader: TextView
-    private lateinit var mTextViewChartWeekRange: TextView
-    private var mCurrentSteps: Int = 0
-    private var mSelectedMonth = Util.calendar
-    private var isPaused = false
-    private var currentSelectedButton: MaterialButton? = null
-    private var isTodaySelected = true
-    private var isChartInPast7DaysMode = true
-    private var currentWeekStartTime = 0L
-    private var mLastKnownDate: String = Util.todayDateString()
-
-    private lateinit var mTextViewDayHeader: TextView
-    private lateinit var mTextViewDayDetails: TextView
-    private lateinit var mTextViewMonthTotal: TextView
-    private lateinit var mTextViewMonthAverage: TextView
-    private lateinit var mTextViewTopHeader: TextView
-    private lateinit var mTextAvgPerDayHeader: TextView
-    private lateinit var mTextAvgPerDayValue: TextView
-
-    private lateinit var mRangeStaticBox: FlexboxLayout
-    private lateinit var mRangeDynamicBox: FlexboxLayout
-    private lateinit var mExpandButton: ImageButton
-    private var isExpanded = false
-    private var currentSelectedYearButton: MaterialButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Util.applyTheme(AppPreferences.theme)
-        supportActionBar?.let { actionBar ->
-            actionBar.setBackgroundDrawable(android.graphics.Color.TRANSPARENT.toDrawable())
-            actionBar.setDisplayShowTitleEnabled(false)
-            actionBar.elevation = 0f
-        }
-
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         BackupScheduler.ensureBackupScheduled(applicationContext)
-        GoalNotificationWorker.createNotificationChannels(this)
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        setContentView(R.layout.activity_main)
-
-        mRangeStaticBox = findViewById(R.id.rangeStaticBox)
-        mRangeDynamicBox = findViewById(R.id.rangeDynamicBox)
-        mExpandButton = findViewById(R.id.expandButton)
-
-        AnnouncementManager.showIfNeeded(this)
-
-        mExpandButton.setOnClickListener {
-            isExpanded = !isExpanded
-
-            if (isExpanded) {
-                mRangeStaticBox.visibility = View.VISIBLE
-                mRangeDynamicBox.visibility = View.VISIBLE
+        setContent {
+            val theme by AppPreferences.themeFlow().collectAsState(AppPreferences.theme)
+            val systemDark = (LocalContext.current.applicationContext.resources.configuration.uiMode
+                    and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+            val override = when (theme) {
+                "light" -> Configuration.UI_MODE_NIGHT_NO
+                "dark" -> Configuration.UI_MODE_NIGHT_YES
+                else -> if (systemDark) Configuration.UI_MODE_NIGHT_YES else Configuration.UI_MODE_NIGHT_NO
             }
-
-            TransitionManager.beginDelayedTransition(
-                mRangeStaticBox.parent as ViewGroup,
-                AutoTransition().apply {
-                    duration = 300
-                    addListener(object : Transition.TransitionListener {
-                        override fun onTransitionEnd(transition: Transition) {
-                            if (!isExpanded) {
-                                mRangeStaticBox.visibility = View.GONE
-                                mRangeDynamicBox.visibility = View.GONE
-                            }
-                        }
-                        override fun onTransitionStart(transition: Transition) {}
-                        override fun onTransitionCancel(transition: Transition) {}
-                        override fun onTransitionPause(transition: Transition) {}
-                        override fun onTransitionResume(transition: Transition) {}
-                    })
-                }
-            )
-
-            mRangeStaticBox.visibility = if (isExpanded) View.VISIBLE else View.INVISIBLE
-            mRangeDynamicBox.visibility = if (isExpanded) View.VISIBLE else View.INVISIBLE
-
-            mExpandButton.setImageResource(
-                if (isExpanded) R.drawable.ic_expand_less
-                else R.drawable.ic_expand_more
-            )
+            StepsyTheme(uiModeOverride = override) { Root() }
         }
-
-        loadYearButtons()
-        updateGoalStreakUI()
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                AppPreferences.dailyGoalTargetFlow().collect {
-                    updateGoalStreakUI()
-                }
-            }
-        }
-
-        val todayButton = findViewById<MaterialButton>(R.id.button_today)
-        setSelectedButton(todayButton)
-
-        mTextViewMeters = findViewById(R.id.textViewMeters)
-        mTextViewSteps = findViewById(R.id.textViewSteps)
-        mTextViewCalories = findViewById(R.id.textViewCalories)
-        isPaused = getSharedPreferences("StepsyPrefs", MODE_PRIVATE).getBoolean(MotionService.KEY_IS_PAUSED, false)
-        mTextViewDayHeader = findViewById(R.id.textViewDayHeader)
-        mTextViewDayDetails = findViewById(R.id.textViewDayDetails)
-        mTextViewMonthTotal = findViewById(R.id.textViewMonthTotal)
-        mTextViewMonthAverage = findViewById(R.id.textViewMonthAverage)
-        mTextViewTopHeader = findViewById(R.id.textViewTopHeader)
-        mTextAvgPerDayHeader = findViewById(R.id.textAvgPerDayHeader)
-        mTextAvgPerDayValue = findViewById(R.id.textAvgPerDayValue)
-
-        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
-        if (isPaused) {
-            fab.setImageResource(android.R.drawable.ic_media_play)
-            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-        } else {
-            fab.setImageResource(android.R.drawable.ic_media_pause)
-            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
-        }
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fab)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val layoutParams = view.layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams.bottomMargin = 16.dpToPx(view.context) + systemBars.bottom
-            view.layoutParams = layoutParams
-            insets
-        }
-
-        mChart = findViewById(R.id.chart)
-        mTextViewChartHeader = findViewById(R.id.textViewChartHeader)
-        mTextViewChartWeekRange = findViewById(R.id.textViewChartWeekRange)
-        mTextViewChartHeader.setOnClickListener {
-            isChartInPast7DaysMode = !isChartInPast7DaysMode
-            getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit {
-                putBoolean("is_chart_past_7_days", isChartInPast7DaysMode)
-            }
-            updateCalendarToToday()
-            updateChart()
-        }
-
-        mCalendarView = findViewById(R.id.calendar)
-        val db = Database.getInstance(this)
-        val firstEntryDate = db.firstEntry
-        mCalendarView.minDate = if (firstEntryDate != null) {
-            Util.dateStringToCalendarMillis(firstEntryDate)
-        } else {
-            Util.calendar.timeInMillis
-        }
-        mCalendarView.maxDate = Util.calendar.timeInMillis
-        mCalendarView.firstDayOfWeek = AppPreferences.firstDayOfWeek
-        mCalendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            mSelectedMonth.set(Calendar.YEAR, year)
-            mSelectedMonth.set(Calendar.MONTH, month)
-            mSelectedMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-            isChartInPast7DaysMode = false
-            updateChart()
-        }
-
-        findViewById<MaterialButton>(R.id.button_today).setOnClickListener {
-            handleTimeRangeSelection("TODAY", it as MaterialButton)
-        }
-
-        findViewById<MaterialButton>(R.id.button_this_week).setOnClickListener {
-            handleTimeRangeSelection("WEEK", it as MaterialButton)
-        }
-
-        findViewById<MaterialButton>(R.id.button_this_month).setOnClickListener {
-            handleTimeRangeSelection("MONTH", it as MaterialButton)
-        }
-
-        findViewById<MaterialButton>(R.id.button_7days).setOnClickListener {
-            handleTimeRangeSelection("7 DAYS", it as MaterialButton)
-        }
-
-        findViewById<MaterialButton>(R.id.button_30days).setOnClickListener {
-            handleTimeRangeSelection("30 DAYS", it as MaterialButton)
-        }
-
-        findViewById<MaterialButton>(R.id.button_alltime).setOnClickListener {
-            handleTimeRangeSelection("ALL TIME", it as MaterialButton)
-        }
-
-        findViewById<View>(R.id.fab).let {
-            setupFabLongPress()
-
-            it.setOnClickListener {
-                val fab = it as com.google.android.material.floatingactionbutton.FloatingActionButton
-
-                if (isPaused) {
-                    TimedPauseManager.clearPauseEndTime(this)
-
-                    val intent = Intent(this, MotionService::class.java)
-                    intent.action = MotionService.ACTION_RESUME_COUNTING
-                    startService(intent)
-                    fab.setImageResource(android.R.drawable.ic_media_pause)
-                    fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary))
-                    getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit { putBoolean(MotionService.KEY_IS_PAUSED, false) }
-                } else {
-                    TimedPauseManager.clearPauseEndTime(this)
-
-                    val intent = Intent(this, MotionService::class.java)
-                    intent.action = MotionService.ACTION_PAUSE_COUNTING
-                    startService(intent)
-                    fab.setImageResource(android.R.drawable.ic_media_play)
-                    fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-                    getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit { putBoolean(MotionService.KEY_IS_PAUSED, true) }
-                }
-                isPaused = !isPaused
-            }
-        }
-
-        restoreSelectionState()
-
-        isChartInPast7DaysMode = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-            .getBoolean("is_chart_past_7_days", true)
-        updateChart()
-
-        checkPermissions()
-
-        setupStepCountModification()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private data class DisplayPrefs(
+        val firstDay: Int,
+        val units: Util.UnitSystem,
+        val dateFormat: String,
+        val height: Int,
+        val weight: Int,
+        val stepLength: Float,
+    )
 
-        val today = Util.todayDateString()
-        if (today != mLastKnownDate) {
-            recreate()
-            return
+    private fun readDisplayPrefs() = DisplayPrefs(
+        AppPreferences.firstDayOfWeek,
+        AppPreferences.unitSystem,
+        AppPreferences.dateFormatString,
+        AppPreferences.height,
+        AppPreferences.weight,
+        AppPreferences.stepLength,
+    )
+
+    @Composable
+    private fun Root() {
+        val ctx = LocalContext.current
+        val lastDate = remember { Util.todayDateString() }
+        val launchTheme = remember { AppPreferences.theme }
+        val launchFirstDay = remember { AppPreferences.firstDayOfWeek }
+        var canTrack by remember { mutableStateOf(ctx.canTrackSteps()) }
+        var onboarding by remember { mutableStateOf(!AppPreferences.onboardingCompleted) }
+        var snapshotTick by remember { mutableIntStateOf(0) }
+        val initial = remember(snapshotTick) { StepSnapshot(AppPreferences.steps, AppPreferences.isPaused) }
+        var pending by remember { mutableStateOf<Boolean?>(null) }
+
+        val askSteps = rememberStepsAsk { result ->
+            canTrack = ctx.canTrackSteps()
+            if (result == TrackingAccess.Ask.BLOCKED) TrackingAccess.open(ctx, TrackingAccess.appSettingsIntent(ctx))
+        }
+        val stepsBlocked = remember(canTrack) { !canTrack && TrackingAccess.stepPermissionMissing(ctx) }
+        var launchPrefs by remember { mutableStateOf(readDisplayPrefs()) }
+        LifecycleResumeEffect(Unit) {
+            canTrack = ctx.canTrackSteps()
+            if (Util.todayDateString() != lastDate || (!onboarding && readDisplayPrefs() != launchPrefs)) recreate()
+            onPauseOrDispose {}
         }
 
-        if (isActivityPermissionGranted()) {
-            subscribeService()
-            startService(Intent(this, MotionService::class.java).apply {
-                putExtra("FORCE_UPDATE", true)
+        val flow = remember(canTrack, if (canTrack) null else initial) { if (canTrack) StepUpdates.flow(ctx) else flowOf(initial) }
+        val live by flow.collectAsStateWithLifecycle(initial)
+        LaunchedEffect(live) { pending = null }
+        val paused = pending ?: live.paused
+
+        val toast = rememberToastState()
+
+        val pauseOptionsLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.getStringExtra(TileDialogActivity.EXTRA_TOAST_TEXT)?.let { message ->
+                    toast.show(message, ToastKind.INFO, ToastState.DURATION_LONG)
+                }
+            }
+        }
+
+        Box(Modifier.fillMaxSize()) {
+            CompositionLocalProvider(LocalToast provides toast) {
+                Crossfade(
+                    targetState = onboarding,
+                    animationSpec = tween(250),
+                    label = "homeGate",
+                ) { showOnboarding ->
+                    if (showOnboarding) {
+                        OnboardingFlow(
+                            steps = live.steps,
+                            canTrack = canTrack,
+                            onTrackingChanged = { canTrack = ctx.canTrackSteps() },
+                            onDataRestored = { snapshotTick++ },
+                            onFinished = {
+                                AppPreferences.onboardingCompleted = true
+                                launchPrefs = readDisplayPrefs()
+                                snapshotTick++
+                                onboarding = false
+                            },
+                        )
+                    } else {
+                        HomeScreen(
+                            steps = live.steps,
+                            paused = paused,
+                            onTogglePause = {
+                                TimedPauseManager.clearPauseEndTime(ctx)
+                                startService(Intent(ctx, MotionService::class.java).apply {
+                                    action = if (paused) MotionService.ACTION_RESUME_COUNTING else MotionService.ACTION_PAUSE_COUNTING
+                                    putExtra(MotionService.EXTRA_SUPPRESS_TOAST, true)
+                                })
+                                pending = !paused
+                                toast.show(
+                                    ctx.getString(if (paused) R.string.step_counting_resumed else R.string.step_counting_paused),
+                                    if (paused) ToastKind.SUCCESS else ToastKind.INFO,
+                                )
+                            },
+                            onPauseOptions = {
+                                pauseOptionsLauncher.launch(
+                                    Intent(ctx, TileDialogActivity::class.java)
+                                        .putExtra(TileDialogActivity.EXTRA_FROM_APP, true)
+                                )
+                            },
+                            onUpdateSteps = { n ->
+                                ContextCompat.startForegroundService(ctx, Intent(ctx, MotionService::class.java)
+                                    .putExtra("MANUAL_STEP_COUNT_CHANGE", true).putExtra(MotionService.KEY_STEPS, n))
+                            },
+                            onOpen = { startActivity(Intent(ctx, it)) },
+                            stepsBlocked = stepsBlocked,
+                            onFixSteps = askSteps,
+                        )
+                    }
+                }
+            }
+            ToastHost(
+                state = toast,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .navigationBarsPadding()
+                    .padding(bottom = 84.dp),
+            )
+        }
+
+        var pendingAnnouncement by remember {
+            mutableStateOf(if (onboarding) null else AnnouncementManager.pendingKind(ctx))
+        }
+        pendingAnnouncement?.let { kind ->
+            AnnouncementSheet(kind = kind, onDismiss = {
+                AnnouncementManager.markHandled(kind)
+                pendingAnnouncement = null
             })
         }
     }
 
-    private fun setSelectedButton(button: MaterialButton, isYearButton: Boolean = false) {
-        if (isYearButton) {
-            currentSelectedYearButton?.let {
-                it.strokeWidth = 2
-                it.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
-                it.setTypeface(null, Typeface.NORMAL)
-            }
-            currentSelectedYearButton = button
-            currentSelectedButton?.let {
-                it.strokeWidth = 2
-                it.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
-                it.setTypeface(null, Typeface.NORMAL)
-            }
-            currentSelectedButton = null
-        } else {
-            currentSelectedButton?.let {
-                it.strokeWidth = 2
-                it.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
-                it.setTypeface(null, Typeface.NORMAL)
-            }
-            currentSelectedButton = button
-            currentSelectedYearButton?.let {
-                it.strokeWidth = 2
-                it.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
-                it.setTypeface(null, Typeface.NORMAL)
-            }
-            currentSelectedYearButton = null
-        }
+    private fun Context.isGranted(p: String) = ContextCompat.checkSelfPermission(this, p) == PackageManager.PERMISSION_GRANTED
 
-        button.setTypeface(null, Typeface.BOLD)
-        button.strokeWidth = 6
-        button.setTextColor(ContextCompat.getColor(this, R.color.colorOnSurface))
-    }
-
-    @SuppressLint("RestrictedApi")
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-
-        if (menu is MenuBuilder) {
-            menu.setOptionalIconsVisible(true)
-        }
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_achievements -> {
-                startActivity(Intent(this, AchievementsActivity::class.java))
-                true
-            }
-
-            R.id.action_daily_goals -> {
-                startActivity(Intent(this, DailyGoalsActivity::class.java))
-                true
-            }
-
-            R.id.action_backup -> {
-                startActivity(Intent(this, BackupActivity::class.java))
-                true
-            }
-
-            R.id.action_settings -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun loadYearButtons() {
-        val db = Database.getInstance(this)
-        val firstDateStr = db.firstEntry ?: return
-        val firstYear = firstDateStr.take(4).toIntOrNull() ?: return
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-
-        mRangeDynamicBox.removeAllViews()
-
-        for (year in firstYear..currentYear) {
-            val startOfYear = "%04d-01-01".format(year)
-            val endOfYear = "%04d-12-31".format(year)
-
-            val hasData = db.getSumSteps(startOfYear, endOfYear) > 0
-
-            if (hasData) {
-                val button = layoutInflater.inflate(R.layout.year_button, mRangeDynamicBox, false) as MaterialButton
-                button.text = year.toString()
-                button.setOnClickListener {
-                    setSelectedButton(button, true)
-                    updateYearSummaryView(year)
-                }
-                mRangeDynamicBox.addView(button)
-            }
-        }
-    }
-
-    private fun updateCalendarToToday() {
-        mCalendarView.date = Util.calendar.timeInMillis
-        mSelectedMonth.timeInMillis = Util.calendar.timeInMillis
-    }
-
-    private fun handleTimeRangeSelection(range: String, button: MaterialButton) {
-        setSelectedButton(button)
-        isTodaySelected = range == "TODAY"
-        saveSelectedRange(range)
-
-        if (range == "7 DAYS") {
-            updateCalendarToToday()
-            isChartInPast7DaysMode = true
-            updateChart()
-        }
-
-        if (isTodaySelected) {
-            mTextViewTopHeader.text = getString(R.string.header_today)
-            updateView(mCurrentSteps)
-            return
-        }
-
-        val timeZone = getDeviceTimeZone()
-        val calendar = Calendar.getInstance(timeZone)
-        val db = Database.getInstance(this)
-
-        val (startDate, endDate) = when (range) {
-            "WEEK" -> {
-                mTextViewTopHeader.text = getString(R.string.header_week)
-                calendar.firstDayOfWeek = AppPreferences.firstDayOfWeek
-                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
-                val start = Util.calendarToDateString(calendar)
-                calendar.add(Calendar.DAY_OF_YEAR, 6)
-                Pair(start, Util.calendarToDateString(calendar))
-            }
-            "MONTH" -> {
-                mTextViewTopHeader.text = getString(R.string.header_month)
-                calendar.set(Calendar.DAY_OF_MONTH, 1)
-                val start = Util.calendarToDateString(calendar)
-                calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-                Pair(start, Util.calendarToDateString(calendar))
-            }
-            "7 DAYS" -> {
-                mTextViewTopHeader.text = getString(R.string.header_7d)
-                calendar.add(Calendar.DAY_OF_YEAR, -6)
-                val start = Util.calendarToDateString(calendar)
-                calendar.add(Calendar.DAY_OF_YEAR, 6)
-                Pair(start, Util.calendarToDateString(calendar))
-            }
-            "30 DAYS" -> {
-                mTextViewTopHeader.text = getString(R.string.header_30d)
-                calendar.add(Calendar.DAY_OF_YEAR, -29)
-                val start = Util.calendarToDateString(calendar)
-                calendar.add(Calendar.DAY_OF_YEAR, 29)
-                Pair(start, Util.calendarToDateString(calendar))
-            }
-            "ALL TIME" -> {
-                val earliestDate = db.firstEntry ?: Util.todayDateString()
-                val latestDate = db.lastEntry ?: Util.todayDateString()
-                val dateFormat: DateFormat = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
-                mTextViewTopHeader.text = getString(
-                    R.string.since_date,
-                    dateFormat.format(Date(Util.dateStringToCalendarMillis(earliestDate)))
-                )
-                Pair(earliestDate, latestDate)
-            }
-            else -> return
-        }
-
-        val totalSteps = db.getSumSteps(startDate, endDate)
-        val avgSteps = db.avgSteps(startDate, endDate)
-        val avgStepsFormatted = if (avgSteps >= 10_000) {
-            NumberFormat.getIntegerInstance().format(avgSteps)
-        } else {
-            avgSteps.toString()
-        }
-
-        val formattedSteps = if (totalSteps >= 10_000) {
-            NumberFormat.getIntegerInstance().format(totalSteps)
-        } else {
-            totalSteps.toString()
-        }
-
-        val stepsPlural = resources.getQuantityString(
-            R.plurals.steps_formatted,
-            totalSteps,
-            formattedSteps
-        )
-
-        mTextViewSteps.text = stepsPlural
-        mTextViewMeters.text = String.format(
-            getString(R.string.distance_today),
-            Util.stepsToDistance(totalSteps),
-            Util.distanceUnit()
-        )
-
-        mTextViewCalories.visibility = View.GONE
-        mTextAvgPerDayHeader.visibility = View.VISIBLE
-        mTextAvgPerDayValue.visibility = View.VISIBLE
-        mTextAvgPerDayHeader.text = getString(R.string.avg_distance)
-        mTextAvgPerDayValue.text = String.format(
-            getString(R.string.steps_format),
-            avgStepsFormatted,
-            Util.stepsToDistance(avgSteps),
-            Util.distanceUnit()
-        )
-    }
-
-    private fun restoreSelectionState() {
-        if (isYearSelected()) {
-            val year = loadSelectedYear()
-            if (year != -1) {
-                for (i in 0 until mRangeDynamicBox.childCount) {
-                    val button = mRangeDynamicBox.getChildAt(i) as? MaterialButton
-                    if (button?.text == year.toString()) {
-                        setSelectedButton(button, true)
-                        updateYearSummaryView(year)
-                        break
-                    }
-                }
-            }
-        } else {
-            val range = loadSelectedRange()
-            if (range != null) {
-                val buttonId = when (range) {
-                    "TODAY" -> R.id.button_today
-                    "WEEK" -> R.id.button_this_week
-                    "MONTH" -> R.id.button_this_month
-                    "7 DAYS" -> R.id.button_7days
-                    "30 DAYS" -> R.id.button_30days
-                    "ALL TIME" -> R.id.button_alltime
-                    else -> null
-                }
-
-                buttonId?.let {
-                    val button = findViewById<MaterialButton>(it)
-                    setSelectedButton(button)
-                    handleTimeRangeSelection(range, button)
-                }
-            } else {
-                val todayButton = findViewById<MaterialButton>(R.id.button_today)
-                handleTimeRangeSelection("TODAY", todayButton)
-            }
-        }
-    }
-
-    private fun updateYearSummaryView(year: Int) {
-        saveSelectedYear(year)
-        currentSelectedButton = null
-
-        val startOfYear = "%04d-01-01".format(year)
-        val endOfYear = "%04d-12-31".format(year)
-
-        mTextViewTopHeader.text = String.format(getString(R.string.header_year), year)
-
-        val yearSteps = Database.getInstance(this).getSumSteps(startOfYear, endOfYear)
-        val avgSteps = Database.getInstance(this).avgSteps(startOfYear, endOfYear)
-        val avgStepsFormatted = if (avgSteps >= 10_000) {
-            NumberFormat.getIntegerInstance().format(avgSteps)
-        } else {
-            avgSteps.toString()
-        }
-
-        val formattedSteps = if (yearSteps >= 10_000) {
-            NumberFormat.getIntegerInstance().format(yearSteps)
-        } else {
-            yearSteps.toString()
-        }
-
-        val stepsPlural = resources.getQuantityString(
-            R.plurals.steps_formatted,
-            yearSteps,
-            formattedSteps
-        )
-
-        mTextViewSteps.text = stepsPlural
-        mTextViewMeters.text = String.format(
-            getString(R.string.distance_today),
-            Util.stepsToDistance(yearSteps),
-            Util.distanceUnit()
-        )
-
-        mTextViewCalories.visibility = View.GONE
-        mTextAvgPerDayHeader.visibility = View.VISIBLE
-        mTextAvgPerDayValue.visibility = View.VISIBLE
-        mTextAvgPerDayHeader.text = getString(R.string.avg_distance)
-        mTextAvgPerDayValue.text = String.format(
-            getString(R.string.steps_format),
-            avgStepsFormatted,
-            Util.stepsToDistance(avgSteps),
-            Util.distanceUnit()
-        )
-    }
-
-    private fun formatToSelectedDateFormat(dateInMillis: Long): String {
-        val sdf = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
-        return sdf.format(Date(dateInMillis))
-    }
-
-    private fun subscribeService() {
-        val i = Intent(this, MotionService::class.java)
-        i.action = MotionService.ACTION_SUBSCRIBE
-        i.putExtra(RECEIVER_TAG, object : ResultReceiver(null) {
-            override fun onReceiveResult(resultCode: Int, resultData: Bundle) {
-                if (resultCode == 0) {
-                    isPaused = resultData.getBoolean(MotionService.KEY_IS_PAUSED, false)
-                    runOnUiThread {
-                        updateView(resultData.getInt(MotionService.KEY_STEPS))
-                        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
-                        fab.setImageResource(if (isPaused) android.R.drawable.ic_media_play else android.R.drawable.ic_media_pause)
-                    }
-                }
-            }
-        })
-        startService(i)
-    }
-
-    private fun checkPermissions() {
-        val permissionsToRequest = mutableListOf<String>()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+    private fun Context.canTrackSteps() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
             packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
-            permissionsToRequest.add(Manifest.permission.ACTIVITY_RECOGNITION)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            permissionsToRequest.add(Manifest.permission.POST_NOTIFICATIONS)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_HEALTH) != PackageManager.PERMISSION_GRANTED) {
-            permissionsToRequest.add(Manifest.permission.FOREGROUND_SERVICE_HEALTH)
-        }
-
-        if (permissionsToRequest.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this, permissionsToRequest.toTypedArray(), 100)
-        }
-        requestIgnoreBatteryOptimization()
-    }
-
-    private fun requestIgnoreBatteryOptimization() {
-        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
-        val packageName = packageName
-
-        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
-            val intent = Intent().apply {
-                action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                data = "package:$packageName".toUri()
-            }
-            startActivity(intent)
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 100) {
-            if (isActivityPermissionGranted()) {
-                subscribeService()
-                startService(Intent(this, MotionService::class.java).apply {
-                    putExtra("FORCE_UPDATE", true)
-                })
-            }
-        }
-    }
-
-    private fun isActivityPermissionGranted(): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-            packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED) {
-            return true
-        }
-
-        return false
-    }
-
-    private fun updateView(steps: Int) {
-        mCurrentSteps = steps
-        if (isTodaySelected) {
-            val formattedSteps = if (steps >= 10_000) {
-                NumberFormat.getIntegerInstance().format(steps)
-            } else {
-                steps.toString()
-            }
-            val stepsPlural = resources.getQuantityString(
-                R.plurals.steps_formatted,
-                steps,
-                formattedSteps
-            )
-
-            mTextViewMeters.text = String.format(
-                getString(R.string.distance_today),
-                Util.stepsToDistance(steps),
-                Util.distanceUnit()
-            )
-            mTextViewSteps.text = stepsPlural
-            mTextViewCalories.text = String.format(
-                getString(R.string.calories),
-                Util.stepsToCalories(steps)
-            )
-            mTextViewCalories.visibility = View.VISIBLE
-            mTextAvgPerDayHeader.visibility = View.GONE
-            mTextAvgPerDayValue.visibility = View.GONE
-            mTextAvgPerDayHeader.text = ""
-            mTextAvgPerDayValue.text = ""
-        }
-
-        if (!DateUtils.isToday(mCalendarView.maxDate)) {
-            mCalendarView.maxDate = Util.calendar.timeInMillis
-        }
-
-        currentSelectedYearButton?.let { button ->
-            val year = button.text.toString().toInt()
-            updateYearSummaryView(year)
-        }
-
-        val currentWeekOfYear = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        val selectedWeekOfYear = mSelectedMonth.get(Calendar.WEEK_OF_YEAR)
-        val selectedYear = mSelectedMonth.get(Calendar.YEAR)
-
-        val isCurrentWeek = isChartInPast7DaysMode ||
-                (currentWeekOfYear == selectedWeekOfYear && currentYear == selectedYear)
-
-        if (isCurrentWeek) {
-            mChart.setCurrentSteps(steps)
-            mChart.update()
-        }
-
-        currentSelectedButton?.let { button ->
-            when (button.id) {
-                R.id.button_this_week -> handleTimeRangeSelection("WEEK", button)
-                R.id.button_this_month -> handleTimeRangeSelection("MONTH", button)
-                R.id.button_7days -> handleTimeRangeSelection("7 DAYS", button)
-                R.id.button_30days -> handleTimeRangeSelection("30 DAYS", button)
-                R.id.button_alltime -> handleTimeRangeSelection("ALL TIME", button)
-            }
-        }
-    }
-
-    private fun getDeviceTimeZone(): TimeZone {
-        return TimeZone.getDefault()
-    }
-
-    private fun getDayEntry(millis: Long): Database.Entry? {
-        val dateStr = Util.millisToDateString(millis)
-        val entries = Database.getInstance(this).getEntries(dateStr, dateStr)
-        return entries.firstOrNull()
-    }
-
-    private fun updateChart() {
-        val timeZone = getDeviceTimeZone()
-
-        mTextViewDayHeader.text = formatToSelectedDateFormat(mSelectedMonth.timeInMillis)
-
-        val dayEntry = getDayEntry(mSelectedMonth.timeInMillis)
-
-        val stepsPlural = dayEntry?.let {
-            val formattedSteps = if (it.steps >= 10_000) {
-                NumberFormat.getIntegerInstance().format(it.steps)
-            } else {
-                it.steps.toString()
-            }
-
-            resources.getQuantityString(
-                R.plurals.steps_formatted,
-                it.steps,
-                formattedSteps
-            )
-        }
-
-        if (dayEntry != null) {
-            mTextViewDayDetails.text = String.format(
-                getString(R.string.steps_day_display),
-                stepsPlural,
-                Util.stepsToDistance(dayEntry.steps),
-                Util.distanceUnit(),
-                Util.stepsToCalories(dayEntry.steps)
-            )
-        } else {
-            mTextViewDayDetails.text = String.format(
-                getString(R.string.steps_day_display),
-                resources.getQuantityString(R.plurals.steps_formatted, 0, 0),
-                0.0,
-                Util.distanceUnit(),
-                0
-            )
-        }
-
-        val startOfMonthCal = Calendar.getInstance(timeZone).apply {
-            timeInMillis = mSelectedMonth.timeInMillis
-            set(Calendar.DAY_OF_MONTH, 1)
-        }
-        val endOfMonthCal = Calendar.getInstance(timeZone).apply {
-            timeInMillis = startOfMonthCal.timeInMillis
-            set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
-        }
-        val startOfMonth = Util.calendarToDateString(startOfMonthCal)
-        val endOfMonth = Util.calendarToDateString(endOfMonthCal)
-
-        val monthSteps = Database.getInstance(this).getSumSteps(startOfMonth, endOfMonth)
-        val monthStepsFormatted = if (monthSteps >= 10_000) {
-            NumberFormat.getIntegerInstance().format(monthSteps)
-        } else {
-            monthSteps.toString()
-        }
-
-        val avgSteps = Database.getInstance(this).avgSteps(startOfMonth, endOfMonth)
-        val avgStepsFormatted = if (avgSteps >= 10_000) {
-            NumberFormat.getIntegerInstance().format(avgSteps)
-        } else {
-            avgSteps.toString()
-        }
-
-        mTextViewMonthTotal.text = String.format(
-            getString(R.string.steps_format),
-            monthStepsFormatted,
-            Util.stepsToDistance(monthSteps),
-            Util.distanceUnit()
-        )
-
-        mTextViewMonthAverage.text = String.format(
-            getString(R.string.steps_format),
-            avgStepsFormatted,
-            Util.stepsToDistance(avgSteps),
-            Util.distanceUnit()
-        )
-
-        val min: Calendar
-        val max: Calendar
-
-        if (isChartInPast7DaysMode) {
-            min = Calendar.getInstance(timeZone).apply {
-                add(Calendar.DAY_OF_YEAR, -6)
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-
-            max = Calendar.getInstance(timeZone).apply {
-                set(Calendar.HOUR_OF_DAY, 23)
-                set(Calendar.MINUTE, 59)
-                set(Calendar.SECOND, 59)
-                set(Calendar.MILLISECOND, 999)
-            }
-        } else {
-            min = Calendar.getInstance().apply {
-                timeInMillis = mSelectedMonth.timeInMillis
-                firstDayOfWeek = AppPreferences.firstDayOfWeek
-                set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-
-            max = Calendar.getInstance().apply {
-                timeInMillis = min.timeInMillis
-                add(Calendar.DAY_OF_YEAR, 6)
-                set(Calendar.HOUR_OF_DAY, 23)
-                set(Calendar.MINUTE, 59)
-                set(Calendar.SECOND, 59)
-                set(Calendar.MILLISECOND, 999)
-            }
-
-            currentWeekStartTime = min.timeInMillis
-        }
-
-        mChart.clearDiagram()
-        mChart.setPast7DaysMode(isChartInPast7DaysMode, min.timeInMillis)
-
-        val startDateFormatted = formatToSelectedDateFormat(min.timeInMillis)
-        val endDateFormatted = formatToSelectedDateFormat(max.timeInMillis)
-
-        if (isChartInPast7DaysMode) {
-            mTextViewChartHeader.text = String.format(
-                Locale.getDefault(),
-                getString(R.string.header_7d)
-            ).uppercase()
-            mTextViewChartWeekRange.text = String.format(
-                Locale.getDefault(),
-                getString(R.string.week_display_range),
-                startDateFormatted, endDateFormatted
-            )
-        } else {
-            mTextViewChartHeader.text = String.format(
-                Locale.getDefault(),
-                getString(R.string.week_display_format),
-                min.get(Calendar.WEEK_OF_YEAR)
-            ).uppercase()
-            mTextViewChartWeekRange.text = String.format(
-                Locale.getDefault(),
-                getString(R.string.week_display_range),
-                startDateFormatted, endDateFormatted
-            )
-        }
-
-        val minDateStr = Util.calendarToDateString(min)
-        val maxDateStr = Util.calendarToDateString(max)
-        val entries = Database.getInstance(this).getEntries(minDateStr, maxDateStr)
-        for (entry in entries) {
-            mChart.setDiagramEntry(entry)
-        }
-
-        val isCurrentWeek = isChartInPast7DaysMode ||
-                (Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) == min.get(Calendar.WEEK_OF_YEAR) &&
-                        Calendar.getInstance().get(Calendar.YEAR) == min.get(Calendar.YEAR))
-
-        if (isCurrentWeek) {
-            mChart.setCurrentSteps(mCurrentSteps)
-        }
-        mChart.update()
-    }
-
-    private fun saveSelectedRange(range: String) {
-        getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit {
-            putString(KEY_SELECTED_RANGE, range)
-            putBoolean(KEY_IS_YEAR_SELECTED, false)
-            apply()
-        }
-    }
-
-    private fun saveSelectedYear(year: Int) {
-        getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit {
-            putInt(KEY_SELECTED_YEAR, year)
-            putBoolean(KEY_IS_YEAR_SELECTED, true)
-            apply()
-        }
-    }
-
-    private fun loadSelectedRange(): String? {
-        return getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getString(KEY_SELECTED_RANGE, null)
-    }
-
-    private fun loadSelectedYear(): Int {
-        return getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getInt(KEY_SELECTED_YEAR, -1)
-    }
-
-    private fun isYearSelected(): Boolean {
-        return getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getBoolean(KEY_IS_YEAR_SELECTED, false)
-    }
-
-    private fun setupStepCountModification() {
-        val textViewSteps = findViewById<TextView>(R.id.textViewSteps)
-
-        textViewSteps.setOnLongClickListener { _ ->
-            if (isTodaySelected) {
-                val currentStepsText = textViewSteps.text.toString()
-                val stepsNumber = currentStepsText.replace(Regex("[^0-9]"), "")
-                showStepCountDialog(stepsNumber)
-            }
-            true
-        }
-    }
-
-    private fun showStepCountDialog(currentSteps: String) {
-        val layout = layoutInflater.inflate(R.layout.dialog_input, null)
-        val et = layout.findViewById<TextInputEditText>(R.id.dialog_input_edit)
-
-        et.inputType = InputType.TYPE_CLASS_NUMBER
-        et.keyListener = DigitsKeyListener.getInstance("0123456789")
-        et.setText(currentSteps)
-        et.setSelection(et.text?.length ?: 0)
-        et.requestFocus()
-
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.edit_step_count)
-            .setView(layout)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                hideKeyboard(et)
-                handleStepCountUpdate(et.text.toString())
-            }
-            .setNegativeButton(android.R.string.cancel) { _, _ ->
-                hideKeyboard(et)
-            }
-            .create()
-
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        dialog.show()
-    }
-
-    private fun hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun handleStepCountUpdate(newStepsText: String) {
-        try {
-            val newSteps = newStepsText.toInt()
-            val textViewSteps = findViewById<TextView>(R.id.textViewSteps)
-            val currentStepsText = textViewSteps.text.toString()
-            val currentSteps = currentStepsText.replace(Regex("[^0-9]"), "").toInt()
-
-            if (newSteps < currentSteps) {
-                showDecreaseConfirmationDialog(newSteps)
-            } else {
-                updateStepCount(newSteps)
-            }
-        } catch (_: NumberFormatException) {
-            Snackbar.make(
-                findViewById(R.id.root),
-                R.string.invalid_step_count,
-                Snackbar.LENGTH_SHORT
-            ).setAnchorView(R.id.fab).show()
-        }
-    }
-
-    private fun showDecreaseConfirmationDialog(newSteps: Int) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.confirm_decrease_title)
-            .setMessage(R.string.confirm_decrease_message)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                updateStepCount(newSteps)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
-    }
-
-    private fun updateStepCount(newSteps: Int) {
-        val intent = Intent(this, MotionService::class.java).apply {
-            putExtra("MANUAL_STEP_COUNT_CHANGE", true)
-            putExtra(MotionService.KEY_STEPS, newSteps)
-        }
-
-        ContextCompat.startForegroundService(this, intent)
-
-        Snackbar.make(
-            findViewById(R.id.root),
-            R.string.steps_updated,
-            Snackbar.LENGTH_SHORT
-        ).setAnchorView(R.id.fab).show()
-    }
-
-    private fun updateGoalStreakUI() {
-        val textDailyGoalStreak = findViewById<TextView>(R.id.textDailyGoalStreak)
-        val database = Database.getInstance(this)
-        val dailyGoalTarget = AppPreferences.dailyGoalTarget
-
-        val streakResult = StreakCalculator.calculateGoalStreak(
-            context = this,
-            database = database,
-            dailyGoalTarget = dailyGoalTarget
-        )
-
-        if (streakResult != null) {
-            val (_, streakText) = streakResult
-            textDailyGoalStreak.text = streakText
-
-            textDailyGoalStreak.setTypeface(null, Typeface.BOLD)
-            textDailyGoalStreak.setTextColor(ContextCompat.getColor(this, R.color.colorSpecial))
-        } else {
-            val dailyGoalTargetFormatted = if (dailyGoalTarget >= 10_000) {
-                NumberFormat.getIntegerInstance(Locale.getDefault()).format(dailyGoalTarget)
-            } else {
-                dailyGoalTarget.toString()
-            }
-
-            if (dailyGoalTarget > 0) {
-                val goalText = getString(
-                    R.string.goal_streak_dead_line,
-                    resources.getQuantityString(
-                        R.plurals.steps_formatted,
-                        dailyGoalTarget,
-                        dailyGoalTargetFormatted
-                    )
-                )
-
-                textDailyGoalStreak.visibility = View.VISIBLE
-                textDailyGoalStreak.text = goalText
-            } else {
-                textDailyGoalStreak.text = ""
-                textDailyGoalStreak.visibility = View.GONE
-            }
-
-            textDailyGoalStreak.setTypeface(null, Typeface.NORMAL)
-            textDailyGoalStreak.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
-        }
-    }
-
-    private fun setupFabLongPress() {
-        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
-
-        fab.setOnLongClickListener {
-            if (!isPaused) {
-                showTimedPauseDialog()
-            }
-            true
-        }
-    }
-
-    private fun showTimedPauseDialog() {
-        data class PauseOption(val label: String, val action: () -> Unit)
-
-        val options = listOf(
-            PauseOption(getString(R.string.pause_30_minutes)) { pauseForDuration(30) },
-            PauseOption(getString(R.string.pause_1_hour)) { pauseForDuration(60) },
-            PauseOption(getString(R.string.pause_2_hours)) { pauseForDuration(120) },
-            PauseOption(getString(R.string.pause_custom_time)) { showCustomDurationDialog() },
-            PauseOption(getString(R.string.pause_indefinitely)) { pauseIndefinitely() }
-        )
-
-        val entries = options.map { it.label }.toTypedArray()
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.pause_step_counting)
-            .setSingleChoiceItems(entries, -1) { dialog, which ->
-                options[which].action()
-                dialog.dismiss()
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
-    }
-
-    private fun showCustomDurationDialog() {
-        val calendar = Calendar.getInstance()
-        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-        val currentMinute = calendar.get(Calendar.MINUTE) + 1
-
-        val timePicker = MaterialTimePicker.Builder()
-            .setTitleText(getString(R.string.resume_at_time))
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(currentHour)
-            .setMinute(currentMinute)
-            .setTheme(R.style.ThemeOverlay_stepsy_TimePicker)
-            .build()
-
-        timePicker.addOnPositiveButtonClickListener {
-            val selectedHour = timePicker.hour
-            val selectedMinute = timePicker.minute
-
-            val now = Calendar.getInstance()
-            val resumeTime = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, selectedHour)
-                set(Calendar.MINUTE, selectedMinute)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-
-                if (before(now)) {
-                    add(Calendar.DAY_OF_MONTH, 1)
-                }
-            }
-
-            val durationMinutes = ((resumeTime.timeInMillis - now.timeInMillis) / (1000 * 60)).toInt()
-            pauseForDuration(durationMinutes, resumeTime.timeInMillis)
-            timePicker.dismiss()
-        }
-
-        timePicker.show(supportFragmentManager, "time_picker")
-        supportFragmentManager.executePendingTransactions()
-    }
-
-    private fun pauseIndefinitely() {
-        Log.d("MainActivity", "Pausing counting indefinitely")
-
-        val intent = Intent(this, MotionService::class.java).apply {
-            action = MotionService.ACTION_PAUSE_COUNTING
-            putExtra("TIMED_PAUSE", false)
-        }
-        startService(intent)
-
-        isPaused = true
-        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
-        fab.setImageResource(android.R.drawable.ic_media_play)
-        fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-        getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-            putBoolean(MotionService.KEY_IS_PAUSED, true)
-        }
-
-        Toast.makeText(this, R.string.step_counting_paused, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun pauseForDuration(durationMinutes: Int, specificEndTime: Long = 0L) {
-        val endTime = if (specificEndTime > 0L) {
-            specificEndTime
-        } else {
-            System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(durationMinutes.toLong())
-        }
-
-        Log.d("MainActivity", "Requesting pause for ${durationMinutes}m until ${Date(endTime)}")
-
-        val intent = Intent(this, MotionService::class.java).apply {
-            action = MotionService.ACTION_PAUSE_COUNTING
-            putExtra("TIMED_PAUSE", true)
-            putExtra("END_TIME", endTime)
-            putExtra("DURATION_MINUTES", durationMinutes)
-        }
-        startService(intent)
-
-        isPaused = true
-        val fab = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)
-        fab.setImageResource(android.R.drawable.ic_media_play)
-        fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-        getSharedPreferences("StepsyPrefs", MODE_PRIVATE).edit {
-            putBoolean(MotionService.KEY_IS_PAUSED, true)
-        }
-
-        val endTimeFormatted = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(endTime))
-        Toast.makeText(this, getString(R.string.step_counting_paused_until, endTimeFormatted), Toast.LENGTH_LONG).show()
-    }
-
-    fun Int.dpToPx(context: Context): Int {
-        return (this * context.resources.displayMetrics.density).toInt()
-    }
+            isGranted(Manifest.permission.ACTIVITY_RECOGNITION)
 
     companion object {
         const val RECEIVER_TAG = "RECEIVER_TAG"
-        private const val PREFS_NAME = "RangePrefs"
-        private const val KEY_SELECTED_RANGE = "selected_range"
-        private const val KEY_SELECTED_YEAR = "selected_year"
-        private const val KEY_IS_YEAR_SELECTED = "is_year_selected"
     }
 }

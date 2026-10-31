@@ -1,131 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- App Metadata -->
     <string name="app_name" translatable="false">Stepsy</string>
 
-    <!-- General UI Labels -->
+    <!-- Untranslatable format templates -->
     <string name="distance_today" translatable="false">%1$.2f %2$s</string>
-    <string name="steps_day_display">%1$s / %2$.2f %3$s / %4$d kcal</string>
-    <string name="steps_format" translatable="false">%1$s / %2$.2f %3$s</string>
-    <string name="week_display_format">%1$d 週目</string>
     <string name="week_display_range" translatable="false">%1$s - %2$s</string>
-    <string name="no_entry">%1$s の記録はありません</string>
-    <string name="calories">%1$d kcal</string>
-    <string name="steps_month">今月の歩数</string>
-    <string name="avg_distance">1日あたりの平均</string>
-    <string name="total_distance">合計距離</string>
-    <string name="goal_streak_line">目標: %1$s ・ %2$s %3$s 日連続達成</string>
-    <string name="goal_streak_dead_line">1日の目標: %1$s</string>
 
-    <string name="no_sensor">この端末には歩数計センサーが搭載されていません</string>
-    <string name="no_activity_permission">「身体活動の認識」権限がありません</string>
+    <!-- Shared step-count wording (plurals) -->
+    <plurals name="steps_word">
+        <item quantity="one">歩</item>
+        <item quantity="other">歩</item>
+    </plurals>
+    <plurals name="steps_formatted">
+        <item quantity="one">%1$s 歩</item>
+        <item quantity="other">%1$s 歩</item>
+    </plurals>
+    <plurals name="days_word_only">
+        <item quantity="one">日</item>
+        <item quantity="other">日</item>
+    </plurals>
 
-    <!-- Header section -->
-    <string name="expand_collapse">展開/折りたたみ</string>
+    <!-- Screen: Home -->
     <string name="header_today">今日</string>
     <string name="header_week">今週</string>
     <string name="header_month">今月</string>
     <string name="header_7d">過去7日間</string>
     <string name="header_30d">過去30日間</string>
-    <string name="header_all_time">全期間</string>
     <string name="header_year">%1$d 年</string>
-
+    <string name="header_all_time">全期間</string>
     <string name="label_today">今日</string>
     <string name="label_week">週</string>
     <string name="label_month">月</string>
     <string name="label_7d">7日間</string>
     <string name="label_30d">30日間</string>
     <string name="label_all_time">全期間</string>
-
-    <!-- Plurals -->
-    <plurals name="steps_formatted">
-        <item quantity="one">%1$s 歩</item>
-        <item quantity="other">%1$s 歩</item>
+    <string name="week_display_format">%1$d 週目</string>
+    <string name="filters_title">表示するフィルター</string>
+    <string name="filters_years">年ごとの合計</string>
+    <string name="home_show_filter_bar">フィルターバーを表示</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="avg_per_day_pill">%1$s / 日</string>
+    <plurals name="goal_reached_times">
+        <item quantity="one">目標を%d回達成</item>
+        <item quantity="other">目標を%d回達成</item>
     </plurals>
-
+    <string name="goal_streak_line">目標: %1$s ・ %2$s %3$s連続達成</string>
     <plurals name="streak_record_count">
         <item quantity="one">%d 日</item>
         <item quantity="other">%d 日</item>
     </plurals>
-
-    <plurals name="days_word_only">
-        <item quantity="one">日</item>
-        <item quantity="other">日</item>
+    <plurals name="streak_segment_description">
+        <item quantity="one">%1$d日連続の目標達成</item>
+        <item quantity="other">%1$d日連続の目標達成</item>
     </plurals>
+    <string name="edit_step_count">歩数を調整</string>
+    <string name="edit_step_count_for_date">%1$s: %2$s</string>
+    <string name="confirm_decrease_title">歩数を減らします</string>
+    <string name="confirm_decrease_message">現在の歩数より低い値です。本当に進めますか？</string>
+    <string name="invalid_step_count">有効な数値を入力してください</string>
+    <string name="steps_updated">歩数が更新されました</string>
 
-    <!-- Notifications -->
-    <string name="notification_category_counting_paused">歩数カウント一時停止中</string>
-    <string name="notification_category_steps_day">歩数進捗</string>
-    <string name="notification_description_paused">歩数カウントが一時停止されたときに通知</string>
-    <string name="notification_description_steps_day">今日の歩数</string>
-    <string name="notification_step_counting_paused">歩数カウントは一時停止中です</string>
-    <string name="notification_step_goal_progress_title">%1$s / %2$.2f %3$s [%4$d%%]</string>
-    <string name="notification_step_goal_progress">目標: %1$s — あと %2$s</string>
-    <string name="notification_step_goal_completed">目標達成！</string>
-    <string name="step_counting_paused">歩数カウント停止中</string>
-    <string name="step_counting_resumed">歩数カウントを再開しました</string>
-    <string name="action_pause">一時停止</string>
-    <string name="action_resume">再開</string>
+    <!-- Screen: Achievements -->
+    <string name="achievements_title">実績</string>
+    <string name="milestone_achievements">マイルストーン</string>
+    <string name="milestone_next">次のバッジ</string>
+    <string name="milestone_to_go">あと%1$s</string>
+    <string name="milestone_progress">%1$d / %2$d</string>
+    <string name="milestone_label_distance">距離</string>
+    <string name="milestone_label_date">達成日</string>
+    <string name="milestone_label_took">所要時間</string>
+    <plurals name="milestone_reached_in_days">
+        <item quantity="one">%d 日</item>
+        <item quantity="other">%d 日</item>
+    </plurals>
+    <string name="milestone_notifications_toggle">マイルストーン通知</string>
+    <string name="milestone_notifications_enabled">マイルストーン通知をオンにしました</string>
+    <string name="milestone_notifications_disabled">マイルストーン通知をオフにしました</string>
+    <string name="milestone_notifications_tooltip">マイルストーン通知</string>
+    <string name="no_milestones_reached">まだマイルストーンを達成していません。歩き続けましょう！</string>
+    <string name="personal_records">個人記録</string>
+    <string name="most_walked_month">最も歩いた月</string>
+    <string name="streak_record">%1$s歩以上の最長連続記録</string>
+    <string name="top_3_days">上位3日間</string>
+    <string name="best_week">一番歩いた週</string>
+    <string name="records_goal_reached">目標達成</string>
+    <string name="records_percent_of_days">全日数の%1$d%%</string>
+    <string name="since_date">%1$s から</string>
+    <string name="loading_data">データを読み込み中…</string>
+    <string name="no_data_available">データがありません</string>
+    <string name="error_loading_data">データの読み込みに失敗しました</string>
 
-    <!-- Preferences -->
+    <!-- Screen: Daily Goals -->
+    <string name="daily_goals">1日の目標</string>
+    <string name="section_notifications">通知</string>
+    <string name="section_goal_alerts">目標のお知らせ</string>
+    <string name="daily_goal_notification">達成時に通知</string>
+    <string name="daily_goal_target">1日の目標歩数</string>
+    <string name="daily_goal_hint">1日の目標歩数を入力してください</string>
+    <string name="daily_goal_none">目標なし</string>
+    <string name="goal_preset_off">オフ</string>
+    <string name="goal_preset_custom">カスタム</string>
+    <string name="encouraging_notifications">励まし通知</string>
+    <string name="encouraging_notifications_summary">目標に近づくにつれて、1日に最大2回のリマインダー</string>
+    <string name="encouraging_sample">サンプルを送信</string>
+    <string name="reminders_one">リマインダー1回</string>
+    <string name="reminders_two">リマインダー2回</string>
+    <string name="reminder_single_summary">1日の目標の%1$sでリマインダー</string>
+    <string name="reminder_double_summary">1日の目標の%1$sと%2$sでリマインダー</string>
+    <string name="live_notification_title">ライブ通知</string>
+    <string name="live_steps_only">歩数のみ</string>
+    <string name="live_steps_progress">歩数 + 目標の進捗</string>
+    <string name="live_notification_off">オフ</string>
+    <string name="notification_settings_row">サウンドとアラート</string>
+    <string name="notification_settings_summary">通知の種類を選択</string>
+    <string name="channel_blocked">システム設定でブロックされています</string>
+
+    <!-- Screen: Settings -->
     <string name="settings">設定</string>
     <string name="header_personal_data">個人データ</string>
-    <string name="header_appearance">外観</string>
     <string name="header_general">一般</string>
+    <string name="header_appearance">外観</string>
+    <string name="header_data">アプリのデータ</string>
     <string name="header_data_backup">バックアップ</string>
-
-    <string name="preference_system">システム</string>
-    <string name="theme_light">ライト</string>
-    <string name="theme_dark">ダーク</string>
     <string name="pref_height">身長</string>
     <string name="pref_step_length">歩幅</string>
     <string name="pref_weight">体重</string>
-    <string name="first_day_of_the_week">週の開始曜日</string>
-    <string name="app_language">言語</string>
-    <string name="theme">テーマ</string>
-    <string name="date_format">日付形式</string>
-    <string name="unit_system">単位系</string>
-    <string name="export_data">エクスポート</string>
-    <string name="backup_frequency">自動バックアップの頻度</string>
-    <string name="backup_retention_count">保持するバックアップ数</string>
-    <string name="backup_retention_hint">(0 で全て保持)</string>
-    <string name="backup_retention_unlimited">無制限</string>
-    <string name="backup_location">バックアップ保存先</string>
-    <string name="backup_location_not_set">未設定</string>
-    <string name="manual_backup">手動バックアップ</string>
-    <string name="import_data">インポート</string>
-    <string name="import_data_summary">ファイルから歩数データを復元</string>
-    <string name="next_backup_scheduled">次の自動バックアップ\n%1$s %2$s</string>
-    <string name="import_invalid_file">無効なファイルです</string>
-    <string name="import_warning_title">歩数データの置き換え</string>
-    <string name="import_warning_message">現在の歩数データをインポートされたデータで上書きします。続けますか？</string>
     <string name="pref_vehicle_filter_title">正確な歩数フィルタリング</string>
     <string name="pref_vehicle_filter_summary">オフラインのActivity Recognition APIを使用して、車・バス・自転車乗車時の歩数カウントを除外します。 Google Playサービスが必要です</string>
     <string name="pref_vehicle_filter_summary_foss">Google Play Services API を使用したより正確な歩数認識。フルビルドでのみ利用可能。 Github (github.com/nvllz/stepsy) で入手できます。</string>
     <string name="vehicle_filter_unavailable">このデバイスではActivity Recognition API を使用できません</string>
+    <string name="unit_system">単位系</string>
+    <string name="date_format">日付形式</string>
+    <string name="first_day_of_the_week">週の開始曜日</string>
+    <string name="app_language">言語</string>
+    <string name="theme">テーマ</string>
+    <string name="preference_system">システム</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
 
-    <string name="header_about">アプリ情報</string>
-    <string name="about_stepsy">アプリについて</string>
-    <string name="about_version">バージョン</string>
-    <string name="about_license">ライセンス</string>
-    <string name="about_html">
-<![CDATA[
-        Stepsy <a href="https://github.com/nvllz/stepsy/releases">v%s</a><br><br>
-        メンテナ: <a href="https://github.com/nvllz"><b>nvllz</b></a><br>
-        <a href="https://github.com/0xf4b1">0xf4b1</a> による <a href="https://github.com/0xf4b1/motionmate">MotionMate</a> を基に構築されました<br><br>
-        <a href="https://github.com/nvllz/stepsy/issues">バグ報告</a><br><br>
-        <a href="https://github.com/nvllz/stepsy">プロジェクトページ</a><br>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.html">ライセンス GPL-3.0</a>
-    ]]>
-   </string>
-
-    <!-- Toasts -->
-    <string name="enter_valid_value">有効な値を入力してください</string>
-    <string name="cannot_open_file">ファイルを開けません</string>
+    <!-- Screen: Backup -->
+    <string name="pref_backup_summary">アプリのデータをエクスポート・復元</string>
+    <string name="backup_frequency">自動バックアップの頻度</string>
+    <string name="backup_retention_count">保持するバックアップ数</string>
+    <string name="backup_location">バックアップ保存先</string>
+    <string name="backup_location_not_set">未設定</string>
+    <string name="manual_backup">手動バックアップ</string>
     <string name="manual_backup_successful">手動バックアップが完了しました</string>
-    <string name="select_backup_location_first">先にバックアップ保存先を選択してください</string>
+    <string name="import_data">インポート</string>
+    <string name="import_data_summary">ファイルから歩数データを復元</string>
+    <string name="import_invalid_file">無効なファイルです</string>
+    <string name="import_warning_title">歩数データの置き換え</string>
+    <string name="import_warning_message">現在の歩数データをインポートされたデータで上書きします。続けますか？</string>
+    <string name="section_import">インポート</string>
+    <string name="section_export">エクスポート</string>
+    <string name="backup_retention_all">すべて</string>
+    <string name="next_backup_summary">%1$s · %2$s %3$s</string>
+    <string name="cannot_open_file">ファイルを開けません</string>
     <string name="import_result">%1$d 件のデータをインポートしました（%2$d 件失敗）。 %3$s</string>
     <string name="today_steps_set">今日の歩数を %1$d に設定しました</string>
+
+    <!-- Screen: About -->
+    <string name="about_stepsy">アプリについて</string>
+    <string name="about_version">バージョン</string>
+    <string name="about_source_code">ソースコード</string>
+    <string name="about_source_code_summary">github.com/nvllz/stepsy</string>
+    <string name="about_report_bug">不具合を報告</string>
+    <string name="about_author">作者</string>
+    <string name="about_original_creator">元のアイデア</string>
+    <string name="about_original_creator_summary">MotionMate（0xf4b1 作）</string>
+    <string name="about_license">ライセンス</string>
+    <string name="about_license_summary">GNU GPL v3.0</string>
 
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">背景色を反転</string>
@@ -134,101 +180,148 @@
     <string name="widget_pref_bg_opacity">背景の透明度</string>
     <string name="widget_pref_btn_save">保存</string>
 
-    <!-- Achievements -->
-    <string name="achievements_title">実績</string>
-    <string name="milestone_achievements">マイルストーン</string>
-    <string name="no_milestones_reached">まだマイルストーンを達成していません。歩き続けましょう！</string>
-    <string name="milestone_new">新規</string>
+    <!-- Units -->
+    <string name="unit_ft">ft</string>
+    <string name="unit_in">in</string>
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_km">km</string>
+    <string name="unit_mi">mi</string>
 
-    <!-- Data Placeholders -->
-    <string name="loading_data">データを読み込み中…</string>
-    <string name="no_data_available">データがありません</string>
-    <string name="error_loading_data">データの読み込みに失敗しました</string>
+    <!-- Notifications: live step notification and service -->
+    <string name="no_sensor">この端末には歩数計センサーが搭載されていません</string>
+    <string name="notification_category_counting_paused">歩数カウント一時停止中</string>
+    <string name="notification_category_steps_day">歩数進捗</string>
+    <string name="notification_description_paused">歩数カウントが一時停止されたときに通知</string>
+    <string name="notification_description_steps_day">今日の歩数</string>
+    <string name="notification_step_counting_paused">歩数カウントは一時停止中です</string>
+    <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
+    <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
+    <string name="notification_step_goal_progress">%1$.2f %2$s · %3$s kcal</string>
+    <string name="notification_step_goal_completed">目標達成！</string>
+    <string name="step_counting_paused">歩数カウント停止中</string>
+    <string name="step_counting_resumed">歩数カウントを再開しました</string>
+    <string name="action_pause">一時停止</string>
+    <string name="action_resume">再開</string>
 
-    <!-- Daily Goals -->
-    <string name="daily_goals">1日の目標</string>
-    <string name="daily_goal_notification">達成時に通知</string>
-    <string name="progress_in_notification">ライブ通知に進捗を表示</string>
-    <string name="daily_goal_target">1日の目標歩数</string>
-    <string name="daily_goal_hint">1日の目標歩数を入力してください</string>
-    <string name="encouraging_notifications">励まし通知</string>
-    <string name="goal_chart_line">チャートにに目標歩数ラインを表示</string>
-
-    <!-- Records -->
-    <string name="personal_records">個人記録</string>
-    <string name="most_steps_day">最多歩数日</string>
-    <string name="most_walked_month">最も歩いた月</string>
-    <string name="streak_record">%1$s歩以上の最長連続記録</string>
-    <string name="top_3_days">上位3日間</string>
-    <string name="best_week">一番歩いた週</string>
-    <string name="avg_steps_per_day">1日当たりの平均</string>
-    <string name="since_date">%1$s から</string>
-
-    <!-- Daily Goal Notifications -->
-    <string name="daily_goal_notifications">目標達成アラート</string>
-    <string name="daily_goal_notification_channel_desc">1日の歩数目標を達成したときに通知します</string>
+    <!-- Notifications: goal and milestone alerts -->
+    <string name="channel_goal_name">目標達成</string>
+    <string name="channel_goal_desc">1日の目標歩数を達成したときのちょっとしたご褒美</string>
+    <string name="channel_reminders_name">励ましリマインダー</string>
+    <string name="channel_reminders_desc">目標が近づいたらお知らせします</string>
     <string name="goal_achieved_title">目標達成！🎉</string>
     <string name="goal_achieved_message">%1$s 歩の目標を達成しました！</string>
-
-    <!-- Step Count Details -->
-    <string name="steps_count_with_distance">%1$d 歩 / %2$s</string>
-    <string name="thousand_steps_with_distance">%1$dk 歩 / %2$s</string>
-    <string name="million_steps_with_distance">%1$dM 歩 / %2$s</string>
-    <string name="million_steps_decimal_with_distance">%.1fM 歩 / %2$s</string>
-
-    <!-- Step Count Adjustment -->
-    <string name="edit_step_count">今日の歩数を調整</string>
-    <string name="confirm_decrease_title">歩数を減らします</string>
-    <string name="confirm_decrease_message">現在の歩数より低い値です。本当に進めますか？</string>
-    <string name="invalid_step_count">有効な数値を入力してください</string>
-    <string name="steps_updated">歩数が更新されました</string>
-
-    <!-- Encouraging notification strings -->
-    <string name="encouraging_notification_title">その調子!</string>
-    <string name="encouraging_notification_15_percent">素晴らしいスタートです! 1日の目標の %1$d%% を完了しました。あと %2$d 歩です!</string>
-    <string name="encouraging_notification_75_percent">あと少しです! %1$d%% が完了しました。目標まであと  %2$d 歩です!</string>
-
-    <string name="encouraging_notification_15_percent_alt1">素晴らしい進歩です! 1日の目標の %1$d%% を歩きました。歩き続けてください!</string>
-    <string name="encouraging_notification_15_percent_alt2">順調に進んでいます! 現在 %1$d%% に到達しています。あと %2$d 歩で目標達成!</string>
-    <string name="encouraging_notification_15_percent_alt3">今日の目標の %1$d%% を達成しました。その調子で続けましょう!</string>
-
-    <string name="encouraging_notification_75_percent_alt1">素晴らしいスタートです! 1日の目標の %1$d%% を完了しました。あと %2$d 歩です!</string>
-    <string name="encouraging_notification_75_percent_alt2">%1$d%% 到達しました。あと %2$d 歩で目標です!ラストスパート!</string>
-    <string name="encouraging_notification_75_percent_alt3">もうすぐゴールです！ %1$d%% が完了しました。勝利まで %2$d 歩!</string>
-
-    <!-- Milestone notification strings -->
+    <string name="encouraging_title">その調子！</string>
+    <string name="encouraging_early_1">いいスタート！%1$s達成、あと%2$sです。</string>
+    <string name="encouraging_early_2">調子が出てきました！%1$s達成、残り%2$sです。</string>
+    <string name="encouraging_late_1">もう少しです！%1$s達成、あと%2$sだけ。</string>
+    <string name="encouraging_late_2">ラストスパート！%1$s達成、残り%2$sです。</string>
     <string name="milestone_notification_title">%s達成！</string>
     <string name="milestone_notification_text">合計%s歩です!\nこの調子で続けましょう。</string>
     <string name="notification_category_milestone">マイルストーン</string>
     <string name="notification_description_milestone">歩数のマイルストーン達成時の通知</string>
-    <string name="milestone_notifications_toggle">マイルストーン通知</string>
-    <string name="mute_milestone_notifications_action">ミュート</string>
-    <string name="milestone_notifications_tooltip">マイルストーン通知</string>
-
-    <!-- Milestone number shorthand -->
     <string name="milestone_short_millions">%1$d万</string>
     <string name="milestone_short_millions_decimal">%.1f万</string>
     <string name="milestone_short_thousands">%1$d千</string>
-
-    <!-- Milestone detail dialog -->
-    <string name="milestone_label_distance">距離</string>
-    <string name="milestone_label_date">達成日</string>
-    <string name="milestone_label_took">所要時間</string>
-
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d 日</item>
-        <item quantity="other">%d 日</item>
-    </plurals>
+    <string name="mute_notifications_action">ミュート</string>
 
     <!-- Pause step counting -->
-    <string name="resume_at_time">再開時刻</string>
-    <string name="pause_when_to_resume">歩数カウントを再開するタイミングの選択</string>
     <string name="pause_step_counting">歩数カウントの一時停止</string>
     <string name="pause_30_minutes">30 分</string>
     <string name="pause_1_hour">1 時間</string>
     <string name="pause_2_hours">2 時間</string>
     <string name="pause_custom_time">指定した時間</string>
     <string name="pause_indefinitely">手動で再開するまで</string>
+    <string name="resume_at_time">再開時刻</string>
     <string name="step_counting_paused_until">歩数カウントは %s まで一時停止中です</string>
     <string name="step_counting_resumed_auto">歩数カウントが自動的に再開されました</string>
+
+    <!-- Announcement / star prompt bottom sheet -->
+    <string name="announcement_dismiss">了解</string>
+    <string name="translate">翻訳</string>
+    <string name="star_title">アプリを気に入っていただけましたか？</string>
+    <string name="star_body">Stepsyはオープンソースです！お役に立てたら、Githubでプロジェクトにスターをいただけるとうれしいです。ほかの人がStepsyを見つけやすくなり、開発を続ける励みにもなります。</string>
+    <string name="star_button">Githubでスターを付ける</string>
+    <string name="star_dismiss">いいえ、結構です</string>
+
+    <!-- Onboarding: essentials -->
+    <string name="onboarding_skip_setup">セットアップをスキップ</string>
+    <string name="onboarding_get_started">はじめる</string>
+    <string name="onboarding_continue">続ける</string>
+    <string name="onboarding_done">完了</string>
+    <string name="onboarding_allow">許可</string>
+    <string name="onboarding_not_now">あとで</string>
+    <string name="onboarding_ask_again">もう一度確認</string>
+    <string name="onboarding_open_settings">設定を開く</string>
+    <string name="onboarding_status_on">オン</string>
+    <string name="onboarding_status_off">オフ</string>
+
+    <!-- Onboarding: 1. welcome -->
+    <string name="onboarding_no_sensor">この端末は歩数センサーを報告していないため、Stepsyでは歩数をカウントできません。</string>
+    <string name="onboarding_restore_title">歩数データをインポート</string>
+    <string name="onboarding_restore_summary">バックアップファイルを復元</string>
+    <string name="onboarding_restore_busy">復元中...</string>
+    <string name="onboarding_restore_done_title">バックアップを復元しました</string>
+    <plurals name="onboarding_restore_result">
+        <item quantity="one">%d日分の履歴が戻りました</item>
+        <item quantity="other">%d日分の履歴が戻りました</item>
+    </plurals>
+
+    <!-- Onboarding: 2. activity recognition -->
+    <string name="onboarding_steps_label">身体活動</string>
+    <string name="onboarding_steps_title">Stepsyに歩数の検出を許可</string>
+    <string name="onboarding_steps_body">端末の歩数検出センサーを使うために、この権限が必要です。</string>
+    <string name="onboarding_steps_row">身体活動</string>
+    <string name="onboarding_steps_idle">まだ許可されていません</string>
+    <string name="onboarding_steps_on">許可済み</string>
+    <string name="onboarding_steps_denied">許可されていません</string>
+    <string name="onboarding_steps_blocked">Androidによりブロック中</string>
+    <string name="onboarding_steps_note_on">少し歩くと、カウントが増えていくのが分かります。</string>
+    <string name="onboarding_steps_note_denied">この権限を有効にするまで、Stepsyは歩数をカウントできません。</string>
+    <string name="onboarding_steps_note_blocked">Androidはこの確認を再表示しません。アプリの設定から手動で権限を許可する必要があります。</string>
+
+    <!-- Onboarding: 3. battery -->
+    <string name="onboarding_pocket_label">バッテリー</string>
+    <string name="onboarding_pocket_title">ポケットの中でも確実にカウント</string>
+    <string name="onboarding_pocket_body">Androidは電池を節約するため、バックグラウンドでのStepsyのセンサー追跡を止めることがあります。歩数を途切れさせないために、このアプリのバッテリー最適化をオフにする必要があります。低消費電力のセンサーを使い、歩いているときのデータも効率よく処理するので、電池の消費はごくわずかです。</string>
+    <string name="onboarding_pocket_row">バッテリー最適化</string>
+    <string name="onboarding_pocket_on">バックグラウンド動作を許可</string>
+    <string name="onboarding_pocket_off">バックグラウンド動作を許可していません</string>
+    <string name="onboarding_pocket_note_on">完了です！端末がスリープ中でもStepsyはカウントを続けます。端末によっては独自の電池制限があるため、それでもカウントが止まる場合は、Stepsyのバックグラウンド実行が許可されているかご確認ください。</string>
+    <string name="onboarding_pocket_note_tried">あとから設定で変更できます。</string>
+    <string name="onboarding_pocket_note_manual">この端末にはワンタップの確認画面がありません。次のリストからStepsyを探し、「制限なし」または「最適化しない」を選んでください。</string>
+    <string name="onboarding_pocket_note_none">この端末ではバッテリー設定画面が開きませんでした。設定 > アプリ > Stepsy > バッテリー をご確認ください。</string>
+
+    <!-- Onboarding: 4. height and weight -->
+    <string name="onboarding_body_label">あなたについて</string>
+    <string name="onboarding_body_title">推定のための個人情報</string>
+    <string name="onboarding_body_body">身長から歩幅、体重から消費カロリーの推定を求めます。どちらもこの端末の中だけに保存されます。</string>
+    <string name="onboarding_body_note">これらの設定は、あとから設定画面で変更できます。</string>
+
+    <!-- Onboarding: 5. daily goal and reminders -->
+    <string name="onboarding_goal_label">1日の目標</string>
+    <string name="onboarding_goal_title">1日の目標を選ぶ</string>
+    <string name="onboarding_goal_body">毎日、ホーム画面の進捗バーを満たしましょう！プリセットから選ぶことも、自分で設定することも、完全にオフにすることもできます。いつでも変更でき、歩数データには影響しません。</string>
+    <string name="onboarding_goal_preview">~%1$s %2$s と %3$d kcal / 日</string>
+    <string name="onboarding_reminders_title">通知</string>
+    <string name="onboarding_reminders_summary">オプション: ライブ通知での進捗表示、目標に近づいたときの励ましリマインダーなど。おすすめです。</string>
+    <string name="onboarding_reminders_on">許可済み</string>
+    <string name="onboarding_reminders_blocked">Androidによりブロック中です。タップして通知設定を開きます</string>
+
+    <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
+    <string name="onboarding_card_dismiss">閉じる</string>
+    <string name="onboarding_card_activity_title">身体活動へのアクセスを許可</string>
+    <string name="onboarding_card_activity_summary">端末の歩数検出センサーを使うために、この権限が必要です。</string>
+    <string name="onboarding_card_battery_title">バックグラウンドでの安定動作</string>
+    <string name="onboarding_card_battery_summary">Stepsyは軽量に作られていますが、システムによって正確なカウントが妨げられることがあります。アプリのバックグラウンド動作を許可してください。</string>
+    <string name="onboarding_card_notifications_title">通知</string>
+    <string name="onboarding_card_notifications_summary">オプション: ライブ通知での進捗表示、目標に近づいたときの励ましリマインダーなど。おすすめです。</string>
+    <string name="onboarding_strip_title">歩数をカウントしていません</string>
+    <string name="onboarding_strip_summary">タップして歩数の検出を許可します。</string>
+    <string name="onboarding_welcome_headline_b">軽量な歩数計。</string>
+    <string name="onboarding_welcome_point_offline">設計からオフライン</string>
+    <string name="onboarding_welcome_point_battery">バッテリーにやさしい</string>
+    <string name="onboarding_welcome_point_backups">自動ローカルバックアップを設定</string>
+    <string name="onboarding_welcome_point_pressure">プレッシャーなく前進</string>
 </resources>

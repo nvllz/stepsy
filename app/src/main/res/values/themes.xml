@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base theme -->
-    <style name="Theme.stepsy" parent="Theme.Material3.DayNight">
+    <style name="Theme.stepsy" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorSurface">@color/colorSurface</item>
@@ -10,122 +10,10 @@
         <item name="android:fontFamily">@font/chivo_family</item>
         <item name="fontFamily">@font/chivo_family</item>
         <item name="popupMenuBackground">@color/colorSurface</item>
-
         <item name="android:navigationBarColor">@color/colorSurface</item>
         <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
-
-        <item name="alertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
-        <item name="sliderStyle">@style/Widget.stepsy.Slider</item>
-    </style>
-
-    <!-- Settings activity theme -->
-    <style name="Theme.stepsySettings" parent="Theme.Material3.DayNight">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="colorSurface">@color/colorSurface</item>
-        <item name="colorOnSurface">@color/colorOnSurface</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/chivo_family</item>
-        <item name="fontFamily">@font/chivo_family</item>
-
-        <item name="android:navigationBarColor">@color/colorSurface</item>
-        <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
-        <item name="android:statusBarColor">@color/colorBackground</item>
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
-
-        <item name="alertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.stepsy.Dialog</item>
-    </style>
-
-    <!-- Calendar view style -->
-    <style name="CalendarViewStyle" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary">@color/colorOnPrimary</item>
-        <item name="android:fontFamily">@font/chivo_family</item>
-        <item name="fontFamily">@font/chivo_family</item>
-    </style>
-
-    <!-- Dialog Button Styles -->
-    <style name="DialogButton.Positive" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/colorOnSurface</item>
-        <item name="backgroundTint">@android:color/transparent</item>
-        <item name="rippleColor">@color/colorAccent</item>
-    </style>
-
-    <style name="DialogButton.Negative" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="backgroundTint">@android:color/transparent</item>
-        <item name="rippleColor">@color/colorAccent</item>
-    </style>
-
-    <!-- Dialog Theme -->
-    <style name="ThemeOverlay.stepsy.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="buttonBarPositiveButtonStyle">@style/DialogButton.Positive</item>
-        <item name="buttonBarNegativeButtonStyle">@style/DialogButton.Negative</item>
-        <item name="android:background">@color/colorDialogSurface</item>
-        <item name="colorSurface">@color/colorDialogSurface</item>
-        <item name="colorOnSurface">@color/colorOnSurface</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="android:textColorPrimary">@color/colorOnSurface</item>
-        <item name="android:textColorSecondary">@color/colorAccent</item>
-        <item name="editTextStyle">@style/Widget.stepsy.EditText</item>
-        <item name="colorOutline">@color/colorAccent</item>
-    </style>
-
-    <!-- Custom EditText style for dialogs -->
-    <style name="Widget.stepsy.EditText" parent="Widget.Material3.TextInputEditText.FilledBox">
-        <item name="android:textColor">@color/colorOnSurface</item>
-        <item name="android:textColorHint">@color/colorAccent</item>
-        <item name="colorSurface">@color/colorDialogSurface</item>
-        <item name="backgroundTint">@color/colorDialogSurface</item>
-        <item name="android:background">@drawable/edit_text_background</item>
-    </style>
-
-    <!-- TimePicker -->
-    <style name="ThemeOverlay.stepsy.TimePicker" parent="ThemeOverlay.Material3.MaterialTimePicker">
-
-        <!-- Dialog card background -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="colorSurface">@color/colorDialogSurface</item>
-        <item name="colorOnSurface">@color/colorOnSurface</item>
-        <item name="colorOnSurfaceVariant">@color/colorOnSurface</item>
-        <item name="colorSurfaceVariant">@color/colorDialogSurface</item>  <!-- clock face bg -->
-        <item name="colorPrimaryContainer">@color/colorPrimary</item>
-        <item name="colorOnPrimaryContainer">@color/colorOnPrimary</item>
-        <item name="colorSecondaryContainer">@color/colorDialogSurface</item>
-        <item name="colorTertiaryContainer">@color/colorDialogSurface</item>
-
-        <!-- Clock widget styling -->
-        <item name="materialClockStyle">@style/Widget.stepsy.TimePicker.Clock</item>
-        <item name="materialTimePickerTitleStyle">@style/Widget.stepsy.TimePicker.Title</item>
-        <item name="materialTimePickerStyle">@style/Widget.stepsy.TimePicker</item>
-        <item name="colorSurfaceContainerHigh">@color/colorDialogSurface</item>
-        <item name="colorSurfaceContainer">@color/colorDialogSurface</item>
-        <item name="buttonBarPositiveButtonStyle">@style/DialogButton.Positive</item>
-        <item name="buttonBarNegativeButtonStyle">@style/DialogButton.Negative</item>
-        <item name="colorPrimary">@color/colorAccent</item>
-    </style>
-
-    <!-- Time Picker dialog bg -->
-    <style name="Widget.stepsy.TimePicker" parent="Widget.Material3.MaterialTimePicker">
-        <item name="backgroundTint">@color/colorDialogSurface</item>
-    </style>
-
-    <!-- Time Picker clock face and other shit -->
-    <style name="Widget.stepsy.TimePicker.Clock" parent="Widget.Material3.MaterialTimePicker.Clock">
-        <item name="clockFaceBackgroundColor">@color/colorSurface</item>
-        <item name="clockHandColor">@color/colorPrimary</item>
-        <item name="clockNumberTextColor">@color/colorOnSurface</item>
-    </style>
-
-    <!-- Time Picker title -->
-    <style name="Widget.stepsy.TimePicker.Title" parent="TextAppearance.Material3.BodyMedium">
-        <item name="android:textColor">@color/colorOnSurface</item>
     </style>
 
     <!-- Tile service dialog -->
@@ -135,58 +23,7 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <!-- Toggle btn -->
-    <style name="Widget.Stepsy.ThemeToggleButton"
-        parent="Widget.Material3.Button.OutlinedButton">
-
-        <item name="strokeColor">@color/colorAccent</item>
-        <item name="backgroundTint">@color/toggle_button_bg</item>
-        <item name="android:textColor">@color/toggle_button_text</item>
-        <item name="rippleColor">@color/colorAccent</item>
-    </style>
-
-    <!-- Slider -->
-    <style name="Widget.stepsy.Slider" parent="Widget.Material3.Slider">
-        <item name="trackColorActive">@color/colorAccent</item>
-        <item name="trackColorInactive">@color/colorAccentOpaque</item>
-        <item name="thumbColor">@color/colorAccent</item>
-        <item name="tickColorActive">@color/colorPrimary</item>
-        <item name="tickColorInactive">@color/colorAccent</item>
-    </style>
-
-    <!-- Milestone dialog -->
-    <style name="MilestoneDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/milestone_dialog_in</item>
-        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
-    </style>
-
-    <style name="ThemeOverlay.stepsy.MilestoneDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.stepsy.MilestoneDialog</item>
-        <item name="colorSurface">@android:color/transparent</item>
-        <item name="android:colorBackground">@android:color/transparent</item>
-        <item name="android:windowMinWidthMajor">0%</item>
-        <item name="android:windowMinWidthMinor">0%</item>
-    </style>
-
-    <!-- What's new bottom sheet -->
-    <style name="ThemeOverlay.stepsy.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/Widget.stepsy.BottomSheet</item>
-        <item name="colorSurface">@color/colorDialogSurface</item>
-        <item name="colorOnSurface">@color/colorOnSurface</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="android:navigationBarColor">@color/colorDialogSurface</item>
-    </style>
-
-    <style name="Widget.stepsy.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
-        <item name="backgroundTint">@color/colorDialogSurface</item>
-    </style>
 </resources>

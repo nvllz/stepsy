@@ -15,7 +15,6 @@ import androidx.core.graphics.ColorUtils
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.Util
-import java.util.Locale
 
 class WidgetCompactProvider : AppWidgetProvider() {
 
@@ -36,19 +35,21 @@ class WidgetCompactProvider : AppWidgetProvider() {
 
         fun updateWidget(context: Context, appWidgetId: Int, steps: Int) {
 
-            val prefs = context.getSharedPreferences("widget_prefs_$appWidgetId", Context.MODE_MULTI_PROCESS)
+            val prefs = context.getSharedPreferences("widget_prefs_$appWidgetId", Context.MODE_PRIVATE)
 
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_compact)
 
-            val distanceStr = String.format(Locale.getDefault(), context.getString(R.string.distance_today),
+            val distanceStr = context.getString(
+                R.string.distance_today,
                 Util.stepsToDistance(steps),
-                Util.distanceUnit())
+                Util.distanceUnit()
+            )
 
-            remoteViews.setTextViewText(R.id.widget_compact_steps, steps.toString())
+            remoteViews.setTextViewText(R.id.widget_compact_steps, Util.formatSteps(steps))
             remoteViews.setTextViewText(R.id.widget_compact_distance, distanceStr)
 
-            val useDynamicColors = prefs.getBoolean("use_dynamic_colors", android.os.Build.VERSION.SDK_INT >= 31)
+            val useDynamicColors = prefs.getBoolean("use_dynamic_colors", false)
             val opacity = prefs.getInt("opacity", 100)
             val textScale = prefs.getInt("text_scale", 100)
             val scaleFactor = textScale / 100f

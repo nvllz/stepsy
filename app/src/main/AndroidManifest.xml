@@ -44,7 +44,7 @@
         <activity
             android:name="com.nvllz.stepsy.ui.SettingsActivity"
             android:exported="false"
-            android:theme="@style/Theme.stepsySettings"
+            android:theme="@style/Theme.stepsy"
             android:label="@string/settings"
             android:parentActivityName="com.nvllz.stepsy.ui.MainActivity">
             <meta-data
@@ -56,7 +56,7 @@
         <activity
             android:name="com.nvllz.stepsy.ui.BackupActivity"
             android:exported="false"
-            android:theme="@style/Theme.stepsySettings"
+            android:theme="@style/Theme.stepsy"
             android:label="@string/header_data_backup"
             android:parentActivityName="com.nvllz.stepsy.ui.MainActivity">
             <meta-data
@@ -68,7 +68,7 @@
         <activity
             android:name=".ui.AchievementsActivity"
             android:exported="false"
-            android:theme="@style/Theme.stepsySettings"
+            android:theme="@style/Theme.stepsy"
             android:label="@string/achievements_title"
             android:parentActivityName="com.nvllz.stepsy.ui.MainActivity">
             <meta-data
@@ -80,8 +80,20 @@
         <activity
             android:name=".ui.DailyGoalsActivity"
             android:exported="false"
-            android:theme="@style/Theme.stepsySettings"
+            android:theme="@style/Theme.stepsy"
             android:label="@string/daily_goals"
+            android:parentActivityName="com.nvllz.stepsy.ui.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nvllz.stepsy.ui.MainActivity" />
+        </activity>
+
+        <!-- About Activity -->
+        <activity
+            android:name=".ui.AboutActivity"
+            android:exported="false"
+            android:theme="@style/Theme.stepsy"
+            android:label="@string/about_stepsy"
             android:parentActivityName="com.nvllz.stepsy.ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -128,7 +140,6 @@
         <service
             android:name="com.nvllz.stepsy.service.MotionService"
             android:foregroundServiceType="health"
-            android:process=":MotionService"
             android:exported="false" />
 
         <service
@@ -158,8 +169,13 @@
             </intent-filter>
         </receiver>
 
+        <!-- Timed-pause auto-resume  -->
         <receiver
-            android:name=".AppUpdateReceiver"
+            android:name=".service.TimedPauseReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".service.AppUpdateReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -221,6 +237,10 @@
 
         <receiver
             android:name=".service.MuteMilestoneReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".service.MuteEncouragingReceiver"
             android:exported="false" />
 
     </application>

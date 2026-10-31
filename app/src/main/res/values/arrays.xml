@@ -43,8 +43,8 @@
 
     <!-- Unit System -->
     <string-array name="unit_system_entries">
-        <item>Metric (km)</item>
-        <item>Imperial (miles)</item>
+        <item>Metric</item>
+        <item>Imperial</item>
     </string-array>
     <string-array name="unit_system_values">
         <item>metric</item>
@@ -54,20 +54,20 @@
     <!-- Languages -->
     <string-array name="language_names">
         <item>@string/preference_system</item>
-	<item>Arabic (العربية)</item>
-	<item>България</item>
-	<item>বাংলা</item>
-	<item>Deutsch</item>
-	<item>English</item>
-	<item>Español</item>
-	<item>Français</item>
-	<item>Italiano</item>
-	<item>Nederlands</item>
-	<item>Polski</item>
-	<item>Россия</item>
-	<item>Svenska</item>
-	<item>Türkçe</item>
-	<item>中文（中国）</item>
+        <item>Arabic (العربية)</item>
+        <item>България</item>
+        <item>বাংলা</item>
+        <item>Deutsch</item>
+        <item>English</item>
+        <item>Español</item>
+        <item>Français</item>
+        <item>Italiano</item>
+        <item>Nederlands</item>
+        <item>Polski</item>
+        <item>Россия</item>
+        <item>Svenska</item>
+        <item>Türkçe</item>
+        <item>中文（中国）</item>
     </string-array>
 
     <string-array name="language_values">

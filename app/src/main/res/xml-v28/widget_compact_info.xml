@@ -10,4 +10,4 @@
     android:widgetCategory="home_screen|keyguard"
     android:previewImage="@drawable/widget_preview_compact"
     android:configure="com.nvllz.stepsy.ui.WidgetCompactConfigureActivity"
-    android:widgetFeatures="reconfigurable|configuration_optional" />
+    android:widgetFeatures="reconfigurable" />

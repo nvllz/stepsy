@@ -18,7 +18,7 @@ object TimedPauseManager {
         prefs.edit {
             putLong(KEY_PAUSE_END_TIME, endTimeMillis)
             putInt(KEY_ORIGINAL_PAUSE_DURATION, durationMinutes)
-            commit() // Use commit() to ensure immediate write
+            commit()
         }
     }
 

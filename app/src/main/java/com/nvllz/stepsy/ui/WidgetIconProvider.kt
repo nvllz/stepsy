@@ -15,7 +15,6 @@ import androidx.core.graphics.ColorUtils
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.Util
-import java.util.Locale
 
 class WidgetIconProvider : AppWidgetProvider() {
 
@@ -36,18 +35,19 @@ class WidgetIconProvider : AppWidgetProvider() {
 
         fun updateWidget(context: Context, appWidgetId: Int, steps: Int) {
 
-            val prefs = context.getSharedPreferences("widget_prefs_$appWidgetId", Context.MODE_MULTI_PROCESS)
+            val prefs = context.getSharedPreferences("widget_prefs_$appWidgetId", Context.MODE_PRIVATE)
 
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_icon)
 
-            val distance = Util.stepsToDistance(steps)
-            val distanceStr = String.format(Locale.getDefault(), "%.2f %s", distance, Util.distanceUnit())
+            val distanceStr = context.getString(
+                R.string.distance_today, Util.stepsToDistance(steps), Util.distanceUnit()
+            )
 
             remoteViews.setTextViewText(R.id.widget_icon_steps, steps.toString())
             remoteViews.setTextViewText(R.id.widget_icon_distance, distanceStr)
 
-            val useDynamicColors = prefs.getBoolean("use_dynamic_colors", android.os.Build.VERSION.SDK_INT >= 31)
+            val useDynamicColors = prefs.getBoolean("use_dynamic_colors", false)
             val opacity = prefs.getInt("opacity", 100)
             val textScale = prefs.getInt("text_scale", 100)
             val scaleFactor = textScale / 100f
@@ -89,6 +89,22 @@ class WidgetIconProvider : AppWidgetProvider() {
                 TypedValue.COMPLEX_UNIT_SP,
                 14f * scaleFactor
             )
+
+            if (android.os.Build.VERSION.SDK_INT >= 31) {
+                remoteViews.setViewLayoutWidth(
+                    R.id.widget_icon_img,
+                    30f * scaleFactor,
+                    TypedValue.COMPLEX_UNIT_DIP
+                )
+                remoteViews.setViewLayoutHeight(
+                    R.id.widget_icon_img,
+                    40f * scaleFactor,
+                    TypedValue.COMPLEX_UNIT_DIP
+                )
+            } else {
+                remoteViews.setFloat(R.id.widget_icon_img, "setScaleX", scaleFactor)
+                remoteViews.setFloat(R.id.widget_icon_img, "setScaleY", scaleFactor)
+            }
 
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(
