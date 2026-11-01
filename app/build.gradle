@@ -40,6 +40,7 @@ android {
     buildTypes {
         debug {
             manifestPlaceholders = [icon: "@drawable/ic_launcher_debug"]
+            resValue "string", "app_name", "Stepsy [debug]"
             applicationIdSuffix ".debug"
             versionNameSuffix '-debug'
             minifyEnabled false

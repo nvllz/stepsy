@@ -48,7 +48,7 @@ private const val URL_AUTHOR = "https://github.com/nvllz"
 private const val URL_ORIGINAL = "https://github.com/0xf4b1/motionmate"
 private const val URL_LICENSE = "https://www.gnu.org/licenses/gpl-3.0.html"
 
-private val APP_ICON = R.drawable.ic_launcher_foreground_mono
+private val APP_ICON = R.drawable.ic_launcher_mono_foreground
 
 @Composable
 fun AboutScreen(onBack: () -> Unit) {
