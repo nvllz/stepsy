@@ -89,7 +89,7 @@ fun WidgetPreview(
             when (type) {
                 WidgetConfigType.ICON -> Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        painterResource(R.drawable.widget_icon),
+                        painterResource(R.drawable.ic_notification),
                         contentDescription = null,
                         tint = palette.primary,
                         modifier = Modifier.size(
