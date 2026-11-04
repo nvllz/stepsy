@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nvllz.stepsy.ui.theme.StepsyTheme
@@ -34,11 +36,28 @@ fun <T> ChoiceDialog(
     selected: T?,
     onSelect: (T) -> Unit,
     onDismiss: () -> Unit,
+    description: String? = null,
 ) {
     val selectedIndex = options.indexOfFirst { it.first == selected }.coerceAtLeast(0)
     val listState = rememberLazyListState(selectedIndex)
 
     StepsyDialog(title = title, onDismiss = onDismiss, confirmText = null, dismissText = null) {
+        if (description != null) {
+            Text(
+                description,
+                Modifier.padding(bottom = 10.dp),
+                fontSize = 14.sp,
+                lineHeight = 18.sp,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                style = LocalTextStyle.current.copy(
+                    lineBreak = LineBreak(
+                        strictness = LineBreak.Strictness.Default,
+                        wordBreak = LineBreak.WordBreak.Default,
+                        strategy = LineBreak.Strategy.Balanced,
+                    ),
+                ),
+            )
+        }
         LazyColumn(
             Modifier.fillMaxWidth().heightIn(max = 400.dp),
             state = listState,

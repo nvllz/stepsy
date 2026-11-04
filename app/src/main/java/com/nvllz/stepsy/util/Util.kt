@@ -4,6 +4,13 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.nvllz.stepsy.R
 import java.text.NumberFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 object Util {
@@ -17,14 +24,92 @@ object Util {
 
     private lateinit var appContext: Context
 
+    private class DayStartRule(val hour: Int, val prevHour: Int, val switchMs: Long)
+
+    @Volatile
+    private var dayStartRule = DayStartRule(0, 0, 0)
+
+    internal val DAY_START_PRESETS = listOf(22, 23, 0, 1, 2, 3, 4)
+
+    internal fun refreshDayStartCache() {
+        val prefs = runBlocking { AppPreferences.dataStore.data.first() }
+        dayStartRule = DayStartRule(
+            prefs[AppPreferences.PreferenceKeys.DAY_START_HOUR] ?: 0,
+            prefs[AppPreferences.PreferenceKeys.DAY_START_PREV_HOUR] ?: 0,
+            prefs[AppPreferences.PreferenceKeys.DAY_START_SWITCH_MS] ?: 0L,
+        )
+    }
+
+    internal fun shiftOf(hour: Int): Int = if (hour >= 12) hour - 24 else hour
+
+    private fun shiftedWallClock(hour: Int, ms: Long, zone: ZoneId): LocalDateTime =
+        LocalDateTime.ofInstant(Instant.ofEpochMilli(ms), zone)
+            .minusHours(shiftOf(hour).toLong())
+
+    internal fun labelWith(hour: Int, ms: Long, zone: ZoneId = ZoneId.systemDefault()): String {
+        val dt = shiftedWallClock(hour, ms, zone)
+        return "%04d-%02d-%02d".format(Locale.ROOT, dt.year, dt.monthValue, dt.dayOfMonth)
+    }
+
+    internal fun label(ms: Long): String {
+        val rule = dayStartRule
+        return (if (ms >= rule.switchMs) labelWith(rule.hour, ms) else labelWith(rule.prevHour, ms))
+    }
+
+    private fun hourBoundaries(hours: IntArray, fromMs: Long, zone: ZoneId): List<Long> {
+        val start = LocalDateTime.ofInstant(Instant.ofEpochMilli(fromMs), zone).toLocalDate()
+        val candidates = ArrayList<Long>()
+        for (offset in 0..3) {
+            val date = start.plusDays(offset.toLong())
+            for (hour in hours) {
+                val ms = LocalDateTime.of(date, LocalTime.of(hour, 0)).atZone(zone).toInstant().toEpochMilli()
+                if (ms > fromMs) candidates.add(ms)
+            }
+        }
+        return candidates.sorted()
+    }
+
+    internal fun earliestSwitchMs(prevHour: Int, newHour: Int, nowMs: Long, zone: ZoneId = ZoneId.systemDefault()): Long? {
+        if (labelWith(prevHour, nowMs, zone) == labelWith(newHour, nowMs, zone)) return nowMs
+        for (t in hourBoundaries(intArrayOf(prevHour, newHour), nowMs, zone)) {
+            if (labelWith(prevHour, t, zone) == labelWith(newHour, t, zone)) return t
+        }
+        return null
+    }
+
+    internal fun nextLabelChangeMs(nowMs: Long, zone: ZoneId = ZoneId.systemDefault()): Long {
+        val rule = dayStartRule
+        val current = if (nowMs >= rule.switchMs) labelWith(rule.hour, nowMs, zone)
+        else labelWith(rule.prevHour, nowMs, zone)
+        val candidates = (hourBoundaries(intArrayOf(rule.prevHour, rule.hour), nowMs, zone) + rule.switchMs).sorted()
+        for (t in candidates) {
+            if (t <= nowMs) continue
+            val label = if (t >= rule.switchMs) labelWith(rule.hour, t, zone) else labelWith(rule.prevHour, t, zone)
+            if (label != current) return t
+        }
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(nowMs), zone)
+            .toLocalDate()
+            .plusDays(1)
+            .atStartOfDay(zone)
+            .toInstant()
+            .toEpochMilli()
+    }
+
     internal fun init(context: Context) {
         if (!::appContext.isInitialized) appContext = context.applicationContext
     }
 
     internal val calendar: Calendar
         get() {
+            val rule = dayStartRule
+            val now = System.currentTimeMillis()
+            val hour = if (now >= rule.switchMs) rule.hour else rule.prevHour
+            val dt = shiftedWallClock(hour, now, ZoneId.systemDefault())
             val calendar = Calendar.getInstance()
             calendar.firstDayOfWeek = AppPreferences.firstDayOfWeek
+            calendar.set(Calendar.YEAR, dt.year)
+            calendar.set(Calendar.MONTH, dt.monthValue - 1)
+            calendar.set(Calendar.DAY_OF_MONTH, dt.dayOfMonth)
             calendar.set(Calendar.HOUR_OF_DAY, 0)
             calendar.set(Calendar.MINUTE, 0)
             calendar.set(Calendar.SECOND, 0)
@@ -84,17 +169,9 @@ object Util {
         else                         -> "🎯"
     }
 
-    internal fun todayDateString(): String {
-        val cal = Calendar.getInstance()
-        return "%04d-%02d-%02d".format(
-            Locale.ROOT,
-            cal.get(Calendar.YEAR),
-            cal.get(Calendar.MONTH) + 1,
-            cal.get(Calendar.DAY_OF_MONTH)
-        )
-    }
+    internal fun todayDateString(): String = label(System.currentTimeMillis())
 
-    internal fun logicalToday(): java.time.LocalDate = java.time.LocalDate.now()
+    internal fun logicalToday(): LocalDate = LocalDate.parse(label(System.currentTimeMillis()))
 
     internal fun dateStringToCalendarMillis(date: String): Long {
         return try {

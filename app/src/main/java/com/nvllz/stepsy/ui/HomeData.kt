@@ -103,7 +103,7 @@ fun saveFilterVisibility(ctx: Context, v: FilterVisibility) {
 }
 
 fun firstEntryDate(ctx: Context): LocalDate =
-    Database.getInstance(ctx).firstEntry?.let { runCatching { LocalDate.parse(it) }.getOrNull() } ?: LocalDate.now()
+    Database.getInstance(ctx).firstEntry?.let { runCatching { LocalDate.parse(it) }.getOrNull() } ?: Util.logicalToday()
 
 fun stepsByDay(ctx: Context): Map<LocalDate, Int> {
     val db = Database.getInstance(ctx)

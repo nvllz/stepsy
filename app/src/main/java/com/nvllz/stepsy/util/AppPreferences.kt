@@ -33,6 +33,9 @@ object AppPreferences {
         val UNIT_SYSTEM                          = stringPreferencesKey("unit_system")
         val DATE_FORMAT                          = stringPreferencesKey("date_format")
         val FIRST_DAY_OF_WEEK                    = stringPreferencesKey("first_day_of_week")
+        val DAY_START_HOUR                       = intPreferencesKey("day_start_hour")
+        val DAY_START_PREV_HOUR                  = intPreferencesKey("day_start_prev_hour")
+        val DAY_START_SWITCH_MS                  = longPreferencesKey("day_start_switch_ms")
         val APP_VERSION_CODE                     = intPreferencesKey("app_version_code")
         val VEHICLE_FILTER_ENABLED               = booleanPreferencesKey("vehicle_filter_enabled")
         val BACKUP_LOCATION_URI                  = stringPreferencesKey("backup_location_uri")
@@ -172,6 +175,35 @@ object AppPreferences {
     var firstDayOfWeek: Int
         get() = runBlocking { firstDayOfWeekFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.FIRST_DAY_OF_WEEK] = value.toString() } }
+
+    fun dayStartHourFlow(): Flow<Int> = dataStore.data.map { it[PreferenceKeys.DAY_START_HOUR] ?: 0 }
+
+    var dayStartHour: Int
+        get() = runBlocking { dayStartHourFlow().first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.DAY_START_HOUR] = value } }
+
+    suspend fun setDayStart(newHour: Int, nowMs: Long): Long {
+        if (newHour !in Util.DAY_START_PRESETS) return 0L
+        var writtenSwitchMs = 0L
+        dataStore.edit { prefs ->
+            val curHour = prefs[PreferenceKeys.DAY_START_HOUR] ?: 0
+            val curPrev = prefs[PreferenceKeys.DAY_START_PREV_HOUR] ?: 0
+            val curSwitch = prefs[PreferenceKeys.DAY_START_SWITCH_MS] ?: 0L
+            val effective = if (nowMs >= curSwitch) curHour else curPrev
+            if (newHour == effective) {
+                prefs[PreferenceKeys.DAY_START_HOUR] = newHour
+                prefs[PreferenceKeys.DAY_START_PREV_HOUR] = newHour
+                prefs[PreferenceKeys.DAY_START_SWITCH_MS] = 0L
+            } else {
+                val switchMs = Util.earliestSwitchMs(effective, newHour, nowMs) ?: return@edit
+                prefs[PreferenceKeys.DAY_START_HOUR] = newHour
+                prefs[PreferenceKeys.DAY_START_PREV_HOUR] = effective
+                prefs[PreferenceKeys.DAY_START_SWITCH_MS] = switchMs
+                writtenSwitchMs = switchMs
+            }
+        }
+        return writtenSwitchMs
+    }
 
     fun backupLocationUriFlow(): Flow<String?> = dataStore.data.map { it[PreferenceKeys.BACKUP_LOCATION_URI] }
 

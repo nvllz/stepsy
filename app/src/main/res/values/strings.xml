@@ -132,6 +132,10 @@
     <string name="pref_vehicle_filter_summary_foss">More accurate step recognition using the Activity Recognition API. Available only in the full build. Get it on Github (github.com/nvllz/stepsy)</string>
     <string name="vehicle_filter_unavailable">Activity Recognition is unavailable on this device</string>
     <string name="unit_system">Unit system</string>
+    <string name="day_start_title">Day starts at</string>
+    <string name="day_start_description">Choose when your day begins. Steps taken before this time will count toward the previous day. You might only want to adjust this if you\'re active near midnight and want Stepsy to consider the day starting earlier or ending later. Selecting a new day start time will not affect your step data, which is always assigned to a specific date.</string>
+    <string name="day_start_applies_toast">New day start applies from %1$s.</string>
+    <string name="day_start_applies_toast_tomorrow">New day start applies tomorrow at %1$s.</string>
     <string name="date_format">Date format</string>
     <string name="first_day_of_the_week">First day of the week</string>
     <string name="app_language">Language</string>
