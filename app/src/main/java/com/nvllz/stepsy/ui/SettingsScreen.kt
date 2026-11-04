@@ -47,8 +47,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nvllz.stepsy.BuildConfig
 import com.nvllz.stepsy.R
+import com.nvllz.stepsy.service.MotionService
 import com.nvllz.stepsy.service.isPlayServicesAvailable
 import com.nvllz.stepsy.ui.components.ChoiceDialog
+import com.nvllz.stepsy.ui.components.LocalToast
 import com.nvllz.stepsy.ui.components.NumberFieldDialog
 import com.nvllz.stepsy.ui.components.PillSelector
 import com.nvllz.stepsy.ui.components.ScreenHeader
@@ -58,13 +60,21 @@ import com.nvllz.stepsy.ui.components.SettingGroup
 import com.nvllz.stepsy.ui.components.SettingRow
 import com.nvllz.stepsy.ui.components.StepsyDialog
 import com.nvllz.stepsy.ui.components.SwitchSetting
+import com.nvllz.stepsy.ui.components.ToastKind
+import com.nvllz.stepsy.ui.components.ToastState
 import com.nvllz.stepsy.ui.theme.StepsyTheme
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.Util
 import com.nvllz.stepsy.util.Util.UnitSystem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.NumberFormat
+import java.time.Instant
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -81,6 +91,7 @@ fun SettingsScreen(onBack: () -> Unit) {
     val storedUnitSystem by prefsState({ AppPreferences.unitSystemFlow() }, { AppPreferences.unitSystem })
     val storedDateFormat by prefsState({ AppPreferences.dateFormatStringFlow() }, { AppPreferences.dateFormatString })
     val storedFirstDay by prefsState({ AppPreferences.firstDayOfWeekFlow() }, { AppPreferences.firstDayOfWeek })
+    val storedDayStartHour by prefsState({ AppPreferences.dayStartHourFlow() }, { AppPreferences.dayStartHour })
     val storedVehicleFilter by prefsState({ AppPreferences.vehicleFilterEnabledFlow() }, { AppPreferences.vehicleFilterEnabled })
 
     val imperial = storedUnitSystem == UnitSystem.IMPERIAL
@@ -124,7 +135,20 @@ fun SettingsScreen(onBack: () -> Unit) {
     }
     val languageOptions = remember(ctx) { entriesZip(ctx, R.array.language_names, R.array.language_values) }
 
+    val is24 = android.text.format.DateFormat.is24HourFormat(ctx)
+    val dayStartTimeFormat = remember(ctx, is24) {
+        DateTimeFormatter.ofPattern(
+            if (is24) "HH:mm" else "h:mm a",
+            Locale.getDefault(),
+        )
+    }
+    val dayStartSummary = remember(storedDayStartHour, dayStartTimeFormat) { dayStartTimeFormat.format(LocalTime.of(storedDayStartHour, 0)) }
+    val dayStartOptions = remember(dayStartTimeFormat) {
+        Util.DAY_START_PRESETS.map { hour -> hour to dayStartTimeFormat.format(LocalTime.of(hour, 0)) }
+    }
+
     var activeDialog by remember { mutableStateOf<SettingsDialogState?>(null) }
+    val toast = LocalToast.current
 
     Column(
         Modifier.fillMaxSize().background(StepsyTheme.colors.background).statusBarsPadding(),
@@ -199,6 +223,15 @@ fun SettingsScreen(onBack: () -> Unit) {
                     summary = unitSummary,
                     icon = R.drawable.ic_unit,
                     onClick = { activeDialog = SettingsDialogState.UnitSystem },
+                )
+
+                SettingDivider()
+
+                SettingRow(
+                    title = stringResource(R.string.day_start_title),
+                    summary = dayStartSummary,
+                    icon = R.drawable.ic_clock,
+                    onClick = { activeDialog = SettingsDialogState.DayStartHour },
                 )
 
                 SettingDivider()
@@ -373,6 +406,42 @@ fun SettingsScreen(onBack: () -> Unit) {
                 scope.launch {
                     AppPreferences.dataStore.edit { prefs ->
                         prefs[AppPreferences.PreferenceKeys.UNIT_SYSTEM] = chosen
+                    }
+                }
+            },
+            onDismiss = { activeDialog = null },
+        )
+
+        SettingsDialogState.DayStartHour -> ChoiceDialog(
+            title = stringResource(R.string.day_start_title),
+            options = dayStartOptions,
+            selected = storedDayStartHour,
+            description = stringResource(R.string.day_start_description),
+            onSelect = { chosen ->
+                activeDialog = null
+                scope.launch {
+                    val nowMs = System.currentTimeMillis()
+                    val switchAt = withContext(Dispatchers.IO) {
+                        AppPreferences.setDayStart(chosen, nowMs).also { Util.refreshDayStartCache() }
+                    }
+                    ctx.startService(Intent(ctx, MotionService::class.java).apply {
+                        action = "UPDATE_NOTIFICATION"
+                    })
+                    if (switchAt - nowMs > 60_000L) {
+                        val zone = ZoneId.systemDefault()
+                        val nowZoned = Instant.ofEpochMilli(nowMs).atZone(zone)
+                        val triggerZoned = Instant.ofEpochMilli(switchAt).atZone(zone)
+                        val at = dayStartTimeFormat.format(triggerZoned)
+                        val text = if (triggerZoned.toLocalDate() == nowZoned.toLocalDate()) {
+                            ctx.getString(R.string.day_start_applies_toast, at)
+                        } else {
+                            ctx.getString(R.string.day_start_applies_toast_tomorrow, at)
+                        }
+                        toast.show(
+                            text.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+                            ToastKind.INFO,
+                            ToastState.DURATION_LONG,
+                        )
                     }
                 }
             },
@@ -569,7 +638,7 @@ private fun NumberField(
 
 private enum class SettingsDialogState {
     HeightMetric, HeightImperial, StepLength, Weight,
-    UnitSystem, DateFormat, FirstDayOfWeek, Language,
+    UnitSystem, DayStartHour, DateFormat, FirstDayOfWeek, Language,
 }
 
 internal fun bodyHeightText(cm: Int, imperial: Boolean, unit: String): String = heightDisplay(cm, imperial, unit)

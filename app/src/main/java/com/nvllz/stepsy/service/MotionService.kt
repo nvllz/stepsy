@@ -76,6 +76,7 @@ internal class MotionService : Service() {
         startService()
 
         handler.post {
+            Util.refreshDayStartCache()
             MidnightResetReceiver.scheduleNextMidnightAlarm(this@MotionService)
             checkForExistingTimedPause()
 
@@ -438,6 +439,8 @@ internal class MotionService : Service() {
                     return
                 }
                 "UPDATE_NOTIFICATION" -> {
+                    Util.refreshDayStartCache()
+                    MidnightResetReceiver.scheduleNextMidnightAlarm(this@MotionService)
                     refreshCachedSettings(force = true)
                     mCachedShowProgressbar = intent.getBooleanExtra("show_progressbar", mCachedShowProgressbar)
                     mCachedDailyTarget = intent.getIntExtra("daily_target", mCachedDailyTarget)

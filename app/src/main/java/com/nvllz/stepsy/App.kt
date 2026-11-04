@@ -10,6 +10,7 @@ class App : Application() {
         super.onCreate()
         AppPreferences.init(applicationContext)
         Util.init(applicationContext)
+        Util.refreshDayStartCache()
         NotificationChannels.ensureAll(this)
     }
 }

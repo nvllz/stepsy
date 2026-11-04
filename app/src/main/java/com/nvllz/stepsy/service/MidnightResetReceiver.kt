@@ -6,12 +6,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import java.util.*
+import com.nvllz.stepsy.util.Util
 
 class MidnightResetReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "MidnightResetReceiver triggered")
+
+        Util.refreshDayStartCache()
 
         val serviceIntent = Intent(context, MotionService::class.java).apply {
             putExtra("FORCE_UPDATE", true)
@@ -35,16 +37,7 @@ class MidnightResetReceiver : BroadcastReceiver() {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
-            val calendar = Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis()
-                add(Calendar.DAY_OF_YEAR, 1)
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 1)
-                set(Calendar.MILLISECOND, 0)
-            }
-
-            val triggerTime = calendar.timeInMillis
+            val triggerTime = Util.nextLabelChangeMs(System.currentTimeMillis()) + 1_000L
 
             alarmManager.setWindow(
                 AlarmManager.RTC_WAKEUP,
@@ -53,7 +46,7 @@ class MidnightResetReceiver : BroadcastReceiver() {
                 pendingIntent
             )
 
-            Log.d(TAG, "Scheduled next midnight alarm for: ${calendar.time}")
+            Log.d(TAG, "Scheduled next day change alarm for: $triggerTime")
         }
 
         fun cancelMidnightAlarm(context: Context) {

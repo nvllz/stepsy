@@ -186,7 +186,12 @@
         <receiver
             android:name=".service.MidnightResetReceiver"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.TIME_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <!-- Widgets -->
         <receiver
