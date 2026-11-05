@@ -21,6 +21,10 @@
         <item quantity="one">day</item>
         <item quantity="other">days</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 
     <!-- Screen: Home -->
     <string name="header_today">Today</string>
@@ -61,6 +65,27 @@
     <string name="confirm_decrease_message">This value is lower than your current step count. Do you want to continue?</string>
     <string name="invalid_step_count">Please enter a valid number</string>
     <string name="steps_updated">Step count updated</string>
+    <string name="hourly_average_title">Hourly average</string>
+    <string name="hourly_average_message">The average includes %1$d of the %2$d days in this range. A day is skipped if most of its steps have no recorded time. This can happen if hourly tracking was disabled or the daily total was edited.</string>
+    <string name="hourly_no_data_day">No hourly data for this day</string>
+    <string name="hourly_average_days" translatable="false">(%1$d of %2$s)</string>
+    <string name="hourly_average_empty">Not enough hourly data to draw an average chart for this range</string>
+    <string name="hourly_average_empty_message">No hourly data is available for any of the %1$s days in the range. Hourly data is only available for days recorded on this device.</string>
+    <string name="hourly_no_data_before">No hourly data before %1$s</string>
+    <string name="hourly_untimed_steps">%1$s steps without a time</string>
+    <string name="hourly_view_chart">Chart</string>
+    <string name="hourly_view_bars">Bars</string>
+    <string name="hourly_today_short">%1$s today</string>
+    <string name="hourly_hour_adjusted">adjusted %1$s</string>
+
+    <plurals name="daily_average_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+
+    <string name="daily_average_title">Daily average</string>
+    <string name="chart_view_hourly">Hourly</string>
+    <string name="chart_view_daily">Daily</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">Achievements</string>
@@ -143,6 +168,35 @@
     <string name="preference_system">System</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="hourly_breakdown_title">Hourly breakdown</string>
+    <string name="hourly_breakdown_summary">See how your steps are distributed throughout the day. Disable to hide the hourly chart.</string>
+    <string name="hourly_off_confirm_title">Turn off hourly breakdown?</string>
+    <string name="hourly_off_confirm_message">No more hourly step data will be recorded. Are you sure?</string>
+    <string name="hourly_off_confirm_action">Turn off</string>
+    <string name="hourly_off_confirm_clear_data">Clear saved hourly data</string>
+
+    <!-- Debug only: mock data generator and debug tools -->
+    <string name="mock_data_title" translatable="false">Generate mock data</string>
+    <string name="mock_data_message" translatable="false">Replace existing step data with random-looking history (daily totals, and optionally hourly data). This can\'t be undone.</string>
+    <string name="mock_data_6_mo" translatable="false">6 months</string>
+    <string name="mock_data_1_y" translatable="false">1 year</string>
+    <string name="mock_data_3_y" translatable="false">3 years</string>
+    <string name="mock_data_with_hourly" translatable="false">With hourly data</string>
+    <string name="mock_data_without_hourly" translatable="false">No hourly data</string>
+    <string name="mock_data_effort_beginner" translatable="false">Beginner</string>
+    <string name="mock_data_effort_average" translatable="false">Average</string>
+    <string name="mock_data_effort_heavy" translatable="false">Heavy walker</string>
+    <string name="mock_data_focus_balanced" translatable="false">Balanced</string>
+    <string name="mock_data_focus_night" translatable="false">Night</string>
+    <string name="mock_data_focus_morning" translatable="false">Morning</string>
+    <string name="mock_data_focus_afternoon" translatable="false">Afternoon</string>
+    <string name="mock_data_focus_evening" translatable="false">Evening</string>
+    <string name="mock_data_generate" translatable="false">Generate</string>
+    <string name="debug_section" translatable="false">Debug</string>
+    <string name="clear_data_title" translatable="false">Clear data</string>
+    <string name="clear_chip_steps" translatable="false">All step data</string>
+    <string name="clear_chip_settings" translatable="false">Settings</string>
+    <string name="clear_chip_hourly" translatable="false">Hourly step data</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">Export and restore app data</string>

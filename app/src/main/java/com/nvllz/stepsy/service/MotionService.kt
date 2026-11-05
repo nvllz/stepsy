@@ -22,6 +22,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
 import android.os.ResultReceiver
+import android.os.SystemClock
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import android.util.Log
@@ -54,6 +55,13 @@ internal class MotionService : Service() {
     private var mLastNotifiedMilestone: Long = 0L
     private var mCachedVehicleFilter: Boolean = false
     private var mCachedEncouraging: Boolean = false
+    private var mCachedHourly: Boolean? = null
+    private val mSlots = IntArray(Database.SLOT_COUNT)
+    private var mSlotDirty = 0L
+    private var mSlotWindowStart = 0L
+    private var mSlotWindowEnd = 0L
+    private var mSlotWindowSlot = -1
+    private var mSlotWindowDate = ""
     private var mSensorManager: SensorManager? = null
 
     private val pauseChannelId = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
@@ -84,7 +92,6 @@ internal class MotionService : Service() {
             mTodaysSteps = AppPreferences.steps
             mCachedShowProgressbar = AppPreferences.dailyGoalNotificationProgressbar
             isCountingPaused = AppPreferences.isPaused
-            refreshCachedSettings(force = true)
 
             if (mCurrentDate.isEmpty()) {
                 mCurrentDate = Util.todayDateString()
@@ -92,6 +99,8 @@ internal class MotionService : Service() {
                 AppPreferences.date = mCurrentDate
             }
 
+            refreshCachedSettings(force = true)
+            seedSlots()
             recalcBaseTotal()
             mLastNotifiedMilestone = AppPreferences.lastNotifiedMilestone
             if (mLastNotifiedMilestone <= 0L) {
@@ -121,7 +130,7 @@ internal class MotionService : Service() {
                 mSensorManager = sensorManager
                 mListener = object : SensorEventListener {
                     override fun onSensorChanged(event: SensorEvent) {
-                        handleEvent(event.values[0].toInt())
+                        handleEvent(event.values[0].toInt(), event.timestamp)
                     }
 
                     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
@@ -144,7 +153,7 @@ internal class MotionService : Service() {
         handleStepUpdate(delayedTrigger = true)
     }
 
-    private fun handleEvent(value: Int) {
+    private fun handleEvent(value: Int, eventTimestamp: Long) {
         if (!isCountingPaused) {
 
             refreshCachedSettings()
@@ -152,6 +161,7 @@ internal class MotionService : Service() {
             if (mCachedVehicleFilter && activityRecognitionManager.isInVehicle) return
 
             mTodaysSteps += delta
+            if (delta > 0 && mCachedHourly == true) recordSlot(eventTimestamp, delta)
             checkMilestones()
 
             val target = mCachedDailyTarget
@@ -180,6 +190,7 @@ internal class MotionService : Service() {
             mCachedVehicleFilter = AppPreferences.vehicleFilterEnabled
             mCachedDailyTarget = AppPreferences.dailyGoalTarget
             mCachedEncouraging = AppPreferences.encouragingNotifications
+            mCachedHourly = AppPreferences.hourlyBreakdown
             lastPrefReadTime = currentTime
         }
     }
@@ -211,6 +222,7 @@ internal class MotionService : Service() {
 
         if (todayStr != mCurrentDate) {
             Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
+            flushSlots()
 
             lastDbWriteTime = currentTime
 
@@ -234,6 +246,7 @@ internal class MotionService : Service() {
             }
 
             mCurrentDate = todayStr
+            seedSlots()
             AppPreferences.date = mCurrentDate
             AppPreferences.steps = mTodaysSteps
 
@@ -249,6 +262,7 @@ internal class MotionService : Service() {
 
         if (currentTime - lastDbWriteTime >= dbWriteInterval || manualStepCountChange) {
             Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
+            flushSlots()
             lastDbWriteTime = currentTime
         }
 
@@ -445,6 +459,14 @@ internal class MotionService : Service() {
                     mCachedShowProgressbar = intent.getBooleanExtra("show_progressbar", mCachedShowProgressbar)
                     mCachedDailyTarget = intent.getIntExtra("daily_target", mCachedDailyTarget)
 
+                    if (intent.getBooleanExtra("clear_hourly", false)) {
+                        mSlots.fill(0)
+                        mSlotDirty = 0L
+                        invalidateSlotWindow()
+                        runCatching { Database.getInstance(this).clearAllHourly() }
+                            .onFailure { Log.w(TAG, "Failed to clear hourly data", it) }
+                    }
+
                     if (!isCountingPaused) {
                         val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
                         startForeground(FOREGROUND_ID, builder.build())
@@ -462,13 +484,21 @@ internal class MotionService : Service() {
                 mLastSteps = -1
                 AppPreferences.steps = mTodaysSteps
                 AppPreferences.date = mCurrentDate
+                if (it.hasExtra(KEY_STEPS)) seedSlots()
                 handleStepUpdate()
                 recalcBaseTotal()
                 checkMilestones()
             }
 
             if (it.hasExtra("MANUAL_STEP_COUNT_CHANGE")) {
-                mTodaysSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
+                val newSteps = it.getIntExtra(KEY_STEPS, mTodaysSteps)
+                val diff = newSteps - mTodaysSteps
+                if (diff != 0 && mCachedHourly == true) {
+                    val minute = Util.dateAndMinuteFor(System.currentTimeMillis()).second
+                    runCatching { Database.getInstance(this).addAdjust(mCurrentDate, minute, diff) }
+                        .onFailure { Log.w(TAG, "Failed to record hourly adjustment", it) }
+                }
+                mTodaysSteps = newSteps
                 mLastSteps = -1
                 AppPreferences.steps = mTodaysSteps
                 checkMilestones()
@@ -620,6 +650,62 @@ internal class MotionService : Service() {
         }
     }
 
+    private fun recordSlot(eventTimestampNanos: Long, delta: Int) {
+        val now = System.currentTimeMillis()
+        val age = (SystemClock.elapsedRealtimeNanos() - eventTimestampNanos) / 1_000_000L
+        val eventMs = if (age < 0 || age > MAX_EVENT_AGE_MS) now else now - age
+        val slot = slotFor(eventMs)
+        mSlots[slot] += delta
+        mSlotDirty = mSlotDirty or (1L shl slot)
+    }
+
+    private fun slotFor(eventMs: Long): Int {
+        if (mSlotWindowDate == mCurrentDate && eventMs >= mSlotWindowStart && eventMs < mSlotWindowEnd) {
+            return mSlotWindowSlot
+        }
+        val start = Calendar.getInstance().apply {
+            timeInMillis = eventMs
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val end = (start.clone() as Calendar).apply { add(Calendar.HOUR_OF_DAY, 1) }
+        val (date, minute) = Util.dateAndMinuteFor(eventMs)
+        mSlotWindowStart = start.timeInMillis
+        mSlotWindowEnd = end.timeInMillis
+        mSlotWindowDate = mCurrentDate
+        mSlotWindowSlot = when {
+            date == mCurrentDate -> (minute / Database.SLOT_MINUTES).coerceIn(0, Database.SLOT_COUNT - 1)
+            date > mCurrentDate   -> Database.SLOT_COUNT - 1
+            else                  -> 0
+        }
+        return mSlotWindowSlot
+    }
+
+    private fun invalidateSlotWindow() {
+        mSlotWindowStart = 0L
+        mSlotWindowEnd = 0L
+        mSlotWindowSlot = -1
+        mSlotWindowDate = ""
+    }
+
+    private fun flushSlots() {
+        if (mSlotDirty == 0L || mCachedHourly != true) return
+        val dirty = mSlotDirty
+        runCatching { Database.getInstance(this).saveSlots(mCurrentDate, mSlots, dirty) }
+            .onSuccess { mSlotDirty = mSlotDirty and dirty.inv() }
+            .onFailure { Log.w(TAG, "Failed to save hourly slots", it) }
+    }
+
+    private fun seedSlots() {
+        val loaded = runCatching { Database.getInstance(this).loadSlots(mCurrentDate) }
+            .onFailure { Log.w(TAG, "Failed to load hourly slots", it) }
+            .getOrDefault(IntArray(Database.SLOT_COUNT))
+        loaded.copyInto(mSlots)
+        mSlotDirty = 0L
+        invalidateSlotWindow()
+    }
+
     private fun recalcBaseTotal() {
         val tracked = mCurrentDate.ifEmpty { Util.todayDateString() }
         mBaseTotal = Database.getInstance(this).totalStepsExcluding(tracked)
@@ -659,6 +745,7 @@ internal class MotionService : Service() {
         internal const val EXTRA_SUPPRESS_TOAST = "SUPPRESS_TOAST"
         private const val PAUSE_ALARM_REQ = 4201
         private const val FOREGROUND_ID = 3843
+        private const val MAX_EVENT_AGE_MS = 12L * 60L * 60L * 1000L
         internal const val STEP_CHANNEL_ID = "com.nvllz.stepsy.STEP_CHANNEL_ID"
     }
 }

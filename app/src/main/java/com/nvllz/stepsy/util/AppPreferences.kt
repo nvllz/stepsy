@@ -38,6 +38,7 @@ object AppPreferences {
         val DAY_START_SWITCH_MS                  = longPreferencesKey("day_start_switch_ms")
         val APP_VERSION_CODE                     = intPreferencesKey("app_version_code")
         val VEHICLE_FILTER_ENABLED               = booleanPreferencesKey("vehicle_filter_enabled")
+        val HOURLY_BREAKDOWN                     = booleanPreferencesKey("hourly_breakdown")
         val BACKUP_LOCATION_URI                  = stringPreferencesKey("backup_location_uri")
         val BACKUP_FREQUENCY                     = stringPreferencesKey("backup_frequency")
         val BACKUP_RETENTION_COUNT               = intPreferencesKey("backup_retention")
@@ -294,6 +295,14 @@ object AppPreferences {
     var vehicleFilterEnabled: Boolean
         get() = runBlocking { vehicleFilterEnabledFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.VEHICLE_FILTER_ENABLED] = value } }
+
+    fun hourlyBreakdownFlow(): Flow<Boolean> = dataStore.data.map {
+        it[PreferenceKeys.HOURLY_BREAKDOWN] ?: true
+    }
+
+    var hourlyBreakdown: Boolean
+        get() = runBlocking { hourlyBreakdownFlow().first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.HOURLY_BREAKDOWN] = value } }
 
     var baseTotalSteps: Long
         get() = runBlocking { dataStore.data.map { it[PreferenceKeys.BASE_TOTAL_STEPS] ?: 0L }.first() }

@@ -9,6 +9,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import java.util.*
@@ -170,6 +171,30 @@ object Util {
     }
 
     internal fun todayDateString(): String = label(System.currentTimeMillis())
+
+    internal fun dateAndMinuteFor(millis: Long): Pair<String, Int> {
+        val cal = Calendar.getInstance().apply { timeInMillis = millis }
+        return calendarToDateString(cal) to cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
+    }
+
+    private var timeLabelFormat: DateTimeFormatter? = null
+    private var timeLabelIs24: Boolean? = null
+    private val timeLabelLock = Any()
+
+    internal fun timeLabel(context: Context, minuteOfDay: Int): String {
+        val is24 = android.text.format.DateFormat.is24HourFormat(context)
+        val minute = ((minuteOfDay % (24 * 60)) + 24 * 60) % (24 * 60)
+        synchronized(timeLabelLock) {
+            if (timeLabelFormat == null || timeLabelIs24 != is24) {
+                timeLabelFormat = DateTimeFormatter.ofPattern(
+                    if (is24) "HH:mm" else "h:mm a",
+                    Locale.getDefault(),
+                )
+                timeLabelIs24 = is24
+            }
+            return timeLabelFormat!!.format(LocalTime.of(minute / 60, minute % 60))
+        }
+    }
 
     internal fun logicalToday(): LocalDate = LocalDate.parse(label(System.currentTimeMillis()))
 

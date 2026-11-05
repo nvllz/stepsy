@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -45,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import com.nvllz.stepsy.BuildConfig
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
@@ -64,6 +68,10 @@ import com.nvllz.stepsy.ui.components.ToastKind
 import com.nvllz.stepsy.ui.components.ToastState
 import com.nvllz.stepsy.ui.theme.StepsyTheme
 import com.nvllz.stepsy.util.AppPreferences
+import com.nvllz.stepsy.util.DebugTools
+import com.nvllz.stepsy.util.MockData
+import com.nvllz.stepsy.util.MockEffort
+import com.nvllz.stepsy.util.MockFocus
 import com.nvllz.stepsy.util.Util
 import com.nvllz.stepsy.util.Util.UnitSystem
 import kotlinx.coroutines.Dispatchers
@@ -93,6 +101,7 @@ fun SettingsScreen(onBack: () -> Unit) {
     val storedFirstDay by prefsState({ AppPreferences.firstDayOfWeekFlow() }, { AppPreferences.firstDayOfWeek })
     val storedDayStartHour by prefsState({ AppPreferences.dayStartHourFlow() }, { AppPreferences.dayStartHour })
     val storedVehicleFilter by prefsState({ AppPreferences.vehicleFilterEnabledFlow() }, { AppPreferences.vehicleFilterEnabled })
+    val storedHourlyBreakdown by prefsState({ AppPreferences.hourlyBreakdownFlow() }, { AppPreferences.hourlyBreakdown })
 
     val imperial = storedUnitSystem == UnitSystem.IMPERIAL
     val fullBuild = BuildConfig.HAS_PROPRIETARY_LIBRARIES
@@ -149,6 +158,13 @@ fun SettingsScreen(onBack: () -> Unit) {
 
     var activeDialog by remember { mutableStateOf<SettingsDialogState?>(null) }
     val toast = LocalToast.current
+
+    val pushHourlyService: (Boolean) -> Unit = { clear ->
+        ctx.startService(Intent(ctx, MotionService::class.java).apply {
+            action = "UPDATE_NOTIFICATION"
+            if (clear) putExtra("clear_hourly", true)
+        })
+    }
 
     Column(
         Modifier.fillMaxSize().background(StepsyTheme.colors.background).statusBarsPadding(),
@@ -212,6 +228,27 @@ fun SettingsScreen(onBack: () -> Unit) {
                             AppPreferences.dataStore.edit { prefs ->
                                 prefs[AppPreferences.PreferenceKeys.VEHICLE_FILTER_ENABLED] = on
                             }
+                        }
+                    },
+                )
+
+                SettingDivider()
+
+                SwitchSetting(
+                    title = stringResource(R.string.hourly_breakdown_title),
+                    summary = stringResource(R.string.hourly_breakdown_summary),
+                    icon = R.drawable.ic_clock_breakdown,
+                    checked = storedHourlyBreakdown,
+                    onCheckedChange = { on ->
+                        if (on) {
+                            scope.launch {
+                                AppPreferences.dataStore.edit { prefs ->
+                                    prefs[AppPreferences.PreferenceKeys.HOURLY_BREAKDOWN] = true
+                                }
+                                pushHourlyService(false)
+                            }
+                        } else {
+                            activeDialog = SettingsDialogState.HourlyOff
                         }
                     },
                 )
@@ -304,6 +341,26 @@ fun SettingsScreen(onBack: () -> Unit) {
                     icon = R.drawable.ic_backup,
                     onClick = { ctx.startActivity(Intent(ctx, BackupActivity::class.java)) },
                 )
+            }
+
+            if (BuildConfig.DEBUG) {
+                SectionLabel(stringResource(R.string.debug_section))
+
+                SettingGroup {
+                    SettingRow(
+                        title = stringResource(R.string.mock_data_title),
+                        icon = R.drawable.ic_import,
+                        onClick = { activeDialog = SettingsDialogState.MockData },
+                    )
+
+                    SettingDivider()
+
+                    SettingRow(
+                        title = stringResource(R.string.clear_data_title),
+                        icon = R.drawable.ic_x,
+                        onClick = { activeDialog = SettingsDialogState.ClearData },
+                    )
+                }
             }
 
             Spacer(Modifier.navigationBarsPadding().height(24.dp))
@@ -494,6 +551,117 @@ fun SettingsScreen(onBack: () -> Unit) {
             onDismiss = { activeDialog = null },
         )
 
+        SettingsDialogState.HourlyOff -> {
+            var clearHourlyData by remember { mutableStateOf(false) }
+            StepsyDialog(
+                title = stringResource(R.string.hourly_off_confirm_title),
+                onDismiss = { activeDialog = null },
+                confirmText = stringResource(R.string.hourly_off_confirm_action),
+                onConfirm = {
+                    activeDialog = null
+                    scope.launch {
+                        AppPreferences.dataStore.edit { prefs ->
+                            prefs[AppPreferences.PreferenceKeys.HOURLY_BREAKDOWN] = false
+                        }
+                        pushHourlyService(clearHourlyData)
+                    }
+                },
+                dismissText = stringResource(android.R.string.cancel),
+            ) {
+                Text(stringResource(R.string.hourly_off_confirm_message))
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp)
+                        .clickable { clearHourlyData = !clearHourlyData },
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Checkbox(
+                        checked = clearHourlyData,
+                        onCheckedChange = { clearHourlyData = it },
+                    )
+                    Text(stringResource(R.string.hourly_off_confirm_clear_data))
+                }
+            }
+        }
+
+        SettingsDialogState.MockData -> {
+            var mockDays by remember { mutableStateOf(1096) }
+            var mockHourly by remember { mutableStateOf(true) }
+            var mockEffort by remember { mutableStateOf(MockEffort.AVERAGE) }
+            var mockFocus by remember { mutableStateOf(MockFocus.BALANCED) }
+            StepsyDialog(
+                title = stringResource(R.string.mock_data_title),
+                onDismiss = { activeDialog = null },
+                confirmText = stringResource(R.string.mock_data_generate),
+                onConfirm = {
+                    activeDialog = null
+                    scope.launch {
+                        withContext(Dispatchers.IO) {
+                            MockData.generateAndStore(ctx, mockDays, mockHourly, mockEffort, mockFocus)
+                        }
+                    }
+                },
+            ) {
+                Text(stringResource(R.string.mock_data_message))
+                PillSelector(
+                    options = listOf(
+                        180 to stringResource(R.string.mock_data_6_mo),
+                        365 to stringResource(R.string.mock_data_1_y),
+                        1096 to stringResource(R.string.mock_data_3_y),
+                    ),
+                    selected = mockDays,
+                    onSelect = { mockDays = it },
+                    modifier = Modifier.fillMaxWidth().padding(top = 18.dp),
+                )
+                PillSelector(
+                    options = listOf(
+                        true to stringResource(R.string.mock_data_with_hourly),
+                        false to stringResource(R.string.mock_data_without_hourly),
+                    ),
+                    selected = mockHourly,
+                    onSelect = { mockHourly = it },
+                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+                )
+                PillSelector(
+                    options = listOf(
+                        MockEffort.BEGINNER to stringResource(R.string.mock_data_effort_beginner),
+                        MockEffort.AVERAGE to stringResource(R.string.mock_data_effort_average),
+                        MockEffort.HEAVY to stringResource(R.string.mock_data_effort_heavy),
+                    ),
+                    selected = mockEffort,
+                    onSelect = { mockEffort = it },
+                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+                )
+                PillSelector(
+                    options = listOf(
+                        MockFocus.BALANCED to stringResource(R.string.mock_data_focus_balanced),
+                        MockFocus.NIGHT to stringResource(R.string.mock_data_focus_night),
+                        MockFocus.MORNING to stringResource(R.string.mock_data_focus_morning),
+                        MockFocus.AFTERNOON to stringResource(R.string.mock_data_focus_afternoon),
+                        MockFocus.EVENING to stringResource(R.string.mock_data_focus_evening),
+                    ),
+                    selected = mockFocus,
+                    onSelect = { mockFocus = it },
+                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+                )
+            }
+        }
+
+        SettingsDialogState.ClearData -> ClearDataDialog(
+            onDismiss = { activeDialog = null },
+            onApply = { steps, settings, hourly ->
+                activeDialog = null
+                scope.launch {
+                    withContext(Dispatchers.IO) {
+                        if (steps) DebugTools.clearAllSteps(ctx)
+                        if (settings) DebugTools.clearSettings(ctx)
+                    }
+                    if (hourly) pushHourlyService(true)
+                }
+            },
+        )
+
         null -> {}
     }
 }
@@ -502,6 +670,33 @@ fun SettingsScreen(onBack: () -> Unit) {
 private fun <T> prefsState(flow: () -> Flow<T>, initial: () -> T): State<T> {
     val remembered = remember { flow() }
     return remembered.collectAsStateWithLifecycle(initialValue = remember { initial() })
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun ClearDataDialog(
+    onDismiss: () -> Unit,
+    onApply: (steps: Boolean, settings: Boolean, hourly: Boolean) -> Unit,
+) {
+    var steps by remember { mutableStateOf(false) }
+    var settings by remember { mutableStateOf(false) }
+    var hourly by remember { mutableStateOf(false) }
+    StepsyDialog(
+        title = stringResource(R.string.clear_data_title),
+        onDismiss = onDismiss,
+        confirmText = stringResource(android.R.string.ok),
+        onConfirm = { onApply(steps, settings, hourly) },
+    ) {
+        FlowRow(
+            modifier = Modifier.padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            FilterChipLabel(stringResource(R.string.clear_chip_steps), on = steps) { steps = !steps }
+            FilterChipLabel(stringResource(R.string.clear_chip_settings), on = settings) { settings = !settings }
+            FilterChipLabel(stringResource(R.string.clear_chip_hourly), on = hourly) { hourly = !hourly }
+        }
+    }
 }
 
 private fun entriesZip(ctx: Context, entriesRes: Int, valuesRes: Int): List<Pair<String, String>> =
@@ -639,6 +834,7 @@ private fun NumberField(
 private enum class SettingsDialogState {
     HeightMetric, HeightImperial, StepLength, Weight,
     UnitSystem, DayStartHour, DateFormat, FirstDayOfWeek, Language,
+    HourlyOff, MockData, ClearData,
 }
 
 internal fun bodyHeightText(cm: Int, imperial: Boolean, unit: String): String = heightDisplay(cm, imperial, unit)
