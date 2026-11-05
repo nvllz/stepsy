@@ -33,15 +33,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nvllz.stepsy.ui.theme.Chivo
 import com.nvllz.stepsy.ui.theme.StepsyTheme
+import com.nvllz.stepsy.util.Util
 
 @Composable
 fun StepsBarChart(
     values: List<Int>, labels: List<String>, goal: Int, selectedIndex: Int?, boldIndex: Int? = null,
-    onBarClick: (Int) -> Unit, modifier: Modifier = Modifier,
+    onBarClick: (Int) -> Unit,
+    revealInstant: Boolean = false,
+    onReveal: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
     val n = values.size
-    val appear = remember { Animatable(0f) }
-    LaunchedEffect(Unit) { appear.animateTo(1f, tween(900, easing = LinearEasing)) }
+    val appear = remember { Animatable(if (revealInstant) 1f else 0f) }
+    LaunchedEffect(Unit) {
+        if (appear.value < 1f) appear.animateTo(1f, tween(900, easing = LinearEasing))
+        onReveal()
+    }
     val onClick by rememberUpdatedState(onBarClick)
 
     val animated = values.map { animateFloatAsState(it.toFloat(), spring(0.6f, Spring.StiffnessLow), label = "bar").value }
@@ -100,7 +107,7 @@ fun StepsBarChart(
             }
             if (values[i] > 0 && g > 0.98f) {
                 val st = if (bold) small.copy(fontWeight = FontWeight.SemiBold, color = onSurface) else small
-                val l = measurer.measure(values[i].toString(), st)
+                val l = measurer.measure(Util.formatSteps(values[i]), st)
                 drawText(l, topLeft = Offset(i * slot + (slot - l.size.width) / 2, base - h - l.size.height - 2.dp.toPx()))
             }
         }

@@ -40,10 +40,29 @@ fun monthTitle(year: Int, month: Int): String {
 }
 
 data class Summary(val header: String, val steps: Int, val avg: Int?, val distance: String, val kcal: String, val goalDays: Int = 0)
-data class ChartData(val header: String, val range: String, val values: List<Int>, val labels: List<String>, val dates: List<LocalDate>, val past7: Boolean)
+data class ChartData(val header: String, val range: String, val values: List<Int>, val labels: List<String>, val dates: List<LocalDate>, val past7: Boolean, val weekdayAverages: Boolean = false)
+data class HourlyPoint(val minute: Int, val value: Int)
+data class HourlyAdjustment(val minute: Int, val delta: Int)
+data class HourlyDay(
+    val date: String,
+    val slots: IntArray,
+    val adjustments: List<HourlyAdjustment>,
+    val points: List<HourlyPoint>,
+    val untimed: Int,
+    val partial: Boolean,
+    val hasData: Boolean,
+    val startMinute: Int,
+    val endMinute: Int,
+    val total: Int,
+    val dbTotal: Int,
+    val beforeEra: Boolean = false,
+)
+data class HourlyAverage(val points: List<HourlyPoint>, val included: Int, val days: Int, val excluded: Int)
 
 private const val PREFS = "RangePrefs"
 private const val KEY_RANGE = "selected_range"
+private const val KEY_HOURLY = "chart_hourly"
+private const val KEY_CHART_LINE = "chart_line"
 
 private fun rangeFromKey(key: String?) = Selection.Range(StepRange.entries.firstOrNull { it.key == key } ?: StepRange.TODAY)
 
@@ -58,6 +77,20 @@ fun loadSelection(ctx: Context): Selection {
 }
 
 fun loadSavedRange(ctx: Context) = rangeFromKey(ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_RANGE, null))
+
+fun loadHourlyView(ctx: Context): Boolean =
+    ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_HOURLY, false)
+
+fun saveHourlyView(ctx: Context, hourly: Boolean) = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit {
+    putBoolean(KEY_HOURLY, hourly)
+}
+
+fun loadChartLine(ctx: Context): Boolean =
+    ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_CHART_LINE, false)
+
+fun saveChartLine(ctx: Context, line: Boolean) = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit {
+    putBoolean(KEY_CHART_LINE, line)
+}
 
 fun saveSelection(ctx: Context, s: Selection) = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit {
     when (s) {
@@ -137,6 +170,15 @@ private fun rangeDates(range: StepRange, db: Database): Pair<String, String> {
     }
 }
 
+private fun selectionDateRange(sel: Selection, db: Database): Pair<String, String> = when (sel) {
+    is Selection.Month -> "%04d-%02d-01".format(sel.year, sel.month) to
+            "%04d-%02d-%02d".format(sel.year, sel.month, YearMonth.of(sel.year, sel.month).lengthOfMonth())
+    is Selection.Year -> "%04d-01-01".format(sel.year) to "%04d-12-31".format(sel.year)
+    is Selection.Range -> if (sel.range == StepRange.TODAY) {
+        val t = Util.todayDateString(); t to t
+    } else rangeDates(sel.range, db)
+}
+
 fun loadSummary(ctx: Context, sel: Selection, picked: LocalDate?, live: Int): Summary {
     val db = Database.getInstance(ctx)
     val df = dateFormat()
@@ -147,19 +189,13 @@ fun loadSummary(ctx: Context, sel: Selection, picked: LocalDate?, live: Int): Su
     if (sel == Selection.Range(StepRange.TODAY))
         return Summary(ctx.getString(R.string.header_today), live, null, dist(ctx, live), kcal(ctx, live))
 
-    val (header, dates) = when (sel) {
-        is Selection.Month -> monthTitle(sel.year, sel.month) to
-                ("%04d-%02d-01".format(sel.year, sel.month) to
-                "%04d-%02d-%02d".format(sel.year, sel.month, YearMonth.of(sel.year, sel.month).lengthOfMonth()))
-        is Selection.Year -> ctx.getString(R.string.header_year, sel.year) to
-                ("%04d-01-01".format(sel.year) to "%04d-12-31".format(sel.year))
-        is Selection.Range -> {
-            val d = rangeDates(sel.range, db)
-            val h = if (sel.range == StepRange.ALL)
-                ctx.getString(R.string.since_date, df.format(Date(Util.dateStringToCalendarMillis(d.first))))
-            else ctx.getString(sel.range.header)
-            h to d
-        }
+    val dates = selectionDateRange(sel, db)
+    val header = when (sel) {
+        is Selection.Month -> monthTitle(sel.year, sel.month)
+        is Selection.Year -> ctx.getString(R.string.header_year, sel.year)
+        is Selection.Range -> if (sel.range == StepRange.ALL)
+            ctx.getString(R.string.since_date, df.format(Date(Util.dateStringToCalendarMillis(dates.first))))
+        else ctx.getString(sel.range.header)
     }
     val total = db.getSumSteps(dates.first, dates.second)
     val gt = AppPreferences.dailyGoalTarget
@@ -190,4 +226,174 @@ fun loadChart(ctx: Context, past7: Boolean, selected: LocalDate, live: Int): Cha
         dates = dates.map(LocalDate::parse),
         past7 = past7,
     )
+}
+
+fun loadWeekdayAverages(ctx: Context, sel: Selection): ChartData {
+    val db = Database.getInstance(ctx)
+    val dates = selectionDateRange(sel, db)
+    val header = when (sel) {
+        is Selection.Month -> monthTitle(sel.year, sel.month)
+        is Selection.Year -> ctx.getString(R.string.daily_average_title)
+        is Selection.Range -> if (
+            sel.range == StepRange.ALL ||
+            sel.range == StepRange.MONTH ||
+            sel.range == StepRange.THIRTY
+        ) ctx.getString(R.string.daily_average_title) else ctx.getString(sel.range.header)
+    }
+    val firstDow = AppPreferences.firstDayOfWeek
+    val sums = LongArray(7)
+    val counts = IntArray(7)
+    var dayCount = 0
+    db.getEntries(dates.first, dates.second).forEach { entry ->
+        val date = LocalDate.parse(entry.date)
+        val dowIso = date.dayOfWeek.value
+        val offset = (dowIso - (firstDow - 1) + 7) % 7
+        if (offset in 0..6) {
+            sums[offset] += entry.steps
+            counts[offset]++
+        }
+        dayCount++
+    }
+    val values = (0 until 7).map { i ->
+        if (counts[i] > 0) (sums[i] / counts[i]).toInt() else 0
+    }
+    val labels = Calendar.getInstance().let { c ->
+        (0 until 7).map { i ->
+            c.set(Calendar.DAY_OF_WEEK, ((firstDow - 1 + i) % 7) + 1)
+            c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()).orEmpty()
+        }
+    }
+    return ChartData(
+        header = header,
+        range = ctx.resources.getQuantityString(R.plurals.daily_average_days, dayCount, dayCount),
+        values = values,
+        labels = labels,
+        dates = emptyList(),
+        past7 = false,
+        weekdayAverages = true,
+    )
+}
+
+fun loadHourlyDay(ctx: Context, date: LocalDate, liveSteps: Int): HourlyDay {
+    val db = Database.getInstance(ctx)
+    val dateStr = date.toString()
+    val slots = db.loadSlots(dateStr)
+    val adjustments = db.loadAdjust(dateStr).map { HourlyAdjustment(it.minute, it.delta) }
+    val dbTotal = db.getSumSteps(dateStr, dateStr)
+    val nowMinute = Util.dateAndMinuteFor(System.currentTimeMillis()).second
+    val isToday = dateStr == Util.todayDateString()
+    var total = dbTotal
+    if (isToday && liveSteps > dbTotal) {
+        slots[(nowMinute / Database.SLOT_MINUTES).coerceIn(0, Database.SLOT_COUNT - 1)] += liveSteps - dbTotal
+        total = liveSteps
+    }
+    val endMinute = if (isToday) nowMinute else 24 * 60
+    val shiftMinutes = AppPreferences.dayStartHour * Database.SLOT_MINUTES
+    val firstHourlyDate = if (isToday) null else db.firstHourlyDate()
+    return buildHourlyDay(
+        dateStr,
+        rotateSlots(slots, shiftMinutes),
+        adjustments.map { HourlyAdjustment(
+            if (it.minute >= 24 * 60) 24 * 60 else ((it.minute - shiftMinutes) % (24 * 60) + 24 * 60) % (24 * 60),
+            it.delta,
+        ) }
+            .sortedBy { it.minute },
+        total,
+        dbTotal,
+        if (isToday) ((endMinute - shiftMinutes) % (24 * 60) + 24 * 60) % (24 * 60) else 24 * 60,
+        isToday,
+        beforeEra = !isToday && (firstHourlyDate == null || dateStr < firstHourlyDate),
+    )
+}
+
+fun applyHourlyLive(day: HourlyDay, liveSteps: Int, shiftMinutes: Int): HourlyDay {
+    if (liveSteps <= day.dbTotal) return day
+    val slots = day.slots.copyOf()
+    val nowMinute = Util.dateAndMinuteFor(System.currentTimeMillis()).second
+    val nowDisplay = ((nowMinute - shiftMinutes) % (24 * 60) + 24 * 60) % (24 * 60)
+    slots[(nowDisplay / Database.SLOT_MINUTES).coerceIn(0, Database.SLOT_COUNT - 1)] += liveSteps - day.dbTotal
+    return buildHourlyDay(day.date, slots, day.adjustments, liveSteps, day.dbTotal, nowDisplay, isToday = true)
+}
+
+private fun buildHourlyDay(
+    date: String,
+    slots: IntArray,
+    adjustments: List<HourlyAdjustment>,
+    total: Int,
+    dbTotal: Int,
+    endMinute: Int,
+    isToday: Boolean,
+    beforeEra: Boolean = false,
+): HourlyDay {
+    val sumSlots = slots.sum()
+    val sumAdjust = adjustments.sumOf { it.delta }
+    val untimed = (total - sumSlots - sumAdjust).coerceAtLeast(0)
+    val hasData = slots.any { it > 0 }
+    val firstSlot = slots.indexOfFirst { it > 0 }
+    val partial = hasData && firstSlot > 0 && untimed >= 100
+    val startMinute = if (partial) firstSlot * Database.SLOT_MINUTES else 0
+    val clampedEnd = endMinute.coerceIn(0, 24 * 60)
+    val adjustToEnd = adjustments.filter { it.minute <= clampedEnd }.sumOf { it.delta }
+    val finalValue = (total - adjustToEnd).coerceAtLeast(0)
+    val points = mutableListOf<HourlyPoint>()
+    var prefix = 0
+    var minute = startMinute
+    while (minute <= clampedEnd) {
+        points.add(HourlyPoint(minute, (untimed + prefix).coerceAtLeast(0)))
+        val slot = minute / Database.SLOT_MINUTES
+        if (minute % Database.SLOT_MINUTES == 0 && slot < slots.size) prefix += slots[slot]
+        minute += Database.SLOT_MINUTES
+    }
+    if (points.isEmpty() || points.last().minute < clampedEnd) {
+        points.add(HourlyPoint(clampedEnd, finalValue))
+    } else if (isToday && points.last().value != finalValue) {
+        points[points.lastIndex] = HourlyPoint(clampedEnd, finalValue)
+    }
+    return HourlyDay(
+        date = date,
+        slots = slots,
+        adjustments = adjustments,
+        points = points,
+        untimed = untimed,
+        partial = partial,
+        hasData = hasData,
+        startMinute = startMinute,
+        endMinute = clampedEnd,
+        total = total,
+        dbTotal = dbTotal,
+        beforeEra = beforeEra,
+    )
+}
+
+fun loadHourlyAverage(ctx: Context, sel: Selection): HourlyAverage {
+    val db = Database.getInstance(ctx)
+    val dates = selectionDateRange(sel, db)
+    val dayTotals = db.getEntries(dates.first, dates.second)
+        .associate { it.date to it.steps }
+    val shiftMinutes = AppPreferences.dayStartHour * Database.SLOT_MINUTES
+    val prefixes = db.loadSlotsRange(dates.first, dates.second)
+        .mapNotNull { day ->
+            val total = dayTotals[day.date] ?: return@mapNotNull null
+            val sum = day.slots.sum()
+            if (day.slots.none { it > 0 } ||
+                sum.toLong() * 100 < total.toLong() * 80
+            ) null else prefixSums(rotateSlots(day.slots, shiftMinutes))
+        }
+    val included = prefixes.size
+    val points = if (included == 0) emptyList() else (0..Database.SLOT_COUNT).map { i ->
+        HourlyPoint(i * Database.SLOT_MINUTES, (prefixes.sumOf { it[i] } / included).toInt())
+    }
+    return HourlyAverage(points, included, dayTotals.size, (dayTotals.size - included).coerceAtLeast(0))
+}
+
+private fun rotateSlots(slots: IntArray, shiftMinutes: Int): IntArray {
+    if (shiftMinutes % (24 * 60) == 0) return slots
+    val hours = shiftMinutes / Database.SLOT_MINUTES
+    return IntArray(Database.SLOT_COUNT) { j -> slots[(j + hours) % Database.SLOT_COUNT] }
+}
+
+private fun prefixSums(slots: IntArray): LongArray {
+    val prefix = LongArray(slots.size + 1)
+    for (i in slots.indices) prefix[i + 1] = prefix[i] + slots[i]
+    return prefix
 }

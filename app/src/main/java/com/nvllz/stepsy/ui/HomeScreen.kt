@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
@@ -33,8 +34,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -44,8 +49,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,6 +69,7 @@ import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.Database
 import com.nvllz.stepsy.util.Util
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.DayOfWeek
@@ -152,10 +163,19 @@ internal fun HomeScreen(
     var confirmLower by remember { mutableStateOf<Int?>(null) }
     var showFilterPicker by remember { mutableStateOf(false) }
     var version by remember { mutableIntStateOf(0) }
+    var pendingEditSteps by remember { mutableStateOf<Int?>(null) }
     val jumpKey = remember { mutableIntStateOf(0) }
     val editable = pickedDay != null || selection == Selection.Range(StepRange.TODAY)
 
     val goal by AppPreferences.dailyGoalTargetFlow().collectAsStateWithLifecycle(AppPreferences.dailyGoalTarget)
+    val hourlyEnabled by AppPreferences.hourlyBreakdownFlow()
+        .collectAsStateWithLifecycle(remember { AppPreferences.hourlyBreakdown })
+    val dayStartHour by AppPreferences.dayStartHourFlow()
+        .collectAsStateWithLifecycle(AppPreferences.dayStartHour)
+    var hourlyView by remember { mutableStateOf(loadHourlyView(ctx)) }
+    var chartLine by remember { mutableStateOf(loadChartLine(ctx)) }
+    var chartRevealed by remember { mutableStateOf(false) }
+    val hourlyMode = hourlyEnabled && hourlyView
 
     val dayTotals = rememberRefreshed(version) { stepsByDay(ctx) }
     val years = remember(dayTotals) {
@@ -167,8 +187,16 @@ internal fun HomeScreen(
         loadSummary(ctx, viewSel, effDay, steps)
     }
     val summary = if (isTodayView) summaryBase.copy(steps = steps) else summaryBase
-    val chartBase = rememberRefreshed(pickedDay, selectedDate, version) {
-        loadChart(ctx, effDay == null, selectedDate, 0)
+    val dailyAvgMode = pickedDay == null &&
+        selection != Selection.Range(StepRange.TODAY) &&
+        selection != Selection.Range(StepRange.SEVEN) &&
+        selection != Selection.Range(StepRange.WEEK)
+    val chartBase = rememberRefreshed(pickedDay, selectedDate, selection, version) {
+        when {
+            dailyAvgMode -> loadWeekdayAverages(ctx, selection)
+            pickedDay == null && selection == Selection.Range(StepRange.WEEK) -> loadChart(ctx, false, today, 0)
+            else -> loadChart(ctx, effDay == null, selectedDate, 0)
+        }
     }
     val chart = remember(chartBase, steps) {
         val i = chartBase.dates.indexOf(today)
@@ -205,6 +233,13 @@ internal fun HomeScreen(
     var crossingSeen by remember {
         mutableLongStateOf(Util.MILESTONES.lastOrNull { it <= baseTotal + steps } ?: 0L)
     }
+    LaunchedEffect(steps) {
+        val target = pendingEditSteps
+        if (target != null && target == steps) {
+            pendingEditSteps = null
+            version++
+        }
+    }
     LaunchedEffect(steps, version) {
         val crossed = Util.MILESTONES.lastOrNull { it <= baseTotal + steps } ?: 0L
         if (crossed > crossingSeen) {
@@ -212,13 +247,46 @@ internal fun HomeScreen(
             newMilestones = hasUnseenMilestones(ctx)
         }
     }
+    var wasPaused by remember { mutableStateOf(false) }
     LifecycleResumeEffect(Unit) {
+        if (wasPaused) version++
         newMilestones = hasUnseenMilestones(ctx)
-        onPauseOrDispose { }
+        onPauseOrDispose { wasPaused = true }
+    }
+    LaunchedEffect(steps) {
+        delay(5_000)
+        version++
     }
     var lastGoal by remember { mutableStateOf(goal) }
     LaunchedEffect(goal) { if (goal > 0) lastGoal = goal }
     val dayView = pickedDay != null || selection == Selection.Range(StepRange.TODAY)
+    val hourlyDayBase = rememberRefreshed(hourlyEnabled, dayView, pickedDay, selectedDate, version, dayStartHour) {
+        if (hourlyEnabled) loadHourlyDay(ctx, if (dayView) pickedDay ?: today else today, 0) else null
+    }
+    val hourlyDay = remember(hourlyDayBase, steps, hourlyMode, dayView, dayStartHour) {
+        if (!hourlyMode) null
+        else hourlyDayBase?.let { if (it.date == today.toString()) applyHourlyLive(it, steps, dayStartHour * Database.SLOT_MINUTES) else it }
+    }
+    val hourlyAverageBase = rememberRefreshed(hourlyEnabled, dayView, selection, version, dayStartHour) {
+        if (hourlyEnabled && !dayView) loadHourlyAverage(ctx, viewSel) else null
+    }
+    var viewedDailyDate by remember { mutableStateOf<String?>(null) }
+    SideEffect {
+        val freshDay = hourlyDay?.takeIf { it.date == (pickedDay ?: today).toString() }
+        when {
+            dayView && freshDay != null -> viewedDailyDate = freshDay.date
+            !dayView -> viewedDailyDate = null
+        }
+    }
+    val holdDailyData = dayView && hourlyDay != null &&
+        hourlyDay.date != (pickedDay ?: today).toString() &&
+        viewedDailyDate != hourlyDay.date
+    val heldAverage = remember { mutableStateOf<HourlyAverage?>(null) }
+    SideEffect {
+        if (!holdDailyData) heldAverage.value = null
+        else if (heldAverage.value == null) heldAverage.value = hourlyAverageBase
+    }
+    val hourlyDayPartial = hourlyMode && dayView && !holdDailyData && hourlyDay?.partial == true
     val s = summary
     val ringBase = when {
         isTodayView -> steps
@@ -248,9 +316,20 @@ internal fun HomeScreen(
 
     fun applyEdit(n: Int) {
         val day = effDay
-        if (day == null) onUpdateSteps(n)
-        else scope.launch {
-            withContext(Dispatchers.IO) { Database.getInstance(ctx).addEntry(day.toString(), n) }
+        if (day == null) {
+            onUpdateSteps(n)
+            if (n != steps) {
+                pendingEditSteps = n
+                version++
+            }
+        } else scope.launch {
+            withContext(Dispatchers.IO) {
+                val db = Database.getInstance(ctx)
+                val previous = dayTotals[day] ?: 0
+                db.addEntry(day.toString(), n)
+                val delta = n - previous
+                if (delta != 0 && db.hasSlots(day.toString())) db.addAdjust(day.toString(), 24 * 60, delta)
+            }
             version++
         }
         toast.show(ctx.getString(R.string.steps_updated), ToastKind.SUCCESS)
@@ -362,25 +441,31 @@ internal fun HomeScreen(
                     Modifier.fillMaxWidth()
                         .padding(bottom = 20.dp)
                         .pointerInput(Unit) {
-                            var dragX = 0f
                             awaitEachGesture {
-                                dragX = 0f
+                                val down = awaitFirstDown(requireUnconsumed = false)
+                                val slop = viewConfiguration.touchSlop
+                                var totalX = 0f
+                                var totalY = 0f
                                 var claimed = false
-                                awaitFirstDown(requireUnconsumed = false)
+                                var dragX = 0f
                                 while (true) {
                                     val event = awaitPointerEvent()
-                                    val change = event.changes.firstOrNull() ?: break
-                                    val dx = change.position.x - change.previousPosition.x
-                                    if (claimed) {
-                                        change.consume()
-                                        dragX += dx
-                                    } else if (!change.isConsumed) {
-                                        val dy = change.position.y - change.previousPosition.y
-                                        if (abs(dx) > viewConfiguration.touchSlop && abs(dx) > abs(dy)) {
-                                            claimed = true
+                                    val change = event.changes.firstOrNull { it.id == down.id } ?: break
+                                    if (change.isConsumed) break
+                                    val delta = change.positionChange()
+                                    totalX += delta.x
+                                    totalY += delta.y
+                                    when {
+                                        claimed -> {
+                                            dragX += delta.x
                                             change.consume()
-                                            dragX += dx
                                         }
+                                        abs(totalX) >= slop && abs(totalX) > abs(totalY) -> {
+                                            claimed = true
+                                            dragX = totalX
+                                            change.consume()
+                                        }
+                                        abs(totalY) >= slop && abs(totalY) >= abs(totalX) -> break
                                     }
                                     if (!change.pressed) break
                                 }
@@ -611,30 +696,186 @@ internal fun HomeScreen(
                     }
                 }
 
-                Panel(Modifier.height(260.dp)) {
-                    var chartLabelShown by remember { mutableStateOf("") }
-                    if (chart.past7 == (effDay == null)) {
-                        chartLabelShown = if (effDay == null) chart.header else "${chart.header} · ${chart.range}"
-                    }
-                    Text(
-                        text = chartLabelShown,
-                        fontSize = 13.sp, textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 12.dp),
+                val partialExtra by animateDpAsState(
+                    if (hourlyDayPartial) 38.dp else 0.dp,
+                    tween(250, easing = FastOutSlowInEasing),
+                    label = "partialPanel",
+                )
+                Panel(
+                    Modifier.height(
+                        (if (hourlyEnabled) 300.dp else 260.dp) + partialExtra
                     )
-                    StepsBarChart(
-                        values = chart.values, labels = chart.labels,
-                        goal = if (goal > 0) goal else 0,
-                        selectedIndex = pickedDay?.let { chart.dates.indexOf(it) }?.takeIf { it >= 0 },
-                        boldIndex = if (dayView) chart.dates.indexOf(pickedDay ?: today).takeIf { it >= 0 } else null,
-                        onBarClick = { i ->
-                            val d = chart.dates[i]
-                            if (!d.isAfter(today)) {
-                                selectedDate = d; pickedDay = d
-                                scrollToFold()
+                ) {
+                    if (hourlyEnabled) {
+                        Box(Modifier.fillMaxWidth().padding(bottom = 4.dp)) {
+                            PillSelector(
+                                options = listOf(
+                                    true to stringResource(R.string.chart_view_hourly),
+                                    false to stringResource(R.string.chart_view_daily),
+                                ),
+                                selected = hourlyView,
+                                onSelect = { chosen ->
+                                    hourlyView = chosen
+                                    saveHourlyView(ctx, chosen)
+                                },
+                                chipPadding = PaddingValues(horizontal = 16.dp, vertical = 3.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = hourlyView,
+                                modifier = Modifier.align(Alignment.CenterEnd),
+                                enter = scaleIn(initialScale = 0.5f) + fadeIn(),
+                                exit = scaleOut(targetScale = 0.5f) + fadeOut(),
+                            ) {
+                                ChartModeToggle(
+                                    line = chartLine,
+                                    onToggle = {
+                                        chartLine = !chartLine
+                                        saveChartLine(ctx, chartLine)
+                                    },
+                                )
                             }
-                        },
-                        modifier = Modifier.fillMaxWidth().weight(1f),
-                    )
+                        }
+                    }
+                    var showHourlyInfo by remember { mutableStateOf(false) }
+                    val average = hourlyAverageBase
+                    val showHelp = hourlyMode && !dayView && average != null && average.excluded > 0
+                    if (hourlyMode) {
+                        val baseTitle = if (dayView) {
+                            if ((pickedDay ?: today) == today) stringResource(R.string.label_today)
+                            else dayHeader(pickedDay ?: today)
+                        } else stringResource(R.string.hourly_average_title)
+                        val title = if (!dayView && average != null && average.excluded > 0) {
+                            baseTitle + " " + stringResource(
+                                R.string.hourly_average_days, average.included,
+                                pluralStringResource(R.plurals.days_with_count, average.days, average.days),
+                            )
+                        } else baseTitle
+                        Row(
+                            Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 8.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(title, fontSize = 13.sp)
+                            if (showHelp) {
+                                Spacer(Modifier.width(8.dp))
+                                HourlyHelpButton(
+                                    { showHourlyInfo = true },
+                                )
+                            }
+                        }
+                    } else {
+                        var chartLabelShown by remember { mutableStateOf("") }
+                        if (chart.weekdayAverages || !chart.past7 || effDay == null) {
+                            chartLabelShown = when {
+                                chart.weekdayAverages || effDay != null -> "${chart.header} · ${chart.range}"
+                                else -> chart.header
+                            }
+                        }
+                        Text(
+                            text = chartLabelShown,
+                            fontSize = 13.sp, textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 8.dp),
+                        )
+                    }
+                    when {
+                        hourlyMode -> {
+                            val day = hourlyDay
+                            val avg = if (dayView && !holdDailyData) null
+                                else average ?: heldAverage.value
+                            val d = when {
+                                dayView && !holdDailyData -> day?.takeUnless { it.beforeEra }
+                                avg == null -> day?.takeIf { it.hasData }
+                                else -> null
+                            }
+                            val avgEmpty = !dayView && average != null && average.included == 0
+                            val includesToday = when (val sel = viewSel) {
+                                is Selection.Year -> sel.year == today.year
+                                is Selection.Month -> sel.year == today.year && sel.month == today.monthValue
+                                else -> true
+                            }
+                            val pts = d?.points ?: avg?.points ?: emptyList()
+                            when {
+                                d == null && dayView && (!holdDailyData || avg == null) -> {
+                                    MutedChartLine(
+                                        stringResource(R.string.hourly_no_data_day),
+                                        Modifier.fillMaxWidth().weight(1f),
+                                    )
+                                }
+                                d == null && avg == null -> {}
+                                d == null && avgEmpty -> {
+                                    MutedChartLine(
+                                        stringResource(R.string.hourly_average_empty),
+                                        Modifier.fillMaxWidth().weight(1f),
+                                    )
+                                }
+                                !chartLine -> DayBarChart(
+                                    points = pts,
+                                    adjustments = d?.adjustments ?: emptyList(),
+                                    dayShiftMinutes = dayStartHour * Database.SLOT_MINUTES,
+                                    resetKey = d?.date ?: viewSel,
+                                    revealInstant = chartRevealed,
+                                    onReveal = { chartRevealed = true },
+                                    modifier = Modifier.fillMaxWidth().weight(1f),
+                                )
+                                else -> DayLineChart(
+                                    points = pts,
+                                    adjustments = d?.adjustments ?: emptyList(),
+                                    startMinute = d?.startMinute ?: 0,
+                                    endMinute = d?.endMinute ?: 24 * 60,
+                                    total = d?.total ?: avg?.points?.lastOrNull()?.value ?: 0,
+                                    goal = if (d != null && goal > 0) goal else 0,
+                                    partial = d?.partial ?: false,
+                                    untimed = d?.untimed ?: 0,
+                                    todayPoints = if (d == null && includesToday) hourlyDay
+                                        ?.takeIf { it.hasData && it.date == today.toString() }?.points
+                                        ?: emptyList() else emptyList(),
+                                    dayShiftMinutes = dayStartHour * Database.SLOT_MINUTES,
+                                    resetKey = d?.date ?: viewSel,
+                                    revealInstant = chartRevealed,
+                                    onReveal = { chartRevealed = true },
+                                    modifier = Modifier.fillMaxWidth().weight(1f),
+                                )
+                            }
+                        }
+                        else -> StepsBarChart(
+                            values = chart.values, labels = chart.labels,
+                            goal = if (goal > 0) goal else 0,
+                            selectedIndex = pickedDay?.let { chart.dates.indexOf(it) }?.takeIf { it >= 0 },
+                            boldIndex = if (dayView) chart.dates.indexOf(pickedDay ?: today).takeIf { it >= 0 } else null,
+                            revealInstant = chartRevealed,
+                            onReveal = { chartRevealed = true },
+                            onBarClick = { i ->
+                                chart.dates.getOrNull(i)?.let { d ->
+                                    if (!d.isAfter(today)) {
+                                        selectedDate = d; pickedDay = d
+                                        scrollToFold()
+                                    }
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth().weight(1f),
+                        )
+                    }
+                    if (showHourlyInfo && average != null) {
+                        StepsyDialog(
+                            title = stringResource(R.string.hourly_average_title),
+                            onDismiss = { showHourlyInfo = false },
+                            confirmText = stringResource(android.R.string.ok),
+                            onConfirm = { showHourlyInfo = false },
+                            dismissText = null,
+                        ) {
+                            if (average.included == 0) {
+                                Text(
+                                    stringResource(
+                                        R.string.hourly_average_empty_message,
+                                        pluralStringResource(R.plurals.days_with_count, average.days, average.days),
+                                    ),
+                                )
+                            } else {
+                                Text(stringResource(R.string.hourly_average_message, average.included, average.days))
+                            }
+                        }
+                    }
                 }
 
                 Panel(Modifier.padding(top = 16.dp)) {
@@ -645,7 +886,6 @@ internal fun HomeScreen(
                         onSelect = {
                             selectedDate = it
                             pickedDay = it
-                            scrollToFold()
                         },
                         onMonthClick = { y, m ->
                             selection = Selection.Month(y, m)
@@ -715,6 +955,82 @@ internal fun HomeScreen(
     }
 }
 
+@Composable
+private fun MutedChartLine(text: String, modifier: Modifier = Modifier) {
+    Box(modifier, contentAlignment = Alignment.Center) {
+        Text(
+            text, fontSize = 13.sp, lineHeight = 18.sp, textAlign = TextAlign.Center,
+            color = StepsyTheme.colors.accent,
+            modifier = Modifier.padding(horizontal = 12.dp),
+            style = LocalTextStyle.current.copy(
+                lineBreak = LineBreak(
+                    strictness = LineBreak.Strictness.Default,
+                    wordBreak = LineBreak.WordBreak.Default,
+                    strategy = LineBreak.Strategy.Balanced,
+                ),
+            ),
+        )
+    }
+}
+
+@Composable
+private fun HourlyHelpButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val description = stringResource(R.string.hourly_average_title)
+    val measurer = rememberTextMeasurer()
+    val glyphColor = lerp(StepsyTheme.colors.accent, Color.White, 0.12f)
+    val style = LocalTextStyle.current.copy(
+        fontSize = 11.sp,
+        fontWeight = FontWeight.Bold,
+        color = glyphColor,
+        platformStyle = PlatformTextStyle(includeFontPadding = false),
+    )
+    Box(
+        modifier
+            .size(20.dp)
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f))
+            .semantics { contentDescription = description }
+            .clickable(role = Role.Button, onClick = onClick),
+    ) {
+        Canvas(Modifier.fillMaxSize()) {
+            val layout = measurer.measure("?", style)
+            val bounds = layout.getBoundingBox(0)
+            drawText(
+                layout,
+                topLeft = Offset(
+                    (size.width - (bounds.left + bounds.right)) / 2f,
+                    (size.height - (bounds.top + bounds.bottom)) / 2f,
+                ),
+            )
+        }
+    }
+}
+
+@Composable
+private fun ChartModeToggle(line: Boolean, onToggle: () -> Unit, modifier: Modifier = Modifier) {
+    val description = stringResource(
+        if (line) R.string.hourly_view_bars else R.string.hourly_view_chart,
+    )
+    Box(
+        modifier
+            .size(32.dp)
+            .clip(CircleShape)
+            .background(StepsyTheme.colors.accentOpaque)
+            .semantics { contentDescription = description }
+            .clickable(role = Role.Button, onClick = onToggle),
+        contentAlignment = Alignment.Center,
+    ) {
+        Crossfade(line, animationSpec = tween(200), label = "chartToggleIcon") { showLine ->
+            Icon(
+                painterResource(if (showLine) R.drawable.ic_chart_bar else R.drawable.ic_chart_line),
+                contentDescription = null,
+                tint = StepsyTheme.colors.accent,
+                modifier = Modifier.size(20.dp),
+            )
+        }
+    }
+}
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun FilterPickerDialog(
@@ -747,7 +1063,7 @@ private fun FilterPickerDialog(
 }
 
 @Composable
-private fun FilterChipLabel(label: String, on: Boolean, modifier: Modifier = Modifier, onClick: (() -> Unit)? = null) {
+internal fun FilterChipLabel(label: String, on: Boolean, modifier: Modifier = Modifier, onClick: (() -> Unit)? = null) {
     val c = StepsyTheme.colors
     val bg by animateColorAsState(if (on) MaterialTheme.colorScheme.onSurface else c.accentOpaque, tween(200), label = "chipBg")
     val ink by animateColorAsState(if (on) c.background else c.accent, tween(200), label = "chipInk")

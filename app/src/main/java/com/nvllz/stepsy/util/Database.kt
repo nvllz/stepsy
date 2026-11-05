@@ -84,8 +84,125 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         }
     }
 
+    internal fun loadSlots(date: String): IntArray {
+        val slots = IntArray(SLOT_COUNT)
+        val cursor = readableDatabase.query(
+            SLOTS_TABLE, arrayOf("slot", "steps"), "date = ?", arrayOf(date), null, null, null
+        )
+        while (cursor.moveToNext()) {
+            val slot = cursor.getInt(0)
+            if (slot in 0 until SLOT_COUNT) slots[slot] = cursor.getInt(1)
+        }
+        cursor.close()
+        return slots
+    }
+
+    internal fun saveSlots(date: String, slots: IntArray, dirtyMask: Long) {
+        writableDatabase.transaction {
+            for (slot in 0 until SLOT_COUNT) {
+                if ((dirtyMask and (1L shl slot)) == 0L) continue
+                val steps = slots[slot]
+                if (steps > 0) {
+                    val values = ContentValues().apply {
+                        put("date", date)
+                        put("slot", slot)
+                        put("steps", steps)
+                    }
+                    insertWithOnConflict(SLOTS_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE)
+                } else {
+                    delete(SLOTS_TABLE, "date = ? AND slot = ?", arrayOf(date, slot.toString()))
+                }
+            }
+        }
+    }
+
+    internal fun addAdjust(date: String, minute: Int, delta: Int) {
+        val values = ContentValues().apply {
+            put("date", date)
+            put("minute", minute)
+            put("delta", delta)
+        }
+        writableDatabase.insertOrThrow(ADJUST_TABLE, null, values)
+    }
+
+    internal fun hasSlots(date: String): Boolean {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT 1 FROM $SLOTS_TABLE WHERE date = ? LIMIT 1", arrayOf(date)
+        )
+        val exists = cursor.moveToFirst()
+        cursor.close()
+        return exists
+    }
+
+    internal fun firstHourlyDate(): String? {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT MIN(date) FROM $SLOTS_TABLE", emptyArray()
+        )
+        val value = if (cursor.moveToFirst()) cursor.getString(0) else null
+        cursor.close()
+        return value
+    }
+
+    internal fun loadAdjust(date: String): List<Adjustment> {
+        val adjustments = mutableListOf<Adjustment>()
+        val cursor = readableDatabase.query(
+            ADJUST_TABLE, arrayOf("minute", "delta"), "date = ?", arrayOf(date), null, null, "minute ASC"
+        )
+        while (cursor.moveToNext()) {
+            adjustments.add(Adjustment(cursor.getInt(0), cursor.getInt(1)))
+        }
+        cursor.close()
+        return adjustments
+    }
+
+    internal fun loadSlotsRange(minDate: String, maxDate: String): List<SlotDay> {
+        val days = mutableListOf<SlotDay>()
+        var currentDate: String? = null
+        var currentSlots: IntArray? = null
+        val cursor = readableDatabase.query(
+            SLOTS_TABLE, arrayOf("date", "slot", "steps"),
+            "date >= ? AND date <= ?", arrayOf(minDate, maxDate), null, null, "date ASC, slot ASC"
+        )
+        while (cursor.moveToNext()) {
+            val date = cursor.getString(0)
+            if (date != currentDate) {
+                currentSlots?.let { days.add(SlotDay(currentDate!!, it)) }
+                currentDate = date
+                currentSlots = IntArray(SLOT_COUNT)
+            }
+            val slot = cursor.getInt(1)
+            if (slot in 0 until SLOT_COUNT) currentSlots?.set(slot, cursor.getInt(2))
+        }
+        currentSlots?.let { days.add(SlotDay(currentDate!!, it)) }
+        cursor.close()
+        return days
+    }
+
+    internal fun clearDay(date: String) {
+        writableDatabase.transaction {
+            delete(SLOTS_TABLE, "date = ?", arrayOf(date))
+            delete(ADJUST_TABLE, "date = ?", arrayOf(date))
+        }
+    }
+
+    internal fun clearAllHourly() {
+        writableDatabase.transaction {
+            delete(SLOTS_TABLE, null, null)
+            delete(ADJUST_TABLE, null, null)
+        }
+    }
+
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(DATABASE_CREATE_HISTORY)
+    }
+
+    override fun onOpen(db: SQLiteDatabase) {
+        super.onOpen(db)
+        if (!db.isReadOnly) {
+            db.execSQL(DATABASE_CREATE_SLOTS)
+            db.execSQL(DATABASE_CREATE_ADJUST)
+            db.execSQL(DATABASE_CREATE_ADJUST_DATE)
+        }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -196,6 +313,8 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
     fun clearAllAndImport(entries: List<Pair<String, Int>>) {
         writableDatabase.transaction {
             execSQL("DELETE FROM $HISTORY_TABLE")
+            execSQL("DELETE FROM $SLOTS_TABLE")
+            execSQL("DELETE FROM $ADJUST_TABLE")
             for ((date, steps) in entries) {
                 val values = ContentValues().apply {
                     put("date", date)
@@ -206,23 +325,93 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         }
     }
 
+    internal fun clearAllAndInsert(
+        entries: List<Pair<String, Int>>,
+        slots: Map<String, IntArray>,
+        adjustments: List<Triple<String, Int, Int>>,
+    ) {
+        writableDatabase.transaction {
+            execSQL("DELETE FROM $HISTORY_TABLE")
+            execSQL("DELETE FROM $SLOTS_TABLE")
+            execSQL("DELETE FROM $ADJUST_TABLE")
+            for ((date, steps) in entries) {
+                val values = ContentValues().apply {
+                    put("date", date)
+                    put("stepsy", steps)
+                }
+                insertOrThrow(HISTORY_TABLE, null, values)
+            }
+            for ((date, slotArray) in slots) {
+                for (slot in 0 until SLOT_COUNT) {
+                    val steps = slotArray[slot]
+                    if (steps <= 0) continue
+                    val values = ContentValues().apply {
+                        put("date", date)
+                        put("slot", slot)
+                        put("steps", steps)
+                    }
+                    insertWithOnConflict(SLOTS_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE)
+                }
+            }
+            for ((date, minute, delta) in adjustments) {
+                val values = ContentValues().apply {
+                    put("date", date)
+                    put("minute", minute)
+                    put("delta", delta)
+                }
+                insertOrThrow(ADJUST_TABLE, null, values)
+            }
+        }
+    }
+
     internal class Entry(
         val timestamp: Long,
         val date: String,
         val steps: Int
     )
 
+    internal class Adjustment(
+        val minute: Int,
+        val delta: Int
+    )
+
+    internal class SlotDay(
+        val date: String,
+        val slots: IntArray
+    )
+
     companion object {
         private const val TAG = "Database"
         private const val DATABASE_NAME = "Stepsy"
         private const val DATABASE_VERSION = 2
+        internal const val SLOT_MINUTES = 60
+        internal const val SLOT_COUNT = 1440 / SLOT_MINUTES
         private const val HISTORY_TABLE = "History"
+        private const val SLOTS_TABLE = "Slots"
+        private const val ADJUST_TABLE = "Adjust"
         private const val DATABASE_CREATE_HISTORY = """
             CREATE TABLE IF NOT EXISTS $HISTORY_TABLE (
                 date TEXT PRIMARY KEY,
                 stepsy INT NOT NULL
             )
         """
+        private const val DATABASE_CREATE_SLOTS = """
+            CREATE TABLE IF NOT EXISTS $SLOTS_TABLE (
+                date TEXT NOT NULL,
+                slot INTEGER NOT NULL,
+                steps INTEGER NOT NULL,
+                PRIMARY KEY(date, slot)
+            ) WITHOUT ROWID
+        """
+        private const val DATABASE_CREATE_ADJUST = """
+            CREATE TABLE IF NOT EXISTS $ADJUST_TABLE (
+                date TEXT NOT NULL,
+                minute INTEGER NOT NULL,
+                delta INTEGER NOT NULL
+            )
+        """
+        private const val DATABASE_CREATE_ADJUST_DATE =
+            "CREATE INDEX IF NOT EXISTS ${ADJUST_TABLE}_date ON $ADJUST_TABLE(date)"
 
         @Volatile private var instance: Database? = null
 
