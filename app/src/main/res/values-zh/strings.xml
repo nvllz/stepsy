@@ -18,9 +18,11 @@
     <plurals name="days_word_only">
         <item quantity="other">天</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="other">%d 天</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">今日</string>
     <string name="header_week">本周</string>
     <string name="header_month">本月</string>
     <string name="header_7d">最近 7 日</string>
@@ -43,9 +45,6 @@
         <item quantity="other">已达成目标 %d 次</item>
     </plurals>
     <string name="goal_streak_line">目标：%1$s · %2$s %3$s 连续</string>
-    <plurals name="streak_record_count">
-        <item quantity="other">%d 天</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="other">连续 %1$d 天达成目标</item>
     </plurals>
@@ -55,6 +54,21 @@
     <string name="confirm_decrease_message">该数值低于当前记录的步数。确定要继续吗？</string>
     <string name="invalid_step_count">请输入有效数字</string>
     <string name="steps_updated">步数已更新</string>
+    <string name="hourly_average_title">每小时平均</string>
+    <string name="hourly_average_message">平均值包含此范围内 %2$d 天中的 %1$d 天。如果某天大部分步数没有记录时间，该天会被跳过。若按小时记录曾被关闭，或每日总数被调整过，就可能出现这种情况。</string>
+    <string name="hourly_no_data_day">这一天没有每小时数据</string>
+    <string name="hourly_average_empty">每小时数据不足，无法绘制此范围的平均图表</string>
+    <string name="hourly_average_empty_message">范围内的 %1$s 天都没有每小时数据。每小时数据仅适用于在此设备上记录的日期。</string>
+    <string name="hourly_no_data_before">%1$s 之前没有每小时数据</string>
+    <string name="hourly_untimed_steps">%1$s 步没有时间记录</string>
+    <string name="hourly_view_chart">图表</string>
+    <string name="hourly_view_bars">柱状图</string>
+    <string name="hourly_today_short">今日 %1$s</string>
+    <string name="hourly_hour_adjusted">已调整 %1$s</string>
+
+    <string name="daily_average_title">每日平均</string>
+    <string name="chart_view_hourly">每小时</string>
+    <string name="chart_view_daily">每日</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">成就</string>
@@ -65,9 +79,6 @@
     <string name="milestone_label_distance">距离</string>
     <string name="milestone_label_date">达成日期</string>
     <string name="milestone_label_took">所用时间</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="other">%d 天</item>
-    </plurals>
     <string name="milestone_notifications_toggle">里程碑通知</string>
     <string name="milestone_notifications_enabled">里程碑通知已开启</string>
     <string name="milestone_notifications_disabled">里程碑通知已关闭</string>
@@ -125,6 +136,10 @@
     <string name="pref_vehicle_filter_summary_foss">通过 Google Play 服务 API 实现更精准的步数识别，仅限完整版。可在 Github 获取 (github.com/nvllz/stepsy)。</string>
     <string name="vehicle_filter_unavailable">此设备不支持活动识别 API</string>
     <string name="unit_system">单位制式</string>
+    <string name="day_start_title">一天的开始时间</string>
+    <string name="day_start_description">选择你的一天从几点开始。在此时间之前走的步数会计入前一天。只有当你在午夜前后活动，并希望 Stepsy 将一天视为更早开始或更晚结束时，才需要调整。选择新的开始时间不会影响你的步数数据，这些数据始终归属于具体日期。</string>
+    <string name="day_start_applies_toast">新的一天开始时间将从 %1$s 起生效。</string>
+    <string name="day_start_applies_toast_tomorrow">新的一天开始时间将于明天 %1$s 生效。</string>
     <string name="date_format">日期格式</string>
     <string name="first_day_of_the_week">一周的第一天</string>
     <string name="app_language">语言</string>
@@ -132,6 +147,12 @@
     <string name="preference_system">系统</string>
     <string name="theme_light">浅色</string>
     <string name="theme_dark">深色</string>
+    <string name="hourly_breakdown_title">每小时明细</string>
+    <string name="hourly_breakdown_summary">查看步数在一天中的分布情况。关闭后将隐藏每小时图表。</string>
+    <string name="hourly_off_confirm_title">关闭每小时明细？</string>
+    <string name="hourly_off_confirm_message">将不再记录每小时步数数据。确定吗？</string>
+    <string name="hourly_off_confirm_action">关闭</string>
+    <string name="hourly_off_confirm_clear_data">清除已保存的每小时数据</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">导出和恢复应用数据</string>
@@ -141,7 +162,6 @@
     <string name="backup_location_not_set">未设置</string>
     <string name="manual_backup">手动备份</string>
     <string name="manual_backup_successful">手动备份成功</string>
-    <string name="import_data">导入</string>
     <string name="import_data_summary">从文件中恢复步数数据</string>
     <string name="import_invalid_file">该文件无效</string>
     <string name="import_warning_title">替换步数数据</string>
@@ -199,7 +219,6 @@
     <string name="action_resume">恢复</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">达成目标</string>
     <string name="channel_goal_desc">达成每日步数目标时的小小奖励</string>
     <string name="channel_reminders_name">鼓励提醒</string>
     <string name="channel_reminders_desc">接近目标时提醒你</string>
@@ -212,7 +231,6 @@
     <string name="encouraging_late_2">最后冲刺：已完成 %1$s，还剩 %2$s。</string>
     <string name="milestone_notification_title">已达到 %s！</string>
     <string name="milestone_notification_text">累计 %s 步啦！\n继续加油。</string>
-    <string name="notification_category_milestone">里程碑</string>
     <string name="notification_description_milestone">达到步数里程碑时的通知</string>
     <string name="milestone_short_millions">%1$d百万</string>
     <string name="milestone_short_millions_decimal">%.1f百万</string>
@@ -264,7 +282,6 @@
     <string name="onboarding_steps_label">身体活动</string>
     <string name="onboarding_steps_title">允许 Stepsy 检测你的步数</string>
     <string name="onboarding_steps_body">需要此权限才能使用手机的计步传感器。</string>
-    <string name="onboarding_steps_row">身体活动</string>
     <string name="onboarding_steps_idle">尚未允许</string>
     <string name="onboarding_steps_on">已允许</string>
     <string name="onboarding_steps_denied">未允许</string>
@@ -296,7 +313,6 @@
     <string name="onboarding_goal_title">选择每日目标</string>
     <string name="onboarding_goal_body">每天把主屏幕上的进度条填满吧！可以选择预设值、自己设定，或者完全关闭。随时都能调整，这不会影响你的步数数据。</string>
     <string name="onboarding_goal_preview">~%1$s %2$s 和 %3$d 千卡 / 天</string>
-    <string name="onboarding_reminders_title">通知</string>
     <string name="onboarding_reminders_summary">可选：在实时通知中显示进度、接近步数目标时的鼓励提醒等。推荐开启。</string>
     <string name="onboarding_reminders_on">已允许</string>
     <string name="onboarding_reminders_blocked">已被 Android 屏蔽。点按可打开通知设置</string>
@@ -304,11 +320,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">忽略</string>
     <string name="onboarding_card_activity_title">授予活动访问权限</string>
-    <string name="onboarding_card_activity_summary">需要此权限才能使用手机的计步传感器。</string>
     <string name="onboarding_card_battery_title">后台稳定运行</string>
     <string name="onboarding_card_battery_summary">Stepsy 在设计上很轻量，但系统可能会妨碍它可靠地计步。请允许应用在后台运行。</string>
-    <string name="onboarding_card_notifications_title">通知</string>
-    <string name="onboarding_card_notifications_summary">可选：在实时通知中显示进度、接近步数目标时的鼓励提醒等。推荐开启。</string>
     <string name="onboarding_strip_title">未在计步</string>
     <string name="onboarding_strip_summary">点按以允许检测步数。</string>
     <string name="onboarding_welcome_headline_b">轻量计步器。</string>

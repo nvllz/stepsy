@@ -130,7 +130,7 @@ internal fun SetupGapsCard() {
                         when (gap) {
                             Gap.ACTIVITY -> SettingRow(
                                 title = stringResource(R.string.onboarding_card_activity_title),
-                                summary = stringResource(R.string.onboarding_card_activity_summary),
+                                summary = stringResource(R.string.onboarding_steps_body),
                                 icon = R.drawable.ic_activity,
                                 onClick = askSteps,
                             )
@@ -145,8 +145,8 @@ internal fun SetupGapsCard() {
                                 },
                             )
                             Gap.NOTIFICATIONS -> SettingRow(
-                                title = stringResource(R.string.onboarding_card_notifications_title),
-                                summary = stringResource(R.string.onboarding_card_notifications_summary),
+                                title = stringResource(R.string.section_notifications),
+                                summary = stringResource(R.string.onboarding_reminders_summary),
                                 icon = R.drawable.ic_notifications_active,
                                 onClick = askNotifications,
                                 trailing = {

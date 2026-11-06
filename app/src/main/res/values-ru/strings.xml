@@ -27,9 +27,14 @@
         <item quantity="many">дней</item>
         <item quantity="other">дня</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">Сегодня</string>
     <string name="header_week">На этой неделе</string>
     <string name="header_month">В этом месяце</string>
     <string name="header_7d">Последние 7 дней</string>
@@ -55,12 +60,6 @@
         <item quantity="other">Цель достигнута %d раза</item>
     </plurals>
     <string name="goal_streak_line">Цель: %1$s · серия %2$s %3$s</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d день</item>
-        <item quantity="few">%d дня</item>
-        <item quantity="many">%d дней</item>
-        <item quantity="other">%d дня</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">Серия по цели: %1$d день</item>
         <item quantity="few">Серия по цели: %1$d дня</item>
@@ -73,6 +72,21 @@
     <string name="confirm_decrease_message">Это значение меньше текущего количества шагов. Вы уверены, что хотите продолжить?</string>
     <string name="invalid_step_count">Пожалуйста, введите корректное число</string>
     <string name="steps_updated">Количество шагов обновлено</string>
+    <string name="hourly_average_title">Среднее по часам</string>
+    <string name="hourly_average_message">В среднее вошло дней: %1$d из %2$d в этом диапазоне. День пропускается, если у большинства его шагов нет записанного времени. Так бывает, если почасовой учёт был отключён или дневной итог был изменён.</string>
+    <string name="hourly_no_data_day">Нет почасовых данных за этот день</string>
+    <string name="hourly_average_empty">Недостаточно почасовых данных, чтобы построить график среднего за этот диапазон</string>
+    <string name="hourly_average_empty_message">Почасовых данных нет ни за один день диапазона (дней: %1$s). Почасовые данные доступны только за дни, записанные на этом устройстве.</string>
+    <string name="hourly_no_data_before">Нет почасовых данных до %1$s</string>
+    <string name="hourly_untimed_steps">Шагов без времени: %1$s</string>
+    <string name="hourly_view_chart">График</string>
+    <string name="hourly_view_bars">Столбцы</string>
+    <string name="hourly_today_short">%1$s сегодня</string>
+    <string name="hourly_hour_adjusted">изменено %1$s</string>
+
+    <string name="daily_average_title">Среднее за день</string>
+    <string name="chart_view_hourly">По часам</string>
+    <string name="chart_view_daily">По дням</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">Достижения</string>
@@ -83,12 +97,6 @@
     <string name="milestone_label_distance">Расстояние</string>
     <string name="milestone_label_date">Достигнуто</string>
     <string name="milestone_label_took">Затраченное время</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d день</item>
-        <item quantity="few">%d дня</item>
-        <item quantity="many">%d дней</item>
-        <item quantity="other">%d дня</item>
-    </plurals>
     <string name="milestone_notifications_toggle">Уведомления о достижениях</string>
     <string name="milestone_notifications_enabled">Уведомления о достижениях включены</string>
     <string name="milestone_notifications_disabled">Уведомления о достижениях отключены</string>
@@ -146,6 +154,10 @@
     <string name="pref_vehicle_filter_summary_foss">Более точное распознавание через Google Play Services API, доступно только в полной версии. Скачайте на Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API недоступно на этом устройстве</string>
     <string name="unit_system">Система измерений</string>
+    <string name="day_start_title">День начинается в</string>
+    <string name="day_start_description">Выберите, когда начинается ваш день. Шаги, сделанные до этого времени, будут засчитаны в предыдущий день. Менять это стоит, только если вы активны около полуночи и хотите, чтобы Stepsy считал день начавшимся раньше или закончившимся позже. Новое время начала дня не влияет на данные о шагах: они всегда привязаны к конкретной дате.</string>
+    <string name="day_start_applies_toast">Новое начало дня действует с %1$s.</string>
+    <string name="day_start_applies_toast_tomorrow">Новое начало дня применится завтра в %1$s.</string>
     <string name="date_format">Формат даты</string>
     <string name="first_day_of_the_week">Первый день недели</string>
     <string name="app_language">Язык</string>
@@ -153,6 +165,12 @@
     <string name="preference_system">Системная</string>
     <string name="theme_light">Светлая</string>
     <string name="theme_dark">Темная</string>
+    <string name="hourly_breakdown_title">Разбивка по часам</string>
+    <string name="hourly_breakdown_summary">Посмотрите, как шаги распределяются в течение дня. Отключите, чтобы скрыть почасовой график.</string>
+    <string name="hourly_off_confirm_title">Отключить разбивку по часам?</string>
+    <string name="hourly_off_confirm_message">Почасовые данные о шагах больше не будут записываться. Вы уверены?</string>
+    <string name="hourly_off_confirm_action">Отключить</string>
+    <string name="hourly_off_confirm_clear_data">Удалить сохранённые почасовые данные</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">Экспорт и восстановление данных приложения</string>
@@ -162,7 +180,6 @@
     <string name="backup_location_not_set">Не задано</string>
     <string name="manual_backup">Резервное копирование вручную</string>
     <string name="manual_backup_successful">Резервное копирование вручную выполнено успешно</string>
-    <string name="import_data">Импорт</string>
     <string name="import_data_summary">Восстановить данные шагов из файла</string>
     <string name="import_invalid_file">Этот файл недействителен</string>
     <string name="import_warning_title">Заменить данные шагов</string>
@@ -220,7 +237,6 @@
     <string name="action_resume">Продолжить</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">Цель достигнута</string>
     <string name="channel_goal_desc">Небольшая награда за достижение дневной цели по шагам</string>
     <string name="channel_reminders_name">Мотивирующие напоминания</string>
     <string name="channel_reminders_desc">Напоминания по мере приближения к цели</string>
@@ -233,7 +249,6 @@
     <string name="encouraging_late_2">Финишная прямая: пройдено %1$s, осталось %2$s.</string>
     <string name="milestone_notification_title">Достигнуто: %s!</string>
     <string name="milestone_notification_text">Всего %s шагов!\nТак держать.</string>
-    <string name="notification_category_milestone">Достижения</string>
     <string name="notification_description_milestone">Уведомления о достижении целей по шагам</string>
     <string name="milestone_short_millions">%1$d млн</string>
     <string name="milestone_short_millions_decimal">%.1f млн</string>
@@ -288,7 +303,6 @@
     <string name="onboarding_steps_label">Физическая активность</string>
     <string name="onboarding_steps_title">Разрешите Stepsy определять ваши шаги</string>
     <string name="onboarding_steps_body">Это разрешение нужно, чтобы использовать датчик шагов телефона.</string>
-    <string name="onboarding_steps_row">Физическая активность</string>
     <string name="onboarding_steps_idle">Пока не разрешено</string>
     <string name="onboarding_steps_on">Разрешено</string>
     <string name="onboarding_steps_denied">Не разрешено</string>
@@ -320,7 +334,6 @@
     <string name="onboarding_goal_title">Выбор ежедневной цели</string>
     <string name="onboarding_goal_body">Заполняйте индикатор прогресса на главном экране каждый день! Можно выбрать готовое значение, задать своё или полностью отключить цель. Её можно менять в любой момент, на данные о шагах это не влияет.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s и %3$d ккал / день</string>
-    <string name="onboarding_reminders_title">Уведомления</string>
     <string name="onboarding_reminders_summary">По желанию: прогресс в живом уведомлении, мотивирующие напоминания по мере приближения к цели по шагам и не только. Рекомендуется.</string>
     <string name="onboarding_reminders_on">Разрешено</string>
     <string name="onboarding_reminders_blocked">Заблокировано Android. Нажмите, чтобы открыть настройки уведомлений</string>
@@ -328,11 +341,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">Закрыть</string>
     <string name="onboarding_card_activity_title">Доступ к активности</string>
-    <string name="onboarding_card_activity_summary">Это разрешение нужно, чтобы использовать датчик шагов телефона.</string>
     <string name="onboarding_card_battery_title">Стабильность в фоне</string>
     <string name="onboarding_card_battery_summary">Stepsy задумано лёгким, но система может мешать ему надёжно считать шаги. Разрешите приложению работать в фоне.</string>
-    <string name="onboarding_card_notifications_title">Уведомления</string>
-    <string name="onboarding_card_notifications_summary">По желанию: прогресс в живом уведомлении, мотивирующие напоминания по мере приближения к цели по шагам и не только. Рекомендуется.</string>
     <string name="onboarding_strip_title">Шаги не считаются</string>
     <string name="onboarding_strip_summary">Нажмите, чтобы разрешить определение шагов.</string>
     <string name="onboarding_welcome_headline_b">Лёгкий шагомер.</string>

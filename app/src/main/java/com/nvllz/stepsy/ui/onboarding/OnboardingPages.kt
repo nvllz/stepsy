@@ -406,7 +406,7 @@ internal fun StepsPage(
             Spacer(Modifier.height(8.dp))
             SettingGroup {
                 SettingRow(
-                    title = stringResource(R.string.onboarding_steps_row),
+                    title = stringResource(R.string.onboarding_steps_label),
                     summary = stringResource(
                         when {
                             granted -> R.string.onboarding_steps_on
@@ -733,7 +733,7 @@ internal fun GoalPage(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 SettingGroup {
                     SettingRow(
-                        title = stringResource(R.string.onboarding_reminders_title),
+                        title = stringResource(R.string.section_notifications),
                         summary = stringResource(
                             when {
                                 notificationsOn -> R.string.onboarding_reminders_on

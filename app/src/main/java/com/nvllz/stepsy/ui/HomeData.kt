@@ -17,7 +17,7 @@ import java.util.Date
 import java.util.Locale
 
 enum class StepRange(val key: String, @StringRes val label: Int, @StringRes val header: Int) {
-    TODAY("TODAY", R.string.label_today, R.string.header_today),
+    TODAY("TODAY", R.string.label_today, R.string.label_today),
     WEEK("WEEK", R.string.label_week, R.string.header_week),
     MONTH("MONTH", R.string.label_month, R.string.header_month),
     SEVEN("7 DAYS", R.string.label_7d, R.string.header_7d),
@@ -187,7 +187,7 @@ fun loadSummary(ctx: Context, sel: Selection, picked: LocalDate?, live: Int): Su
         return Summary(df.format(Date(Util.dateStringToCalendarMillis(picked.toString()))), s, null, dist(ctx, s), kcal(ctx, s))
     }
     if (sel == Selection.Range(StepRange.TODAY))
-        return Summary(ctx.getString(R.string.header_today), live, null, dist(ctx, live), kcal(ctx, live))
+        return Summary(ctx.getString(R.string.label_today), live, null, dist(ctx, live), kcal(ctx, live))
 
     val dates = selectionDateRange(sel, db)
     val header = when (sel) {
@@ -265,7 +265,7 @@ fun loadWeekdayAverages(ctx: Context, sel: Selection): ChartData {
     }
     return ChartData(
         header = header,
-        range = ctx.resources.getQuantityString(R.plurals.daily_average_days, dayCount, dayCount),
+        range = ctx.resources.getQuantityString(R.plurals.days_with_count, dayCount, dayCount),
         values = values,
         labels = labels,
         dates = emptyList(),

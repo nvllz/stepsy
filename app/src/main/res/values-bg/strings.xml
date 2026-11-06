@@ -21,9 +21,12 @@
         <item quantity="one">ден</item>
         <item quantity="other">дни</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d ден</item>
+        <item quantity="other">%d дни</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">Днес</string>
     <string name="header_week">Тази седмица</string>
     <string name="header_month">Този месец</string>
     <string name="header_7d">Последни 7 дни</string>
@@ -47,10 +50,6 @@
         <item quantity="other">Целта е достигната %d пъти</item>
     </plurals>
     <string name="goal_streak_line">Цел: %1$s · %2$s %3$s поредица</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d ден</item>
-        <item quantity="other">%d дни</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">Поредица от %1$d ден за целта</item>
         <item quantity="other">Поредица от %1$d дни за целта</item>
@@ -61,6 +60,21 @@
     <string name="confirm_decrease_message">„Стойността е по-ниска от текущия брой крачки. Сигурни ли сте?“</string>
     <string name="invalid_step_count">Въведете приемлив брой</string>
     <string name="steps_updated">Броят крачки е обновен</string>
+    <string name="hourly_average_title">Почасово средно</string>
+    <string name="hourly_average_message">Средната стойност включва %1$d от %2$d дни в този период. Денят се пропуска, ако повечето от крачките му нямат записан час. Това може да се случи, ако почасовото проследяване е било изключено или дневният сбор е бил променен.</string>
+    <string name="hourly_no_data_day">Няма почасови данни за този ден</string>
+    <string name="hourly_average_empty">Недостатъчно почасови данни за диаграма на средните стойности за този период</string>
+    <string name="hourly_average_empty_message">Няма почасови данни за нито един от %1$s дни в периода. Почасови данни има само за дните, записани на това устройство.</string>
+    <string name="hourly_no_data_before">Няма почасови данни преди %1$s</string>
+    <string name="hourly_untimed_steps">Крачки без час: %1$s</string>
+    <string name="hourly_view_chart">Диаграма</string>
+    <string name="hourly_view_bars">Стълбове</string>
+    <string name="hourly_today_short">%1$s днес</string>
+    <string name="hourly_hour_adjusted">променено %1$s</string>
+
+    <string name="daily_average_title">Дневно средно</string>
+    <string name="chart_view_hourly">По часове</string>
+    <string name="chart_view_daily">По дни</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">Постижения</string>
@@ -71,10 +85,6 @@
     <string name="milestone_label_distance">Разстояние</string>
     <string name="milestone_label_date">Постигнато</string>
     <string name="milestone_label_took">Отне време</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d ден</item>
-        <item quantity="other">%d дни</item>
-    </plurals>
     <string name="milestone_notifications_toggle">Известия за постижения</string>
     <string name="milestone_notifications_enabled">Известията за постижения са включени</string>
     <string name="milestone_notifications_disabled">Известията за постижения са изключени</string>
@@ -132,6 +142,10 @@
     <string name="pref_vehicle_filter_summary_foss">По-точно разпознаване на стъпки чрез Google Play Services API, достъпно само в пълната версия. Вижте в Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API не е налично на това устройство</string>
     <string name="unit_system">Мерни единици</string>
+    <string name="day_start_title">Денят започва в</string>
+    <string name="day_start_description">Изберете кога започва денят ви. Крачките преди този час се броят към предишния ден. Може да искате да промените това само ако сте активни около полунощ и желаете Stepsy да смята деня за започващ по-рано или завършващ по-късно. Новият начален час не засяга данните ви за крачки, които винаги са свързани с конкретна дата.</string>
+    <string name="day_start_applies_toast">Новото начало на деня важи от %1$s.</string>
+    <string name="day_start_applies_toast_tomorrow">Новото начало на деня важи от утре в %1$s.</string>
     <string name="date_format">Формат на дата</string>
     <string name="first_day_of_the_week">Начало на седмицата</string>
     <string name="app_language">Език</string>
@@ -139,6 +153,12 @@
     <string name="preference_system">Според системата</string>
     <string name="theme_light">Светла</string>
     <string name="theme_dark">Тъмна</string>
+    <string name="hourly_breakdown_title">Почасово разпределение</string>
+    <string name="hourly_breakdown_summary">Вижте как крачките ви се разпределят през деня. Изключете, за да скриете почасовата диаграма.</string>
+    <string name="hourly_off_confirm_title">Да се изключи ли почасовото разпределение?</string>
+    <string name="hourly_off_confirm_message">Повече почасови данни за крачки няма да се записват. Сигурни ли сте?</string>
+    <string name="hourly_off_confirm_action">Изключи</string>
+    <string name="hourly_off_confirm_clear_data">Изчисти запазените почасови данни</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">Изнасяне и възстановяване на данните на приложението</string>
@@ -148,7 +168,6 @@
     <string name="backup_location_not_set">Не е зададено</string>
     <string name="manual_backup">Ръчно резервно копие</string>
     <string name="manual_backup_successful">Ръчното резервно копие е успешно</string>
-    <string name="import_data">Внасяне</string>
     <string name="import_data_summary">Възстановяване от файл</string>
     <string name="import_invalid_file">Файлът е невалиден</string>
     <string name="import_warning_title">Замяна на данните за стъпки</string>
@@ -206,7 +225,6 @@
     <string name="action_resume">Възобновяване</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">Постигната цел</string>
     <string name="channel_goal_desc">Малка награда, когато достигнете дневната си цел за крачки</string>
     <string name="channel_reminders_name">Мотивиращи напомняния</string>
     <string name="channel_reminders_desc">Напомняния, когато наближавате целта</string>
@@ -219,7 +237,6 @@
     <string name="encouraging_late_2">Последен тласък: %1$s, остават %2$s.</string>
     <string name="milestone_notification_title">Достигнахте %s!</string>
     <string name="milestone_notification_text">Това са общо %s стъпки!\nПродължавайте.</string>
-    <string name="notification_category_milestone">Постижения</string>
     <string name="notification_description_milestone">Известия за достигане на цели за стъпки</string>
     <string name="milestone_short_millions">%1$dмлн.</string>
     <string name="milestone_short_millions_decimal">%.1fмлн.</string>
@@ -272,7 +289,6 @@
     <string name="onboarding_steps_label">Физическа активност</string>
     <string name="onboarding_steps_title">Позволете на Stepsy да отчита крачките ви</string>
     <string name="onboarding_steps_body">Това разрешение е необходимо за използване на сензора за крачки на телефона.</string>
-    <string name="onboarding_steps_row">Физическа активност</string>
     <string name="onboarding_steps_idle">Още не е разрешено</string>
     <string name="onboarding_steps_on">Разрешено</string>
     <string name="onboarding_steps_denied">Не е разрешено</string>
@@ -304,7 +320,6 @@
     <string name="onboarding_goal_title">Избор на дневна цел</string>
     <string name="onboarding_goal_body">Запълвайте лентата за напредък на началния екран всеки ден! Можете да изберете готова стойност, да зададете своя или изобщо да изключите целта. Тя може да се променя по всяко време и не влияе на данните за крачките.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s и %3$d ккал / ден</string>
-    <string name="onboarding_reminders_title">Известия</string>
     <string name="onboarding_reminders_summary">По избор: напредък в известието на живо, мотивиращи напомняния при приближаване към целта за крачки и още. Препоръчително.</string>
     <string name="onboarding_reminders_on">Разрешени</string>
     <string name="onboarding_reminders_blocked">Блокирани от Android. Докоснете, за да отворите настройките за известия</string>
@@ -312,11 +327,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">Отхвърляне</string>
     <string name="onboarding_card_activity_title">Достъп до активността</string>
-    <string name="onboarding_card_activity_summary">Това разрешение е необходимо за използване на сензора за крачки на телефона.</string>
     <string name="onboarding_card_battery_title">Стабилност във фонов режим</string>
     <string name="onboarding_card_battery_summary">Stepsy е лек по замисъл, но системата може да му пречи да брои крачките надеждно. Разрешете на приложението да работи във фонов режим.</string>
-    <string name="onboarding_card_notifications_title">Известия</string>
-    <string name="onboarding_card_notifications_summary">По избор: напредък в известието на живо, мотивиращи напомняния при приближаване към целта за крачки и още. Препоръчително.</string>
     <string name="onboarding_strip_title">Крачките не се броят</string>
     <string name="onboarding_strip_summary">Докоснете, за да разрешите отчитането на крачки.</string>
     <string name="onboarding_welcome_headline_b">Лек брояч на крачки.</string>

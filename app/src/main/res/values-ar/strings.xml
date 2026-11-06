@@ -33,9 +33,16 @@
         <item quantity="many">يوماً</item>
         <item quantity="other">يوم</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="zero">%d يوم</item>
+        <item quantity="one">%d يوم</item>
+        <item quantity="two">%d يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يوماً</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">اليوم</string>
     <string name="header_week">هذا الأسبوع</string>
     <string name="header_month">هذا الشهر</string>
     <string name="header_7d">آخر ٧ أيام</string>
@@ -63,14 +70,6 @@
         <item quantity="other">تحقيق الهدف: %d مرة</item>
     </plurals>
     <string name="goal_streak_line">الهدف: %1$s · %2$s %3$s متتالية</string>
-    <plurals name="streak_record_count">
-        <item quantity="zero">%d يوم</item>
-        <item quantity="one">%d يوم</item>
-        <item quantity="two">%d يومان</item>
-        <item quantity="few">%d أيام</item>
-        <item quantity="many">%d يوماً</item>
-        <item quantity="other">%d يوم</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="zero">سلسلة هدف: %1$d يوم</item>
         <item quantity="one">سلسلة هدف: %1$d يوم</item>
@@ -85,6 +84,21 @@
     <string name="confirm_decrease_message">هذه القيمة أقل من العدد الحالي للخطوات. هل تريد المتابعة؟</string>
     <string name="invalid_step_count">يرجى إدخال رقم صحيح</string>
     <string name="steps_updated">تم تحديث عدد الخطوات</string>
+    <string name="hourly_average_title">المتوسط الساعي</string>
+    <string name="hourly_average_message">عدد الأيام المحتسبة في المتوسط: %1$d من %2$d ضمن هذا النطاق. يُستبعد اليوم إذا لم يكن لمعظم خطواته وقت مسجّل. قد يحدث ذلك إذا كان التتبع الساعي معطّلًا أو إذا عُدّل الإجمالي اليومي.</string>
+    <string name="hourly_no_data_day">لا توجد بيانات ساعية لهذا اليوم</string>
+    <string name="hourly_average_empty">لا تتوفر بيانات ساعية كافية لرسم مخطط المتوسط لهذا النطاق</string>
+    <string name="hourly_average_empty_message">لا توجد بيانات ساعية لأي يوم من أيام النطاق (عدد الأيام: %1$s). تتوفر البيانات الساعية فقط للأيام المسجّلة على هذا الجهاز.</string>
+    <string name="hourly_no_data_before">لا توجد بيانات ساعية قبل %1$s</string>
+    <string name="hourly_untimed_steps">خطوات بلا وقت: %1$s</string>
+    <string name="hourly_view_chart">مخطط</string>
+    <string name="hourly_view_bars">أعمدة</string>
+    <string name="hourly_today_short">%1$s اليوم</string>
+    <string name="hourly_hour_adjusted">معدّل %1$s</string>
+
+    <string name="daily_average_title">المتوسط اليومي</string>
+    <string name="chart_view_hourly">ساعي</string>
+    <string name="chart_view_daily">يومي</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">الإنجازات</string>
@@ -95,14 +109,6 @@
     <string name="milestone_label_distance">المسافة</string>
     <string name="milestone_label_date">تم تحقيقه</string>
     <string name="milestone_label_took">الوقت المستغرق</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="zero">%d يوم</item>
-        <item quantity="one">%d يوم</item>
-        <item quantity="two">%d يومان</item>
-        <item quantity="few">%d أيام</item>
-        <item quantity="many">%d يوماً</item>
-        <item quantity="other">%d يوم</item>
-    </plurals>
     <string name="milestone_notifications_toggle">تفعيل إشعارات الإنجازات</string>
     <string name="milestone_notifications_enabled">إشعارات الإنجازات مفعّلة</string>
     <string name="milestone_notifications_disabled">إشعارات الإنجازات معطّلة</string>
@@ -160,6 +166,10 @@
     <string name="pref_vehicle_filter_summary_foss">تعرف أكثر دقة على الخطوات باستخدام Google Play Services، متوفر فقط في الإصدار الكامل. يمكن الحصول عليه من Github (github.com/nvllz/stepsy)</string>
     <string name="vehicle_filter_unavailable">واجهة برمجة تطبيقات التعرف على النشاط غير متوفرة على هذا الجهاز</string>
     <string name="unit_system">نظام الوحدات</string>
+    <string name="day_start_title">يبدأ اليوم عند</string>
+    <string name="day_start_description">اختر وقت بداية يومك. تُحتسب الخطوات التي تُقطع قبل هذا الوقت ضمن اليوم السابق. قد لا تحتاج إلى تعديل هذا الخيار إلا إذا كنت نشطًا قرب منتصف الليل وتريد أن يعتبر Stepsy أن اليوم يبدأ مبكرًا أو ينتهي متأخرًا. لن يؤثر اختيار وقت بداية جديد على بيانات خطواتك، فهي تُسجَّل دائمًا على تاريخ محدد.</string>
+    <string name="day_start_applies_toast">يسري بدء اليوم الجديد من %1$s.</string>
+    <string name="day_start_applies_toast_tomorrow">يسري بدء اليوم الجديد غدًا عند %1$s.</string>
     <string name="date_format">تنسيق التاريخ</string>
     <string name="first_day_of_the_week">أول يوم في الأسبوع</string>
     <string name="app_language">اللغة</string>
@@ -167,6 +177,12 @@
     <string name="preference_system">النظام</string>
     <string name="theme_light">فاتح</string>
     <string name="theme_dark">داكن</string>
+    <string name="hourly_breakdown_title">التفصيل الساعي</string>
+    <string name="hourly_breakdown_summary">اعرف كيف تتوزع خطواتك على مدار اليوم. عطّل الخيار لإخفاء المخطط الساعي.</string>
+    <string name="hourly_off_confirm_title">إيقاف التفصيل الساعي؟</string>
+    <string name="hourly_off_confirm_message">لن تُسجَّل بيانات الخطوات الساعية بعد الآن. هل أنت متأكد؟</string>
+    <string name="hourly_off_confirm_action">إيقاف</string>
+    <string name="hourly_off_confirm_clear_data">حذف البيانات الساعية المحفوظة</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">تصدير بيانات التطبيق واستعادتها</string>
@@ -176,7 +192,6 @@
     <string name="backup_location_not_set">غير محدد</string>
     <string name="manual_backup">نسخ احتياطي يدوي</string>
     <string name="manual_backup_successful">تم النسخ الاحتياطي اليدوي بنجاح</string>
-    <string name="import_data">استيراد</string>
     <string name="import_data_summary">استعادة بيانات الخطوات من ملف</string>
     <string name="import_invalid_file">هذا الملف غير صالح</string>
     <string name="import_warning_title">استبدال بيانات الخطوات</string>
@@ -234,7 +249,6 @@
     <string name="action_resume">استئناف</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">تحقيق الهدف</string>
     <string name="channel_goal_desc">مكافأة صغيرة عند بلوغ هدف الخطوات اليومي</string>
     <string name="channel_reminders_name">تذكيرات مشجعة</string>
     <string name="channel_reminders_desc">تذكيرات عندما تقترب من هدفك</string>
@@ -247,7 +261,6 @@
     <string name="encouraging_late_2">الدفعة الأخيرة: أنجزت %1$s، وتبقّى %2$s.</string>
     <string name="milestone_notification_title">%s وصل!</string>
     <string name="milestone_notification_text">هذا إجمالي %s خطوة!\nاستمر.</string>
-    <string name="notification_category_milestone">الإنجازات</string>
     <string name="notification_description_milestone">إشعارات الوصول إلى إنجازات الخطوات</string>
     <string name="milestone_short_millions">%1$dم</string>
     <string name="milestone_short_millions_decimal">%.1fم</string>
@@ -304,7 +317,6 @@
     <string name="onboarding_steps_label">النشاط البدني</string>
     <string name="onboarding_steps_title">السماح لـ Stepsy باكتشاف خطواتك</string>
     <string name="onboarding_steps_body">هذا الإذن مطلوب لاستخدام حساس اكتشاف الخطوات في هاتفك.</string>
-    <string name="onboarding_steps_row">النشاط البدني</string>
     <string name="onboarding_steps_idle">لم يُسمح بعد</string>
     <string name="onboarding_steps_on">مسموح</string>
     <string name="onboarding_steps_denied">غير مسموح</string>
@@ -336,7 +348,6 @@
     <string name="onboarding_goal_title">اختيار هدف يومي</string>
     <string name="onboarding_goal_body">املأ شريط التقدّم في الشاشة الرئيسية كل يوم! يمكنك اختيار قيمة جاهزة أو تحديد هدفك الخاص أو إيقافه تمامًا. ويمكن تعديله متى شئت، ولا يؤثر ذلك على بيانات خطواتك.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s و%3$d سعرة حرارية / يوم</string>
-    <string name="onboarding_reminders_title">الإشعارات</string>
     <string name="onboarding_reminders_summary">اختياري: التقدّم في الإشعار المباشر، وتذكيرات مشجعة عند اقترابك من هدف الخطوات، والمزيد. موصى به.</string>
     <string name="onboarding_reminders_on">مسموح</string>
     <string name="onboarding_reminders_blocked">محظور من Android. اضغط لفتح إعدادات الإشعارات</string>
@@ -344,11 +355,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">إغلاق</string>
     <string name="onboarding_card_activity_title">منح الوصول إلى النشاط</string>
-    <string name="onboarding_card_activity_summary">هذا الإذن مطلوب لاستخدام حساس اكتشاف الخطوات في هاتفك.</string>
     <string name="onboarding_card_battery_title">الثبات في الخلفية</string>
     <string name="onboarding_card_battery_summary">Stepsy خفيف بطبيعته، لكن النظام قد يمنعه من عد الخطوات بشكل موثوق. اسمح للتطبيق بالعمل في الخلفية.</string>
-    <string name="onboarding_card_notifications_title">الإشعارات</string>
-    <string name="onboarding_card_notifications_summary">اختياري: التقدّم في الإشعار المباشر، وتذكيرات مشجعة عند اقترابك من هدف الخطوات، والمزيد. موصى به.</string>
     <string name="onboarding_strip_title">الخطوات لا تُحتسب</string>
     <string name="onboarding_strip_summary">اضغط للسماح باكتشاف الخطوات.</string>
     <string name="onboarding_welcome_headline_b">عدّاد خطوات خفيف.</string>

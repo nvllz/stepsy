@@ -27,9 +27,14 @@
         <item quantity="many">dni</item>
         <item quantity="other">dni</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d dzień</item>
+        <item quantity="few">%d dni</item>
+        <item quantity="many">%d dni</item>
+        <item quantity="other">%d dnia</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">Dziś</string>
     <string name="header_week">Ten tydzień</string>
     <string name="header_month">Ten miesiąc</string>
     <string name="header_7d">Ostatnie 7 dni</string>
@@ -55,12 +60,6 @@
         <item quantity="other">Cel osiągnięto %d razy</item>
     </plurals>
     <string name="goal_streak_line">Cel: %1$s · seria %2$s %3$s</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d dzień</item>
-        <item quantity="few">%d dni</item>
-        <item quantity="many">%d dni</item>
-        <item quantity="other">%d dnia</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">Seria celu: %1$d dzień</item>
         <item quantity="few">Seria celu: %1$d dni</item>
@@ -73,6 +72,21 @@
     <string name="confirm_decrease_message">Ta wartość jest niższa niż obecna liczba kroków. Czy na pewno chcesz kontynuować?</string>
     <string name="invalid_step_count">Wprowadź poprawną liczbę</string>
     <string name="steps_updated">Zaktualizowano liczbę kroków</string>
+    <string name="hourly_average_title">Średnia godzinowa</string>
+    <string name="hourly_average_message">Średnia uwzględnia %1$d z %2$d dni w tym zakresie. Dzień jest pomijany, jeśli większość jego kroków nie ma zapisanej godziny. Może się to zdarzyć, gdy śledzenie godzinowe było wyłączone lub gdy dzienna suma została dostosowana.</string>
+    <string name="hourly_no_data_day">Brak danych godzinowych dla tego dnia</string>
+    <string name="hourly_average_empty">Za mało danych godzinowych, aby narysować wykres średniej dla tego zakresu</string>
+    <string name="hourly_average_empty_message">Brak danych godzinowych dla żadnego z %1$s dni w zakresie. Dane godzinowe są dostępne tylko dla dni zapisanych na tym urządzeniu.</string>
+    <string name="hourly_no_data_before">Brak danych godzinowych przed %1$s</string>
+    <string name="hourly_untimed_steps">Kroki bez godziny: %1$s</string>
+    <string name="hourly_view_chart">Wykres</string>
+    <string name="hourly_view_bars">Słupki</string>
+    <string name="hourly_today_short">%1$s dziś</string>
+    <string name="hourly_hour_adjusted">dostosowano %1$s</string>
+
+    <string name="daily_average_title">Średnia dzienna</string>
+    <string name="chart_view_hourly">Godzinowo</string>
+    <string name="chart_view_daily">Dziennie</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">Osiągnięcia</string>
@@ -83,12 +97,6 @@
     <string name="milestone_label_distance">Dystans</string>
     <string name="milestone_label_date">Osiągnięto</string>
     <string name="milestone_label_took">Zajęło</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d dzień</item>
-        <item quantity="few">%d dni</item>
-        <item quantity="many">%d dni</item>
-        <item quantity="other">%d dnia</item>
-    </plurals>
     <string name="milestone_notifications_toggle">Powiadomienia o kamieniach milowych</string>
     <string name="milestone_notifications_enabled">Powiadomienia o kamieniach milowych włączone</string>
     <string name="milestone_notifications_disabled">Powiadomienia o kamieniach milowych wyłączone</string>
@@ -146,6 +154,10 @@
     <string name="pref_vehicle_filter_summary_foss">Dokładniejsze rozpoznawanie kroków dzięki Google Play Services API, dostępne tylko w pełnej wersji. Pobierz z Github (github.com/nvllz/stepsy)</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API nie jest dostępne na tym urządzeniu</string>
     <string name="unit_system">System jednostek</string>
+    <string name="day_start_title">Dzień zaczyna się o</string>
+    <string name="day_start_description">Wybierz, o której zaczyna się dzień. Kroki zrobione przed tą godziną liczą się do poprzedniego dnia. Zmiana ma sens tylko wtedy, gdy aktywność przypada w okolicach północy i Stepsy ma uznawać, że dzień zaczyna się wcześniej lub kończy później. Nowa godzina rozpoczęcia nie wpływa na dane o krokach, które są zawsze przypisane do konkretnej daty.</string>
+    <string name="day_start_applies_toast">Nowy początek dnia obowiązuje od %1$s.</string>
+    <string name="day_start_applies_toast_tomorrow">Nowy początek dnia zacznie obowiązywać jutro o %1$s.</string>
     <string name="date_format">Format daty</string>
     <string name="first_day_of_the_week">Pierwszy dzień tygodnia</string>
     <string name="app_language">Język</string>
@@ -153,6 +165,12 @@
     <string name="preference_system">Systemowy</string>
     <string name="theme_light">Jasny</string>
     <string name="theme_dark">Ciemny</string>
+    <string name="hourly_breakdown_title">Podział godzinowy</string>
+    <string name="hourly_breakdown_summary">Zobacz, jak kroki rozkładają się w ciągu dnia. Wyłącz, aby ukryć wykres godzinowy.</string>
+    <string name="hourly_off_confirm_title">Wyłączyć podział godzinowy?</string>
+    <string name="hourly_off_confirm_message">Dane godzinowe o krokach nie będą już zapisywane. Czy na pewno?</string>
+    <string name="hourly_off_confirm_action">Wyłącz</string>
+    <string name="hourly_off_confirm_clear_data">Usuń zapisane dane godzinowe</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">Eksportuj i przywracaj dane aplikacji</string>
@@ -162,7 +180,6 @@
     <string name="backup_location_not_set">Nie ustawiono</string>
     <string name="manual_backup">Ręczna kopia zapasowa</string>
     <string name="manual_backup_successful">Ręczna kopia zapasowa została wykonana</string>
-    <string name="import_data">Importuj</string>
     <string name="import_data_summary">Przywróć dane kroków z pliku</string>
     <string name="import_invalid_file">Ten plik jest nieprawidłowy</string>
     <string name="import_warning_title">Import kroków z pliku</string>
@@ -220,7 +237,6 @@
     <string name="action_resume">Wznów</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">Cel osiągnięty</string>
     <string name="channel_goal_desc">Mała nagroda za osiągnięcie dziennego celu kroków</string>
     <string name="channel_reminders_name">Motywujące przypomnienia</string>
     <string name="channel_reminders_desc">Przypomnienia, gdy zbliżasz się do celu</string>
@@ -233,7 +249,6 @@
     <string name="encouraging_late_2">Ostatni wysiłek: %1$s, jeszcze %2$s.</string>
     <string name="milestone_notification_title">%s zdobyte!</string>
     <string name="milestone_notification_text">To już w sumie %s kroków!\nTrzymaj tempo.</string>
-    <string name="notification_category_milestone">Kamienie milowe</string>
     <string name="notification_description_milestone">Powiadomienia o osiągnięciu kamieni milowych</string>
     <string name="milestone_short_millions">%1$d mln</string>
     <string name="milestone_short_millions_decimal">%.1f mln</string>
@@ -288,7 +303,6 @@
     <string name="onboarding_steps_label">Aktywność fizyczna</string>
     <string name="onboarding_steps_title">Pozwól Stepsy wykrywać Twoje kroki</string>
     <string name="onboarding_steps_body">To uprawnienie jest potrzebne, aby korzystać z czujnika kroków w telefonie.</string>
-    <string name="onboarding_steps_row">Aktywność fizyczna</string>
     <string name="onboarding_steps_idle">Jeszcze nie zezwolono</string>
     <string name="onboarding_steps_on">Zezwolono</string>
     <string name="onboarding_steps_denied">Nie zezwolono</string>
@@ -320,7 +334,6 @@
     <string name="onboarding_goal_title">Wybór dziennego celu</string>
     <string name="onboarding_goal_body">Wypełniaj pasek postępu na ekranie głównym każdego dnia! Możesz wybrać wartość z paska, ustawić własną ilość kroków albo wyłączyć cel całkowicie. Można go zmieniać w dowolnym momencie, nie wpływa to na dane o krokach.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s i %3$d kcal / dzień</string>
-    <string name="onboarding_reminders_title">Powiadomienia</string>
     <string name="onboarding_reminders_summary">Opcjonalnie: postęp w powiadomieniu, motywujące przypomnienia gdy zbliżasz się do celu, i więcej. Zalecane.</string>
     <string name="onboarding_reminders_on">Dozwolone</string>
     <string name="onboarding_reminders_blocked">Zablokowane przez Androida. Dotknij, aby otworzyć ustawienia powiadomień</string>
@@ -328,11 +341,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">Odrzuć</string>
     <string name="onboarding_card_activity_title">Przyznaj dostęp do aktywności</string>
-    <string name="onboarding_card_activity_summary">To uprawnienie jest potrzebne, aby korzystać z czujnika kroków w telefonie.</string>
     <string name="onboarding_card_battery_title">Popraw stabilność w tle</string>
     <string name="onboarding_card_battery_summary">Stepsy jest lekka z założenia, ale system może uniemożliwiać jej niezawodne liczenie kroków. Pozwól aplikacji działać w tle.</string>
-    <string name="onboarding_card_notifications_title">Powiadomienia</string>
-    <string name="onboarding_card_notifications_summary">Opcjonalnie: postęp w powiadomieniu, motywujące przypomnienia gdy zbliżasz się do celu, i więcej. Zalecane.</string>
     <string name="onboarding_strip_title">Kroki nie są liczone</string>
     <string name="onboarding_strip_summary">Dotknij, aby zezwolić na wykrywanie kroków.</string>
     <string name="onboarding_welcome_headline_b">Lekki krokomierz.</string>

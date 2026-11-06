@@ -21,9 +21,12 @@
         <item quantity="one">dag</item>
         <item quantity="other">dagen</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagen</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">Vandaag</string>
     <string name="header_week">Deze week</string>
     <string name="header_month">Deze maand</string>
     <string name="header_7d">Laatste 7 dagen</string>
@@ -47,10 +50,6 @@
         <item quantity="other">Doel %d keer bereikt</item>
     </plurals>
     <string name="goal_streak_line">Doel: %1$s · %2$s %3$s reeks</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dagen</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">Doelreeks van %1$d dag</item>
         <item quantity="other">Doelreeks van %1$d dagen</item>
@@ -61,6 +60,21 @@
     <string name="confirm_decrease_message">"Deze waarde is lager dan het huidige aantal stappen. Weet je zeker dat je door wilt gaan?"</string>
     <string name="invalid_step_count">Voer een geldig getal in</string>
     <string name="steps_updated">Aantal stappen bijgewerkt</string>
+    <string name="hourly_average_title">Uurgemiddelde</string>
+    <string name="hourly_average_message">Het gemiddelde bevat %1$d van de %2$d dagen in dit bereik. Een dag wordt overgeslagen als de meeste stappen geen vastgelegd tijdstip hebben. Dat kan gebeuren als het bijhouden per uur was uitgeschakeld of het dagtotaal is aangepast.</string>
+    <string name="hourly_no_data_day">Geen uurgegevens voor deze dag</string>
+    <string name="hourly_average_empty">Te weinig uurgegevens om een gemiddelde grafiek voor dit bereik te tekenen</string>
+    <string name="hourly_average_empty_message">Voor geen enkele van de %1$s dagen in het bereik zijn uurgegevens beschikbaar. Uurgegevens zijn alleen beschikbaar voor dagen die op dit apparaat zijn vastgelegd.</string>
+    <string name="hourly_no_data_before">Geen uurgegevens vóór %1$s</string>
+    <string name="hourly_untimed_steps">Stappen zonder tijdstip: %1$s</string>
+    <string name="hourly_view_chart">Grafiek</string>
+    <string name="hourly_view_bars">Balken</string>
+    <string name="hourly_today_short">%1$s vandaag</string>
+    <string name="hourly_hour_adjusted">aangepast %1$s</string>
+
+    <string name="daily_average_title">Daggemiddelde</string>
+    <string name="chart_view_hourly">Per uur</string>
+    <string name="chart_view_daily">Per dag</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">Prestaties</string>
@@ -71,10 +85,6 @@
     <string name="milestone_label_distance">Afstand</string>
     <string name="milestone_label_date">Bereikt</string>
     <string name="milestone_label_took">Benodigde tijd</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dagen</item>
-    </plurals>
     <string name="milestone_notifications_toggle">Meldingen voor mijlpalen</string>
     <string name="milestone_notifications_enabled">Meldingen voor mijlpalen ingeschakeld</string>
     <string name="milestone_notifications_disabled">Meldingen voor mijlpalen uitgeschakeld</string>
@@ -132,6 +142,10 @@
     <string name="pref_vehicle_filter_summary_foss">Nauwkeurigere stapherkenning via Google Play Services API, alleen in de volledige build. Beschikbaar op Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API is niet beschikbaar op dit apparaat</string>
     <string name="unit_system">Eenheid</string>
+    <string name="day_start_title">Dag begint om</string>
+    <string name="day_start_description">Kies wanneer je dag begint. Stappen vóór dit tijdstip tellen mee voor de vorige dag. Je hoeft dit alleen aan te passen als je rond middernacht actief bent en wilt dat Stepsy de dag eerder laat beginnen of later laat eindigen. Een nieuw begintijdstip heeft geen invloed op je stapgegevens, die altijd aan een bepaalde datum zijn gekoppeld.</string>
+    <string name="day_start_applies_toast">Nieuw begin van de dag geldt vanaf %1$s.</string>
+    <string name="day_start_applies_toast_tomorrow">Nieuw begin van de dag geldt morgen om %1$s.</string>
     <string name="date_format">Datumformaat</string>
     <string name="first_day_of_the_week">Eerste dag van de week</string>
     <string name="app_language">Taal</string>
@@ -139,6 +153,12 @@
     <string name="preference_system">Systeeminstelling</string>
     <string name="theme_light">Licht</string>
     <string name="theme_dark">Donker</string>
+    <string name="hourly_breakdown_title">Uurverdeling</string>
+    <string name="hourly_breakdown_summary">Bekijk hoe je stappen over de dag zijn verdeeld. Schakel uit om de uurgrafiek te verbergen.</string>
+    <string name="hourly_off_confirm_title">Uurverdeling uitschakelen?</string>
+    <string name="hourly_off_confirm_message">Er worden geen stapgegevens per uur meer vastgelegd. Weet je het zeker?</string>
+    <string name="hourly_off_confirm_action">Uitschakelen</string>
+    <string name="hourly_off_confirm_clear_data">Opgeslagen uurgegevens wissen</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">Appgegevens exporteren en herstellen</string>
@@ -148,7 +168,6 @@
     <string name="backup_location_not_set">Niet ingesteld</string>
     <string name="manual_backup">Handmatige back-up</string>
     <string name="manual_backup_successful">Handmatige back-up opgeslagen</string>
-    <string name="import_data">Importeren</string>
     <string name="import_data_summary">Herstel gegevens vanuit een bestand</string>
     <string name="import_invalid_file">Dit bestand is ongeldig</string>
     <string name="import_warning_title">Stapgegevens vervangen</string>
@@ -206,7 +225,6 @@
     <string name="action_resume">Hervatten</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">Doel bereikt</string>
     <string name="channel_goal_desc">Een kleine beloning zodra je je dagelijkse stappendoel haalt</string>
     <string name="channel_reminders_name">Aanmoedigende herinneringen</string>
     <string name="channel_reminders_desc">Herinneringen als je je doel nadert</string>
@@ -219,7 +237,6 @@
     <string name="encouraging_late_2">Laatste stukje: %1$s gehaald, nog %2$s.</string>
     <string name="milestone_notification_title">%s bereikt!</string>
     <string name="milestone_notification_text">Dat zijn in totaal %s stappen!\nGa zo door.</string>
-    <string name="notification_category_milestone">Mijlpalen</string>
     <string name="notification_description_milestone">Meldingen bij het bereiken van stappenmijlpalen</string>
     <string name="milestone_short_millions">%1$d mln.</string>
     <string name="milestone_short_millions_decimal">%.1f mln.</string>
@@ -272,7 +289,6 @@
     <string name="onboarding_steps_label">Lichamelijke activiteit</string>
     <string name="onboarding_steps_title">Stepsy toestaan je stappen te herkennen</string>
     <string name="onboarding_steps_body">Deze toestemming is nodig om de stappensensor van je telefoon te gebruiken.</string>
-    <string name="onboarding_steps_row">Lichamelijke activiteit</string>
     <string name="onboarding_steps_idle">Nog niet toegestaan</string>
     <string name="onboarding_steps_on">Toegestaan</string>
     <string name="onboarding_steps_denied">Niet toegestaan</string>
@@ -304,7 +320,6 @@
     <string name="onboarding_goal_title">Een dagelijks doel kiezen</string>
     <string name="onboarding_goal_body">Vul elke dag de voortgangsbalk op het startscherm! Je kunt een voorinstelling kiezen, een eigen doel instellen of het helemaal uitzetten. Je kunt het altijd aanpassen en het heeft geen invloed op je stapgegevens.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s en %3$d kcal / dag</string>
-    <string name="onboarding_reminders_title">Meldingen</string>
     <string name="onboarding_reminders_summary">Optioneel: voortgang in de live-melding, aanmoedigende herinneringen als je je stappendoel nadert en meer. Aanbevolen.</string>
     <string name="onboarding_reminders_on">Toegestaan</string>
     <string name="onboarding_reminders_blocked">Geblokkeerd door Android. Tik om de meldingsinstellingen te openen</string>
@@ -312,11 +327,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">Sluiten</string>
     <string name="onboarding_card_activity_title">Toegang tot activiteit geven</string>
-    <string name="onboarding_card_activity_summary">Deze toestemming is nodig om de stappensensor van je telefoon te gebruiken.</string>
     <string name="onboarding_card_battery_title">Stabiel op de achtergrond</string>
     <string name="onboarding_card_battery_summary">Stepsy is van nature licht, maar je systeem kan voorkomen dat de app betrouwbaar stappen telt. Sta toe dat de app op de achtergrond draait.</string>
-    <string name="onboarding_card_notifications_title">Meldingen</string>
-    <string name="onboarding_card_notifications_summary">Optioneel: voortgang in de live-melding, aanmoedigende herinneringen als je je stappendoel nadert en meer. Aanbevolen.</string>
     <string name="onboarding_strip_title">Stappen worden niet geteld</string>
     <string name="onboarding_strip_summary">Tik om stapherkenning toe te staan.</string>
     <string name="onboarding_welcome_headline_b">Lichte stappenteller.</string>

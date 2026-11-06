@@ -27,7 +27,7 @@ object NotificationChannels {
         nm.createNotificationChannel(
             NotificationChannel(
                 GOAL,
-                ctx.getString(R.string.channel_goal_name),
+                ctx.getString(R.string.records_goal_reached),
                 NotificationManager.IMPORTANCE_HIGH,
             ).apply { description = ctx.getString(R.string.channel_goal_desc) },
         )

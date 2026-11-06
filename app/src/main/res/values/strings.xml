@@ -27,7 +27,6 @@
     </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">Today</string>
     <string name="header_week">This week</string>
     <string name="header_month">This month</string>
     <string name="header_7d">Past 7 days</string>
@@ -51,10 +50,6 @@
         <item quantity="other">Goal reached %d times</item>
     </plurals>
     <string name="goal_streak_line">Goal: %1$s · %2$s %3$s streak</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">%1$d-day goal streak</item>
         <item quantity="other">%1$d-day goal streak</item>
@@ -78,11 +73,6 @@
     <string name="hourly_today_short">%1$s today</string>
     <string name="hourly_hour_adjusted">adjusted %1$s</string>
 
-    <plurals name="daily_average_days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
-
     <string name="daily_average_title">Daily average</string>
     <string name="chart_view_hourly">Hourly</string>
     <string name="chart_view_daily">Daily</string>
@@ -96,10 +86,6 @@
     <string name="milestone_label_distance">Distance</string>
     <string name="milestone_label_date">Achieved</string>
     <string name="milestone_label_took">Time taken</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
     <string name="milestone_notifications_toggle">Toggle milestone notifications</string>
     <string name="milestone_notifications_enabled">Milestone notifications enabled</string>
     <string name="milestone_notifications_disabled">Milestone notifications disabled</string>
@@ -195,7 +181,6 @@
     <string name="debug_section" translatable="false">Debug</string>
     <string name="clear_data_title" translatable="false">Clear data</string>
     <string name="clear_chip_steps" translatable="false">All step data</string>
-    <string name="clear_chip_settings" translatable="false">Settings</string>
     <string name="clear_chip_hourly" translatable="false">Hourly step data</string>
 
     <!-- Screen: Backup -->
@@ -206,7 +191,6 @@
     <string name="backup_location_not_set">Not set</string>
     <string name="manual_backup">Manual backup</string>
     <string name="manual_backup_successful">Manual backup successful</string>
-    <string name="import_data">Import</string>
     <string name="import_data_summary">Restore step data from a file</string>
     <string name="import_invalid_file">This file is invalid</string>
     <string name="import_warning_title">Replace step data</string>
@@ -264,7 +248,6 @@
     <string name="action_resume">Resume</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">Goal reached</string>
     <string name="channel_goal_desc">A hit when you reach your daily step goal</string>
     <string name="channel_reminders_name">Encouraging reminders</string>
     <string name="channel_reminders_desc">Get reminded as you close in on your goal</string>
@@ -277,7 +260,6 @@
     <string name="encouraging_late_2">Final push: %1$s complete, %2$s left.</string>
     <string name="milestone_notification_title">%s reached!</string>
     <string name="milestone_notification_text">That\'s %s steps in total!\nKeep going.</string>
-    <string name="notification_category_milestone">Milestones</string>
     <string name="notification_description_milestone">Get notified when you reach step milestones</string>
     <string name="milestone_short_millions">%1$dM</string>
     <string name="milestone_short_millions_decimal">%.1fM</string>
@@ -330,7 +312,6 @@
     <string name="onboarding_steps_label">Physical Activity</string>
     <string name="onboarding_steps_title">Allow Stepsy to detect your steps</string>
     <string name="onboarding_steps_body">This permission is required to make use of your phone\'s step detection sensor.</string>
-    <string name="onboarding_steps_row">Physical Activity</string>
     <string name="onboarding_steps_idle">Not allowed yet</string>
     <string name="onboarding_steps_on">Allowed</string>
     <string name="onboarding_steps_denied">Not allowed</string>
@@ -362,7 +343,6 @@
     <string name="onboarding_goal_title">Picking a daily goal</string>
     <string name="onboarding_goal_body">Fill the progress bar on the home screen each day! You can select a preset, set your own, or switch it off entirely. You can adjust it dynamically as you wish, this setting doesn\t affect your step data.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s and %3$d kcal / day</string>
-    <string name="onboarding_reminders_title">Notifications</string>
     <string name="onboarding_reminders_summary">Optional progress in live notification, encouraging reminders as you come near the step goal and more. Recommended.</string>
     <string name="onboarding_reminders_on">Allowed</string>
     <string name="onboarding_reminders_blocked">Blocked by Android. Tap to open notification settings</string>
@@ -370,11 +350,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">Dismiss</string>
     <string name="onboarding_card_activity_title">Grant access to activity</string>
-    <string name="onboarding_card_activity_summary">This permission is required to make use of your phone\'s step detection sensor.</string>
     <string name="onboarding_card_battery_title">Stability in the background</string>
     <string name="onboarding_card_battery_summary">Stepsy is lightweight by design, but your system may prevent it from counting steps reliably. Allow the app to work in the background.</string>
-    <string name="onboarding_card_notifications_title">Notifications</string>
-    <string name="onboarding_card_notifications_summary">Optional progress in live notification, encouraging reminders as you come near the step goal and more. Recommended.</string>
     <string name="onboarding_strip_title">Not counting steps</string>
     <string name="onboarding_strip_summary">Tap to allow step detection.</string>
     <string name="onboarding_welcome_headline_b">Lightweight step counter.</string>

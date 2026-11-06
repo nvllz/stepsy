@@ -693,7 +693,7 @@ private fun ClearDataDialog(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             FilterChipLabel(stringResource(R.string.clear_chip_steps), on = steps) { steps = !steps }
-            FilterChipLabel(stringResource(R.string.clear_chip_settings), on = settings) { settings = !settings }
+            FilterChipLabel(stringResource(R.string.settings), on = settings) { settings = !settings }
             FilterChipLabel(stringResource(R.string.clear_chip_hourly), on = hourly) { hourly = !hourly }
         }
     }

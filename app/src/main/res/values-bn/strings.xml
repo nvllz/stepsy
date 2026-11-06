@@ -21,9 +21,12 @@
         <item quantity="one" tools:ignore="ImpliedQuantity">দিন</item>
         <item quantity="other">দিন</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d দিন</item>
+        <item quantity="other">%d দিন</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">আজ</string>
     <string name="header_week">এই সপ্তাহ</string>
     <string name="header_month">এই মাস</string>
     <string name="header_7d">গত ৭ দিন</string>
@@ -47,10 +50,6 @@
         <item quantity="other">লক্ষ্য %d বার পূরণ হয়েছে</item>
     </plurals>
     <string name="goal_streak_line">লক্ষ্য: %1$s · %2$s %3$s স্ট্রিক</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d দিন</item>
-        <item quantity="other">%d দিন</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">%1$d দিনের লক্ষ্যের ধারাবাহিকতা</item>
         <item quantity="other">%1$d দিনের লক্ষ্যের ধারাবাহিকতা</item>
@@ -61,6 +60,21 @@
     <string name="confirm_decrease_message">এই মানটি বর্তমান পদক্ষেপ সংখ্যার চেয়ে কম। আপনি কি নিশ্চিতভাবে এগিয়ে যেতে চান?</string>
     <string name="invalid_step_count">অনুগ্রহ করে একটি বৈধ সংখ্যা লিখুন</string>
     <string name="steps_updated">পদক্ষেপ সংখ্যা আপডেট হয়েছে</string>
+    <string name="hourly_average_title">ঘণ্টাভিত্তিক গড়</string>
+    <string name="hourly_average_message">এই সময়সীমার %2$d দিনের মধ্যে %1$d দিন গড়ে ধরা হয়েছে। কোনো দিনের বেশিরভাগ পদক্ষেপের সময় রেকর্ড না থাকলে সেই দিন বাদ যায়। ঘণ্টাভিত্তিক ট্র্যাকিং বন্ধ থাকলে বা দৈনিক মোট সংখ্যা সমন্বয় করা হলে এমন হতে পারে।</string>
+    <string name="hourly_no_data_day">এই দিনের জন্য ঘণ্টাভিত্তিক ডেটা নেই</string>
+    <string name="hourly_average_empty">এই সময়সীমার জন্য গড় চার্ট আঁকার মতো যথেষ্ট ঘণ্টাভিত্তিক ডেটা নেই</string>
+    <string name="hourly_average_empty_message">সময়সীমার %1$s দিনের কোনোটির জন্যই ঘণ্টাভিত্তিক ডেটা নেই। ঘণ্টাভিত্তিক ডেটা শুধু এই ডিভাইসে রেকর্ড করা দিনগুলোর জন্য পাওয়া যায়।</string>
+    <string name="hourly_no_data_before">%1$s-এর আগে ঘণ্টাভিত্তিক ডেটা নেই</string>
+    <string name="hourly_untimed_steps">সময় ছাড়া %1$s পদক্ষেপ</string>
+    <string name="hourly_view_chart">চার্ট</string>
+    <string name="hourly_view_bars">বার</string>
+    <string name="hourly_today_short">আজ %1$s</string>
+    <string name="hourly_hour_adjusted">সমন্বিত %1$s</string>
+
+    <string name="daily_average_title">দৈনিক গড়</string>
+    <string name="chart_view_hourly">ঘণ্টাভিত্তিক</string>
+    <string name="chart_view_daily">দৈনিক</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">সাফল্য</string>
@@ -71,10 +85,6 @@
     <string name="milestone_label_distance">দূরত্ব</string>
     <string name="milestone_label_date">অর্জিত</string>
     <string name="milestone_label_took">সময় লেগেছে</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d দিন</item>
-        <item quantity="other">%d দিন</item>
-    </plurals>
     <string name="milestone_notifications_toggle">মাইলস্টোন বিজ্ঞপ্তি চালু/বন্ধ করুন</string>
     <string name="milestone_notifications_enabled">মাইলস্টোন বিজ্ঞপ্তি চালু আছে</string>
     <string name="milestone_notifications_disabled">মাইলস্টোন বিজ্ঞপ্তি বন্ধ আছে</string>
@@ -132,6 +142,10 @@
     <string name="pref_vehicle_filter_summary_foss">Google Play Services API ব্যবহার করে আরও নির্ভুল ধাপ শনাক্তকরণ, যা শুধুমাত্র ফুল বিল্ডে উপলব্ধ। এটি Github-এ পাবেন (github.com/nvllz/stepsy)।</string>
     <string name="vehicle_filter_unavailable">অ্যাক্টিভিটি রিকগনিশন API এই ডিভাইসে উপলব্ধ নেই</string>
     <string name="unit_system">একক পদ্ধতি</string>
+    <string name="day_start_title">দিন শুরুর সময়</string>
+    <string name="day_start_description">আপনার দিন কখন শুরু হবে তা বেছে নিন। এই সময়ের আগের পদক্ষেপ আগের দিনের হিসাবে ধরা হবে। মধ্যরাতের কাছাকাছি সক্রিয় থাকলে এবং দিন আগে শুরু বা পরে শেষ ধরাতে চাইলেই কেবল এটি পরিবর্তন করতে পারেন। নতুন দিন শুরুর সময় বাছাই করলে আপনার পদক্ষেপের ডেটা বদলাবে না, কারণ তা সবসময় নির্দিষ্ট তারিখের সঙ্গে যুক্ত থাকে।</string>
+    <string name="day_start_applies_toast">নতুন দিন শুরুর সময় %1$s থেকে কার্যকর হবে।</string>
+    <string name="day_start_applies_toast_tomorrow">নতুন দিন শুরুর সময় আগামীকাল %1$s-এ কার্যকর হবে।</string>
     <string name="date_format">তারিখের ফরম্যাট</string>
     <string name="first_day_of_the_week">সপ্তাহের প্রথম দিন</string>
     <string name="app_language">ভাষা</string>
@@ -139,6 +153,12 @@
     <string name="preference_system">সিস্টেম</string>
     <string name="theme_light">লাইট</string>
     <string name="theme_dark">ডার্ক</string>
+    <string name="hourly_breakdown_title">ঘণ্টাভিত্তিক বিবরণ</string>
+    <string name="hourly_breakdown_summary">সারা দিনে আপনার পদক্ষেপ কীভাবে ছড়িয়ে আছে দেখুন। ঘণ্টাভিত্তিক চার্ট লুকাতে এটি বন্ধ করুন।</string>
+    <string name="hourly_off_confirm_title">ঘণ্টাভিত্তিক বিবরণ বন্ধ করবেন?</string>
+    <string name="hourly_off_confirm_message">আর ঘণ্টাভিত্তিক পদক্ষেপের ডেটা রেকর্ড হবে না। আপনি কি নিশ্চিত?</string>
+    <string name="hourly_off_confirm_action">বন্ধ করুন</string>
+    <string name="hourly_off_confirm_clear_data">সংরক্ষিত ঘণ্টাভিত্তিক ডেটা মুছুন</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">অ্যাপের ডেটা এক্সপোর্ট ও পুনরুদ্ধার</string>
@@ -148,7 +168,6 @@
     <string name="backup_location_not_set">নির্ধারিত নয়</string>
     <string name="manual_backup">ম্যানুয়াল ব্যাকআপ</string>
     <string name="manual_backup_successful">ম্যানুয়াল ব্যাকআপ সফল হয়েছে</string>
-    <string name="import_data">আমদানি</string>
     <string name="import_data_summary">একটি ফাইল থেকে পদক্ষেপের ডেটা পুনরুদ্ধার করুন</string>
     <string name="import_invalid_file">এই ফাইলটি বৈধ নয়</string>
     <string name="import_warning_title">ধাপের ডেটা প্রতিস্থাপন করুন</string>
@@ -206,7 +225,6 @@
     <string name="action_resume">পুনরায় শুরু</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">লক্ষ্য পূরণ</string>
     <string name="channel_goal_desc">দৈনিক পদক্ষেপের লক্ষ্যে পৌঁছালে ছোট্ট একটি পুরস্কার</string>
     <string name="channel_reminders_name">উৎসাহমূলক রিমাইন্ডার</string>
     <string name="channel_reminders_desc">লক্ষ্যের কাছাকাছি পৌঁছালে রিমাইন্ডার</string>
@@ -219,7 +237,6 @@
     <string name="encouraging_late_2">শেষ ধাক্কা: %1$s হয়েছে, বাকি %2$s।</string>
     <string name="milestone_notification_title">%s-এ পৌঁছেছেন!</string>
     <string name="milestone_notification_text">মোট %sটি পদক্ষেপ!\nচলতে থাকুন।</string>
-    <string name="notification_category_milestone">মাইলস্টোন</string>
     <string name="notification_description_milestone">পদক্ষেপের মাইলস্টোনে পৌঁছানোর বিজ্ঞপ্তি</string>
     <string name="milestone_short_millions">%1$dমি</string>
     <string name="milestone_short_millions_decimal">%.1fমি</string>
@@ -272,7 +289,6 @@
     <string name="onboarding_steps_label">শারীরিক কার্যকলাপ</string>
     <string name="onboarding_steps_title">Stepsy-কে আপনার পদক্ষেপ শনাক্ত করতে দিন</string>
     <string name="onboarding_steps_body">ফোনের পদক্ষেপ শনাক্তকরণ সেন্সর ব্যবহার করতে এই অনুমতি প্রয়োজন।</string>
-    <string name="onboarding_steps_row">শারীরিক কার্যকলাপ</string>
     <string name="onboarding_steps_idle">এখনো অনুমতি দেওয়া হয়নি</string>
     <string name="onboarding_steps_on">অনুমতি দেওয়া হয়েছে</string>
     <string name="onboarding_steps_denied">অনুমতি দেওয়া হয়নি</string>
@@ -304,7 +320,6 @@
     <string name="onboarding_goal_title">দৈনিক লক্ষ্য বেছে নেওয়া</string>
     <string name="onboarding_goal_body">প্রতিদিন হোম স্ক্রিনের অগ্রগতি বার ভরে তুলুন! একটি প্রিসেট বেছে নিতে পারেন, নিজের মতো ঠিক করতে পারেন, বা পুরোপুরি বন্ধ রাখতে পারেন। যখন খুশি বদলানো যায়, আর এতে পদক্ষেপের ডেটার কোনো ক্ষতি হয় না।</string>
     <string name="onboarding_goal_preview">~%1$s %2$s এবং %3$d কিলোক্যালরি / দিন</string>
-    <string name="onboarding_reminders_title">বিজ্ঞপ্তি</string>
     <string name="onboarding_reminders_summary">ঐচ্ছিক: লাইভ বিজ্ঞপ্তিতে অগ্রগতি, লক্ষ্যের কাছাকাছি পৌঁছালে উৎসাহমূলক রিমাইন্ডার, এবং আরও কিছু। প্রস্তাবিত।</string>
     <string name="onboarding_reminders_on">অনুমতি দেওয়া হয়েছে</string>
     <string name="onboarding_reminders_blocked">Android ব্লক করেছে। বিজ্ঞপ্তি সেটিংস খুলতে ট্যাপ করুন</string>
@@ -312,11 +327,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">বাদ দিন</string>
     <string name="onboarding_card_activity_title">কার্যকলাপে প্রবেশাধিকার দিন</string>
-    <string name="onboarding_card_activity_summary">ফোনের পদক্ষেপ শনাক্তকরণ সেন্সর ব্যবহার করতে এই অনুমতি প্রয়োজন।</string>
     <string name="onboarding_card_battery_title">ব্যাকগ্রাউন্ডে স্থিতিশীলতা</string>
     <string name="onboarding_card_battery_summary">Stepsy নকশাগতভাবেই হালকা, কিন্তু আপনার সিস্টেম এটিকে নির্ভরযোগ্যভাবে পদক্ষেপ গুনতে বাধা দিতে পারে। অ্যাপটিকে ব্যাকগ্রাউন্ডে চলতে দিন।</string>
-    <string name="onboarding_card_notifications_title">বিজ্ঞপ্তি</string>
-    <string name="onboarding_card_notifications_summary">ঐচ্ছিক: লাইভ বিজ্ঞপ্তিতে অগ্রগতি, লক্ষ্যের কাছাকাছি পৌঁছালে উৎসাহমূলক রিমাইন্ডার, এবং আরও কিছু। প্রস্তাবিত।</string>
     <string name="onboarding_strip_title">পদক্ষেপ গোনা হচ্ছে না</string>
     <string name="onboarding_strip_summary">পদক্ষেপ শনাক্তকরণের অনুমতি দিতে ট্যাপ করুন।</string>
     <string name="onboarding_welcome_headline_b">হালকা পদক্ষেপ গণনাকারী।</string>
