@@ -21,9 +21,12 @@
         <item quantity="one">Tag</item>
         <item quantity="other">Tage</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">Heute</string>
     <string name="header_week">Diese Woche</string>
     <string name="header_month">Diesen Monat</string>
     <string name="header_7d">Letzte 7 Tage</string>
@@ -47,10 +50,6 @@
         <item quantity="other">Ziel %d Mal erreicht</item>
     </plurals>
     <string name="goal_streak_line">Ziel: %1$s · %2$s %3$s Serie</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d Tag</item>
-        <item quantity="other">%d Tage</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">Zielserie über %1$d Tag</item>
         <item quantity="other">Zielserie über %1$d Tage</item>
@@ -61,6 +60,21 @@
     <string name="confirm_decrease_message">Dieser Wert ist niedriger als die aktuelle Schrittzahl. Möchten Sie fortfahren?</string>
     <string name="invalid_step_count">Bitte geben Sie eine gültige Zahl ein</string>
     <string name="steps_updated">Schrittzahl aktualisiert</string>
+    <string name="hourly_average_title">Stündlicher Durchschnitt</string>
+    <string name="hourly_average_message">Der Durchschnitt umfasst %1$d von %2$d Tagen in diesem Zeitraum. Ein Tag wird übersprungen, wenn die meisten seiner Schritte keine erfasste Uhrzeit haben. Das kann passieren, wenn die stündliche Erfassung deaktiviert war oder die Tagessumme angepasst wurde.</string>
+    <string name="hourly_no_data_day">Keine Stundendaten für diesen Tag</string>
+    <string name="hourly_average_empty">Zu wenige Stundendaten für ein Durchschnittsdiagramm in diesem Zeitraum</string>
+    <string name="hourly_average_empty_message">Für keinen der %1$s Tage im Zeitraum sind Stundendaten vorhanden. Stundendaten gibt es nur für Tage, die auf diesem Gerät aufgezeichnet wurden.</string>
+    <string name="hourly_no_data_before">Keine Stundendaten vor %1$s</string>
+    <string name="hourly_untimed_steps">Schritte ohne Uhrzeit: %1$s</string>
+    <string name="hourly_view_chart">Diagramm</string>
+    <string name="hourly_view_bars">Balken</string>
+    <string name="hourly_today_short">%1$s heute</string>
+    <string name="hourly_hour_adjusted">angepasst %1$s</string>
+
+    <string name="daily_average_title">Tagesdurchschnitt</string>
+    <string name="chart_view_hourly">Stündlich</string>
+    <string name="chart_view_daily">Täglich</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">Erfolge</string>
@@ -71,10 +85,6 @@
     <string name="milestone_label_distance">Distanz</string>
     <string name="milestone_label_date">Erreicht</string>
     <string name="milestone_label_took">Benötigte Zeit</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d Tag</item>
-        <item quantity="other">%d Tage</item>
-    </plurals>
     <string name="milestone_notifications_toggle">Meilenstein-Benachrichtigungen</string>
     <string name="milestone_notifications_enabled">Meilenstein-Benachrichtigungen aktiviert</string>
     <string name="milestone_notifications_disabled">Meilenstein-Benachrichtigungen deaktiviert</string>
@@ -132,6 +142,10 @@
     <string name="pref_vehicle_filter_summary_foss">Präzisere Schritterkennung via Google Play Services API, nur im Full-Build verfügbar. Erhältlich auf Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API ist auf diesem Gerät nicht verfügbar</string>
     <string name="unit_system">Einheitensystem</string>
+    <string name="day_start_title">Tag beginnt um</string>
+    <string name="day_start_description">Legen Sie fest, wann Ihr Tag beginnt. Schritte vor dieser Uhrzeit zählen zum Vortag. Das müssen Sie nur ändern, wenn Sie um Mitternacht herum aktiv sind und möchten, dass Stepsy den Tag früher beginnen oder später enden lässt. Eine neue Startzeit ändert Ihre Schrittdaten nicht, denn diese sind immer einem bestimmten Datum zugeordnet.</string>
+    <string name="day_start_applies_toast">Neuer Tagesbeginn gilt ab %1$s.</string>
+    <string name="day_start_applies_toast_tomorrow">Neuer Tagesbeginn gilt morgen um %1$s.</string>
     <string name="date_format">Datumsformat</string>
     <string name="first_day_of_the_week">Erster Tag der Woche</string>
     <string name="app_language">Sprache</string>
@@ -139,6 +153,12 @@
     <string name="preference_system">Systemvorgabe</string>
     <string name="theme_light">Hell</string>
     <string name="theme_dark">Dunkel</string>
+    <string name="hourly_breakdown_title">Stündliche Aufschlüsselung</string>
+    <string name="hourly_breakdown_summary">Zeigt, wie sich Ihre Schritte über den Tag verteilen. Deaktivieren, um das Stundendiagramm auszublenden.</string>
+    <string name="hourly_off_confirm_title">Stündliche Aufschlüsselung ausschalten?</string>
+    <string name="hourly_off_confirm_message">Es werden keine stündlichen Schrittdaten mehr aufgezeichnet. Sind Sie sicher?</string>
+    <string name="hourly_off_confirm_action">Ausschalten</string>
+    <string name="hourly_off_confirm_clear_data">Gespeicherte Stundendaten löschen</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">App-Daten exportieren und wiederherstellen</string>
@@ -148,7 +168,6 @@
     <string name="backup_location_not_set">Nicht festgelegt</string>
     <string name="manual_backup">Manuelles Backup</string>
     <string name="manual_backup_successful">Manuelles Backup erfolgreich</string>
-    <string name="import_data">Importieren</string>
     <string name="import_data_summary">Schrittdaten aus einer Datei wiederherstellen</string>
     <string name="import_invalid_file">Diese Datei ist ungültig</string>
     <string name="import_warning_title">Schrittdaten ersetzen</string>
@@ -206,7 +225,6 @@
     <string name="action_resume">Fortsetzen</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">Ziel erreicht</string>
     <string name="channel_goal_desc">Ein Erfolgsmoment, sobald das tägliche Schrittziel erreicht ist</string>
     <string name="channel_reminders_name">Ermutigende Erinnerungen</string>
     <string name="channel_reminders_desc">Hinweise, wenn das Ziel näher rückt</string>
@@ -219,7 +237,6 @@
     <string name="encouraging_late_2">Endspurt: %1$s geschafft, noch %2$s.</string>
     <string name="milestone_notification_title">%s erreicht!</string>
     <string name="milestone_notification_text">Das sind insgesamt %s Schritte!\nWeiter so.</string>
-    <string name="notification_category_milestone">Meilensteine</string>
     <string name="notification_description_milestone">Benachrichtigungen beim Erreichen von Schritt-Meilensteinen</string>
     <string name="milestone_short_millions">%1$d Mio.</string>
     <string name="milestone_short_millions_decimal">%.1f Mio.</string>
@@ -272,7 +289,6 @@
     <string name="onboarding_steps_label">Körperliche Aktivität</string>
     <string name="onboarding_steps_title">Schritterkennung für Stepsy erlauben</string>
     <string name="onboarding_steps_body">Diese Berechtigung wird benötigt, um den Schrittsensor des Handys zu nutzen.</string>
-    <string name="onboarding_steps_row">Körperliche Aktivität</string>
     <string name="onboarding_steps_idle">Noch nicht erlaubt</string>
     <string name="onboarding_steps_on">Erlaubt</string>
     <string name="onboarding_steps_denied">Nicht erlaubt</string>
@@ -304,7 +320,6 @@
     <string name="onboarding_goal_title">Ein Tagesziel wählen</string>
     <string name="onboarding_goal_body">Jeden Tag den Fortschrittsbalken auf dem Startbildschirm füllen! Zur Wahl stehen Vorgaben, ein eigenes Ziel oder gar keins. Es lässt sich jederzeit ändern und hat keinen Einfluss auf Ihre Schrittdaten.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s und %3$d kcal / Tag</string>
-    <string name="onboarding_reminders_title">Benachrichtigungen</string>
     <string name="onboarding_reminders_summary">Optional: Fortschritt in der Live-Benachrichtigung, ermutigende Erinnerungen kurz vor dem Schrittziel und mehr. Empfohlen.</string>
     <string name="onboarding_reminders_on">Erlaubt</string>
     <string name="onboarding_reminders_blocked">Von Android blockiert. Tippen, um die Benachrichtigungseinstellungen zu öffnen</string>
@@ -312,11 +327,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">Schließen</string>
     <string name="onboarding_card_activity_title">Zugriff auf Aktivität erlauben</string>
-    <string name="onboarding_card_activity_summary">Diese Berechtigung wird benötigt, um den Schrittsensor des Handys zu nutzen.</string>
     <string name="onboarding_card_battery_title">Stabil im Hintergrund</string>
     <string name="onboarding_card_battery_summary">Stepsy ist bewusst schlank gehalten, doch das System kann das zuverlässige Zählen ausbremsen. Der App den Hintergrundbetrieb erlauben.</string>
-    <string name="onboarding_card_notifications_title">Benachrichtigungen</string>
-    <string name="onboarding_card_notifications_summary">Optional: Fortschritt in der Live-Benachrichtigung, ermutigende Erinnerungen kurz vor dem Schrittziel und mehr. Empfohlen.</string>
     <string name="onboarding_strip_title">Schritte werden nicht gezählt</string>
     <string name="onboarding_strip_summary">Tippen, um die Schritterkennung zu erlauben.</string>
     <string name="onboarding_welcome_headline_b">Schlanker Schrittzähler.</string>

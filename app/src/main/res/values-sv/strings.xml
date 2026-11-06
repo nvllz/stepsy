@@ -21,9 +21,12 @@
         <item quantity="one">dag</item>
         <item quantity="other">dagar</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">Idag</string>
     <string name="header_week">Denna vecka</string>
     <string name="header_month">Denna månad</string>
     <string name="header_7d">Senaste 7 dagar</string>
@@ -47,10 +50,6 @@
         <item quantity="other">Mål uppnått %d gånger</item>
     </plurals>
     <string name="goal_streak_line">Mål: %1$s · %2$s %3$s streak</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dagar</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">Målserie på %1$d dag</item>
         <item quantity="other">Målserie på %1$d dagar</item>
@@ -61,6 +60,21 @@
     <string name="confirm_decrease_message">Detta värde är lägre än det aktuella stegtalet. Vill du fortsätta?</string>
     <string name="invalid_step_count">Ange ett giltigt nummer</string>
     <string name="steps_updated">Stegräkning uppdaterad</string>
+    <string name="hourly_average_title">Genomsnitt per timme</string>
+    <string name="hourly_average_message">Genomsnittet inkluderar %1$d av %2$d dagar i det här intervallet. En dag hoppas över om de flesta av dess steg saknar registrerad tid. Det kan hända om timspårningen var avstängd eller om dagstotalen justerades.</string>
+    <string name="hourly_no_data_day">Inga timdata för den här dagen</string>
+    <string name="hourly_average_empty">För lite timdata för att rita ett genomsnittsdiagram för det här intervallet</string>
+    <string name="hourly_average_empty_message">Det finns inga timdata för någon av de %1$s dagarna i intervallet. Timdata finns bara för dagar som registrerats på den här enheten.</string>
+    <string name="hourly_no_data_before">Inga timdata före %1$s</string>
+    <string name="hourly_untimed_steps">%1$s steg utan tid</string>
+    <string name="hourly_view_chart">Diagram</string>
+    <string name="hourly_view_bars">Staplar</string>
+    <string name="hourly_today_short">%1$s idag</string>
+    <string name="hourly_hour_adjusted">justerat %1$s</string>
+
+    <string name="daily_average_title">Dagligt genomsnitt</string>
+    <string name="chart_view_hourly">Per timme</string>
+    <string name="chart_view_daily">Per dag</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">Bedrifter</string>
@@ -71,10 +85,6 @@
     <string name="milestone_label_distance">Distans</string>
     <string name="milestone_label_date">Uppnått</string>
     <string name="milestone_label_took">Tid det tog</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dagar</item>
-    </plurals>
     <string name="milestone_notifications_toggle">Aviseringar om milstolpar</string>
     <string name="milestone_notifications_enabled">Aviseringar om milstolpar aktiverade</string>
     <string name="milestone_notifications_disabled">Aviseringar om milstolpar inaktiverade</string>
@@ -132,6 +142,10 @@
     <string name="pref_vehicle_filter_summary_foss">Mer exakt stegigenkänning via Google Play Services API, endast i den fullständiga versionen. Finns på Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API är inte tillgängligt på denna enhet</string>
     <string name="unit_system">Enhetssystem</string>
+    <string name="day_start_title">Dagen börjar kl.</string>
+    <string name="day_start_description">Välj när din dag börjar. Steg som tas före den här tiden räknas till föregående dag. Du behöver bara ändra detta om du är aktiv nära midnatt och vill att Stepsy ska se dagen som att den börjar tidigare eller slutar senare. Att välja en ny starttid påverkar inte dina stegdata, som alltid tillhör ett visst datum.</string>
+    <string name="day_start_applies_toast">Ny dagstart gäller från %1$s.</string>
+    <string name="day_start_applies_toast_tomorrow">Ny dagstart gäller i morgon kl. %1$s.</string>
     <string name="date_format">Datumformat</string>
     <string name="first_day_of_the_week">Första veckodagen</string>
     <string name="app_language">Språk</string>
@@ -139,6 +153,12 @@
     <string name="preference_system">System</string>
     <string name="theme_light">Ljust</string>
     <string name="theme_dark">Mörkt</string>
+    <string name="hourly_breakdown_title">Timfördelning</string>
+    <string name="hourly_breakdown_summary">Se hur dina steg fördelas över dagen. Stäng av för att dölja timdiagrammet.</string>
+    <string name="hourly_off_confirm_title">Stänga av timfördelningen?</string>
+    <string name="hourly_off_confirm_message">Inga fler timdata för steg kommer att registreras. Är du säker?</string>
+    <string name="hourly_off_confirm_action">Stäng av</string>
+    <string name="hourly_off_confirm_clear_data">Rensa sparade timdata</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">Exportera och återställ appdata</string>
@@ -148,7 +168,6 @@
     <string name="backup_location_not_set">Ej angivet</string>
     <string name="manual_backup">Manuell säkerhetskopiering</string>
     <string name="manual_backup_successful">Manuell säkerhetskopiering lyckades</string>
-    <string name="import_data">Importera</string>
     <string name="import_data_summary">Återställ stegdata från en fil</string>
     <string name="import_invalid_file">Den här filen är ogiltig</string>
     <string name="import_warning_title">Ersätt stegdatan</string>
@@ -206,7 +225,6 @@
     <string name="action_resume">Återuppta</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">Mål uppnått</string>
     <string name="channel_goal_desc">Ett litet ögonblick av glädje när du når ditt dagliga stegmål</string>
     <string name="channel_reminders_name">Uppmuntrande påminnelser</string>
     <string name="channel_reminders_desc">Påminnelser när du närmar dig målet</string>
@@ -219,7 +237,6 @@
     <string name="encouraging_late_2">Sista spurten: %1$s klart, %2$s kvar.</string>
     <string name="milestone_notification_title">%s uppnått!</string>
     <string name="milestone_notification_text">Det är totalt %s steg!\nFortsätt så.</string>
-    <string name="notification_category_milestone">Milstolpar</string>
     <string name="notification_description_milestone">Aviseringar när du når milstolpar för antal steg</string>
     <string name="milestone_short_millions">%1$d mn</string>
     <string name="milestone_short_millions_decimal">%.1f mn</string>
@@ -272,7 +289,6 @@
     <string name="onboarding_steps_label">Fysisk aktivitet</string>
     <string name="onboarding_steps_title">Låt Stepsy upptäcka dina steg</string>
     <string name="onboarding_steps_body">Den här tillåtelsen behövs för att använda telefonens stegsensor.</string>
-    <string name="onboarding_steps_row">Fysisk aktivitet</string>
     <string name="onboarding_steps_idle">Inte tillåtet än</string>
     <string name="onboarding_steps_on">Tillåtet</string>
     <string name="onboarding_steps_denied">Inte tillåtet</string>
@@ -304,7 +320,6 @@
     <string name="onboarding_goal_title">Välja ett dagligt mål</string>
     <string name="onboarding_goal_body">Fyll förloppsindikatorn på startskärmen varje dag! Du kan välja en förinställning, ange ett eget mål eller stänga av det helt. Det går att ändra när som helst och påverkar inte din stegdata.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s och %3$d kcal / dag</string>
-    <string name="onboarding_reminders_title">Aviseringar</string>
     <string name="onboarding_reminders_summary">Valfritt: framsteg i liveaviseringen, uppmuntrande påminnelser när du närmar dig stegmålet och mer. Rekommenderas.</string>
     <string name="onboarding_reminders_on">Tillåtna</string>
     <string name="onboarding_reminders_blocked">Blockerade av Android. Tryck för att öppna aviseringsinställningarna</string>
@@ -312,11 +327,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">Stäng</string>
     <string name="onboarding_card_activity_title">Ge åtkomst till aktivitet</string>
-    <string name="onboarding_card_activity_summary">Den här tillåtelsen behövs för att använda telefonens stegsensor.</string>
     <string name="onboarding_card_battery_title">Stabil i bakgrunden</string>
     <string name="onboarding_card_battery_summary">Stepsy är lätt av design, men systemet kan hindra appen från att räkna steg pålitligt. Låt appen arbeta i bakgrunden.</string>
-    <string name="onboarding_card_notifications_title">Aviseringar</string>
-    <string name="onboarding_card_notifications_summary">Valfritt: framsteg i liveaviseringen, uppmuntrande påminnelser när du närmar dig stegmålet och mer. Rekommenderas.</string>
     <string name="onboarding_strip_title">Räknar inte steg</string>
     <string name="onboarding_strip_summary">Tryck för att tillåta stegavkänning.</string>
     <string name="onboarding_welcome_headline_b">Lätt stegräknare.</string>

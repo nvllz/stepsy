@@ -850,7 +850,7 @@ private fun MilestoneDialog(m: MilestoneAchievement, firstDate: String?, date: (
                     StatSeparator()
                     Stat(
                         stringResource(R.string.milestone_label_took),
-                        ctx.resources.getQuantityString(R.plurals.milestone_reached_in_days, it, it),
+                        ctx.resources.getQuantityString(R.plurals.days_with_count, it, it),
                         Modifier.weight(1f),
                     )
                 }

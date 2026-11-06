@@ -21,9 +21,12 @@
         <item quantity="one">gün</item>
         <item quantity="other">gün</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">Bugün</string>
     <string name="header_week">Bu hafta</string>
     <string name="header_month">Bu ay</string>
     <string name="header_7d">Son 7 gün</string>
@@ -47,10 +50,6 @@
         <item quantity="other">Hedefe %d kez ulaşıldı</item>
     </plurals>
     <string name="goal_streak_line">Hedef: %1$s · %2$s %3$s serisi</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d gün</item>
-        <item quantity="other">%d gün</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">%1$d günlük hedef serisi</item>
         <item quantity="other">%1$d günlük hedef serisi</item>
@@ -61,6 +60,21 @@
     <string name="confirm_decrease_message">Bu değer mevcut adım sayısından daha düşük. Devam etmek istediğinizden emin misiniz?</string>
     <string name="invalid_step_count">Lütfen geçerli bir sayı girin</string>
     <string name="steps_updated">Adım sayısı güncellendi</string>
+    <string name="hourly_average_title">Saatlik ortalama</string>
+    <string name="hourly_average_message">Ortalamaya bu aralıktaki %2$d günün %1$d günü dahildir. Bir günün adımlarının çoğunun kayıtlı saati yoksa o gün atlanır. Saatlik takip kapalıyken veya günlük toplam ayarlandığında böyle olabilir.</string>
+    <string name="hourly_no_data_day">Bu gün için saatlik veri yok</string>
+    <string name="hourly_average_empty">Bu aralık için ortalama grafiği çizmeye yetecek saatlik veri yok</string>
+    <string name="hourly_average_empty_message">Aralıktaki %1$s günün hiçbiri için saatlik veri yok. Saatlik veriler yalnızca bu cihazda kaydedilen günler için bulunur.</string>
+    <string name="hourly_no_data_before">%1$s öncesi için saatlik veri yok</string>
+    <string name="hourly_untimed_steps">Saati olmayan adımlar: %1$s</string>
+    <string name="hourly_view_chart">Grafik</string>
+    <string name="hourly_view_bars">Çubuklar</string>
+    <string name="hourly_today_short">Bugün %1$s</string>
+    <string name="hourly_hour_adjusted">ayarlandı %1$s</string>
+
+    <string name="daily_average_title">Günlük ortalama</string>
+    <string name="chart_view_hourly">Saatlik</string>
+    <string name="chart_view_daily">Günlük</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">Başarılar</string>
@@ -71,10 +85,6 @@
     <string name="milestone_label_distance">Mesafe</string>
     <string name="milestone_label_date">Ulaşıldı</string>
     <string name="milestone_label_took">Alınan süre</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d gün</item>
-        <item quantity="other">%d gün</item>
-    </plurals>
     <string name="milestone_notifications_toggle">Kilometre taşı bildirimleri</string>
     <string name="milestone_notifications_enabled">Kilometre taşı bildirimleri açık</string>
     <string name="milestone_notifications_disabled">Kilometre taşı bildirimleri kapalı</string>
@@ -132,6 +142,10 @@
     <string name="pref_vehicle_filter_summary_foss">Google Play Hizmetleri API\'si ile daha doğru adım tanıma, yalnızca tam sürümde mevcuttur. Github\'dan edinebilirsiniz (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Etkinlik Tanıma API\'si bu cihazda kullanılamıyor</string>
     <string name="unit_system">Birim sistemi</string>
+    <string name="day_start_title">Günün başladığı saat</string>
+    <string name="day_start_description">Gününüzün ne zaman başlayacağını seçin. Bu saatten önce atılan adımlar önceki güne sayılır. Bunu yalnızca gece yarısına yakın saatlerde aktifseniz ve günün daha erken başlamasını ya da daha geç bitmesini istiyorsanız değiştirmek isteyebilirsiniz. Yeni bir başlangıç saati seçmek adım verilerinizi etkilemez, çünkü bu veriler her zaman belirli bir tarihe atanır.</string>
+    <string name="day_start_applies_toast">Yeni gün başlangıcı %1$s itibarıyla geçerli olur.</string>
+    <string name="day_start_applies_toast_tomorrow">Yeni gün başlangıcı yarın saat %1$s itibarıyla geçerli olur.</string>
     <string name="date_format">Tarih biçimi</string>
     <string name="first_day_of_the_week">Haftanın ilk günü</string>
     <string name="app_language">Dil</string>
@@ -139,6 +153,12 @@
     <string name="preference_system">Sistem varsayılanı</string>
     <string name="theme_light">Açık</string>
     <string name="theme_dark">Koyu</string>
+    <string name="hourly_breakdown_title">Saatlik döküm</string>
+    <string name="hourly_breakdown_summary">Adımlarınızın gün boyunca nasıl dağıldığını görün. Saatlik grafiği gizlemek için kapatın.</string>
+    <string name="hourly_off_confirm_title">Saatlik döküm kapatılsın mı?</string>
+    <string name="hourly_off_confirm_message">Artık saatlik adım verisi kaydedilmeyecek. Emin misiniz?</string>
+    <string name="hourly_off_confirm_action">Kapat</string>
+    <string name="hourly_off_confirm_clear_data">Kayıtlı saatlik verileri sil</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">Uygulama verilerini dışa aktar ve geri yükle</string>
@@ -148,7 +168,6 @@
     <string name="backup_location_not_set">Ayarlanmadı</string>
     <string name="manual_backup">Manuel yedekleme</string>
     <string name="manual_backup_successful">Manuel yedekleme başarılı</string>
-    <string name="import_data">İçe aktar</string>
     <string name="import_data_summary">Adım verilerini bir dosyadan geri yükle</string>
     <string name="import_invalid_file">Bu dosya geçersiz</string>
     <string name="import_warning_title">Adım verilerini değiştir</string>
@@ -206,7 +225,6 @@
     <string name="action_resume">Devam et</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">Hedefe ulaşıldı</string>
     <string name="channel_goal_desc">Günlük adım hedefine ulaşılınca küçük bir ödül</string>
     <string name="channel_reminders_name">Teşvik edici hatırlatmalar</string>
     <string name="channel_reminders_desc">Hedefe yaklaşırken hatırlatmalar</string>
@@ -219,7 +237,6 @@
     <string name="encouraging_late_2">Son hamle: %1$s tamam, %2$s kaldı.</string>
     <string name="milestone_notification_title">%s adımına ulaştın!</string>
     <string name="milestone_notification_text">Toplam %s adım!\nDevam et.</string>
-    <string name="notification_category_milestone">Kilometre Taşları</string>
     <string name="notification_description_milestone">Adım kilometre taşlarına ulaşıldığında bildirimler</string>
     <string name="milestone_short_millions">%1$d Mn</string>
     <string name="milestone_short_millions_decimal">%.1f Mn</string>
@@ -272,7 +289,6 @@
     <string name="onboarding_steps_label">Fiziksel Etkinlik</string>
     <string name="onboarding_steps_title">Stepsy adımlarınızı algılasın</string>
     <string name="onboarding_steps_body">Bu izin, telefonunuzun adım algılama sensörünü kullanmak için gereklidir.</string>
-    <string name="onboarding_steps_row">Fiziksel Etkinlik</string>
     <string name="onboarding_steps_idle">Henüz izin verilmedi</string>
     <string name="onboarding_steps_on">İzin verildi</string>
     <string name="onboarding_steps_denied">İzin verilmedi</string>
@@ -304,7 +320,6 @@
     <string name="onboarding_goal_title">Günlük hedef seçmek</string>
     <string name="onboarding_goal_body">Ana ekrandaki ilerleme çubuğunu her gün doldurun! Hazır bir değer seçebilir, kendi hedefinizi belirleyebilir ya da tamamen kapatabilirsiniz. İstediğiniz zaman değiştirilebilir ve adım verilerinizi etkilemez.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s ve %3$d kcal / gün</string>
-    <string name="onboarding_reminders_title">Bildirimler</string>
     <string name="onboarding_reminders_summary">İsteğe bağlı: canlı bildirimde ilerleme, adım hedefine yaklaşırken teşvik edici hatırlatmalar ve daha fazlası. Önerilir.</string>
     <string name="onboarding_reminders_on">İzin verildi</string>
     <string name="onboarding_reminders_blocked">Android tarafından engellendi. Bildirim ayarlarını açmak için dokunun</string>
@@ -312,11 +327,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">Kapat</string>
     <string name="onboarding_card_activity_title">Etkinliğe erişim ver</string>
-    <string name="onboarding_card_activity_summary">Bu izin, telefonunuzun adım algılama sensörünü kullanmak için gereklidir.</string>
     <string name="onboarding_card_battery_title">Arka planda kararlılık</string>
     <string name="onboarding_card_battery_summary">Stepsy tasarım gereği hafiftir, ancak sisteminiz adımları güvenilir biçimde saymasını engelleyebilir. Uygulamanın arka planda çalışmasına izin verin.</string>
-    <string name="onboarding_card_notifications_title">Bildirimler</string>
-    <string name="onboarding_card_notifications_summary">İsteğe bağlı: canlı bildirimde ilerleme, adım hedefine yaklaşırken teşvik edici hatırlatmalar ve daha fazlası. Önerilir.</string>
     <string name="onboarding_strip_title">Adımlar sayılmıyor</string>
     <string name="onboarding_strip_summary">Adım algılamaya izin vermek için dokunun.</string>
     <string name="onboarding_welcome_headline_b">Hafif adım sayar.</string>

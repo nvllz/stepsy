@@ -685,7 +685,7 @@ internal fun HomeScreen(
                                                 )
                                             }
                                             Text(
-                                                pluralStringResource(R.plurals.streak_record_count, days, days),
+                                                pluralStringResource(R.plurals.days_with_count, days, days),
                                                 fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = streakColor,
                                             )
                                         }

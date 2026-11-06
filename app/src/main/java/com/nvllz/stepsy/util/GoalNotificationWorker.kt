@@ -182,7 +182,7 @@ object GoalNotificationWorker {
         if (notificationManager.getNotificationChannel(channelId) == null) {
             val channel = NotificationChannel(
                 channelId,
-                context.getString(R.string.notification_category_milestone),
+                context.getString(R.string.milestone_achievements),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = context.getString(R.string.notification_description_milestone)

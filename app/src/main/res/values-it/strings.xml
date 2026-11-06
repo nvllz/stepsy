@@ -24,9 +24,13 @@
         <item quantity="many">giorni</item>
         <item quantity="other">giorni</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d giorno</item>
+        <item quantity="many">%d giorni</item>
+        <item quantity="other">%d giorni</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">Oggi</string>
     <string name="header_week">Questa settimana</string>
     <string name="header_month">Questo mese</string>
     <string name="header_7d">Ultimi 7 giorni</string>
@@ -51,11 +55,6 @@
         <item quantity="other">Obiettivo raggiunto %d volte</item>
     </plurals>
     <string name="goal_streak_line">Obiettivo: %1$s · serie di %2$s %3$s</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d giorno</item>
-        <item quantity="many">%d giorni</item>
-        <item quantity="other">%d giorni</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">Serie di %1$d giorno per l’obiettivo</item>
         <item quantity="many">Serie di %1$d giorni per l’obiettivo</item>
@@ -67,6 +66,21 @@
     <string name="confirm_decrease_message">Questo valore è inferiore al conteggio attuale dei passi. Vuoi procedere?</string>
     <string name="invalid_step_count">Inserisci un numero valido</string>
     <string name="steps_updated">Conteggio dei passi aggiornato</string>
+    <string name="hourly_average_title">Media oraria</string>
+    <string name="hourly_average_message">La media include %1$d dei %2$d giorni di questo intervallo. Un giorno viene saltato se la maggior parte dei suoi passi non ha un orario registrato. Può succedere se il rilevamento orario era disattivato o se il totale giornaliero è stato modificato.</string>
+    <string name="hourly_no_data_day">Nessun dato orario per questo giorno</string>
+    <string name="hourly_average_empty">Dati orari insufficienti per disegnare un grafico della media in questo intervallo</string>
+    <string name="hourly_average_empty_message">Non ci sono dati orari per nessuno dei %1$s giorni dell’intervallo. I dati orari sono disponibili solo per i giorni registrati su questo dispositivo.</string>
+    <string name="hourly_no_data_before">Nessun dato orario prima di %1$s</string>
+    <string name="hourly_untimed_steps">Passi senza orario: %1$s</string>
+    <string name="hourly_view_chart">Grafico</string>
+    <string name="hourly_view_bars">Barre</string>
+    <string name="hourly_today_short">%1$s oggi</string>
+    <string name="hourly_hour_adjusted">modificato %1$s</string>
+
+    <string name="daily_average_title">Media giornaliera</string>
+    <string name="chart_view_hourly">Per ora</string>
+    <string name="chart_view_daily">Per giorno</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">Risultati</string>
@@ -77,11 +91,6 @@
     <string name="milestone_label_distance">Distanza</string>
     <string name="milestone_label_date">Raggiunto</string>
     <string name="milestone_label_took">Tempo impiegato</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d giorno</item>
-        <item quantity="many">%d giorni</item>
-        <item quantity="other">%d giorni</item>
-    </plurals>
     <string name="milestone_notifications_toggle">Notifiche dei traguardi</string>
     <string name="milestone_notifications_enabled">Notifiche dei traguardi attivate</string>
     <string name="milestone_notifications_disabled">Notifiche dei traguardi disattivate</string>
@@ -139,6 +148,10 @@
     <string name="pref_vehicle_filter_summary_foss">Riconoscimento passi più accurato tramite Google Play Services API, solo nella build completa. Disponibile su Github (github.com/nvllz/stepsy).</string>
     <string name="vehicle_filter_unavailable">Activity Recognition API non è disponibile su questo dispositivo</string>
     <string name="unit_system">Sistema di unità</string>
+    <string name="day_start_title">Il giorno inizia alle</string>
+    <string name="day_start_description">Scegli quando inizia la tua giornata. I passi fatti prima di quest’ora contano per il giorno precedente. Potresti volerlo cambiare solo se sei attivo vicino alla mezzanotte e vuoi che Stepsy consideri la giornata come iniziata prima o finita dopo. Scegliere un nuovo orario di inizio non influisce sui tuoi dati dei passi, che sono sempre assegnati a una data precisa.</string>
+    <string name="day_start_applies_toast">Il nuovo inizio del giorno si applica da %1$s.</string>
+    <string name="day_start_applies_toast_tomorrow">Il nuovo inizio del giorno si applica da domani alle %1$s.</string>
     <string name="date_format">Formato data</string>
     <string name="first_day_of_the_week">Primo giorno della settimana</string>
     <string name="app_language">Lingua</string>
@@ -146,6 +159,12 @@
     <string name="preference_system">Di sistema</string>
     <string name="theme_light">Chiaro</string>
     <string name="theme_dark">Scuro</string>
+    <string name="hourly_breakdown_title">Suddivisione oraria</string>
+    <string name="hourly_breakdown_summary">Guarda come si distribuiscono i tuoi passi durante la giornata. Disattiva per nascondere il grafico orario.</string>
+    <string name="hourly_off_confirm_title">Disattivare la suddivisione oraria?</string>
+    <string name="hourly_off_confirm_message">Non verranno più registrati dati orari dei passi. Sei sicuro?</string>
+    <string name="hourly_off_confirm_action">Disattiva</string>
+    <string name="hourly_off_confirm_clear_data">Elimina i dati orari salvati</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">Esporta e ripristina i dati dell’app</string>
@@ -155,7 +174,6 @@
     <string name="backup_location_not_set">Non impostata</string>
     <string name="manual_backup">Backup manuale</string>
     <string name="manual_backup_successful">Backup manuale completato con successo</string>
-    <string name="import_data">Importa</string>
     <string name="import_data_summary">Ripristina i dati dei passi da un file</string>
     <string name="import_invalid_file">Questo file non è valido</string>
     <string name="import_warning_title">Sostituire i dati dei passi</string>
@@ -213,7 +231,6 @@
     <string name="action_resume">Riprendi</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">Obiettivo raggiunto</string>
     <string name="channel_goal_desc">Una piccola soddisfazione quando raggiungi l’obiettivo giornaliero di passi</string>
     <string name="channel_reminders_name">Promemoria incoraggianti</string>
     <string name="channel_reminders_desc">Promemoria quando ti avvicini all’obiettivo</string>
@@ -226,7 +243,6 @@
     <string name="encouraging_late_2">Ultimo sforzo: quota %1$s, mancano %2$s.</string>
     <string name="milestone_notification_title">Hai raggiunto %s!</string>
     <string name="milestone_notification_text">Sono %s passi in totale!\nContinua così.</string>
-    <string name="notification_category_milestone">Traguardi</string>
     <string name="notification_description_milestone">Notifiche per il raggiungimento dei traguardi di passi</string>
     <string name="milestone_short_millions">%1$d Mln</string>
     <string name="milestone_short_millions_decimal">%.1f Mln</string>
@@ -280,7 +296,6 @@
     <string name="onboarding_steps_label">Attività fisica</string>
     <string name="onboarding_steps_title">Consenti a Stepsy di rilevare i tuoi passi</string>
     <string name="onboarding_steps_body">Questo permesso serve per usare il sensore di rilevamento passi del telefono.</string>
-    <string name="onboarding_steps_row">Attività fisica</string>
     <string name="onboarding_steps_idle">Non ancora consentito</string>
     <string name="onboarding_steps_on">Consentito</string>
     <string name="onboarding_steps_denied">Non consentito</string>
@@ -312,7 +327,6 @@
     <string name="onboarding_goal_title">Scegliere un obiettivo giornaliero</string>
     <string name="onboarding_goal_body">Riempi ogni giorno la barra di avanzamento nella schermata iniziale! Puoi scegliere un valore predefinito, impostarne uno tuo o disattivarlo del tutto. Si può cambiare quando vuoi e non influisce sui dati dei passi.</string>
     <string name="onboarding_goal_preview">~%1$s %2$s e %3$d kcal / giorno</string>
-    <string name="onboarding_reminders_title">Notifiche</string>
     <string name="onboarding_reminders_summary">Facoltativo: avanzamento nella notifica live, promemoria incoraggianti quando ti avvicini all’obiettivo di passi e altro. Consigliato.</string>
     <string name="onboarding_reminders_on">Consentite</string>
     <string name="onboarding_reminders_blocked">Bloccate da Android. Tocca per aprire le impostazioni delle notifiche</string>
@@ -320,11 +334,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">Chiudi</string>
     <string name="onboarding_card_activity_title">Consenti l’accesso all’attività</string>
-    <string name="onboarding_card_activity_summary">Questo permesso serve per usare il sensore di rilevamento passi del telefono.</string>
     <string name="onboarding_card_battery_title">Stabilità in background</string>
     <string name="onboarding_card_battery_summary">Stepsy è leggera per progettazione, ma il sistema potrebbe impedirle di contare i passi in modo affidabile. Consenti all’app di funzionare in background.</string>
-    <string name="onboarding_card_notifications_title">Notifiche</string>
-    <string name="onboarding_card_notifications_summary">Facoltativo: avanzamento nella notifica live, promemoria incoraggianti quando ti avvicini all’obiettivo di passi e altro. Consigliato.</string>
     <string name="onboarding_strip_title">I passi non vengono contati</string>
     <string name="onboarding_strip_summary">Tocca per consentire il rilevamento dei passi.</string>
     <string name="onboarding_welcome_headline_b">Contapassi leggero.</string>

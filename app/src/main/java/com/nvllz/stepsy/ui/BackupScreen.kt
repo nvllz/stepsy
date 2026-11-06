@@ -229,7 +229,7 @@ fun BackupScreen(onBack: () -> Unit) {
 
             SettingGroup {
                 SettingRow(
-                    title = stringResource(R.string.import_data),
+                    title = stringResource(R.string.section_import),
                     summary = stringResource(R.string.import_data_summary),
                     icon = R.drawable.ic_import,
                     onClick = ::promptImport,

@@ -21,9 +21,12 @@
         <item quantity="one">日</item>
         <item quantity="other">日</item>
     </plurals>
+    <plurals name="days_with_count">
+        <item quantity="one">%d 日</item>
+        <item quantity="other">%d 日</item>
+    </plurals>
 
     <!-- Screen: Home -->
-    <string name="header_today">今日</string>
     <string name="header_week">今週</string>
     <string name="header_month">今月</string>
     <string name="header_7d">過去7日間</string>
@@ -47,10 +50,6 @@
         <item quantity="other">目標を%d回達成</item>
     </plurals>
     <string name="goal_streak_line">目標: %1$s ・ %2$s %3$s連続達成</string>
-    <plurals name="streak_record_count">
-        <item quantity="one">%d 日</item>
-        <item quantity="other">%d 日</item>
-    </plurals>
     <plurals name="streak_segment_description">
         <item quantity="one">%1$d日連続の目標達成</item>
         <item quantity="other">%1$d日連続の目標達成</item>
@@ -61,6 +60,21 @@
     <string name="confirm_decrease_message">現在の歩数より低い値です。本当に進めますか？</string>
     <string name="invalid_step_count">有効な数値を入力してください</string>
     <string name="steps_updated">歩数が更新されました</string>
+    <string name="hourly_average_title">1時間ごとの平均</string>
+    <string name="hourly_average_message">この期間の%2$d日のうち%1$d日が平均に含まれています。ほとんどの歩数に記録時刻がない日は除外されます。時間別の記録がオフだった場合や、1日の合計を調整した場合に起こることがあります。</string>
+    <string name="hourly_no_data_day">この日の時間別データはありません</string>
+    <string name="hourly_average_empty">この期間の平均グラフを描くための時間別データが足りません</string>
+    <string name="hourly_average_empty_message">期間内の%1$s日分すべてについて、時間別データがありません。時間別データは、この端末で記録した日にのみ利用できます。</string>
+    <string name="hourly_no_data_before">%1$sより前の時間別データはありません</string>
+    <string name="hourly_untimed_steps">時刻のない歩数: %1$s</string>
+    <string name="hourly_view_chart">グラフ</string>
+    <string name="hourly_view_bars">棒グラフ</string>
+    <string name="hourly_today_short">今日 %1$s</string>
+    <string name="hourly_hour_adjusted">調整済み %1$s</string>
+
+    <string name="daily_average_title">1日の平均</string>
+    <string name="chart_view_hourly">時間別</string>
+    <string name="chart_view_daily">日別</string>
 
     <!-- Screen: Achievements -->
     <string name="achievements_title">実績</string>
@@ -71,10 +85,6 @@
     <string name="milestone_label_distance">距離</string>
     <string name="milestone_label_date">達成日</string>
     <string name="milestone_label_took">所要時間</string>
-    <plurals name="milestone_reached_in_days">
-        <item quantity="one">%d 日</item>
-        <item quantity="other">%d 日</item>
-    </plurals>
     <string name="milestone_notifications_toggle">マイルストーン通知</string>
     <string name="milestone_notifications_enabled">マイルストーン通知をオンにしました</string>
     <string name="milestone_notifications_disabled">マイルストーン通知をオフにしました</string>
@@ -132,6 +142,10 @@
     <string name="pref_vehicle_filter_summary_foss">Google Play Services API を使用したより正確な歩数認識。フルビルドでのみ利用可能。 Github (github.com/nvllz/stepsy) で入手できます。</string>
     <string name="vehicle_filter_unavailable">このデバイスではActivity Recognition API を使用できません</string>
     <string name="unit_system">単位系</string>
+    <string name="day_start_title">1日の開始時刻</string>
+    <string name="day_start_description">1日が始まる時刻を選びます。この時刻より前の歩数は前日分として数えられます。真夜中ごろに活動することが多く、1日の始まりを早めたり終わりを遅らせたりしたい場合のみ変更してください。開始時刻を変更しても、歩数データは常に特定の日付に紐づいているため影響はありません。</string>
+    <string name="day_start_applies_toast">新しい開始時刻は%1$sから適用されます。</string>
+    <string name="day_start_applies_toast_tomorrow">新しい開始時刻は明日の%1$sから適用されます。</string>
     <string name="date_format">日付形式</string>
     <string name="first_day_of_the_week">週の開始曜日</string>
     <string name="app_language">言語</string>
@@ -139,6 +153,12 @@
     <string name="preference_system">システム</string>
     <string name="theme_light">ライト</string>
     <string name="theme_dark">ダーク</string>
+    <string name="hourly_breakdown_title">時間別の内訳</string>
+    <string name="hourly_breakdown_summary">1日の中で歩数がどう分布しているかを確認できます。オフにすると時間別グラフが非表示になります。</string>
+    <string name="hourly_off_confirm_title">時間別の内訳をオフにしますか？</string>
+    <string name="hourly_off_confirm_message">今後、時間別の歩数データは記録されません。よろしいですか？</string>
+    <string name="hourly_off_confirm_action">オフにする</string>
+    <string name="hourly_off_confirm_clear_data">保存済みの時間別データを削除</string>
 
     <!-- Screen: Backup -->
     <string name="pref_backup_summary">アプリのデータをエクスポート・復元</string>
@@ -148,7 +168,6 @@
     <string name="backup_location_not_set">未設定</string>
     <string name="manual_backup">手動バックアップ</string>
     <string name="manual_backup_successful">手動バックアップが完了しました</string>
-    <string name="import_data">インポート</string>
     <string name="import_data_summary">ファイルから歩数データを復元</string>
     <string name="import_invalid_file">無効なファイルです</string>
     <string name="import_warning_title">歩数データの置き換え</string>
@@ -206,7 +225,6 @@
     <string name="action_resume">再開</string>
 
     <!-- Notifications: goal and milestone alerts -->
-    <string name="channel_goal_name">目標達成</string>
     <string name="channel_goal_desc">1日の目標歩数を達成したときのちょっとしたご褒美</string>
     <string name="channel_reminders_name">励ましリマインダー</string>
     <string name="channel_reminders_desc">目標が近づいたらお知らせします</string>
@@ -219,7 +237,6 @@
     <string name="encouraging_late_2">ラストスパート！%1$s達成、残り%2$sです。</string>
     <string name="milestone_notification_title">%s達成！</string>
     <string name="milestone_notification_text">合計%s歩です!\nこの調子で続けましょう。</string>
-    <string name="notification_category_milestone">マイルストーン</string>
     <string name="notification_description_milestone">歩数のマイルストーン達成時の通知</string>
     <string name="milestone_short_millions">%1$d万</string>
     <string name="milestone_short_millions_decimal">%.1f万</string>
@@ -272,7 +289,6 @@
     <string name="onboarding_steps_label">身体活動</string>
     <string name="onboarding_steps_title">Stepsyに歩数の検出を許可</string>
     <string name="onboarding_steps_body">端末の歩数検出センサーを使うために、この権限が必要です。</string>
-    <string name="onboarding_steps_row">身体活動</string>
     <string name="onboarding_steps_idle">まだ許可されていません</string>
     <string name="onboarding_steps_on">許可済み</string>
     <string name="onboarding_steps_denied">許可されていません</string>
@@ -304,7 +320,6 @@
     <string name="onboarding_goal_title">1日の目標を選ぶ</string>
     <string name="onboarding_goal_body">毎日、ホーム画面の進捗バーを満たしましょう！プリセットから選ぶことも、自分で設定することも、完全にオフにすることもできます。いつでも変更でき、歩数データには影響しません。</string>
     <string name="onboarding_goal_preview">~%1$s %2$s と %3$d kcal / 日</string>
-    <string name="onboarding_reminders_title">通知</string>
     <string name="onboarding_reminders_summary">オプション: ライブ通知での進捗表示、目標に近づいたときの励ましリマインダーなど。おすすめです。</string>
     <string name="onboarding_reminders_on">許可済み</string>
     <string name="onboarding_reminders_blocked">Androidによりブロック中です。タップして通知設定を開きます</string>
@@ -312,11 +327,8 @@
     <!-- Onboarding: Settings section + HomeScreen strip (permissions non granted) -->
     <string name="onboarding_card_dismiss">閉じる</string>
     <string name="onboarding_card_activity_title">身体活動へのアクセスを許可</string>
-    <string name="onboarding_card_activity_summary">端末の歩数検出センサーを使うために、この権限が必要です。</string>
     <string name="onboarding_card_battery_title">バックグラウンドでの安定動作</string>
     <string name="onboarding_card_battery_summary">Stepsyは軽量に作られていますが、システムによって正確なカウントが妨げられることがあります。アプリのバックグラウンド動作を許可してください。</string>
-    <string name="onboarding_card_notifications_title">通知</string>
-    <string name="onboarding_card_notifications_summary">オプション: ライブ通知での進捗表示、目標に近づいたときの励ましリマインダーなど。おすすめです。</string>
     <string name="onboarding_strip_title">歩数をカウントしていません</string>
     <string name="onboarding_strip_summary">タップして歩数の検出を許可します。</string>
     <string name="onboarding_welcome_headline_b">軽量な歩数計。</string>

@@ -381,7 +381,7 @@ fun DailyGoalsScreen(onBack: () -> Unit) {
                         listOf(
                             NotificationChannels.REMINDERS to R.string.channel_reminders_name,
                             MotionService.STEP_CHANNEL_ID to R.string.notification_category_steps_day,
-                            NotificationChannels.GOAL to R.string.channel_goal_name,
+                            NotificationChannels.GOAL to R.string.records_goal_reached,
                         ).forEachIndexed { index, (channel, name) ->
                             if (index > 0) SettingDivider()
                             SettingRow(
