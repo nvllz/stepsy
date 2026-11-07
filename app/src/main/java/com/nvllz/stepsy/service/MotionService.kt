@@ -62,6 +62,7 @@ internal class MotionService : Service() {
     private var mSlotWindowEnd = 0L
     private var mSlotWindowSlot = -1
     private var mSlotWindowDate = ""
+    private var mImportHold = false
     private var mSensorManager: SensorManager? = null
 
     private val pauseChannelId = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
@@ -77,6 +78,7 @@ internal class MotionService : Service() {
     override fun onCreate() {
         Log.d(TAG, "Creating MotionService")
 
+        isRunning = true
         serviceThread = HandlerThread(TAG)
         serviceThread.start()
         handler = Handler(serviceThread.getLooper())
@@ -221,8 +223,10 @@ internal class MotionService : Service() {
         val todayStr = Util.todayDateString()
 
         if (todayStr != mCurrentDate) {
-            Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
-            flushSlots()
+            if (!mImportHold) {
+                Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
+                flushSlots()
+            }
 
             lastDbWriteTime = currentTime
 
@@ -261,8 +265,10 @@ internal class MotionService : Service() {
         }
 
         if (currentTime - lastDbWriteTime >= dbWriteInterval || manualStepCountChange) {
-            Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
-            flushSlots()
+            if (!mImportHold) {
+                Database.getInstance(this).addEntry(mCurrentDate, mTodaysSteps)
+                flushSlots()
+            }
             lastDbWriteTime = currentTime
         }
 
@@ -473,6 +479,14 @@ internal class MotionService : Service() {
                     }
                     return
                 }
+                ACTION_IMPORT_HOLD -> {
+                    mImportHold = intent.getBooleanExtra(EXTRA_IMPORT_HOLD, false)
+                    if (mImportHold) {
+                        mSlotDirty = 0L
+                        invalidateSlotWindow()
+                    }
+                    return
+                }
             }
 
             AppPreferences.isPaused = isCountingPaused
@@ -482,9 +496,18 @@ internal class MotionService : Service() {
                 val dateExtra = it.getStringExtra(KEY_DATE)
                 if (!dateExtra.isNullOrEmpty()) mCurrentDate = dateExtra
                 mLastSteps = -1
+                if (it.hasExtra(KEY_STEPS)) {
+                    mImportHold = false
+                }
                 AppPreferences.steps = mTodaysSteps
                 AppPreferences.date = mCurrentDate
-                if (it.hasExtra(KEY_STEPS)) seedSlots()
+                if (it.hasExtra(KEY_STEPS)) {
+                    seedSlots()
+                    mLastNotifiedMilestone = AppPreferences.lastNotifiedMilestone
+                    goalReachedToday = AppPreferences.dailyGoalNotification
+                            && AppPreferences.dailyGoalTarget > 0
+                            && mTodaysSteps >= AppPreferences.dailyGoalTarget
+                }
                 handleStepUpdate()
                 recalcBaseTotal()
                 checkMilestones()
@@ -724,6 +747,7 @@ internal class MotionService : Service() {
     }
 
     override fun onDestroy() {
+        isRunning = false
         stopTimedPauseMonitoring()
         MidnightResetReceiver.cancelMidnightAlarm(this)
         if (::mListener.isInitialized) mSensorManager?.unregisterListener(mListener)
@@ -743,6 +767,9 @@ internal class MotionService : Service() {
         internal const val ACTION_RESUME_COUNTING = "com.nvllz.stepsy.action.RESUME_COUNTING"
         internal const val ACTION_TIMED_PAUSE_END = "com.nvllz.stepsy.action.TIMED_PAUSE_END"
         internal const val EXTRA_SUPPRESS_TOAST = "SUPPRESS_TOAST"
+        internal const val ACTION_IMPORT_HOLD = "com.nvllz.stepsy.action.IMPORT_HOLD"
+        internal const val EXTRA_IMPORT_HOLD = "IMPORT_HOLD"
+        @Volatile internal var isRunning = false
         private const val PAUSE_ALARM_REQ = 4201
         private const val FOREGROUND_ID = 3843
         private const val MAX_EVENT_AGE_MS = 12L * 60L * 60L * 1000L

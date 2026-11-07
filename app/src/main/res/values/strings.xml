@@ -139,7 +139,7 @@
     <string name="pref_step_length">Step length</string>
     <string name="pref_weight">Weight</string>
     <string name="pref_vehicle_filter_title">Accurate steps filtering</string>
-    <string name="pref_vehicle_filter_summary">Use offline Activity Recognition API to filter out steps detected in a car, bus, or on a bike. Requires Google Play Services</string>
+    <string name="pref_vehicle_filter_summary">Use offline Activity Recognition API to filter out steps detected in a car, bus, or on a bike. Requires Google Play Services.</string>
     <string name="pref_vehicle_filter_summary_foss">More accurate step recognition using the Activity Recognition API. Available only in the full build. Get it on Github (github.com/nvllz/stepsy)</string>
     <string name="vehicle_filter_unavailable">Activity Recognition is unavailable on this device</string>
     <string name="unit_system">Unit system</string>
@@ -189,12 +189,20 @@
     <string name="backup_retention_count">Number of backups to keep</string>
     <string name="backup_location">Auto backup location</string>
     <string name="backup_location_not_set">Not set</string>
-    <string name="manual_backup">Manual backup</string>
+    <string name="backup_location_required">Set a backup location first to enable automatic backups.</string>
+    <string name="manual_backup">Backup all data now</string>
     <string name="manual_backup_successful">Manual backup successful</string>
-    <string name="import_data_summary">Restore step data from a file</string>
+    <string name="backup_all_summary">Save your history, hourly data and settings to a .json file.</string>
+    <string name="section_legacy">Legacy</string>
+    <string name="legacy_export_title">Export to CSV</string>
+    <string name="legacy_export_summary">Steps only (date,steps), no hourly data. For spreadsheets and older versions.</string>
+    <string name="import_unsupported">This backup was created using a newer version of Stepsy. Update the app and try again.</string>
+    <string name="import_data_summary">Restore from a Stepsy backup .json or a legacy .csv file.</string>
     <string name="import_invalid_file">This file is invalid</string>
     <string name="import_warning_title">Replace step data</string>
     <string name="import_warning_message">All existing data will be replaced with the imported data. Continue?</string>
+    <string name="import_warning_full">This will replace all your data, settings, and hourly data with the backup data.</string>
+    <string name="import_warning_csv">This will replace your step history with the contents of the backup file and clear hourly data.</string>
     <string name="section_import">Import</string>
     <string name="section_export">Export</string>
     <string name="backup_retention_all">All</string>
@@ -334,7 +342,7 @@
 
     <!-- Onboarding: 4. height and weight -->
     <string name="onboarding_body_label">About you</string>
-    <string name="onboarding_body_title">personal details for estimates</string>
+    <string name="onboarding_body_title">Personal details for estimates</string>
     <string name="onboarding_body_body">Height decides your step length, and weight the calorie burn estimate. Both stay on this phone only.</string>
     <string name="onboarding_body_note">You can adjust these preferences later in settings.</string>
 

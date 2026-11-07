@@ -192,6 +192,75 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         }
     }
 
+    internal fun loadSlotsAll(): List<Triple<String, Int, Int>> {
+        val rows = mutableListOf<Triple<String, Int, Int>>()
+        val cursor = readableDatabase.query(
+            SLOTS_TABLE, arrayOf("date", "slot", "steps"),
+            null, null, null, null, "date ASC, slot ASC"
+        )
+        while (cursor.moveToNext()) {
+            rows.add(Triple(cursor.getString(0), cursor.getInt(1), cursor.getInt(2)))
+        }
+        cursor.close()
+        return rows
+    }
+
+    internal fun loadAdjustAll(): List<Triple<String, Int, Int>> {
+        val rows = mutableListOf<Triple<String, Int, Int>>()
+        val cursor = readableDatabase.query(
+            ADJUST_TABLE, arrayOf("date", "minute", "delta"),
+            null, null, null, null, "date ASC, rowid ASC"
+        )
+        while (cursor.moveToNext()) {
+            rows.add(Triple(cursor.getString(0), cursor.getInt(1), cursor.getInt(2)))
+        }
+        cursor.close()
+        return rows
+    }
+
+    internal fun replaceAllFromBackup(
+        entries: List<Pair<String, Int>>,
+        slots: List<Triple<String, Int, Int>>,
+        adjustments: List<Triple<String, Int, Int>>,
+    ) {
+        val db = writableDatabase
+        db.transaction {
+            db.compileStatement("DELETE FROM $HISTORY_TABLE").use { it.execute() }
+            db.compileStatement("DELETE FROM $SLOTS_TABLE").use { it.execute() }
+            db.compileStatement("DELETE FROM $ADJUST_TABLE").use { it.execute() }
+
+            db.compileStatement(
+                "INSERT OR REPLACE INTO $HISTORY_TABLE (date, stepsy) VALUES (?, ?)"
+            ).use { insertHistory ->
+                for ((date, steps) in entries) {
+                    insertHistory.bindString(1, date)
+                    insertHistory.bindLong(2, steps.toLong())
+                    insertHistory.executeInsert()
+                }
+            }
+            db.compileStatement(
+                "INSERT OR REPLACE INTO $SLOTS_TABLE (date, slot, steps) VALUES (?, ?, ?)"
+            ).use { insertSlot ->
+                for ((date, slot, steps) in slots) {
+                    insertSlot.bindString(1, date)
+                    insertSlot.bindLong(2, slot.toLong())
+                    insertSlot.bindLong(3, steps.toLong())
+                    insertSlot.executeInsert()
+                }
+            }
+            db.compileStatement(
+                "INSERT INTO $ADJUST_TABLE (date, minute, delta) VALUES (?, ?, ?)"
+            ).use { insertAdjust ->
+                for ((date, minute, delta) in adjustments) {
+                    insertAdjust.bindString(1, date)
+                    insertAdjust.bindLong(2, minute.toLong())
+                    insertAdjust.bindLong(3, delta.toLong())
+                    insertAdjust.executeInsert()
+                }
+            }
+        }
+    }
+
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(DATABASE_CREATE_HISTORY)
     }

@@ -57,6 +57,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.ui.components.ImportWarningDialog
+import com.nvllz.stepsy.ui.components.LocalToast
+import com.nvllz.stepsy.ui.components.ToastKind
 import com.nvllz.stepsy.ui.rememberNotificationAsk
 import com.nvllz.stepsy.ui.rememberStepsAsk
 import com.nvllz.stepsy.ui.theme.Chivo
@@ -92,6 +94,7 @@ internal fun OnboardingFlow(
     onFinished: () -> Unit,
 ) {
     val ctx = LocalContext.current
+    val toast = LocalToast.current
     val scope = rememberCoroutineScope()
     val sequence = remember { sequenceFor(ctx) }
     var index by rememberSaveable { mutableStateOf(0) }
@@ -153,6 +156,10 @@ internal fun OnboardingFlow(
                     onDataRestored()
                 }
                 is BackupImport.Result.Failed -> restoreState = RESTORE_FAILED
+                is BackupImport.Result.Unsupported ->
+                    scope.launch {
+                        toast.show(ctx.getString(R.string.import_unsupported), ToastKind.ERROR)
+                    }
             }
         }
     }
@@ -160,10 +167,20 @@ internal fun OnboardingFlow(
     val pickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         val uri = result.data?.data
         if (result.resultCode == Activity.RESULT_OK && uri != null) {
-            when {
-                !BackupImport.isFileValid(ctx, uri) -> restoreState = RESTORE_INVALID
-                BackupImport.hasHistory(ctx) -> pendingImport = uri
-                else -> importFrom(uri)
+            scope.launch {
+                val format = withContext(Dispatchers.IO) { BackupImport.detectFormat(ctx, uri) }
+                when (format) {
+                    BackupImport.Format.INVALID -> restoreState = RESTORE_INVALID
+                    BackupImport.Format.UNSUPPORTED -> {
+                        scope.launch {
+                            toast.show(ctx.getString(R.string.import_unsupported), ToastKind.ERROR)
+                        }
+                    }
+                    else -> {
+                        if (BackupImport.hasHistory(ctx)) pendingImport = uri
+                        else importFrom(uri)
+                    }
+                }
             }
         }
     }
