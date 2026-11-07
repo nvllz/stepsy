@@ -22,9 +22,11 @@ data class StepsyColors(
 )
 
 private val LocalColors = staticCompositionLocalOf<StepsyColors> { error("StepsyTheme missing") }
+private val LocalStepsyDark = staticCompositionLocalOf { false }
 
 object StepsyTheme {
     val colors: StepsyColors @Composable get() = LocalColors.current
+    val dark: Boolean @Composable get() = LocalStepsyDark.current
 }
 
 val Chivo = FontFamily(
@@ -92,7 +94,7 @@ fun StepsyTheme(
         bodyLarge = t.bodyLarge.c(), bodyMedium = t.bodyMedium.c(), bodySmall = t.bodySmall.c(),
         labelLarge = t.labelLarge.c(), labelMedium = t.labelMedium.c(), labelSmall = t.labelSmall.c(),
     )
-    CompositionLocalProvider(LocalColors provides colors) {
+    CompositionLocalProvider(LocalColors provides colors, LocalStepsyDark provides dark) {
         MaterialTheme(colorScheme = scheme, typography = typography) {
             if (drawBackground) {
                 Surface(color = colors.background, contentColor = onSurface, content = content)

@@ -107,7 +107,7 @@ internal fun HomeScreen(
     onUpdateSteps: (Int) -> Unit,
     stepsBlocked: Boolean = false,
     onFixSteps: () -> Unit = {},
-    onOpen: (Class<out Activity>) -> Unit,
+    onOpen: (Class<out Activity>, Int?) -> Unit,
 ) {
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -252,6 +252,9 @@ internal fun HomeScreen(
         if (wasPaused) version++
         newMilestones = hasUnseenMilestones(ctx)
         onPauseOrDispose { wasPaused = true }
+    }
+    val milestoneTarget = remember(newMilestones) {
+        (if (newMilestones) singleUnseenMilestone(ctx) ?: 0L else 0L).toInt()
     }
     LaunchedEffect(steps) {
         delay(5_000)
@@ -415,6 +418,7 @@ internal fun HomeScreen(
                 showToday = pickedDay != null || selection != Selection.Range(StepRange.TODAY),
                 onToday = ::jumpToToday,
                 newMilestones = newMilestones,
+                milestoneTarget = milestoneTarget,
             )
 
             AnimatedVisibility(
@@ -570,9 +574,9 @@ internal fun HomeScreen(
                                     }
                                     androidx.compose.animation.AnimatedVisibility(multLive, enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
                                         val lapColor = lapOf(lapPalette(), lapShown)
-                                        Text(multShown, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = lapColor,
+                                        Text(multShown, fontSize = 12.sp, lineHeight = 15.sp, fontWeight = FontWeight.Bold, color = lapColor,
                                             modifier = Modifier.clip(CircleShape).background(lapColor.copy(alpha = 0.15f))
-                                                .padding(horizontal = 10.dp, vertical = 1.dp))
+                                                .padding(horizontal = 5.dp, vertical = 0.dp))
                                     }
                                 }
                             }
@@ -616,7 +620,7 @@ internal fun HomeScreen(
                             ) {
                                 Row(
                                     Modifier
-                                        .padding(top = 14.dp)
+                                        .padding(top = 8.dp)
                                         .clip(CircleShape)
                                         .background(StepsyTheme.colors.accentOpaque)
                                         .clickable(role = Role.Button) {
@@ -1082,10 +1086,11 @@ internal fun FilterChipLabel(label: String, on: Boolean, modifier: Modifier = Mo
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
-    onOpen: (Class<out Activity>) -> Unit,
+    onOpen: (Class<out Activity>, Int?) -> Unit,
     showToday: Boolean,
     onToday: () -> Unit,
     newMilestones: Boolean,
+    milestoneTarget: Int,
 ) {
     var open by remember { mutableStateOf(false) }
     Box(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp).heightIn(min = 40.dp)) {
@@ -1129,7 +1134,7 @@ private fun TopBar(
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = LocalIndication.current,
-                            onClick = { onOpen(AchievementsActivity::class.java) },
+                            onClick = { onOpen(AchievementsActivity::class.java, milestoneTarget.takeIf { newMilestones }) },
                         ),
                 )
                 Box {
@@ -1195,7 +1200,7 @@ private fun TopBar(
                             },
                             onClick = {
                                 open = false
-                                onOpen(cls)
+                                onOpen(cls, null)
                             },
                         )
                     }

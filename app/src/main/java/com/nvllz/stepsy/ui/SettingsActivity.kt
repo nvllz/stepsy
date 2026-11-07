@@ -78,7 +78,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 }
 
-private fun windowInsetAppearance(window: Window, view: View, dark: Boolean) {
+internal fun windowInsetAppearance(window: Window, view: View, dark: Boolean) {
     val controller = WindowInsetsControllerCompat(window, view)
     controller.isAppearanceLightStatusBars = !dark
     controller.isAppearanceLightNavigationBars = !dark

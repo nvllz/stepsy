@@ -57,6 +57,7 @@ import com.nvllz.stepsy.ui.HourlyPoint
 import com.nvllz.stepsy.ui.theme.Chivo
 import com.nvllz.stepsy.ui.theme.StepsyTheme
 import com.nvllz.stepsy.util.Util
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
 import kotlin.math.abs
@@ -92,10 +93,7 @@ fun DayLineChart(
         var index = 0
         for (i in xs.indices) {
             while (index < adjustments.size && adjustments[index].minute <= xs[i]) {
-                val adjustment = adjustments[index]
-                val base = linearAt(xs, ys, adjustment.minute.toFloat())
-                highest = maxOf(highest, base + cumulative, base + cumulative + adjustment.delta)
-                cumulative += adjustment.delta
+                cumulative += adjustments[index].delta
                 index++
             }
             highest = maxOf(highest, ys[i] + cumulative)
@@ -408,6 +406,27 @@ fun DayBarChart(
         listOf(0, 360, 720, 1080, 1440).map { it to Util.timeLabel(ctx, it + dayShiftMinutes) }
     }
     val values = remember(points) { IntArray(24) { hourSteps(points, it) ?: 0 } }
+    val chipAlphas = remember { Array(24) { Animatable(if (adjustMarks[it]) 1f else 0f) } }
+    val chipMounted = remember { mutableStateOf(false) }
+    LaunchedEffect(adjustments) {
+        if (!chipMounted.value) {
+            chipMounted.value = true
+            for (i in 0 until 24) {
+                val target = if (adjustMarks[i]) 1f else 0f
+                if (chipAlphas[i].value != target) {
+                    chipAlphas[i].snapTo(target)
+                }
+            }
+        } else {
+            for (i in 0 until 24) {
+                val target = if (adjustMarks[i]) 1f else 0f
+                val alpha = chipAlphas[i]
+                if (alpha.targetValue != target) {
+                    launch { alpha.animateTo(target, tween(150, easing = FastOutSlowInEasing)) }
+                }
+            }
+        }
+    }
     val targetMax = maxOf(values.maxOrNull() ?: 0, 1).toFloat() * 1.05f
     val animated = values.map {
         animateFloatAsState(it.toFloat() / targetMax, tween(400, easing = FastOutSlowInEasing), label = "hourBar")
@@ -532,18 +551,20 @@ fun DayBarChart(
         val chipSize = iconPx + chipPad * 2
         val chipGap = 4.dp.toPx()
         for (i in 0 until 24) {
-            if (!adjustMarks[i]) continue
+            val chipAlpha = chipAlphas[i].value
+            if (chipAlpha <= 0.01f) continue
             val barH = (animated[i].value * (base - top) * growValue).coerceIn(0f, base - top)
             val cx = slot * i + slot / 2f
             val cy = (base - barH - chipGap - chipSize / 2f).coerceAtLeast(top + chipSize / 2f)
-            drawCircle(pillBase, chipSize / 2f, Offset(cx, cy))
-            drawCircle(pillOverlay, chipSize / 2f, Offset(cx, cy))
+            drawCircle(pillBase, chipSize / 2f, Offset(cx, cy), alpha = chipAlpha)
+            drawCircle(pillOverlay, chipSize / 2f, Offset(cx, cy), alpha = chipAlpha)
             drawImage(
                 errorIcon,
                 dstOffset = IntOffset(
                     (cx - iconPx / 2f).roundToInt(),
                     (cy - iconPx / 2f).roundToInt(),
                 ),
+                alpha = chipAlpha,
             )
         }
 

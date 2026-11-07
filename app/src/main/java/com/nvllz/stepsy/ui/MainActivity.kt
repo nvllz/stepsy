@@ -23,8 +23,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nvllz.stepsy.R
@@ -65,7 +67,17 @@ internal class MainActivity : AppCompatActivity() {
                 "dark" -> Configuration.UI_MODE_NIGHT_YES
                 else -> if (systemDark) Configuration.UI_MODE_NIGHT_YES else Configuration.UI_MODE_NIGHT_NO
             }
-            StepsyTheme(uiModeOverride = override) { Root() }
+            StepsyTheme(uiModeOverride = override) {
+                val dark = override == Configuration.UI_MODE_NIGHT_YES
+                val view = LocalView.current
+                DisposableEffect(dark) {
+                    (view.context as? Activity)?.window?.let { window ->
+                        windowInsetAppearance(window, view, dark)
+                    }
+                    onDispose { }
+                }
+                Root()
+            }
         }
     }
 
@@ -174,7 +186,11 @@ internal class MainActivity : AppCompatActivity() {
                                 ContextCompat.startForegroundService(ctx, Intent(ctx, MotionService::class.java)
                                     .putExtra("MANUAL_STEP_COUNT_CHANGE", true).putExtra(MotionService.KEY_STEPS, n))
                             },
-                            onOpen = { startActivity(Intent(ctx, it)) },
+                            onOpen = { cls, milestone ->
+                                startActivity(Intent(ctx, cls).apply {
+                                    milestone?.let { putExtra(AchievementsActivity.EXTRA_MILESTONE, it) }
+                                })
+                            },
                             stepsBlocked = stepsBlocked,
                             onFixSteps = askSteps,
                         )
