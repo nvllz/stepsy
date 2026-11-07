@@ -8,7 +8,11 @@ import androidx.compose.ui.unit.sp
 import com.nvllz.stepsy.R
 
 @Composable
-fun ImportWarningDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
+fun ImportWarningDialog(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+    message: String = stringResource(R.string.import_warning_message),
+) {
     StepsyDialog(
         title = stringResource(R.string.import_warning_title),
         onDismiss = onDismiss,
@@ -16,7 +20,7 @@ fun ImportWarningDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
         onConfirm = onConfirm,
     ) {
         Text(
-            stringResource(R.string.import_warning_message),
+            message,
             fontSize = 15.sp,
             lineHeight = 20.sp,
             color = MaterialTheme.colorScheme.onSurface,

@@ -2,6 +2,7 @@ package com.nvllz.stepsy.util
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import androidx.work.*
@@ -13,6 +14,8 @@ import java.util.concurrent.TimeUnit
 import androidx.core.net.toUri
 import kotlinx.coroutines.delay
 import androidx.core.content.edit
+import androidx.datastore.preferences.core.edit
+import kotlinx.coroutines.NonCancellable
 
 object BackupScheduler {
     private const val TAG = "BackupScheduler"
@@ -243,7 +246,6 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         }
 
         val uri = uriString.toUri()
-        val db = Database.getInstance(applicationContext)
 
         return try {
             withContext(Dispatchers.IO) {
@@ -258,28 +260,28 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
 
                 val documentDir = DocumentFile.fromTreeUri(applicationContext, uri) ?: run {
                     Log.e(TAG, "Cannot access backup directory")
-                    return@withContext Result.failure()
+                    return@withContext unusableLocationResult(uri)
                 }
 
                 if (!documentDir.exists()) {
                     Log.e(TAG, "Backup directory doesn't exist")
-                    return@withContext Result.failure()
+                    return@withContext unusableLocationResult(uri)
                 }
 
                 if (!documentDir.canWrite()) {
                     Log.e(TAG, "Cannot write to backup directory")
-                    return@withContext Result.failure()
+                    return@withContext unusableLocationResult(uri)
                 }
 
                 val dateFormat = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault())
-                val fileName = "stepsy_${dateFormat.format(Date())}.csv"
+                val fileName = "stepsy_${dateFormat.format(Date())}.json"
                 Log.d(TAG, "Attempting to create backup file: $fileName")
 
                 var backupFile: DocumentFile? = null
                 var attempts = 0
                 while (backupFile == null && attempts < 3) {
                     try {
-                        backupFile = documentDir.createFile("text/csv", fileName)
+                        backupFile = documentDir.createFile("application/json", fileName)
                         if (backupFile == null) {
                             Log.w(TAG, "Attempt ${attempts + 1}: File creation returned null")
                         }
@@ -294,27 +296,17 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
 
                 backupFile ?: run {
                     Log.e(TAG, "Failed to create backup file after 3 attempts")
-                    return@withContext Result.retry()
+                    return@withContext finalizeRetryResult(uri)
                 }
 
                 try {
-                    val firstDate = db.firstEntry
-                    val lastDate = db.lastEntry
-
                     applicationContext.contentResolver.openOutputStream(backupFile.uri)?.use { outputStream ->
-                        outputStream.bufferedWriter().use { writer ->
-                            if (firstDate != null && lastDate != null) {
-                                for (entry in db.getEntries(firstDate, lastDate)) {
-                                    writer.write("${entry.date},${entry.steps}\r\n")
-                                }
-                            }
-                            writer.flush()
-                            Log.d(TAG, "Backup completed successfully: ${backupFile.name}")
-                            updateNextBackupTimeAfterBackup(applicationContext)
-                        }
+                        BackupExport.writeFull(applicationContext, outputStream)
+                        Log.d(TAG, "Backup completed successfully: ${backupFile.name}")
+                        updateNextBackupTimeAfterBackup(applicationContext)
                     } ?: run {
                         Log.e(TAG, "Failed to open output stream")
-                        return@withContext Result.retry()
+                        return@withContext finalizeRetryResult(uri)
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "Error writing backup data", e)
@@ -323,13 +315,50 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                     } catch (deleteEx: Exception) {
                         Log.w(TAG, "Failed to delete partial backup", deleteEx)
                     }
-                    return@withContext Result.retry()
+                    return@withContext finalizeRetryResult(uri)
                 }
                 Result.success()
             }
         } catch (e: Exception) {
             Log.e(TAG, "Backup failed", e)
+            if (!hasPersistedWritePermission(uri)) {
+                disableAutoBackupAfterLocationLoss(uri)
+                return Result.failure()
+            }
             if (runAttemptCount < 3) Result.retry() else Result.failure()
+        }
+    }
+
+    private fun hasPersistedWritePermission(uri: Uri): Boolean {
+        return applicationContext.contentResolver.persistedUriPermissions.any {
+            it.uri == uri && it.isWritePermission
+        }
+    }
+
+    private suspend fun unusableLocationResult(uri: Uri): Result {
+        if (hasPersistedWritePermission(uri)) return Result.retry()
+        disableAutoBackupAfterLocationLoss(uri)
+        return Result.failure()
+    }
+
+    private suspend fun finalizeRetryResult(uri: Uri): Result {
+        if (runAttemptCount < 3) return Result.retry()
+        if (!hasPersistedWritePermission(uri)) disableAutoBackupAfterLocationLoss(uri)
+        return Result.failure()
+    }
+
+    private suspend fun disableAutoBackupAfterLocationLoss(uri: Uri) {
+        Log.w(TAG, "Backup location no longer accessible - clearing location and disabling auto backup")
+        withContext(NonCancellable) {
+            var wiped = false
+            AppPreferences.dataStore.edit { prefs ->
+                if (prefs[AppPreferences.PreferenceKeys.BACKUP_LOCATION_URI] == uri.toString()) {
+                    prefs.remove(AppPreferences.PreferenceKeys.BACKUP_LOCATION_URI)
+                    prefs[AppPreferences.PreferenceKeys.BACKUP_FREQUENCY] = "0"
+                    wiped = true
+                }
+            }
+            if (wiped) BackupScheduler.cancelBackup(applicationContext)
         }
     }
 
@@ -350,11 +379,12 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                     .filter { file ->
                         file.isFile &&
                                 file.name?.startsWith("stepsy_") == true &&
-                                file.name?.endsWith(".csv") == true
+                                (file.name?.endsWith(".csv") == true || file.name?.endsWith(".json") == true)
                     }
                     .mapNotNull { file ->
                         val name = file.name ?: return@mapNotNull null
-                        val timestamp = name.removePrefix("stepsy_").removeSuffix(".csv")
+                        val extension = if (name.endsWith(".csv")) "csv" else "json"
+                        val timestamp = name.removePrefix("stepsy_").removeSuffix(".$extension")
                         val parsedTime = try {
                             when {
                                 "-" in timestamp -> {
@@ -370,22 +400,26 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                             Log.w(TAG, "Failed to parse timestamp from: $name", e)
                             0L
                         }
-                        Pair(file, parsedTime)
+                        Triple(file, parsedTime, extension)
                     }
-                    .sortedByDescending { (_, timestamp) -> timestamp }
-                    .map { (file, _) -> file }
 
-                Log.d(TAG, "Found ${backupFiles.size} backup files, retaining $retentionCount")
+                val pools = backupFiles.groupBy { (_, _, extension) -> extension }
 
-                if (backupFiles.size > retentionCount) {
-                    val filesToDelete = backupFiles.drop(retentionCount)
-                    filesToDelete.forEach { file ->
-                        try {
-                            Log.d(TAG, "Attempting to delete: ${file.name}")
-                            val deleted = file.delete()
-                            Log.d(TAG, "Deleted old backup ${file.name}: $deleted")
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Error deleting backup ${file.name}", e)
+                Log.d(TAG, "Found ${backupFiles.size} backup files, retaining $retentionCount per extension")
+
+                for ((_, files) in pools) {
+                    val sorted = files.sortedByDescending { (_, timestamp, _) -> timestamp }
+                        .map { (file, _, _) -> file }
+                    if (sorted.size > retentionCount) {
+                        val filesToDelete = sorted.drop(retentionCount)
+                        filesToDelete.forEach { file ->
+                            try {
+                                Log.d(TAG, "Attempting to delete: ${file.name}")
+                                val deleted = file.delete()
+                                Log.d(TAG, "Deleted old backup ${file.name}: $deleted")
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Error deleting backup ${file.name}", e)
+                            }
                         }
                     }
                 }

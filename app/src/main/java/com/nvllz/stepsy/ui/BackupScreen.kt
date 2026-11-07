@@ -27,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -59,11 +60,13 @@ import com.nvllz.stepsy.ui.components.ToastKind
 import com.nvllz.stepsy.ui.components.ToastState
 import com.nvllz.stepsy.ui.theme.StepsyTheme
 import com.nvllz.stepsy.util.AppPreferences
+import com.nvllz.stepsy.util.BackupExport
 import com.nvllz.stepsy.util.BackupImport
 import com.nvllz.stepsy.util.BackupScheduler
-import com.nvllz.stepsy.util.Database
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -93,7 +96,6 @@ fun BackupScreen(onBack: () -> Unit) {
     var pendingRetention by remember { mutableStateOf<Int?>(null) }
     val frequency = pendingFrequency ?: storedFrequency
     val retention = pendingRetention ?: storedRetention
-    val locationSet = storedLocationUri != null
 
     var resumeTick by remember { mutableIntStateOf(0) }
     var scheduleTick by remember { mutableIntStateOf(0) }
@@ -106,8 +108,32 @@ fun BackupScreen(onBack: () -> Unit) {
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
+    val locationUsable = remember(storedLocationUri, resumeTick) {
+        val uriString = storedLocationUri
+        uriString != null && ctx.contentResolver.persistedUriPermissions.any {
+            it.uri == Uri.parse(uriString) && it.isWritePermission
+        }
+    }
+    val locationSet = storedLocationUri != null && locationUsable
+
+    LaunchedEffect(storedLocationUri, resumeTick) {
+        val uriString = storedLocationUri
+        if (uriString == null || locationUsable) return@LaunchedEffect
+        Log.d(TAG, "Backup folder access denied or revoked - clearing location and disabling auto backup")
+        BackupScheduler.cancelBackup(ctx)
+        AppPreferences.dataStore.edit { prefs ->
+            if (prefs[AppPreferences.PreferenceKeys.BACKUP_LOCATION_URI] == uriString) {
+                prefs.remove(AppPreferences.PreferenceKeys.BACKUP_LOCATION_URI)
+                prefs[AppPreferences.PreferenceKeys.BACKUP_FREQUENCY] = "0"
+            }
+        }
+    }
+
     var choosingFrequency by rememberSaveable { mutableStateOf(false) }
+    var pendingFrequencyLocation by rememberSaveable { mutableStateOf(false) }
     var pendingImportUri by remember { mutableStateOf<Uri?>(null) }
+    var pendingImportFormat by remember { mutableStateOf(BackupImport.Format.FULL) }
+    var pendingExportFull by rememberSaveable { mutableStateOf(false) }
 
     val frequencyOptions = remember(ctx) {
         val entries = ctx.resources.getStringArray(R.array.backup_frequency_entries)
@@ -125,14 +151,25 @@ fun BackupScreen(onBack: () -> Unit) {
     val backupLocationLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { uri ->
-                scope.launch {
-                    updateBackupLocation(ctx, uri)
+        val picked = result.data?.data
+        if (result.resultCode == Activity.RESULT_OK && picked != null) {
+            scope.launch {
+                val wantedFrequencyDialog = pendingFrequencyLocation
+                pendingFrequencyLocation = false
+                val applied = updateBackupLocation(ctx, picked)
+                if (applied) {
                     BackupScheduler.ensureBackupScheduled(ctx)
                     scheduleTick++
+                    if (wantedFrequencyDialog) {
+                        choosingFrequency = true
+                    }
+                } else if (wantedFrequencyDialog) {
+                    toast.show(ctx.getString(R.string.backup_location_required), ToastKind.ERROR)
                 }
             }
+        } else if (pendingFrequencyLocation) {
+            pendingFrequencyLocation = false
+            toast.show(ctx.getString(R.string.backup_location_required), ToastKind.ERROR)
         }
     }
 
@@ -141,10 +178,22 @@ fun BackupScreen(onBack: () -> Unit) {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             result.data?.data?.let { uri ->
-                if (BackupImport.isFileValid(ctx, uri)) {
-                    pendingImportUri = uri
-                } else {
-                    toast.show(ctx.getString(R.string.import_invalid_file), ToastKind.ERROR)
+                scope.launch {
+                    val format = withContext(Dispatchers.IO) { BackupImport.detectFormat(ctx, uri) }
+                    when (format) {
+                        BackupImport.Format.FULL -> {
+                            pendingImportUri = uri
+                            pendingImportFormat = BackupImport.Format.FULL
+                        }
+                        BackupImport.Format.CSV -> {
+                            pendingImportUri = uri
+                            pendingImportFormat = BackupImport.Format.CSV
+                        }
+                        BackupImport.Format.UNSUPPORTED ->
+                            toast.show(ctx.getString(R.string.import_unsupported), ToastKind.ERROR)
+                        BackupImport.Format.INVALID ->
+                            toast.show(ctx.getString(R.string.import_invalid_file), ToastKind.ERROR)
+                    }
                 }
             }
         }
@@ -155,12 +204,29 @@ fun BackupScreen(onBack: () -> Unit) {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             result.data?.data?.let { uri ->
-                scope.launch { exportToUri(ctx, uri, toast) }
+                scope.launch {
+                    withContext(Dispatchers.IO) { exportToUri(ctx, uri, toast, pendingExportFull) }
+                }
             }
         }
     }
 
-    fun promptManualExport() {
+    fun promptFullExport() {
+        pendingExportFull = true
+        val fileName = "stepsy_${SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault()).format(Date())}.json"
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "application/json"
+            putExtra(Intent.EXTRA_TITLE, fileName)
+            storedLocationUri?.let { uriString ->
+                putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(uriString))
+            }
+        }
+        exportLauncher.launch(intent)
+    }
+
+    fun promptLegacyExport() {
+        pendingExportFull = false
         val fileName = "stepsy_${SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault()).format(Date())}.csv"
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -175,6 +241,44 @@ fun BackupScreen(onBack: () -> Unit) {
 
     fun promptImport() {
         importLauncher.launch(BackupImport.pickerIntent())
+    }
+
+    fun promptBackupLocation(openFrequencyAfterwards: Boolean) {
+        pendingFrequencyLocation = openFrequencyAfterwards
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
+                    Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+        }
+        backupLocationLauncher.launch(intent)
+    }
+
+    fun importRequested(uri: Uri) {
+        scope.launch {
+            val result = withContext(Dispatchers.IO) {
+                try {
+                    BackupImport.importAndClear(ctx, uri)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Import failed", e)
+                    BackupImport.Result.Failed
+                }
+            }
+            when (result) {
+                is BackupImport.Result.Failed ->
+                    toast.show(ctx.getString(R.string.cannot_open_file), ToastKind.ERROR)
+                is BackupImport.Result.Unsupported ->
+                    toast.show(ctx.getString(R.string.import_unsupported), ToastKind.ERROR)
+                is BackupImport.Result.Imported -> {
+                    val todayNote = if (result.todaySteps > 0)
+                        ctx.getString(R.string.today_steps_set, result.todaySteps) else ""
+                    toast.show(
+                        ctx.getString(R.string.import_result, result.rows, result.failed, todayNote),
+                        ToastKind.SUCCESS,
+                    )
+                    restartApp(ctx)
+                }
+            }
+        }
     }
 
     fun selectRetention(value: Int) {
@@ -243,8 +347,13 @@ fun BackupScreen(onBack: () -> Unit) {
                     title = stringResource(R.string.backup_frequency),
                     summary = frequencySummary,
                     icon = R.drawable.ic_frequency,
-                    enabled = locationSet,
-                    onClick = { choosingFrequency = true },
+                    onClick = {
+                        if (locationSet) {
+                            choosingFrequency = true
+                        } else {
+                            promptBackupLocation(openFrequencyAfterwards = true)
+                        }
+                    },
                 )
 
                 AnimatedVisibility(
@@ -275,22 +384,27 @@ fun BackupScreen(onBack: () -> Unit) {
                     title = stringResource(R.string.backup_location),
                     summary = locationSummary,
                     icon = R.drawable.ic_location,
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-                            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
-                                    Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                        }
-                        backupLocationLauncher.launch(intent)
-                    },
+                    onClick = { promptBackupLocation(openFrequencyAfterwards = false) },
                 )
 
                 SettingDivider()
 
                 SettingRow(
                     title = stringResource(R.string.manual_backup),
+                    summary = stringResource(R.string.backup_all_summary),
                     icon = R.drawable.ic_export,
-                    onClick = ::promptManualExport,
+                    onClick = ::promptFullExport,
+                )
+            }
+
+            SectionLabel(stringResource(R.string.section_legacy))
+
+            SettingGroup {
+                SettingRow(
+                    title = stringResource(R.string.legacy_export_title),
+                    summary = stringResource(R.string.legacy_export_summary),
+                    icon = R.drawable.ic_export_csv,
+                    onClick = ::promptLegacyExport,
                 )
             }
 
@@ -325,10 +439,15 @@ fun BackupScreen(onBack: () -> Unit) {
 
     if (pendingImportUri != null) {
         ImportWarningDialog(
+            message = if (pendingImportFormat == BackupImport.Format.FULL) {
+                stringResource(R.string.import_warning_full)
+            } else {
+                stringResource(R.string.import_warning_csv)
+            },
             onConfirm = {
                 val uri = pendingImportUri
                 pendingImportUri = null
-                uri?.let { importDataWithClear(ctx, it, toast) }
+                uri?.let { importRequested(it) }
             },
             onDismiss = { pendingImportUri = null },
         )
@@ -341,8 +460,8 @@ private fun <T> prefsState(flow: () -> Flow<T>, initial: () -> T): State<T> {
     return remembered.collectAsStateWithLifecycle(initialValue = remember { initial() })
 }
 
-private suspend fun updateBackupLocation(ctx: Context, uri: Uri) {
-    try {
+private suspend fun updateBackupLocation(ctx: Context, uri: Uri): Boolean {
+    return try {
         ctx.contentResolver.takePersistableUriPermission(
             uri,
             Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
@@ -357,46 +476,28 @@ private suspend fun updateBackupLocation(ctx: Context, uri: Uri) {
         } catch (_: Exception) { "" }
 
         Log.d(TAG, "Backup location set to: $displayPath (URI: $uri)")
+        true
     } catch (e: Exception) {
         Log.e(TAG, "Error setting backup location URI permissions", e)
+        false
     }
 }
 
-private fun exportToUri(ctx: Context, uri: Uri, toast: ToastState) {
-    val db = Database.getInstance(ctx)
+private fun exportToUri(ctx: Context, uri: Uri, toast: ToastState, full: Boolean) {
     try {
-        ctx.contentResolver.openOutputStream(uri)?.use { outputStream ->
-            outputStream.bufferedWriter().use { writer ->
-                val firstDate = db.firstEntry
-                val lastDate = db.lastEntry
-                if (firstDate != null && lastDate != null) {
-                    for (entry in db.getEntries(firstDate, lastDate)) {
-                        writer.write("${entry.date},${entry.steps}\r\n")
-                    }
-                }
-                writer.flush()
-            }
+        val stream = ctx.contentResolver.openOutputStream(uri)
+        if (stream == null) {
+            Log.e(TAG, "Could not open output stream for export")
+            toast.show(ctx.getString(R.string.cannot_open_file), ToastKind.ERROR)
+            return
+        }
+        stream.use { outputStream ->
+            if (full) BackupExport.writeFull(ctx, outputStream) else BackupExport.writeCsv(ctx, outputStream)
         }
         toast.show(ctx.getString(R.string.manual_backup_successful), ToastKind.SUCCESS)
     } catch (e: Exception) {
         Log.e(TAG, "Manual export failed", e)
         toast.show(ctx.getString(R.string.cannot_open_file), ToastKind.ERROR)
-    }
-}
-
-private fun importDataWithClear(ctx: Context, uri: Uri, toast: ToastState) {
-    when (val result = BackupImport.importAndClear(ctx, uri)) {
-        is BackupImport.Result.Failed ->
-            toast.show(ctx.getString(R.string.cannot_open_file), ToastKind.ERROR)
-        is BackupImport.Result.Imported -> {
-            val todayNote = if (result.todaySteps > 0)
-                ctx.getString(R.string.today_steps_set, result.todaySteps) else ""
-            toast.show(
-                ctx.getString(R.string.import_result, result.rows, result.failed, todayNote),
-                ToastKind.SUCCESS,
-            )
-            restartApp(ctx)
-        }
     }
 }
 

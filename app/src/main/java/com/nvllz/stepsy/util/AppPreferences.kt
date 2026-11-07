@@ -58,6 +58,14 @@ object AppPreferences {
         val SETUP_CARD_DISMISSED                 = stringSetPreferencesKey("setup_card_dismissed")
     }
 
+    val EXPORT_EXCLUDED_KEYS: Set<String> = setOf(
+        "STEPS", "DATE", "base_total_steps", "last_notified_milestone",
+        "encouraging_state", "is_paused", "app_version_code", "onboarding_completed",
+        "setup_card_dismissed", "last_seen_announcement_version", "star_prompt_handled",
+        "backup_location_uri", "backup_frequency", "backup_retention",
+        "day_start_prev_hour", "day_start_switch_ms",
+    )
+
     lateinit var dataStore: DataStore<Preferences>
         private set
 
