@@ -129,6 +129,9 @@ fun SwitchSetting(
         role = Role.Switch,
         onClick = { onCheckedChange(!checked) },
         trailing = {
+            val dark = StepsyTheme.dark
+            val scheme = MaterialTheme.colorScheme
+            val checkedThumb = if (dark) scheme.primary else scheme.onPrimary
             Switch(
                 checked = checked,
                 onCheckedChange = null,
@@ -138,7 +141,7 @@ fun SwitchSetting(
                         Icon(
                             painterResource(R.drawable.ic_check),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = if (dark) scheme.onPrimary else scheme.primary,
                             modifier = Modifier.size(16.dp),
                         )
                     }
@@ -146,17 +149,17 @@ fun SwitchSetting(
                     null
                 },
                 colors = SwitchDefaults.colors(
-                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                    checkedThumbColor = checkedThumb,
+                    checkedTrackColor = if (dark) scheme.onSurface else scheme.primary,
                     checkedBorderColor = Color.Transparent,
                     uncheckedThumbColor = StepsyTheme.colors.accent,
-                    uncheckedTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f),
-                    uncheckedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f),
-                    disabledCheckedThumbColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
-                    disabledCheckedTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
+                    uncheckedTrackColor = scheme.onSurface.copy(alpha = 0.08f),
+                    uncheckedBorderColor = scheme.onSurface.copy(alpha = 0.25f),
+                    disabledCheckedThumbColor = checkedThumb.copy(alpha = 0.5f),
+                    disabledCheckedTrackColor = (if (dark) scheme.onSurface else scheme.primary).copy(alpha = 0.4f),
                     disabledUncheckedThumbColor = StepsyTheme.colors.accent.copy(alpha = 0.4f),
-                    disabledUncheckedTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
-                    disabledUncheckedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.15f),
+                    disabledUncheckedTrackColor = scheme.onSurface.copy(alpha = 0.05f),
+                    disabledUncheckedBorderColor = scheme.onSurface.copy(alpha = 0.15f),
                 ),
             )
         },

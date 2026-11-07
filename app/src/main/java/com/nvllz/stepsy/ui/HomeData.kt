@@ -102,14 +102,18 @@ fun saveSelection(ctx: Context, s: Selection) = ctx.getSharedPreferences(PREFS, 
     putBoolean("is_year_selected", s is Selection.Year)
 }
 
-fun hasUnseenMilestones(context: Context): Boolean {
+fun unseenMilestones(context: Context): List<Long> {
     val ceiling = AppPreferences.lastNotifiedMilestone
-    if (ceiling <= 0L) return false
+    if (ceiling <= 0L) return emptyList()
     val seen = runCatching {
         AchievementsCacheUtil.loadSeenMilestones(context.applicationContext)
     }.getOrNull() ?: emptySet()
-    return Util.MILESTONES.any { it <= ceiling && it.toInt() !in seen }
+    return Util.MILESTONES.filter { it <= ceiling && it.toInt() !in seen }
 }
+
+fun hasUnseenMilestones(context: Context): Boolean = unseenMilestones(context).isNotEmpty()
+
+fun singleUnseenMilestone(context: Context): Long? = unseenMilestones(context).singleOrNull()
 
 private fun dateFormat() = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
 private fun dist(c: Context, steps: Int) = c.getString(R.string.distance_today, Util.stepsToDistance(steps), Util.distanceUnit())

@@ -13,6 +13,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -58,7 +59,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -411,12 +414,14 @@ private fun Divider(startInset: Dp = milestoneRowInset) {
     )
 }
 
+private val ROMAN_RANKS = listOf("I", "II", "III")
+
 @Composable
 private fun TopDayRow(index: Int, steps: Int, distance: String, date: String, fraction: Float) {
     val c = StepsyTheme.colors
     val cs = MaterialTheme.colorScheme
     val first = index == 0
-    val rank = remember(index) { NumberFormat.getIntegerInstance().format(index + 1) }
+    val rank = ROMAN_RANKS.getOrNull(index) ?: (index + 1).toString()
     val rankBackground = when (index) {
         0 -> cs.onSurface
         1 -> cs.onSurface.copy(alpha = 0.13f)
@@ -438,15 +443,39 @@ private fun TopDayRow(index: Int, steps: Int, distance: String, date: String, fr
                     .size(28.dp)
                     .clip(RoundedCornerShape(9.dp))
                     .background(rankBackground),
-                contentAlignment = Alignment.Center,
             ) {
-                Text(
-                    rank,
+                val rankMeasurer = rememberTextMeasurer()
+                val rankStyle = TextStyle(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = Chivo,
                     color = rankColor,
                 )
+                Canvas(Modifier.fillMaxSize()) {
+                    val layout = rankMeasurer.measure(rank, rankStyle)
+                    val chars = layout.layoutInput.text.length
+                    if (chars > 0) {
+                        var left = Float.MAX_VALUE
+                        var right = -Float.MAX_VALUE
+                        var inkTop = Float.MAX_VALUE
+                        var inkBottom = -Float.MAX_VALUE
+                        for (i in 0 until chars) {
+                            layout.getBoundingBox(i)?.let { b ->
+                                left = minOf(left, b.left)
+                                right = maxOf(right, b.right)
+                                inkTop = minOf(inkTop, b.top)
+                                inkBottom = maxOf(inkBottom, b.bottom)
+                            }
+                        }
+                        if (right > left && inkBottom > inkTop) {
+                            val dx = size.width / 2f - (left + right) / 2f
+                            val dy = size.height / 2f - (inkTop + inkBottom) / 2f
+                            drawText(layout, topLeft = Offset(dx, dy))
+                        } else {
+                            drawText(layout, topLeft = Offset(size.width / 2f - layout.size.width / 2f, size.height / 2f - layout.size.height / 2f))
+                        }
+                    }
+                }
             }
             Column(Modifier.weight(1f).padding(start = 12.dp)) {
                 Text(date, fontSize = 15.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold)
