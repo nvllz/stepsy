@@ -8,6 +8,7 @@ import android.os.Looper
 import com.nvllz.stepsy.ui.WidgetCompactProvider
 import com.nvllz.stepsy.ui.WidgetIconProvider
 import com.nvllz.stepsy.ui.WidgetPlainProvider
+import com.nvllz.stepsy.ui.WidgetRingProvider
 
 object WidgetManager {
     private val updateHandler = Handler(Looper.getMainLooper())
@@ -51,6 +52,12 @@ object WidgetManager {
             ComponentName(context, WidgetPlainProvider::class.java)
         ).forEach { widgetId ->
             WidgetPlainProvider.updateWidget(context, widgetId, steps)
+        }
+
+        appWidgetManager.getAppWidgetIds(
+            ComponentName(context, WidgetRingProvider::class.java)
+        ).forEach { widgetId ->
+            WidgetRingProvider.updateWidget(context, widgetId, steps)
         }
     }
 }

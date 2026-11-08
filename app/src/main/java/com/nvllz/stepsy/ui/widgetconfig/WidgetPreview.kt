@@ -52,6 +52,8 @@ private val PLATE_AIR_H_TOTAL = 46.dp
 
 private const val PLATFORM_HOST_THEME = android.R.style.Theme_DeviceDefault_DayNight
 
+private const val RING_PREVIEW_SCALE = 0.9f
+
 @Composable
 fun WidgetPreview(
     type: WidgetConfigType,
@@ -145,8 +147,12 @@ private fun plateSizeFor(
     val cellDp = (screenWidthDp / DEFAULT_GRID_COLUMNS).dp
     val widthDp = when (type) {
         WidgetConfigType.COMPACT -> cellDp
-        WidgetConfigType.ICON, WidgetConfigType.PLAIN -> cellDp * 2
+        WidgetConfigType.ICON, WidgetConfigType.PLAIN, WidgetConfigType.RING -> cellDp * 2
     }
+    if (type == WidgetConfigType.RING) {
+        return DpSize(width = widthDp * RING_PREVIEW_SCALE, height = widthDp * RING_PREVIEW_SCALE)
+    }
+
     val contentHpx = with(density) {
         maxOf(icon.iconBaseHeightDp!!.dp.toPx(), (steps.height + distance.height).toFloat())
     }
