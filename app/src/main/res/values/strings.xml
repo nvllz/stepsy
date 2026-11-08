@@ -226,6 +226,7 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Invert background color</string>
     <string name="widget_pref_dynamic_colors">Dynamic Colors</string>
+    <string name="widget_pref_step_count_format">Step count format</string>
     <string name="widget_pref_text_scale">Content Scale</string>
     <string name="widget_pref_bg_opacity">Background Opacity</string>
     <string name="widget_pref_btn_save">Save</string>
