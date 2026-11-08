@@ -85,6 +85,7 @@ import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.GoalNotificationWorker
 import com.nvllz.stepsy.util.NotificationChannels
 import com.nvllz.stepsy.util.Util
+import com.nvllz.stepsy.util.WidgetManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -150,6 +151,7 @@ fun DailyGoalsScreen(onBack: () -> Unit) {
         scope.launch {
             AppPreferences.dailyGoalTarget = value
             pushNotification(progress, value)
+            WidgetManager.updateAllWidgets(ctx)
         }
     }
 
