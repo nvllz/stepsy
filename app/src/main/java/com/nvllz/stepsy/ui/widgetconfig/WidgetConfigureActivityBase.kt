@@ -28,7 +28,7 @@ abstract class WidgetConfigureActivityBase(private val type: WidgetConfigType) :
             return
         }
 
-        val initial = WidgetPrefs(this, appWidgetId).load()
+        val initial = WidgetPrefs(this, appWidgetId).load(type.defaultStepCountFormat)
 
         setContent {
             StepsyTheme {

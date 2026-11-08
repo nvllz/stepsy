@@ -7,11 +7,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
@@ -34,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -42,11 +42,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nvllz.stepsy.R
+import com.nvllz.stepsy.ui.components.PillSelector
 import com.nvllz.stepsy.ui.components.PrimaryButton
 import com.nvllz.stepsy.ui.components.SettingDivider
 import com.nvllz.stepsy.ui.components.SettingGroup
+import com.nvllz.stepsy.ui.components.SettingRow
 import com.nvllz.stepsy.ui.components.SwitchSetting
-import com.nvllz.stepsy.ui.components.ToggleGroup
 import java.text.NumberFormat
 import kotlin.math.roundToInt
 
@@ -62,12 +63,15 @@ fun WidgetConfigScreen(
     var textScalePercent by rememberSaveable(appWidgetId) { mutableStateOf(initial.textScale.toFloat()) }
     var dynamicColors by rememberSaveable(appWidgetId) { mutableStateOf(initial.useDynamicColors) }
     var themeMode by rememberSaveable(appWidgetId) { mutableStateOf(initial.themeMode) }
+    var stepCountFormat by rememberSaveable(appWidgetId) { mutableStateOf(initial.stepCountFormat) }
     var inverseBackdrop by rememberSaveable(appWidgetId) { mutableStateOf(false) }
 
-    val palette = rememberAnimatedWidgetPalette(
-        mode = themeMode,
+    val previewValues = WidgetConfigValues(
+        opacity = opacityPercent.toInt(),
         useDynamicColors = dynamicColors,
-        opacityPercent = opacityPercent,
+        textScale = textScalePercent.toInt(),
+        themeMode = themeMode,
+        stepCountFormat = stepCountFormat,
     )
 
     val scroll = rememberScrollState()
@@ -87,7 +91,7 @@ fun WidgetConfigScreen(
             Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
         Box(Modifier.padding(horizontal = 16.dp).padding(top = 16.dp).clip(RoundedCornerShape(24.dp))) {
-            WidgetPreview(type, palette, textScalePercent.toInt(), inverseBackdrop)
+            WidgetPreview(type, previewValues, inverseBackdrop)
 
             val targetIcon = if (inverseBackdrop == darkChrome) {
                 R.drawable.ic_theme_dark
@@ -98,9 +102,7 @@ fun WidgetConfigScreen(
                 Modifier
                     .align(Alignment.TopEnd)
                     .padding(16.dp)
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surface)
+                    .size(36.dp)
                     .border(1.5.dp, MaterialTheme.colorScheme.onSurface, CircleShape)
                     .clickable(
                         onClick = { inverseBackdrop = !inverseBackdrop },
@@ -109,6 +111,13 @@ fun WidgetConfigScreen(
                     .semantics { contentDescription = backdropLabel },
                 contentAlignment = Alignment.Center,
             ) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(1.5.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surface),
+                )
                 Icon(
                     painterResource(targetIcon),
                     contentDescription = null,
@@ -137,8 +146,20 @@ fun WidgetConfigScreen(
                         bottom = 16.dp,
                     ),
                 ) {
-                    CardLabel(stringResource(R.string.theme))
-                    ToggleGroup(
+                    SettingRow(
+                        title = stringResource(R.string.theme),
+                        summary = stringResource(
+                            when (themeMode) {
+                                WidgetThemeMode.SYSTEM -> R.string.preference_system
+                                WidgetThemeMode.LIGHT -> R.string.theme_light
+                                WidgetThemeMode.DARK -> R.string.theme_dark
+                            },
+                        ),
+                        icon = R.drawable.ic_theme,
+                        onClick = null,
+                        trailing = {},
+                    )
+                    PillSelector(
                         options = listOf(
                             WidgetThemeMode.SYSTEM to stringResource(R.string.preference_system),
                             WidgetThemeMode.LIGHT to stringResource(R.string.theme_light),
@@ -146,7 +167,32 @@ fun WidgetConfigScreen(
                         ),
                         selected = themeMode,
                         onSelect = { themeMode = it },
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 13.dp),
+                        iconOf = { value ->
+                            when (value) {
+                                WidgetThemeMode.SYSTEM -> R.drawable.ic_theme
+                                WidgetThemeMode.LIGHT -> R.drawable.ic_theme_light
+                                WidgetThemeMode.DARK -> R.drawable.ic_theme_dark
+                            }
+                        },
+                        chipPadding = PaddingValues(horizontal = 28.dp, vertical = 7.dp),
+                        modifier = Modifier.padding(start = 56.dp, end = 20.dp, top = 12.dp, bottom = 10.dp),
+                    )
+                    SettingDivider()
+                    val formatSampleContext = LocalContext.current
+                    SettingRow(
+                        title = stringResource(R.string.widget_pref_step_count_format),
+                        summary = stepCountFormat.format(formatSampleContext, STEP_COUNT_FORMAT_SAMPLE),
+                        icon = R.drawable.ic_steps,
+                        onClick = null,
+                        trailing = {},
+                    )
+                    PillSelector(
+                        options = WidgetStepCountFormat.entries.map {
+                            it to it.format(formatSampleContext, STEP_COUNT_FORMAT_SAMPLE)
+                        },
+                        selected = stepCountFormat,
+                        onSelect = { stepCountFormat = it },
+                        modifier = Modifier.padding(start = 56.dp, end = 20.dp, top = 12.dp, bottom = 10.dp),
                     )
                     SettingDivider()
                     SliderRow(
@@ -167,41 +213,35 @@ fun WidgetConfigScreen(
                         valueLabel = percentFormat.format(opacityPercent.roundToInt() / 100.0),
                     )
                 }
-
-                PrimaryButton(
-                    text = stringResource(R.string.widget_pref_btn_save),
-                    onClick = {
-                        onSave(
-                            WidgetConfigValues(
-                                opacity = opacityPercent.toInt(),
-                                useDynamicColors = dynamicColors,
-                                textScale = textScalePercent.toInt(),
-                                themeMode = themeMode,
-                            ),
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                )
-                Spacer(Modifier.height(16.dp))
             }
         }
+
+        PrimaryButton(
+            text = stringResource(R.string.widget_pref_btn_save),
+            onClick = {
+                onSave(
+                    WidgetConfigValues(
+                        opacity = opacityPercent.toInt(),
+                        useDynamicColors = dynamicColors,
+                        textScale = textScalePercent.toInt(),
+                        themeMode = themeMode,
+                        stepCountFormat = stepCountFormat,
+                    ),
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(top = 8.dp, bottom = 12.dp),
+        )
     }
 }
+
+private const val STEP_COUNT_FORMAT_SAMPLE = 12345
 
 private fun textScaleSteps(type: WidgetConfigType): Int =
     ((type.textScaleTo - type.textScaleFrom) / WidgetConfigType.TEXT_SCALE_STEP - 1)
         .roundToInt()
         .coerceAtLeast(0)
-
-@Composable
-private fun CardLabel(text: String) {
-    Text(
-        text,
-        fontSize = 16.sp,
-        color = MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 13.dp, bottom = 10.dp),
-    )
-}
 
 @Composable
 private fun SliderRow(

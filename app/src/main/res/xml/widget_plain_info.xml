@@ -5,6 +5,7 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget_plain"
     android:initialKeyguardLayout="@layout/widget_plain"
+    android:previewLayout="@layout/widget_plain_preview"
     android:orientation="horizontal"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"

@@ -144,6 +144,18 @@ object Util {
         else -> NumberFormat.getIntegerInstance().format(steps)
     }
 
+    internal fun formatShortStepsDecimal(steps: Long, context: Context): String = when {
+        steps >= 1_000_000L -> context.getString(R.string.milestone_short_millions_decimal, steps / 1_000_000.0)
+        steps >= 1_000L -> {
+            val fractional = NumberFormat.getNumberInstance().apply {
+                minimumFractionDigits = 1
+                maximumFractionDigits = 1
+            }
+            fractional.format(steps / 1_000.0) + "k"
+        }
+        else -> NumberFormat.getIntegerInstance().format(steps)
+    }
+
     internal fun estimatedStepLengthCm(heightCm: Int): Float = heightCm * 0.415f
 
     internal fun milestoneBadge(milestoneSteps: Int): String = when {
