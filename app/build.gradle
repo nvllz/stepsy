@@ -68,7 +68,8 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "Stepsy-${variant.versionName}-${variant.flavorName}.apk"
+            def flavorSuffix = variant.flavorName == "full" ? "" : "-${variant.flavorName}"
+            outputFileName = "Stepsy-${variant.versionName}${flavorSuffix}.apk"
         }
     }
 }
