@@ -189,6 +189,14 @@ fun BackupScreen(onBack: () -> Unit) {
                             pendingImportUri = uri
                             pendingImportFormat = BackupImport.Format.CSV
                         }
+                        BackupImport.Format.PATH -> {
+                            pendingImportUri = uri
+                            pendingImportFormat = BackupImport.Format.PATH
+                        }
+                        BackupImport.Format.PASEO -> {
+                            pendingImportUri = uri
+                            pendingImportFormat = BackupImport.Format.PASEO
+                        }
                         BackupImport.Format.UNSUPPORTED ->
                             toast.show(ctx.getString(R.string.import_unsupported), ToastKind.ERROR)
                         BackupImport.Format.INVALID ->
