@@ -166,12 +166,20 @@
     <string name="backup_retention_count">Брой на копията</string>
     <string name="backup_location">Местоположение на копията</string>
     <string name="backup_location_not_set">Не е зададено</string>
+    <string name="backup_location_required">Първо задай място за резервни копия, за да включиш автоматичните.</string>
     <string name="manual_backup">Ръчно резервно копие</string>
     <string name="manual_backup_successful">Ръчното резервно копие е успешно</string>
+    <string name="backup_all_summary">Запази историята, почасовите данни и настройките си в .json файл.</string>
+    <string name="section_legacy">Остаряло</string>
+    <string name="legacy_export_title">Експорт в CSV</string>
+    <string name="legacy_export_summary">Само стъпки (date,steps), без почасови данни. За таблици и по-стари версии.</string>
+    <string name="import_unsupported">Това копие е създадено с по-нова версия на Stepsy. Обнови приложението и опитай пак.</string>
     <string name="import_data_summary">Възстановяване от файл</string>
     <string name="import_invalid_file">Файлът е невалиден</string>
     <string name="import_warning_title">Замяна на данните за стъпки</string>
     <string name="import_warning_message">Това ще изтрие всички текущи данни за стъпки и ще ги замени с импортираните. Да продължи ли?</string>
+    <string name="import_warning_full">Това ще замени всичките ти данни, настройки и почасови данни с тези от копието.</string>
+    <string name="import_warning_csv">Това ще замени историята ти със стъпки със съдържанието на файла и ще изтрие почасовите данни.</string>
     <string name="section_import">Внасяне</string>
     <string name="section_export">Изнасяне</string>
     <string name="backup_retention_all">Всички</string>
@@ -195,6 +203,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Негативен цвят на фона</string>
     <string name="widget_pref_dynamic_colors">Динамични цветове</string>
+    <string name="widget_pref_step_count_format">Формат на стъпките</string>
+    <string name="widget_step_count_format_plain">Обикновен</string>
+    <string name="widget_step_count_format_delimited">Форматиран</string>
+    <string name="widget_step_count_format_short">Съкратен</string>
     <string name="widget_pref_text_scale">Размер на текста</string>
     <string name="widget_pref_bg_opacity">Непрозрачност на фона</string>
     <string name="widget_pref_btn_save">Запазване</string>

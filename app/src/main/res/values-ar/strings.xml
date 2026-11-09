@@ -190,12 +190,20 @@
     <string name="backup_retention_count">عدد النسخ الاحتياطية للاحتفاظ بها</string>
     <string name="backup_location">موقع النسخة الاحتياطية</string>
     <string name="backup_location_not_set">غير محدد</string>
+    <string name="backup_location_required">حدّد مكان النسخ الاحتياطي أولاً لتفعيل النسخ التلقائي.</string>
     <string name="manual_backup">نسخ احتياطي يدوي</string>
     <string name="manual_backup_successful">تم النسخ الاحتياطي اليدوي بنجاح</string>
+    <string name="backup_all_summary">احفظ سجلك وبياناتك الساعية وإعداداتك في ملف .json</string>
+    <string name="section_legacy">قديم</string>
+    <string name="legacy_export_title">تصدير إلى CSV</string>
+    <string name="legacy_export_summary">الخطوات فقط (date,steps)، بدون بيانات ساعية. للجداول والإصدارات القديمة.</string>
+    <string name="import_unsupported">تم إنشاء هذه النسخة الاحتياطية بإصدار أحدث من Stepsy. حدّث التطبيق وحاول مجددًا.</string>
     <string name="import_data_summary">استعادة بيانات الخطوات من ملف</string>
     <string name="import_invalid_file">هذا الملف غير صالح</string>
     <string name="import_warning_title">استبدال بيانات الخطوات</string>
     <string name="import_warning_message">سيؤدي هذا إلى حذف جميع بيانات الخطوات الحالية واستبدالها بالبيانات المستوردة. هل تريد المتابعة؟</string>
+    <string name="import_warning_full">سيؤدي هذا إلى استبدال كل بياناتك وإعداداتك وبياناتك الساعية ببيانات النسخة الاحتياطية.</string>
+    <string name="import_warning_csv">سيؤدي هذا إلى استبدال سجل خطواتك بمحتوى ملف النسخة الاحتياطية ومسح البيانات الساعية.</string>
     <string name="section_import">استيراد</string>
     <string name="section_export">تصدير</string>
     <string name="backup_retention_all">الكل</string>
@@ -219,6 +227,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">عكس لون الخلفية</string>
     <string name="widget_pref_dynamic_colors">ألوان ديناميكية</string>
+    <string name="widget_pref_step_count_format">تنسيق عدد الخطوات</string>
+    <string name="widget_step_count_format_plain">عادي</string>
+    <string name="widget_step_count_format_delimited">منسّق</string>
+    <string name="widget_step_count_format_short">مختصر</string>
     <string name="widget_pref_text_scale">مقياس النص</string>
     <string name="widget_pref_bg_opacity">شفافية الخلفية</string>
     <string name="widget_pref_btn_save">حفظ</string>

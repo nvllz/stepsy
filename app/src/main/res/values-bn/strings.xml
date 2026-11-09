@@ -166,12 +166,20 @@
     <string name="backup_retention_count">রাখার জন্য ব্যাকআপের সংখ্যা</string>
     <string name="backup_location">ব্যাকআপ লোকেশন</string>
     <string name="backup_location_not_set">নির্ধারিত নয়</string>
+    <string name="backup_location_required">অটো ব্যাকআপ চালু করতে আগে ব্যাকআপের লোকেশন ঠিক করুন।</string>
     <string name="manual_backup">ম্যানুয়াল ব্যাকআপ</string>
     <string name="manual_backup_successful">ম্যানুয়াল ব্যাকআপ সফল হয়েছে</string>
+    <string name="backup_all_summary">আপনার হিস্ট্রি, ঘণ্টাভিত্তিক ডেটা আর সেটিংস একটি .json ফাইলে সেভ করুন।</string>
+    <string name="section_legacy">পুরোনো</string>
+    <string name="legacy_export_title">CSV-তে এক্সপোর্ট</string>
+    <string name="legacy_export_summary">শুধু স্টেপ (date,steps), ঘণ্টাভিত্তিক ডেটা ছাড়া। স্প্রেডশিট আর পুরোনো ভার্সনের জন্য।</string>
+    <string name="import_unsupported">এই ব্যাকআপ Stepsy-র নতুন ভার্সনে তৈরি। অ্যাপ আপডেট করে আবার চেষ্টা করুন।</string>
     <string name="import_data_summary">একটি ফাইল থেকে পদক্ষেপের ডেটা পুনরুদ্ধার করুন</string>
     <string name="import_invalid_file">এই ফাইলটি বৈধ নয়</string>
     <string name="import_warning_title">ধাপের ডেটা প্রতিস্থাপন করুন</string>
     <string name="import_warning_message">এতে বর্তমান সব ধাপের ডেটা মুছে যাবে এবং আমদানি করা ডেটা দিয়ে প্রতিস্থাপিত হবে। চালিয়ে যাবেন?</string>
+    <string name="import_warning_full">এতে আপনার সব ডেটা, সেটিংস আর ঘণ্টাভিত্তিক ডেটা ব্যাকআপের ডেটা দিয়ে বদলে যাবে।</string>
+    <string name="import_warning_csv">এতে আপনার স্টেপের হিস্ট্রি ব্যাকআপ ফাইলের তথ্য দিয়ে বদলে যাবে এবং ঘণ্টাভিত্তিক ডেটা মুছে যাবে।</string>
     <string name="section_import">আমদানি</string>
     <string name="section_export">রপ্তানি</string>
     <string name="backup_retention_all">সবগুলো</string>
@@ -195,6 +203,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">পটভূমির রঙ উল্টান</string>
     <string name="widget_pref_dynamic_colors">গতিশীল রঙ</string>
+    <string name="widget_pref_step_count_format">স্টেপ সংখ্যার ফরম্যাট</string>
+    <string name="widget_step_count_format_plain">সাধারণ</string>
+    <string name="widget_step_count_format_delimited">ফরম্যাট করা</string>
+    <string name="widget_step_count_format_short">সংক্ষিপ্ত</string>
     <string name="widget_pref_text_scale">টেক্সট স্কেল</string>
     <string name="widget_pref_bg_opacity">পটভূমির অস্পষ্টতা</string>
     <string name="widget_pref_btn_save">সংরক্ষণ করুন</string>

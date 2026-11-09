@@ -178,12 +178,20 @@
     <string name="backup_retention_count">Количество хранимых резервных копий</string>
     <string name="backup_location">Место резервной копии</string>
     <string name="backup_location_not_set">Не задано</string>
+    <string name="backup_location_required">Сначала укажите место для копий, чтобы включить автоматическое резервное копирование.</string>
     <string name="manual_backup">Резервное копирование вручную</string>
     <string name="manual_backup_successful">Резервное копирование вручную выполнено успешно</string>
+    <string name="backup_all_summary">Сохраните историю, почасовые данные и настройки в файл .json.</string>
+    <string name="section_legacy">Устаревшее</string>
+    <string name="legacy_export_title">Экспорт в CSV</string>
+    <string name="legacy_export_summary">Только шаги (date,steps), без почасовых данных. Для таблиц и старых версий.</string>
+    <string name="import_unsupported">Эта копия создана в более новой версии Stepsy. Обновите приложение и попробуйте снова.</string>
     <string name="import_data_summary">Восстановить данные шагов из файла</string>
     <string name="import_invalid_file">Этот файл недействителен</string>
     <string name="import_warning_title">Заменить данные шагов</string>
     <string name="import_warning_message">Все текущие данные шагов будут удалены и заменены импортированными. Продолжить?</string>
+    <string name="import_warning_full">Все ваши данные, настройки и почасовые данные будут заменены данными из копии.</string>
+    <string name="import_warning_csv">История шагов будет заменена содержимым файла копии, а почасовые данные удалятся.</string>
     <string name="section_import">Импорт</string>
     <string name="section_export">Экспорт</string>
     <string name="backup_retention_all">Все</string>
@@ -207,6 +215,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Инвертировать цвет фона</string>
     <string name="widget_pref_dynamic_colors">Динамические цвета</string>
+    <string name="widget_pref_step_count_format">Формат числа шагов</string>
+    <string name="widget_step_count_format_plain">Обычный</string>
+    <string name="widget_step_count_format_delimited">С разделителями</string>
+    <string name="widget_step_count_format_short">Сокращённый</string>
     <string name="widget_pref_text_scale">Масштаб текста</string>
     <string name="widget_pref_bg_opacity">Прозрачность фона</string>
     <string name="widget_pref_btn_save">Сохранить</string>

@@ -172,12 +172,20 @@
     <string name="backup_retention_count">Numero di backup da conservare</string>
     <string name="backup_location">Posizione del backup</string>
     <string name="backup_location_not_set">Non impostata</string>
+    <string name="backup_location_required">Imposta prima una posizione per i backup per attivare quelli automatici.</string>
     <string name="manual_backup">Backup manuale</string>
     <string name="manual_backup_successful">Backup manuale completato con successo</string>
+    <string name="backup_all_summary">Salva cronologia, dati orari e impostazioni in un file .json.</string>
+    <string name="section_legacy">Formato precedente</string>
+    <string name="legacy_export_title">Esporta in CSV</string>
+    <string name="legacy_export_summary">Solo passi (date,steps), senza dati orari. Per fogli di calcolo e versioni precedenti.</string>
+    <string name="import_unsupported">Questo backup è stato creato con una versione più recente di Stepsy. Aggiorna l\'app e riprova.</string>
     <string name="import_data_summary">Ripristina i dati dei passi da un file</string>
     <string name="import_invalid_file">Questo file non è valido</string>
     <string name="import_warning_title">Sostituire i dati dei passi</string>
     <string name="import_warning_message">Tutti i dati dei passi attuali verranno eliminati e sostituiti con quelli importati. Continuare?</string>
+    <string name="import_warning_full">Questo sostituirà tutti i tuoi dati, le impostazioni e i dati orari con quelli del backup.</string>
+    <string name="import_warning_csv">Questo sostituirà la cronologia dei passi con il contenuto del file di backup e cancellerà i dati orari.</string>
     <string name="section_import">Importa</string>
     <string name="section_export">Esporta</string>
     <string name="backup_retention_all">Tutti</string>
@@ -201,6 +209,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Inverti colore di sfondo</string>
     <string name="widget_pref_dynamic_colors">Colori dinamici</string>
+    <string name="widget_pref_step_count_format">Formato dei passi</string>
+    <string name="widget_step_count_format_plain">Semplice</string>
+    <string name="widget_step_count_format_delimited">Formattato</string>
+    <string name="widget_step_count_format_short">Abbreviato</string>
     <string name="widget_pref_text_scale">Scala del testo</string>
     <string name="widget_pref_bg_opacity">Opacità dello sfondo</string>
     <string name="widget_pref_btn_save">Salva</string>
