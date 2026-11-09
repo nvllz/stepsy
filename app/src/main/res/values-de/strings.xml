@@ -166,12 +166,20 @@
     <string name="backup_retention_count">Anzahl der aufzubewahrenden Backups</string>
     <string name="backup_location">Backup-Speicherort</string>
     <string name="backup_location_not_set">Nicht festgelegt</string>
+    <string name="backup_location_required">Lege zuerst einen Speicherort fest, um automatische Backups zu aktivieren.</string>
     <string name="manual_backup">Manuelles Backup</string>
     <string name="manual_backup_successful">Manuelles Backup erfolgreich</string>
+    <string name="backup_all_summary">Speichere deinen Verlauf, die Stundendaten und Einstellungen in einer .json-Datei.</string>
+    <string name="section_legacy">Veraltet</string>
+    <string name="legacy_export_title">Als CSV exportieren</string>
+    <string name="legacy_export_summary">Nur Schritte (date,steps), keine Stundendaten. Für Tabellen und ältere Versionen.</string>
+    <string name="import_unsupported">Dieses Backup stammt aus einer neueren Version von Stepsy. Aktualisiere die App und versuche es erneut.</string>
     <string name="import_data_summary">Schrittdaten aus einer Datei wiederherstellen</string>
     <string name="import_invalid_file">Diese Datei ist ungültig</string>
     <string name="import_warning_title">Schrittdaten ersetzen</string>
     <string name="import_warning_message">Dabei werden alle aktuellen Schrittdaten gelöscht und durch die importierten ersetzt. Möchten Sie fortfahren?</string>
+    <string name="import_warning_full">Dadurch werden alle deine Daten, Einstellungen und Stundendaten durch die Backup-Daten ersetzt.</string>
+    <string name="import_warning_csv">Dadurch wird dein Schrittverlauf durch den Inhalt der Backup-Datei ersetzt und die Stundendaten werden gelöscht.</string>
     <string name="section_import">Import</string>
     <string name="section_export">Export</string>
     <string name="backup_retention_all">Alle</string>
@@ -195,6 +203,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Hintergrundfarbe umkehren</string>
     <string name="widget_pref_dynamic_colors">Dynamische Farben</string>
+    <string name="widget_pref_step_count_format">Format der Schrittzahl</string>
+    <string name="widget_step_count_format_plain">Einfach</string>
+    <string name="widget_step_count_format_delimited">Formatiert</string>
+    <string name="widget_step_count_format_short">Gekürzt</string>
     <string name="widget_pref_text_scale">Textskalierung</string>
     <string name="widget_pref_bg_opacity">Hintergrunddeckkraft</string>
     <string name="widget_pref_btn_save">Speichern</string>

@@ -178,12 +178,20 @@
     <string name="backup_retention_count">Liczba przechowywanych kopii</string>
     <string name="backup_location">Lokalizacja kopii zapasowej</string>
     <string name="backup_location_not_set">Nie ustawiono</string>
+    <string name="backup_location_required">Najpierw wybierz lokalizację kopii zapasowych, aby włączyć automatyczne kopie.</string>
     <string name="manual_backup">Ręczna kopia zapasowa</string>
     <string name="manual_backup_successful">Ręczna kopia zapasowa została wykonana</string>
+    <string name="backup_all_summary">Zapisz historię, dane godzinowe i ustawienia w pliku .json.</string>
+    <string name="section_legacy">Starszy format</string>
+    <string name="legacy_export_title">Eksportuj do CSV</string>
+    <string name="legacy_export_summary">Tylko kroki (data,liczba_kroków), bez danych godzinowych. Do analizy i starszych wersji apki.</string>
+    <string name="import_unsupported">Ta kopia powstała w nowszej wersji Stepsy. Zaktualizuj aplikację i spróbuj ponownie.</string>
     <string name="import_data_summary">Przywróć dane kroków z pliku</string>
     <string name="import_invalid_file">Ten plik jest nieprawidłowy</string>
     <string name="import_warning_title">Import kroków z pliku</string>
     <string name="import_warning_message">Spowoduje to usunięcie wszystkich bieżących danych i zastąpienie ich danymi z importu. Kontynuować?</string>
+    <string name="import_warning_full">Wszystkie dane, ustawienia i dane godzinowe zostaną zastąpione danymi z kopii.</string>
+    <string name="import_warning_csv">Historia kroków zostanie zastąpiona zawartością pliku kopii, a dane godzinowe zostaną usunięte.</string>
     <string name="section_import">Import</string>
     <string name="section_export">Eksport</string>
     <string name="backup_retention_all">Wszystkie</string>
@@ -207,6 +215,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Odwróć kolor tła</string>
     <string name="widget_pref_dynamic_colors">Dynamiczne kolory</string>
+    <string name="widget_pref_step_count_format">Format liczby kroków</string>
+    <string name="widget_step_count_format_plain">Zwykły</string>
+    <string name="widget_step_count_format_delimited">Sformatowany</string>
+    <string name="widget_step_count_format_short">Skrócony</string>
     <string name="widget_pref_text_scale">Skala tekstu</string>
     <string name="widget_pref_bg_opacity">Przezroczystość tła</string>
     <string name="widget_pref_btn_save">Zapisz</string>

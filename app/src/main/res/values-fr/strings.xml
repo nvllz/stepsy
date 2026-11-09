@@ -172,12 +172,20 @@
     <string name="backup_retention_count">Nombre de sauvegardes à conserver</string>
     <string name="backup_location">Emplacement de la sauvegarde</string>
     <string name="backup_location_not_set">Non défini</string>
+    <string name="backup_location_required">Choisis d\'abord un emplacement de sauvegarde pour activer les sauvegardes automatiques.</string>
     <string name="manual_backup">Sauvegarde manuelle</string>
     <string name="manual_backup_successful">Sauvegarde manuelle réussie</string>
+    <string name="backup_all_summary">Enregistre ton historique, tes données horaires et tes réglages dans un fichier .json.</string>
+    <string name="section_legacy">Ancien format</string>
+    <string name="legacy_export_title">Exporter en CSV</string>
+    <string name="legacy_export_summary">Uniquement les pas (date,steps), sans données horaires. Pour les tableurs et les anciennes versions.</string>
+    <string name="import_unsupported">Cette sauvegarde a été créée avec une version plus récente de Stepsy. Mets l\'app à jour et réessaie.</string>
     <string name="import_data_summary">Restaurer les données de pas à partir d\'un fichier</string>
     <string name="import_invalid_file">Ce fichier n’est pas valide</string>
     <string name="import_warning_title">Remplacer les données de pas</string>
     <string name="import_warning_message">Toutes les données de pas actuelles seront supprimées et remplacées par celles importées. Continuer ?</string>
+    <string name="import_warning_full">Cela remplacera toutes tes données, tes réglages et tes données horaires par celles de la sauvegarde.</string>
+    <string name="import_warning_csv">Cela remplacera ton historique de pas par le contenu du fichier de sauvegarde et effacera les données horaires.</string>
     <string name="section_import">Importer</string>
     <string name="section_export">Exporter</string>
     <string name="backup_retention_all">Toutes</string>
@@ -201,6 +209,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Inverser la couleur de fond</string>
     <string name="widget_pref_dynamic_colors">Couleurs dynamiques</string>
+    <string name="widget_pref_step_count_format">Format du nombre de pas</string>
+    <string name="widget_step_count_format_plain">Simple</string>
+    <string name="widget_step_count_format_delimited">Formaté</string>
+    <string name="widget_step_count_format_short">Abrégé</string>
     <string name="widget_pref_text_scale">Échelle du texte</string>
     <string name="widget_pref_bg_opacity">Opacité de l\’arrière-plan</string>
     <string name="widget_pref_btn_save">Enregistrer</string>

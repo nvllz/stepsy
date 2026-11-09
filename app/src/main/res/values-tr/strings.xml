@@ -166,12 +166,20 @@
     <string name="backup_retention_count">Saklanacak yedek sayısı</string>
     <string name="backup_location">Yedekleme konumu</string>
     <string name="backup_location_not_set">Ayarlanmadı</string>
+    <string name="backup_location_required">Otomatik yedeklemeyi açmak için önce bir yedek konumu seç.</string>
     <string name="manual_backup">Manuel yedekleme</string>
     <string name="manual_backup_successful">Manuel yedekleme başarılı</string>
+    <string name="backup_all_summary">Geçmişini, saatlik verilerini ve ayarlarını bir .json dosyasına kaydet.</string>
+    <string name="section_legacy">Eski</string>
+    <string name="legacy_export_title">CSV olarak dışa aktar</string>
+    <string name="legacy_export_summary">Yalnızca adımlar (date,steps), saatlik veri yok. Tablolar ve eski sürümler için.</string>
+    <string name="import_unsupported">Bu yedek, Stepsy\'nin daha yeni bir sürümüyle oluşturulmuş. Uygulamayı güncelleyip tekrar dene.</string>
     <string name="import_data_summary">Adım verilerini bir dosyadan geri yükle</string>
     <string name="import_invalid_file">Bu dosya geçersiz</string>
     <string name="import_warning_title">Adım verilerini değiştir</string>
     <string name="import_warning_message">Bu işlem mevcut tüm adım verilerini siler ve içe aktarılan verilerle değiştirir. Devam edilsin mi?</string>
+    <string name="import_warning_full">Bu işlem tüm verilerini, ayarlarını ve saatlik verilerini yedekteki verilerle değiştirir.</string>
+    <string name="import_warning_csv">Bu işlem adım geçmişini yedek dosyasının içeriğiyle değiştirir ve saatlik verileri siler.</string>
     <string name="section_import">İçe aktar</string>
     <string name="section_export">Dışa aktar</string>
     <string name="backup_retention_all">Tümü</string>
@@ -195,6 +203,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Arka plan rengini tersine çevir</string>
     <string name="widget_pref_dynamic_colors">Dinamik Renkler</string>
+    <string name="widget_pref_step_count_format">Adım sayısı biçimi</string>
+    <string name="widget_step_count_format_plain">Düz</string>
+    <string name="widget_step_count_format_delimited">Biçimlendirilmiş</string>
+    <string name="widget_step_count_format_short">Kısaltılmış</string>
     <string name="widget_pref_text_scale">Metin Ölçeği</string>
     <string name="widget_pref_bg_opacity">Arka Plan Opaklığı</string>
     <string name="widget_pref_btn_save">Kaydet</string>

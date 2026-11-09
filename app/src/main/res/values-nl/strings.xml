@@ -166,12 +166,20 @@
     <string name="backup_retention_count">Aantal back-ups behouden</string>
     <string name="backup_location">Back-uplocatie</string>
     <string name="backup_location_not_set">Niet ingesteld</string>
+    <string name="backup_location_required">Stel eerst een back-uplocatie in om automatische back-ups aan te zetten.</string>
     <string name="manual_backup">Handmatige back-up</string>
     <string name="manual_backup_successful">Handmatige back-up opgeslagen</string>
+    <string name="backup_all_summary">Sla je geschiedenis, uurgegevens en instellingen op in een .json-bestand.</string>
+    <string name="section_legacy">Verouderd</string>
+    <string name="legacy_export_title">Exporteren naar CSV</string>
+    <string name="legacy_export_summary">Alleen stappen (date,steps), geen uurgegevens. Voor spreadsheets en oudere versies.</string>
+    <string name="import_unsupported">Deze back-up is gemaakt met een nieuwere versie van Stepsy. Update de app en probeer het opnieuw.</string>
     <string name="import_data_summary">Herstel gegevens vanuit een bestand</string>
     <string name="import_invalid_file">Dit bestand is ongeldig</string>
     <string name="import_warning_title">Stapgegevens vervangen</string>
     <string name="import_warning_message">Dit verwijdert alle huidige stapgegevens en vervangt ze door de geïmporteerde gegevens. Doorgaan?</string>
+    <string name="import_warning_full">Hierdoor worden al je gegevens, instellingen en uurgegevens vervangen door de back-upgegevens.</string>
+    <string name="import_warning_csv">Hierdoor wordt je stappengeschiedenis vervangen door de inhoud van het back-upbestand en worden de uurgegevens gewist.</string>
     <string name="section_import">Importeren</string>
     <string name="section_export">Exporteren</string>
     <string name="backup_retention_all">Alle</string>
@@ -195,6 +203,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Achtergrondkleur omkeren</string>
     <string name="widget_pref_dynamic_colors">Dynamische kleuren</string>
+    <string name="widget_pref_step_count_format">Notatie van stappenaantal</string>
+    <string name="widget_step_count_format_plain">Gewoon</string>
+    <string name="widget_step_count_format_delimited">Opgemaakt</string>
+    <string name="widget_step_count_format_short">Verkort</string>
     <string name="widget_pref_text_scale">Tekstgrootte</string>
     <string name="widget_pref_bg_opacity">Dekking achtergrond</string>
     <string name="widget_pref_btn_save">Opslaan</string>

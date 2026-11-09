@@ -166,12 +166,20 @@
     <string name="backup_retention_count">Antal säkerhetskopior att behålla</string>
     <string name="backup_location">Plats för säkerhetskopiering</string>
     <string name="backup_location_not_set">Ej angivet</string>
+    <string name="backup_location_required">Välj först en plats för säkerhetskopior för att aktivera automatisk säkerhetskopiering.</string>
     <string name="manual_backup">Manuell säkerhetskopiering</string>
     <string name="manual_backup_successful">Manuell säkerhetskopiering lyckades</string>
+    <string name="backup_all_summary">Spara din historik, timdata och dina inställningar i en .json-fil.</string>
+    <string name="section_legacy">Äldre</string>
+    <string name="legacy_export_title">Exportera till CSV</string>
+    <string name="legacy_export_summary">Bara steg (date,steps), ingen timdata. För kalkylblad och äldre versioner.</string>
+    <string name="import_unsupported">Den här säkerhetskopian skapades med en nyare version av Stepsy. Uppdatera appen och försök igen.</string>
     <string name="import_data_summary">Återställ stegdata från en fil</string>
     <string name="import_invalid_file">Den här filen är ogiltig</string>
     <string name="import_warning_title">Ersätt stegdatan</string>
     <string name="import_warning_message">Detta tar bort all nuvarande stegdata och ersätter den med importerad data. Vill du fortsätta?</string>
+    <string name="import_warning_full">Det här ersätter all din data, alla inställningar och all timdata med data från säkerhetskopian.</string>
+    <string name="import_warning_csv">Det här ersätter din steghistorik med innehållet i säkerhetskopian och rensar timdata.</string>
     <string name="section_import">Importera</string>
     <string name="section_export">Exportera</string>
     <string name="backup_retention_all">Alla</string>
@@ -195,6 +203,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Invertera bakgrundsfärg</string>
     <string name="widget_pref_dynamic_colors">Dynamiska färger</string>
+    <string name="widget_pref_step_count_format">Format för stegantal</string>
+    <string name="widget_step_count_format_plain">Vanligt</string>
+    <string name="widget_step_count_format_delimited">Formaterat</string>
+    <string name="widget_step_count_format_short">Förkortat</string>
     <string name="widget_pref_text_scale">Textstorlek</string>
     <string name="widget_pref_bg_opacity">Bakgrundsgenomskinlighet</string>
     <string name="widget_pref_btn_save">Spara</string>

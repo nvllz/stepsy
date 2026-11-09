@@ -10,15 +10,19 @@
 
     <!-- Shared step-count wording (plurals) -->
     <plurals name="steps_word">
+        <item quantity="one">步</item>
         <item quantity="other">步</item>
     </plurals>
     <plurals name="steps_formatted">
+        <item quantity="one">%1$s 步</item>
         <item quantity="other">%1$s 步</item>
     </plurals>
     <plurals name="days_word_only">
+        <item quantity="one">天</item>
         <item quantity="other">天</item>
     </plurals>
     <plurals name="days_with_count">
+        <item quantity="one">%d 天</item>
         <item quantity="other">%d 天</item>
     </plurals>
 
@@ -42,10 +46,12 @@
     <string name="calories">%1$d 千卡</string>
     <string name="avg_per_day_pill">%1$s / 天</string>
     <plurals name="goal_reached_times">
+        <item quantity="one">目标已达成 %d 次</item>
         <item quantity="other">已达成目标 %d 次</item>
     </plurals>
     <string name="goal_streak_line">目标：%1$s · %2$s %3$s 连续</string>
     <plurals name="streak_segment_description">
+        <item quantity="one">连续 %1$d 天达成目标</item>
         <item quantity="other">连续 %1$d 天达成目标</item>
     </plurals>
     <string name="edit_step_count">调整步数</string>
@@ -160,12 +166,20 @@
     <string name="backup_retention_count">保留的备份数量</string>
     <string name="backup_location">备份位置</string>
     <string name="backup_location_not_set">未设置</string>
+    <string name="backup_location_required">请先设置备份位置，才能开启自动备份。</string>
     <string name="manual_backup">手动备份</string>
     <string name="manual_backup_successful">手动备份成功</string>
+    <string name="backup_all_summary">将历史记录、每小时数据和设置保存为 .json 文件。</string>
+    <string name="section_legacy">旧版</string>
+    <string name="legacy_export_title">导出为 CSV</string>
+    <string name="legacy_export_summary">仅步数 (date,steps)，不含每小时数据。适用于电子表格和旧版本。</string>
+    <string name="import_unsupported">此备份由更新版本的 Stepsy 创建。请更新应用后重试。</string>
     <string name="import_data_summary">从文件中恢复步数数据</string>
     <string name="import_invalid_file">该文件无效</string>
     <string name="import_warning_title">替换步数数据</string>
     <string name="import_warning_message">这将删除当前所有步数数据，并用导入的数据替换。是否继续？</string>
+    <string name="import_warning_full">这会用备份中的数据替换你所有的数据、设置和每小时数据。</string>
+    <string name="import_warning_csv">这会用备份文件的内容替换你的步数历史，并清除每小时数据。</string>
     <string name="section_import">导入</string>
     <string name="section_export">导出</string>
     <string name="backup_retention_all">全部</string>
@@ -189,6 +203,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">反转背景颜色</string>
     <string name="widget_pref_dynamic_colors">动态颜色</string>
+    <string name="widget_pref_step_count_format">步数格式</string>
+    <string name="widget_step_count_format_plain">纯数字</string>
+    <string name="widget_step_count_format_delimited">带分隔符</string>
+    <string name="widget_step_count_format_short">缩写</string>
     <string name="widget_pref_text_scale">文字缩放</string>
     <string name="widget_pref_bg_opacity">背景不透明度</string>
     <string name="widget_pref_btn_save">保存</string>
@@ -275,6 +293,7 @@
     <string name="onboarding_restore_busy">正在恢复...</string>
     <string name="onboarding_restore_done_title">备份已恢复</string>
     <plurals name="onboarding_restore_result">
+        <item quantity="one">已找回 %d 天的历史记录</item>
         <item quantity="other">已找回 %d 天的历史记录</item>
     </plurals>
 

@@ -172,12 +172,20 @@
     <string name="backup_retention_count">מספר גיבויים לשמירה</string>
     <string name="backup_location">מיקום הגיבוי</string>
     <string name="backup_location_not_set">לא הוגדר</string>
+    <string name="backup_location_required">קבעו קודם מיקום לגיבוי כדי להפעיל גיבויים אוטומטיים.</string>
     <string name="manual_backup">גיבוי ידני</string>
     <string name="manual_backup_successful">הגיבוי הידני הצליח</string>
+    <string name="backup_all_summary">שמרו לקובץ .json את ההיסטוריה, הנתונים השעתיים וההגדרות שלכם.</string>
+    <string name="section_legacy">ישן</string>
+    <string name="legacy_export_title">ייצוא ל-CSV</string>
+    <string name="legacy_export_summary">צעדים בלבד (date,steps), בלי נתונים שעתיים. לגיליונות ולגרסאות ישנות.</string>
+    <string name="import_unsupported">הגיבוי הזה נוצר בגרסה חדשה יותר של Stepsy. עדכנו את האפליקציה ונסו שוב.</string>
     <string name="import_data_summary">שחזור נתוני צעידה מקובץ</string>
     <string name="import_invalid_file">קובץ זה אינו תקני</string>
     <string name="import_warning_title">החלפת נתוני הצעדים</string>
     <string name="import_warning_message">פעולה זו תמחק את כל נתוני הצעידה הנוכחיים ותחליף אותם בנתונים המיובאים. להמשיך?</string>
+    <string name="import_warning_full">זה יחליף את כל הנתונים וההגדרות שלכם, כולל הנתונים השעתיים, בנתוני הגיבוי.</string>
+    <string name="import_warning_csv">זה יחליף את היסטוריית הצעדים שלכם בתוכן קובץ הגיבוי וימחק את הנתונים השעתיים.</string>
     <string name="section_import">ייבוא</string>
     <string name="section_export">ייצוא</string>
     <string name="backup_retention_all">הכול</string>
@@ -201,6 +209,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">היפוך צבע הרקע</string>
     <string name="widget_pref_dynamic_colors">צבעים דינמיים</string>
+    <string name="widget_pref_step_count_format">תבנית מספר הצעדים</string>
+    <string name="widget_step_count_format_plain">רגיל</string>
+    <string name="widget_step_count_format_delimited">מעוצב</string>
+    <string name="widget_step_count_format_short">מקוצר</string>
     <string name="widget_pref_text_scale">גודל טקסט</string>
     <string name="widget_pref_bg_opacity">אטימות רקע</string>
     <string name="widget_pref_btn_save">שמירה</string>

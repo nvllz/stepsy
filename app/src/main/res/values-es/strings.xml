@@ -172,12 +172,20 @@
     <string name="backup_retention_count">Número de copias de seguridad a conservar</string>
     <string name="backup_location">Ubicación de la copia de seguridad</string>
     <string name="backup_location_not_set">No establecido</string>
+    <string name="backup_location_required">Elige primero una ubicación de copia para activar las copias automáticas.</string>
     <string name="manual_backup">Copia de seguridad manual</string>
     <string name="manual_backup_successful">Copia de seguridad manual realizada con éxito</string>
+    <string name="backup_all_summary">Guarda tu historial, tus datos por hora y tus ajustes en un archivo .json.</string>
+    <string name="section_legacy">Antiguo</string>
+    <string name="legacy_export_title">Exportar a CSV</string>
+    <string name="legacy_export_summary">Solo pasos (date,steps), sin datos por hora. Para hojas de cálculo y versiones anteriores.</string>
+    <string name="import_unsupported">Esta copia se creó con una versión más reciente de Stepsy. Actualiza la app e inténtalo de nuevo.</string>
     <string name="import_data_summary">Restaurar datos de pasos desde un archivo</string>
     <string name="import_invalid_file">Este archivo no es válido</string>
     <string name="import_warning_title">Reemplazar datos de pasos</string>
     <string name="import_warning_message">Esto eliminará todos los datos de pasos actuales y los reemplazará con los importados. ¿Deseas continuar?</string>
+    <string name="import_warning_full">Esto reemplazará todos tus datos, ajustes y datos por hora con los de la copia.</string>
+    <string name="import_warning_csv">Esto reemplazará tu historial de pasos con el contenido del archivo de copia y borrará los datos por hora.</string>
     <string name="section_import">Importar</string>
     <string name="section_export">Exportar</string>
     <string name="backup_retention_all">Todas</string>
@@ -201,6 +209,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">Invertir color de fondo</string>
     <string name="widget_pref_dynamic_colors">Colores dinámicos</string>
+    <string name="widget_pref_step_count_format">Formato del número de pasos</string>
+    <string name="widget_step_count_format_plain">Simple</string>
+    <string name="widget_step_count_format_delimited">Con formato</string>
+    <string name="widget_step_count_format_short">Abreviado</string>
     <string name="widget_pref_text_scale">Escala de texto</string>
     <string name="widget_pref_bg_opacity">Opacidad de fondo</string>
     <string name="widget_pref_btn_save">Guardar</string>

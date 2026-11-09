@@ -166,12 +166,20 @@
     <string name="backup_retention_count">保持するバックアップ数</string>
     <string name="backup_location">バックアップ保存先</string>
     <string name="backup_location_not_set">未設定</string>
+    <string name="backup_location_required">自動バックアップをオンにするには、先にバックアップの保存先を設定してください。</string>
     <string name="manual_backup">手動バックアップ</string>
     <string name="manual_backup_successful">手動バックアップが完了しました</string>
+    <string name="backup_all_summary">履歴、時間別データ、設定を .json ファイルに保存します。</string>
+    <string name="section_legacy">旧形式</string>
+    <string name="legacy_export_title">CSVにエクスポート</string>
+    <string name="legacy_export_summary">歩数のみ (date,steps)、時間別データなし。スプレッドシートや古いバージョン向けです。</string>
+    <string name="import_unsupported">このバックアップは新しいバージョンのStepsyで作成されました。アプリを更新してもう一度お試しください。</string>
     <string name="import_data_summary">ファイルから歩数データを復元</string>
     <string name="import_invalid_file">無効なファイルです</string>
     <string name="import_warning_title">歩数データの置き換え</string>
     <string name="import_warning_message">現在の歩数データをインポートされたデータで上書きします。続けますか？</string>
+    <string name="import_warning_full">すべてのデータ、設定、時間別データがバックアップの内容に置き換わります。</string>
+    <string name="import_warning_csv">歩数の履歴がバックアップファイルの内容に置き換わり、時間別データは消去されます。</string>
     <string name="section_import">インポート</string>
     <string name="section_export">エクスポート</string>
     <string name="backup_retention_all">すべて</string>
@@ -195,6 +203,10 @@
     <!-- Widgets -->
     <string name="widget_pref_invert_bg">背景色を反転</string>
     <string name="widget_pref_dynamic_colors">ダイナミックカラー</string>
+    <string name="widget_pref_step_count_format">歩数の表示形式</string>
+    <string name="widget_step_count_format_plain">そのまま</string>
+    <string name="widget_step_count_format_delimited">区切りあり</string>
+    <string name="widget_step_count_format_short">短縮</string>
     <string name="widget_pref_text_scale">文字サイズ</string>
     <string name="widget_pref_bg_opacity">背景の透明度</string>
     <string name="widget_pref_btn_save">保存</string>
