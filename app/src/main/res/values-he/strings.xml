@@ -295,7 +295,7 @@
     <!-- Onboarding: 1. welcome -->
     <string name="onboarding_no_sensor">הטלפון הזה לא מדווח על חיישן צעדים, ולכן Stepsy לא יכולה לספור כאן.</string>
     <string name="onboarding_restore_title">ייבוא נתוני צעדים</string>
-    <string name="onboarding_restore_summary">שחזור מקובץ גיבוי</string>
+    <string name="onboarding_restore_summary">שחזור מקובץ גיבוי \n[Stepsy, Path, Paseo]</string>
     <string name="onboarding_restore_busy">משחזר...</string>
     <string name="onboarding_restore_done_title">הגיבוי שוחזר</string>
     <plurals name="onboarding_restore_result">

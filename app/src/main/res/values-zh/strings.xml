@@ -289,7 +289,7 @@
     <!-- Onboarding: 1. welcome -->
     <string name="onboarding_no_sensor">这台手机没有上报计步传感器，所以 Stepsy 无法在这里计步。</string>
     <string name="onboarding_restore_title">导入步数数据</string>
-    <string name="onboarding_restore_summary">恢复备份文件</string>
+    <string name="onboarding_restore_summary">恢复备份文件 \n[Stepsy, Path, Paseo]</string>
     <string name="onboarding_restore_busy">正在恢复...</string>
     <string name="onboarding_restore_done_title">备份已恢复</string>
     <plurals name="onboarding_restore_result">

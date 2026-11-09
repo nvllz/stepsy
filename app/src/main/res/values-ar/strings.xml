@@ -313,7 +313,7 @@
     <!-- Onboarding: 1. welcome -->
     <string name="onboarding_no_sensor">هذا الهاتف لا يُظهر وجود حساس خطوات، لذلك لا يستطيع Stepsy العد هنا.</string>
     <string name="onboarding_restore_title">استيراد بيانات الخطوات</string>
-    <string name="onboarding_restore_summary">استعادة ملف نسخة احتياطية</string>
+    <string name="onboarding_restore_summary">استعادة ملف نسخة احتياطية \n[Stepsy, Path, Paseo]</string>
     <string name="onboarding_restore_busy">جارٍ الاستعادة...</string>
     <string name="onboarding_restore_done_title">تمت استعادة النسخة</string>
     <plurals name="onboarding_restore_result">

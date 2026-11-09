@@ -289,7 +289,7 @@
     <!-- Onboarding: 1. welcome -->
     <string name="onboarding_no_sensor">Bu telefon adım sensörü bildirmiyor, bu yüzden Stepsy burada sayım yapamaz.</string>
     <string name="onboarding_restore_title">Adım verilerini içe aktar</string>
-    <string name="onboarding_restore_summary">Bir yedek dosyasını geri yükle</string>
+    <string name="onboarding_restore_summary">Bir yedek dosyasını geri yükle \n[Stepsy, Path, Paseo]</string>
     <string name="onboarding_restore_busy">Geri yükleniyor...</string>
     <string name="onboarding_restore_done_title">Yedek geri yüklendi</string>
     <plurals name="onboarding_restore_result">
