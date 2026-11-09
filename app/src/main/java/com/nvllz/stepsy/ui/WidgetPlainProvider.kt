@@ -15,6 +15,7 @@ import com.nvllz.stepsy.R
 import com.nvllz.stepsy.ui.widgetconfig.WidgetConfigType
 import com.nvllz.stepsy.ui.widgetconfig.WidgetConfigValues
 import com.nvllz.stepsy.ui.widgetconfig.WidgetPrefs
+import com.nvllz.stepsy.ui.widgetconfig.WidgetStepCountFormat
 import com.nvllz.stepsy.util.AppPreferences
 
 class WidgetPlainProvider : AppWidgetProvider() {
@@ -43,7 +44,7 @@ class WidgetPlainProvider : AppWidgetProvider() {
 
             val stepsStr = context.resources.getQuantityString(
                 R.plurals.steps_formatted,
-                steps,
+                if (values.stepCountFormat == WidgetStepCountFormat.SHORT && steps >= 1_000) 1_000_000 else steps,
                 values.stepCountFormat.format(context, steps)
             )
             remoteViews.setTextViewText(R.id.widget_plain_steps, stepsStr)

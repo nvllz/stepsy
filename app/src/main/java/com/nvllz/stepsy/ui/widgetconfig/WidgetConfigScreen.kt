@@ -181,7 +181,7 @@ fun WidgetConfigScreen(
                     val formatSampleContext = LocalContext.current
                     SettingRow(
                         title = stringResource(R.string.widget_pref_step_count_format),
-                        summary = stepCountFormat.format(formatSampleContext, STEP_COUNT_FORMAT_SAMPLE),
+                        summary = stepCountFormat.label(),
                         icon = R.drawable.ic_steps,
                         onClick = null,
                         trailing = {},
@@ -237,6 +237,15 @@ fun WidgetConfigScreen(
 }
 
 private const val STEP_COUNT_FORMAT_SAMPLE = 12345
+
+@Composable
+private fun WidgetStepCountFormat.label(): String = stringResource(
+    when (this) {
+        WidgetStepCountFormat.PLAIN -> R.string.widget_step_count_format_plain
+        WidgetStepCountFormat.DELIMITED -> R.string.widget_step_count_format_delimited
+        WidgetStepCountFormat.SHORT -> R.string.widget_step_count_format_short
+    },
+)
 
 private fun textScaleSteps(type: WidgetConfigType): Int =
     ((type.textScaleTo - type.textScaleFrom) / WidgetConfigType.TEXT_SCALE_STEP - 1)
