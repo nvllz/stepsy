@@ -289,7 +289,7 @@
     <!-- Onboarding: 1. welcome -->
     <string name="onboarding_no_sensor">Dieses Handy meldet keinen Schrittsensor, daher kann Stepsy hier nicht zählen.</string>
     <string name="onboarding_restore_title">Schrittdaten importieren</string>
-    <string name="onboarding_restore_summary">Backup-Datei wiederherstellen</string>
+    <string name="onboarding_restore_summary">Backup-Datei wiederherstellen \n[Stepsy, Path, Paseo]</string>
     <string name="onboarding_restore_busy">Wird wiederhergestellt...</string>
     <string name="onboarding_restore_done_title">Backup wiederhergestellt</string>
     <plurals name="onboarding_restore_result">

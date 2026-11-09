@@ -295,7 +295,7 @@
     <!-- Onboarding: 1. welcome -->
     <string name="onboarding_no_sensor">Ce téléphone ne signale aucun capteur de pas, Stepsy ne peut donc pas compter ici.</string>
     <string name="onboarding_restore_title">Importer les données de pas</string>
-    <string name="onboarding_restore_summary">Restaurer un fichier de sauvegarde</string>
+    <string name="onboarding_restore_summary">Restaurer un fichier de sauvegarde \n[Stepsy, Path, Paseo]</string>
     <string name="onboarding_restore_busy">Restauration...</string>
     <string name="onboarding_restore_done_title">Sauvegarde restaurée</string>
     <plurals name="onboarding_restore_result">
