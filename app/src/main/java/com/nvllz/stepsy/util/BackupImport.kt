@@ -2,6 +2,7 @@ package com.nvllz.stepsy.util
 
 import android.content.Context
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import android.util.JsonReader
 import android.util.JsonToken
@@ -16,6 +17,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.nvllz.stepsy.service.MidnightResetReceiver
 import com.nvllz.stepsy.service.MotionService
 import kotlinx.coroutines.runBlocking
+import java.io.File
 import java.io.FileInputStream
 import java.time.LocalDate
 import java.io.PushbackReader
@@ -34,7 +36,7 @@ internal object BackupImport {
         object Failed : Result
     }
 
-    enum class Format { FULL, CSV, INVALID, UNSUPPORTED }
+    enum class Format { FULL, CSV, PATH, PASEO, INVALID, UNSUPPORTED }
 
     private val DATE_REGEX = Regex("\\d{4}-\\d{2}-\\d{2}")
     private val SETTINGS_KEY_REGEX = Regex("[A-Za-z0-9_]+")
@@ -94,7 +96,13 @@ internal object BackupImport {
                         pushback.unread(c)
                         readJsonHeaderFormat(pushback)
                     }
-                    else -> if (isFileValid(ctx, uri)) Format.CSV else Format.INVALID
+                    else -> {
+                        val pushback = PushbackReader(streamReader, 1)
+                        pushback.unread(c)
+                        if (isPaseoDatabase(pushback)) Format.PASEO
+                        else if (isFileValid(ctx, uri)) Format.CSV
+                        else Format.INVALID
+                    }
                 }
             }
         } ?: Format.INVALID
@@ -102,22 +110,46 @@ internal object BackupImport {
         Format.INVALID
     }
 
+    private fun isPaseoDatabase(reader: Reader): Boolean {
+        val header = CharArray(16)
+        var filled = 0
+        while (filled < header.size) {
+            val read = reader.read(header, filled, header.size - filled)
+            if (read == -1) break
+            filled += read
+        }
+        val expected = SQLITE_HEADER
+        if (filled < expected.length) return false
+        for (i in expected.indices) {
+            if (header[i] != expected[i]) return false
+        }
+        return true
+    }
+
+    private const val SQLITE_HEADER = "SQLite format 3\u0000"
+
     private fun readJsonHeaderFormat(reader: Reader): Format {
         return try {
             JsonReader(reader).use { json ->
                 var formatValid = false
                 var version = -1
+                var isPathExport = false
                 json.beginObject()
-                while (json.hasNext() && !(formatValid && version >= 0)) {
+                while (json.hasNext() && !(!isPathExport && formatValid && version >= 0)) {
                     when (json.nextName()) {
                         "format" -> formatValid = json.nextString() == BackupExport.FORMAT_ID
                         "version" -> version = json.nextInt()
+                        "step_history_list" -> {
+                            isPathExport = true
+                            json.skipValue()
+                        }
                         else -> json.skipValue()
                     }
                 }
                 when {
                     formatValid && version > BackupExport.FORMAT_VERSION -> Format.UNSUPPORTED
                     formatValid && version >= 1 -> Format.FULL
+                    !formatValid && isPathExport -> Format.PATH
                     else -> Format.INVALID
                 }
             }
@@ -130,6 +162,18 @@ internal object BackupImport {
     fun importAndClear(ctx: Context, uri: Uri, repushService: Boolean = true): Result {
         return when (detectFormat(ctx, uri)) {
             Format.CSV -> importCsv(ctx, uri, repushService)
+            Format.PATH -> try {
+                importPath(ctx, uri, repushService)
+            } catch (e: Exception) {
+                Log.e(TAG, "Path import failed", e)
+                Result.Failed
+            }
+            Format.PASEO -> try {
+                importPaseo(ctx, uri, repushService)
+            } catch (e: Exception) {
+                Log.e(TAG, "Paseo import failed", e)
+                Result.Failed
+            }
             Format.FULL -> try {
                 importFull(ctx, uri, repushService)
             } catch (e: UnsupportedBackupException) {
@@ -186,6 +230,169 @@ internal object BackupImport {
             return Result.Failed
         }
     }
+
+    private fun importPath(ctx: Context, uri: Uri, repushService: Boolean): Result {
+        val db = Database.getInstance(ctx)
+        val entries = LinkedHashMap<String, Int>()
+        var failed = 0
+        var dailyGoal = 0
+        var theme: String? = null
+
+        ctx.contentResolver.openFileDescriptor(uri, "r")?.use { pfd ->
+            JsonReader(FileInputStream(pfd.fileDescriptor).reader(Charsets.UTF_8)).use { reader ->
+                reader.beginObject()
+                while (reader.hasNext()) {
+                    when (reader.nextName()) {
+                        "step_history_list" -> {
+                            reader.beginArray()
+                            while (reader.hasNext()) {
+                                try {
+                                    if (reader.peek() == JsonToken.NULL) {
+                                        reader.skipValue()
+                                        failed++
+                                        continue
+                                    }
+                                    val raw = reader.nextString()
+                                    val colon = raw.indexOf(':')
+                                    val date = if (colon > 0) raw.substring(0, colon).trim() else ""
+                                    val steps = if (colon > 0) raw.substring(colon + 1).trim().toIntOrNull() else null
+                                    if (steps != null && steps >= 0 && isValidBackupDate(date)) {
+                                        entries[date] = steps
+                                    } else {
+                                        failed++
+                                    }
+                                } catch (_: Exception) {
+                                    failed++
+                                }
+                            }
+                            reader.endArray()
+                        }
+                        "daily_goal" -> dailyGoal = readScalar(reader)?.toIntOrNull() ?: 0
+                        "theme_mode" -> theme = readScalar(reader)?.trim()
+                        else -> reader.skipValue()
+                    }
+                }
+                reader.endObject()
+            }
+        } ?: return Result.Failed
+
+        sendImportHold(ctx, true)
+        try {
+            db.clearAllAndImport(entries.map { it.key to it.value })
+            runBlocking {
+                AppPreferences.dataStore.edit { prefs ->
+                    if (dailyGoal > 0) {
+                        prefs[AppPreferences.PreferenceKeys.DAILY_GOAL_TARGET] = dailyGoal
+                    }
+                    val appliedTheme = theme
+                    if (appliedTheme != null && appliedTheme in PATH_THEMES) {
+                        prefs[AppPreferences.PreferenceKeys.THEME] = appliedTheme
+                    }
+                }
+            }
+            return finishImport(ctx, db, entries.size, failed, { date -> entries[date] ?: 0 }, repushService)
+        } catch (ex: Exception) {
+            Log.e(TAG, "Path import failed", ex)
+            sendImportHold(ctx, false)
+            return Result.Failed
+        }
+    }
+
+    private fun importPaseo(ctx: Context, uri: Uri, repushService: Boolean): Result {
+        val dbFile = File.createTempFile("paseo_import", ".db", ctx.cacheDir)
+        var sqlite: SQLiteDatabase? = null
+        val hourlyByDate = LinkedHashMap<String, IntArray>()
+        val dailyExtra = HashMap<String, Int>()
+        var failed = 0
+
+        try {
+            ctx.contentResolver.openFileDescriptor(uri, "r")?.use { pfd ->
+                FileInputStream(pfd.fileDescriptor).use { input ->
+                    dbFile.outputStream().use { output -> input.copyTo(output) }
+                }
+            } ?: return Result.Failed
+
+            sqlite = SQLiteDatabase.openDatabase(dbFile.absolutePath, null, SQLiteDatabase.OPEN_READONLY)
+            sqlite?.query("hours", null, null, null, null, null, null)?.use { cursor ->
+                val dateIndex = cursor.getColumnIndexOrThrow("date")
+                val hourIndex = (cursor.getColumnIndex("time").takeIf { it >= 0 })
+                    ?: cursor.getColumnIndexOrThrow("hour")
+                val startIndex = cursor.getColumnIndexOrThrow("startSteps")
+                val endIndex = cursor.getColumnIndexOrThrow("endSteps")
+                val editIndex = cursor.getColumnIndex("edit")
+
+                while (cursor.moveToNext()) {
+                    try {
+                        val dateRaw = cursor.getString(dateIndex)
+                        val date = parsePaseoDate(dateRaw)
+                        if (date == null) { failed++; continue }
+
+                        val steps = when {
+                            editIndex >= 0 && cursor.getInt(editIndex) == 1 ->
+                                if (cursor.isNull(endIndex)) null else cursor.getInt(endIndex)
+                            cursor.isNull(startIndex) || cursor.isNull(endIndex) -> null
+                            else -> cursor.getInt(endIndex) - cursor.getInt(startIndex)
+                        }?.coerceAtLeast(0)
+                        if (steps == null) { failed++; continue }
+
+                        val hour = if (cursor.isNull(hourIndex)) null
+                        else cursor.getInt(hourIndex).takeIf { it in 0 until Database.SLOT_COUNT }
+
+                        if (hour != null) {
+                            hourlyByDate.getOrPut(date) { IntArray(Database.SLOT_COUNT) }[hour] += steps
+                        } else {
+                            dailyExtra[date] = (dailyExtra[date] ?: 0) + steps
+                        }
+                    } catch (_: Exception) {
+                        failed++
+                    }
+                }
+            } ?: return Result.Failed
+        } finally {
+            try { sqlite?.close() } catch (_: Exception) { }
+            try { dbFile.delete() } catch (_: Exception) { }
+        }
+
+        try {
+            sendImportHold(ctx, true)
+            val db = Database.getInstance(ctx)
+            val entries = mutableMapOf<String, Int>()
+            val slots = mutableMapOf<String, IntArray>()
+            for ((date, hourly) in hourlyByDate) {
+                val hasHourly = hourly.any { it > 0 }
+                val extra = dailyExtra[date] ?: 0
+                val total = hourly.sum() + extra
+                if (total > 0) {
+                    entries[date] = total
+                    if (hasHourly) slots[date] = hourly
+                }
+            }
+            for ((date, extra) in dailyExtra) {
+                if (!hourlyByDate.containsKey(date) && extra > 0) entries[date] = extra
+            }
+
+            db.clearAllAndInsert(entries.map { it.key to it.value }.sortedBy { it.first }, slots, emptyList())
+            return finishImport(ctx, db, entries.size, failed, { date -> entries[date] ?: 0 }, repushService)
+        } catch (ex: Exception) {
+            Log.e(TAG, "Paseo import failed", ex)
+            sendImportHold(ctx, false)
+            return Result.Failed
+        }
+    }
+
+    private fun parsePaseoDate(raw: String?): String? {
+        if (raw == null || !raw.matches(PASEO_DATE_REGEX)) return null
+        return try {
+            LocalDate.parse(
+                raw.substring(0, 4) + "-" + raw.substring(4, 6) + "-" + raw.substring(6, 8)
+            ).toString()
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    private val PATH_THEMES = setOf("system", "light", "dark")
+    private val PASEO_DATE_REGEX = Regex("\\d{8}")
 
     private fun importFull(ctx: Context, uri: Uri, repushService: Boolean): Result {
         val db = Database.getInstance(ctx)

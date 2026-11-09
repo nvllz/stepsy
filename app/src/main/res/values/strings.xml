@@ -312,7 +312,7 @@
     <!-- Onboarding: 1. welcome -->
     <string name="onboarding_no_sensor">This phone doesn\'t report a step sensor, so Stepsy can\'t count here.</string>
     <string name="onboarding_restore_title">Import step data</string>
-    <string name="onboarding_restore_summary">Restore a backup file</string>
+    <string name="onboarding_restore_summary">Restore a backup file \n[Stepsy, Path, Paseo]</string>
     <string name="onboarding_restore_busy">Restoring...</string>
     <string name="onboarding_restore_done_title">Backup restored</string>
     <plurals name="onboarding_restore_result">
