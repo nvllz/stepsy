@@ -119,10 +119,12 @@
     <string name="reminders_two">দুটি রিমাইন্ডার</string>
     <string name="reminder_single_summary">দৈনিক লক্ষ্যের %1$s-এ রিমাইন্ডার</string>
     <string name="reminder_double_summary">দৈনিক লক্ষ্যের %1$s ও %2$s-এ রিমাইন্ডার</string>
-    <string name="live_notification_title">লাইভ বিজ্ঞপ্তি</string>
+    <string name="live_notification_title">লাইভ নোটিফিকেশন (অস্থির)</string>
     <string name="live_steps_only">শুধু পদক্ষেপ সংখ্যা</string>
     <string name="live_steps_progress">পদক্ষেপ সংখ্যা + লক্ষ্যের অগ্রগতি</string>
     <string name="live_notification_off">বন্ধ</string>
+    <string name="live_walk_description">হাঁটার সময় স্ট্যাটাস বারে পদক্ষেপের সংখ্যা</string>
+    <string name="step_notification_title">পদক্ষেপের নোটিফিকেশন</string>
     <string name="notification_settings_row">শব্দ ও সতর্কতা</string>
     <string name="notification_settings_summary">বিজ্ঞপ্তির ধরন বেছে নিন</string>
     <string name="channel_blocked">সিস্টেম সেটিংসে ব্লক করা আছে</string>
@@ -224,8 +226,10 @@
     <string name="no_sensor">আপনার ডিভাইসে পদক্ষেপ গণনার সেন্সর নেই</string>
     <string name="notification_category_counting_paused">গণনা বন্ধ</string>
     <string name="notification_category_steps_day">পদক্ষেপের তথ্য</string>
+    <string name="notification_category_live_update">লাইভ পদক্ষেপের সংখ্যা</string>
     <string name="notification_description_paused">পদক্ষেপ গণনা বন্ধ হলে জানান</string>
     <string name="notification_description_steps_day">আজকের পদক্ষেপ</string>
+    <string name="notification_description_live_update">হাঁটার সময় স্ট্যাটাস বারে পদক্ষেপের সংখ্যা দেখানো হয়</string>
     <string name="notification_step_counting_paused">পদক্ষেপ গণনা বন্ধ আছে</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

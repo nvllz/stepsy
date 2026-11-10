@@ -125,10 +125,12 @@
     <string name="reminders_two">Dos recordatorios</string>
     <string name="reminder_single_summary">Recordatorio al %1$s de tu meta diaria</string>
     <string name="reminder_double_summary">Recordatorios al %1$s y al %2$s de tu meta diaria</string>
-    <string name="live_notification_title">Notificación en vivo</string>
+    <string name="live_notification_title">Notificación en directo (inestable)</string>
     <string name="live_steps_only">Solo conteo de pasos</string>
     <string name="live_steps_progress">Conteo de pasos + progreso de la meta</string>
     <string name="live_notification_off">Desactivada</string>
+    <string name="live_walk_description">Pasos en la barra de estado mientras caminas</string>
+    <string name="step_notification_title">Notificación de pasos</string>
     <string name="notification_settings_row">Sonido y alertas</string>
     <string name="notification_settings_summary">Elige un tipo de notificación</string>
     <string name="channel_blocked">Bloqueado en la configuración del sistema</string>
@@ -230,8 +232,10 @@
     <string name="no_sensor">Tu dispositivo no tiene sensor de conteo de pasos</string>
     <string name="notification_category_counting_paused">Conteo pausado</string>
     <string name="notification_category_steps_day">Datos de pasos</string>
+    <string name="notification_category_live_update">Pasos en directo</string>
     <string name="notification_description_paused">Notificar cuando el conteo de pasos está pausado</string>
     <string name="notification_description_steps_day">Pasos hoy</string>
+    <string name="notification_description_live_update">Muestra tus pasos en la barra de estado mientras caminas</string>
     <string name="notification_step_counting_paused">El conteo de pasos está pausado</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

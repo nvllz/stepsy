@@ -120,10 +120,12 @@
     <string name="reminders_two">Two reminders</string>
     <string name="reminder_single_summary">Reminder at %1$s of your daily goal</string>
     <string name="reminder_double_summary">Reminders at %1$s and %2$s of your daily goal</string>
-    <string name="live_notification_title">Live notification</string>
+    <string name="live_notification_title">Live notification (unstable)</string>
     <string name="live_steps_only">Step count only</string>
     <string name="live_steps_progress">Step count + goal progress</string>
     <string name="live_notification_off">Off</string>
+    <string name="live_walk_description">Step count in the status bar while you walk</string>
+    <string name="step_notification_title">Step notification</string>
     <string name="notification_settings_row">Sound and alerts</string>
     <string name="notification_settings_summary">Choose a notification type</string>
     <string name="channel_blocked">Blocked in system settings</string>
@@ -247,8 +249,10 @@
     <string name="no_sensor">Your device doesn\'t have a step-counting sensor</string>
     <string name="notification_category_counting_paused">Counting paused</string>
     <string name="notification_category_steps_day">Step progress</string>
+    <string name="notification_category_live_update">Live step count</string>
     <string name="notification_description_paused">Notify when step counting is paused</string>
     <string name="notification_description_steps_day">Today\'s step count</string>
+    <string name="notification_description_live_update">Step count shown in the status bar while you walk</string>
     <string name="notification_step_counting_paused">Step counting is paused</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

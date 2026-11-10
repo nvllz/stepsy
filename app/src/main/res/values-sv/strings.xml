@@ -119,10 +119,12 @@
     <string name="reminders_two">Två påminnelser</string>
     <string name="reminder_single_summary">Påminnelse vid %1$s av ditt dagliga mål</string>
     <string name="reminder_double_summary">Påminnelser vid %1$s och %2$s av ditt dagliga mål</string>
-    <string name="live_notification_title">Liveavisering</string>
+    <string name="live_notification_title">Liveavisering (instabil)</string>
     <string name="live_steps_only">Endast stegantal</string>
     <string name="live_steps_progress">Stegantal + målframsteg</string>
     <string name="live_notification_off">Av</string>
+    <string name="live_walk_description">Antal steg i statusfältet när du går</string>
+    <string name="step_notification_title">Stegavisering</string>
     <string name="notification_settings_row">Ljud och varningar</string>
     <string name="notification_settings_summary">Välj typ av avisering</string>
     <string name="channel_blocked">Blockerad i systeminställningarna</string>
@@ -224,8 +226,10 @@
     <string name="no_sensor">Din enhet har ingen sensor för stegräkning</string>
     <string name="notification_category_counting_paused">Räkning pausad</string>
     <string name="notification_category_steps_day">Stegdata</string>
+    <string name="notification_category_live_update">Steg i realtid</string>
     <string name="notification_description_paused">Avisera när stegräkning är pausad</string>
     <string name="notification_description_steps_day">Steg idag</string>
+    <string name="notification_description_live_update">Visar antalet steg i statusfältet medan du går</string>
     <string name="notification_step_counting_paused">Stegräkning är pausad</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

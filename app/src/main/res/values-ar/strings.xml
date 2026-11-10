@@ -143,10 +143,12 @@
     <string name="reminders_two">تذكيران</string>
     <string name="reminder_single_summary">تذكير عند %1$s من هدفك اليومي</string>
     <string name="reminder_double_summary">تذكيران عند %1$s و%2$s من هدفك اليومي</string>
-    <string name="live_notification_title">الإشعار المباشر</string>
+    <string name="live_notification_title">إشعار مباشر (غير مستقر)</string>
     <string name="live_steps_only">عدد الخطوات فقط</string>
     <string name="live_steps_progress">عدد الخطوات + تقدّم الهدف</string>
     <string name="live_notification_off">إيقاف</string>
+    <string name="live_walk_description">عدد خطواتك في شريط الحالة أثناء المشي</string>
+    <string name="step_notification_title">إشعار الخطوات</string>
     <string name="notification_settings_row">الصوت والتنبيهات</string>
     <string name="notification_settings_summary">اختر نوع الإشعار</string>
     <string name="channel_blocked">محظور في إعدادات النظام</string>
@@ -248,8 +250,10 @@
     <string name="no_sensor">جهازك لا يحتوي على حساس عد الخطوات</string>
     <string name="notification_category_counting_paused">تم إيقاف العد</string>
     <string name="notification_category_steps_day">بيانات الخطوات</string>
+    <string name="notification_category_live_update">عدد الخطوات المباشر</string>
     <string name="notification_description_paused">إشعار عند إيقاف عد الخطوات</string>
     <string name="notification_description_steps_day">خطوات اليوم</string>
+    <string name="notification_description_live_update">عرض عدد خطواتك في شريط الحالة أثناء المشي</string>
     <string name="notification_step_counting_paused">تم إيقاف عد الخطوات</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

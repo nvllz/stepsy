@@ -131,10 +131,12 @@
     <string name="reminders_two">Два напоминания</string>
     <string name="reminder_single_summary">Напоминание при %1$s от дневной цели</string>
     <string name="reminder_double_summary">Напоминания при %1$s и %2$s от дневной цели</string>
-    <string name="live_notification_title">Живое уведомление</string>
+    <string name="live_notification_title">Уведомление в реальном времени (нестабильное)</string>
     <string name="live_steps_only">Только количество шагов</string>
     <string name="live_steps_progress">Количество шагов + прогресс цели</string>
     <string name="live_notification_off">Выкл.</string>
+    <string name="live_walk_description">Количество шагов в строке состояния во время ходьбы</string>
+    <string name="step_notification_title">Уведомление о шагах</string>
     <string name="notification_settings_row">Звук и оповещения</string>
     <string name="notification_settings_summary">Выберите тип уведомления</string>
     <string name="channel_blocked">Заблокировано в системных настройках</string>
@@ -236,8 +238,10 @@
     <string name="no_sensor">Ваше устройство не имеет датчика подсчёта шагов</string>
     <string name="notification_category_counting_paused">Подсчёт приостановлен</string>
     <string name="notification_category_steps_day">Данные о шагах</string>
+    <string name="notification_category_live_update">Количество шагов в реальном времени</string>
     <string name="notification_description_paused">Уведомлять при приостановке подсчёта шагов</string>
     <string name="notification_description_steps_day">Шаги за сегодня</string>
+    <string name="notification_description_live_update">Показывает количество шагов в строке состояния во время ходьбы</string>
     <string name="notification_step_counting_paused">Подсчёт шагов приостановлен</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

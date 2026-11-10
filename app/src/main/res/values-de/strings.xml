@@ -119,10 +119,12 @@
     <string name="reminders_two">Zwei Erinnerungen</string>
     <string name="reminder_single_summary">Erinnerung bei %1$s des Tagesziels</string>
     <string name="reminder_double_summary">Erinnerungen bei %1$s und %2$s des Tagesziels</string>
-    <string name="live_notification_title">Live-Benachrichtigung</string>
+    <string name="live_notification_title">Live-Benachrichtigung (instabil)</string>
     <string name="live_steps_only">Nur Schrittzahl</string>
     <string name="live_steps_progress">Schrittzahl + Zielfortschritt</string>
     <string name="live_notification_off">Aus</string>
+    <string name="live_walk_description">Schrittzahl in der Statusleiste beim Gehen</string>
+    <string name="step_notification_title">Schrittbenachrichtigung</string>
     <string name="notification_settings_row">Ton und Hinweise</string>
     <string name="notification_settings_summary">Benachrichtigungsart wählen</string>
     <string name="channel_blocked">In den Systemeinstellungen blockiert</string>
@@ -224,8 +226,10 @@
     <string name="no_sensor">Ihr Gerät hat keinen Schrittzähler-Sensor</string>
     <string name="notification_category_counting_paused">Zählung pausiert</string>
     <string name="notification_category_steps_day">Schrittdaten</string>
+    <string name="notification_category_live_update">Live-Schrittzahl</string>
     <string name="notification_description_paused">Benachrichtigung bei pausierter Schrittzählung</string>
     <string name="notification_description_steps_day">Schritte heute</string>
+    <string name="notification_description_live_update">Zeigt deine Schrittzahl beim Gehen in der Statusleiste an</string>
     <string name="notification_step_counting_paused">Schrittzählung pausiert</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

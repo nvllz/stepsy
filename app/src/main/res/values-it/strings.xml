@@ -125,10 +125,12 @@
     <string name="reminders_two">Due promemoria</string>
     <string name="reminder_single_summary">Promemoria al %1$s dell’obiettivo giornaliero</string>
     <string name="reminder_double_summary">Promemoria al %1$s e al %2$s dell’obiettivo giornaliero</string>
-    <string name="live_notification_title">Notifica live</string>
+    <string name="live_notification_title">Notifica in tempo reale (instabile)</string>
     <string name="live_steps_only">Solo conteggio passi</string>
     <string name="live_steps_progress">Conteggio passi + avanzamento dell’obiettivo</string>
     <string name="live_notification_off">Disattivata</string>
+    <string name="live_walk_description">Passi nella barra di stato mentre cammini</string>
+    <string name="step_notification_title">Notifica dei passi</string>
     <string name="notification_settings_row">Suoni e avvisi</string>
     <string name="notification_settings_summary">Scegli un tipo di notifica</string>
     <string name="channel_blocked">Bloccato nelle impostazioni di sistema</string>
@@ -230,8 +232,10 @@
     <string name="no_sensor">Il tuo dispositivo non ha un sensore per contare i passi</string>
     <string name="notification_category_counting_paused">Conteggio sospeso</string>
     <string name="notification_category_steps_day">Dati passi</string>
+    <string name="notification_category_live_update">Passi in tempo reale</string>
     <string name="notification_description_paused">Notifica quando il conteggio passi è sospeso</string>
     <string name="notification_description_steps_day">Passi oggi</string>
+    <string name="notification_description_live_update">Mostra i tuoi passi nella barra di stato mentre cammini</string>
     <string name="notification_step_counting_paused">Il conteggio passi è sospeso</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

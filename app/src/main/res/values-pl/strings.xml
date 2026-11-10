@@ -131,10 +131,12 @@
     <string name="reminders_two">Dwa przypomnienia</string>
     <string name="reminder_single_summary">Przypomnienie przy %1$s dziennego celu</string>
     <string name="reminder_double_summary">Przypomnienia przy %1$s i %2$s dziennego celu</string>
-    <string name="live_notification_title">Progres w powiadomieniu</string>
+    <string name="live_notification_title">Powiadomienie na żywo (niestabilne)</string>
     <string name="live_steps_only">Tylko liczba kroków</string>
     <string name="live_steps_progress">Liczba kroków + postęp celu</string>
     <string name="live_notification_off">Wyłączone</string>
+    <string name="live_walk_description">Liczba kroków na pasku stanu podczas chodzenia</string>
+    <string name="step_notification_title">Powiadomienie o krokach</string>
     <string name="notification_settings_row">Dźwięk i alerty</string>
     <string name="notification_settings_summary">Wybierz typ powiadomienia</string>
     <string name="channel_blocked">Zablokowane w ustawieniach systemu</string>
@@ -236,8 +238,10 @@
     <string name="no_sensor">Twoje urządzenie nie ma czujnika kroków</string>
     <string name="notification_category_counting_paused">Liczenie wstrzymane</string>
     <string name="notification_category_steps_day">Dane o krokach</string>
+    <string name="notification_category_live_update">Liczba kroków na żywo</string>
     <string name="notification_description_paused">Powiadamiaj gdy liczenie kroków jest wstrzymane</string>
     <string name="notification_description_steps_day">Kroki dzisiaj</string>
+    <string name="notification_description_live_update">Wyświetla liczbę kroków na pasku stanu podczas chodzenia</string>
     <string name="notification_step_counting_paused">Liczenie kroków jest wstrzymane</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

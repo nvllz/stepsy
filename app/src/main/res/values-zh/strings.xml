@@ -119,10 +119,12 @@
     <string name="reminders_two">两次提醒</string>
     <string name="reminder_single_summary">在达到每日目标的 %1$s 时提醒</string>
     <string name="reminder_double_summary">在达到每日目标的 %1$s 和 %2$s 时提醒</string>
-    <string name="live_notification_title">实时通知</string>
+    <string name="live_notification_title">实时通知（不稳定）</string>
     <string name="live_steps_only">仅步数</string>
     <string name="live_steps_progress">步数 + 目标进度</string>
     <string name="live_notification_off">关闭</string>
+    <string name="live_walk_description">步行时在状态栏显示步数</string>
+    <string name="step_notification_title">步数通知</string>
     <string name="notification_settings_row">声音和提醒</string>
     <string name="notification_settings_summary">选择通知类型</string>
     <string name="channel_blocked">已在系统设置中屏蔽</string>
@@ -224,8 +226,10 @@
     <string name="no_sensor">您的设备没有计步传感器</string>
     <string name="notification_category_counting_paused">暂停计步</string>
     <string name="notification_category_steps_day">步数</string>
+    <string name="notification_category_live_update">实时步数</string>
     <string name="notification_description_paused">计步暂停时将提醒</string>
     <string name="notification_description_steps_day">今日步数</string>
+    <string name="notification_description_live_update">步行时在状态栏显示你的步数</string>
     <string name="notification_step_counting_paused">计步已暂停</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

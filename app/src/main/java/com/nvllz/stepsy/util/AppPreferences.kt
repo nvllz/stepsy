@@ -45,6 +45,7 @@ object AppPreferences {
         val DAILY_GOAL_NOTIFICATION              = booleanPreferencesKey("daily_goal_notification")
         val DAILY_GOAL_TARGET                    = intPreferencesKey("daily_goal_target")
         val DAILY_GOAL_NOTIFICATION_PROGRESSBAR  = booleanPreferencesKey("daily_goal_notification_progressbar")
+        val LIVE_NOTIFICATION                    = booleanPreferencesKey("live_notification")
         val ENCOURAGING_NOTIFICATIONS            = booleanPreferencesKey("encouraging_notifications")
         val ENCOURAGING_THRESHOLDS               = stringSetPreferencesKey("encouraging_thresholds")
         val ENCOURAGING_STATE                    = stringPreferencesKey("encouraging_state")
@@ -264,6 +265,14 @@ object AppPreferences {
     var dailyGoalNotificationProgressbar: Boolean
         get() = runBlocking { dailyGoalNotificationProgressbarFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.DAILY_GOAL_NOTIFICATION_PROGRESSBAR] = value } }
+
+    fun liveNotificationFlow(): Flow<Boolean> = dataStore.data.map {
+        it[PreferenceKeys.LIVE_NOTIFICATION] ?: false
+    }
+
+    var liveNotification: Boolean
+        get() = runBlocking { liveNotificationFlow().first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.LIVE_NOTIFICATION] = value } }
 
     fun encouragingNotificationsFlow(): Flow<Boolean> = dataStore.data.map {
         it[PreferenceKeys.ENCOURAGING_NOTIFICATIONS] ?: true
