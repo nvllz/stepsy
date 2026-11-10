@@ -18,6 +18,8 @@ object NotificationChannels {
 
     val LIVE: String get() = MotionService.STEP_CHANNEL_ID
 
+    val LIVE_UPDATE: String get() = MotionService.LIVE_UPDATE_CHANNEL_ID
+
     fun ensureAll(context: Context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val nm = context.getSystemService(NotificationManager::class.java) ?: return
@@ -78,6 +80,28 @@ object NotificationChannels {
                     .setData(Uri.fromParts("package", app.packageName, null)),
             )
         }
+        for (intent in candidates) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (runCatching { app.startActivity(intent) }.isSuccess) return
+        }
+    }
+
+    fun canPromote(context: Context): Boolean =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA &&
+                runCatching { context.getSystemService(NotificationManager::class.java).canPostPromotedNotifications() }
+                    .getOrDefault(false)
+
+    fun openPromotion(context: Context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.BAKLAVA) return
+        val app = context.applicationContext
+        val candidates = listOf(
+            Intent(Settings.ACTION_APP_NOTIFICATION_PROMOTION_SETTINGS)
+                .putExtra(Settings.EXTRA_APP_PACKAGE, app.packageName),
+            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                .putExtra(Settings.EXTRA_APP_PACKAGE, app.packageName),
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                .setData(Uri.fromParts("package", app.packageName, null)),
+        )
         for (intent in candidates) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             if (runCatching { app.startActivity(intent) }.isSuccess) return

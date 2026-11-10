@@ -125,10 +125,12 @@
     <string name="reminders_two">Deux rappels</string>
     <string name="reminder_single_summary">Rappel à %1$s de l’objectif quotidien</string>
     <string name="reminder_double_summary">Rappels à %1$s et %2$s de l’objectif quotidien</string>
-    <string name="live_notification_title">Notification en direct</string>
+    <string name="live_notification_title">Notification en direct (instable)</string>
     <string name="live_steps_only">Nombre de pas uniquement</string>
     <string name="live_steps_progress">Nombre de pas + progression de l’objectif</string>
     <string name="live_notification_off">Désactivée</string>
+    <string name="live_walk_description">Nombre de pas dans la barre d\'état pendant la marche</string>
+    <string name="step_notification_title">Notification de pas</string>
     <string name="notification_settings_row">Son et alertes</string>
     <string name="notification_settings_summary">Choisir un type de notification</string>
     <string name="channel_blocked">Bloqué dans les paramètres système</string>
@@ -230,8 +232,10 @@
     <string name="no_sensor">Votre appareil ne possède pas de capteur de pas</string>
     <string name="notification_category_counting_paused">Comptage en pause</string>
     <string name="notification_category_steps_day">Données de pas</string>
+    <string name="notification_category_live_update">Nombre de pas en direct</string>
     <string name="notification_description_paused">Notifier lorsque le comptage est en pause</string>
     <string name="notification_description_steps_day">Pas aujourd\'hui</string>
+    <string name="notification_description_live_update">Affiche tes pas dans la barre d\'état pendant la marche</string>
     <string name="notification_step_counting_paused">Le comptage des pas est en pause</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

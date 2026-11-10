@@ -35,6 +35,7 @@ import com.nvllz.stepsy.util.Util
 import java.util.*
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.GoalNotificationWorker
+import com.nvllz.stepsy.util.NotificationChannels
 import com.nvllz.stepsy.util.TimedPauseManager
 import com.nvllz.stepsy.util.Util.distanceUnit
 import com.nvllz.stepsy.util.WidgetManager
@@ -64,6 +65,7 @@ internal class MotionService : Service() {
     private var mSlotWindowDate = ""
     private var mImportHold = false
     private var mSensorManager: SensorManager? = null
+    private var mCachedLive = false
 
     private val pauseChannelId = "com.nvllz.stepsy.PAUSE_CHANNEL_ID"
     private val pauseNotificationId = 3844
@@ -194,8 +196,18 @@ internal class MotionService : Service() {
             mCachedEncouraging = AppPreferences.encouragingNotifications
             mCachedHourly = AppPreferences.hourlyBreakdown
             lastPrefReadTime = currentTime
+
+            val liveWanted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA && AppPreferences.liveNotification
+            if (liveWanted && force) createLiveUpdateNotificationChannel()
+            mCachedLive = liveWanted && livePromotable()
         }
     }
+
+    private fun livePromotable(): Boolean =
+        runCatching {
+            !NotificationChannels.isBlocked(this, STEP_CHANNEL_ID) &&
+                    !NotificationChannels.isBlocked(this, LIVE_UPDATE_CHANNEL_ID)
+        }.getOrDefault(false)
 
     private fun deltaFresh(value: Int): Int {
         if (mLastSteps == -1 || value < mLastSteps) {
@@ -205,6 +217,12 @@ internal class MotionService : Service() {
         val delta = value - mLastSteps
         mLastSteps = value
         return delta
+    }
+
+    private fun postStepsNotification() {
+        val notification = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget).build()
+        startForeground(FOREGROUND_ID, notification)
+        lastNotificationUpdateTime = System.currentTimeMillis()
     }
 
     private var lastSharedPrefsWriteTime: Long = 0
@@ -303,9 +321,7 @@ internal class MotionService : Service() {
 
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastNotificationUpdateTime >= notificationUpdateInterval) {
-            val builder = createStepsNotification(mCachedShowProgressbar, mCachedDailyTarget)
-            startForeground(FOREGROUND_ID, builder.build())
-            lastNotificationUpdateTime = currentTime
+            postStepsNotification()
         }
 
         sendBundleUpdate(false)
@@ -326,6 +342,7 @@ internal class MotionService : Service() {
 
         val formattedSteps = Util.formatSteps(mTodaysSteps)
         val formattedTarget = Util.formatSteps(dailyTarget)
+        val promoted = mCachedLive && Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA
 
         val stepsPlural = resources.getQuantityString(R.plurals.steps_formatted, mTodaysSteps, formattedSteps)
         val stepsWord = resources.getQuantityString(R.plurals.steps_word, mTodaysSteps)
@@ -336,6 +353,9 @@ internal class MotionService : Service() {
 
         val notificationTitleRaw = formatString(this, R.string.notification_step_count_raw,
             stepsPlural, Util.stepsToDistance(mTodaysSteps), distanceUnit())
+
+        val liveDistanceText = String.format(Locale.getDefault(), "%.2f %s",
+            Util.stepsToDistance(mTodaysSteps), distanceUnit())
 
         val notificationTitleProgress = formatString(this, R.string.notification_step_goal_progress_title,
             formattedSteps, formattedTarget, stepsWord, stepGoalPercentage)
@@ -352,7 +372,7 @@ internal class MotionService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        return NotificationCompat.Builder(this, STEP_CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this, if (promoted) LIVE_UPDATE_CHANNEL_ID else STEP_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setOnlyAlertOnce(true)
             .setSilent(true)
@@ -372,9 +392,34 @@ internal class MotionService : Service() {
                         setContentText(getString(R.string.notification_step_goal_completed))
                     }
                 } else {
-                    setContentText(notificationTitleRaw)
+                    if (promoted) {
+                        setContentTitle("$formattedSteps $stepsWord")
+                        setContentText(liveDistanceText)
+                    } else setContentText(notificationTitleRaw)
                 }
             }
+
+        if (promoted) {
+            builder.setOngoing(true)
+            runCatching {
+                builder.setRequestPromotedOngoing(true)
+                builder.setShortCriticalText(formattedSteps)
+                if (Build.MANUFACTURER.equals("samsung", ignoreCase = true)) {
+                    builder.addExtras(Bundle().apply {
+                        if (Build.VERSION.SDK_INT >= SAMSUNG_CARD_LANE_SDK) {
+                            putInt("android.ongoingActivityNoti.style", 1)
+                            putString("android.ongoingActivityNoti.primaryInfo", "$formattedSteps $stepsWord")
+                            putString("android.ongoingActivityNoti.secondaryInfo", liveDistanceText)
+                        } else {
+                            putBoolean("android.ongoingActivityNoti.automation", true)
+                            putString("android.ongoingActivityNoti.automationPackage", packageName)
+                        }
+                    })
+                }
+            }
+        }
+
+        return builder
     }
 
     private fun sendBundleUpdate(paused: Boolean = false) {
@@ -601,6 +646,19 @@ internal class MotionService : Service() {
         }
     }
 
+    private fun createLiveUpdateNotificationChannel() {
+        if (mNotificationManager.getNotificationChannel(LIVE_UPDATE_CHANNEL_ID) == null) {
+            val liveUpdateNotificationChannel = NotificationChannel(
+                LIVE_UPDATE_CHANNEL_ID,
+                getString(R.string.notification_category_live_update),
+                NotificationManager.IMPORTANCE_LOW
+            )
+            liveUpdateNotificationChannel.description = getString(R.string.notification_description_live_update)
+            liveUpdateNotificationChannel.setShowBadge(false)
+            mNotificationManager.createNotificationChannel(liveUpdateNotificationChannel)
+        }
+    }
+
     private fun createPauseNotificationChannel() {
         if (mNotificationManager.getNotificationChannel(pauseChannelId) == null) {
             val pauseNotificationChannel = NotificationChannel(
@@ -774,5 +832,7 @@ internal class MotionService : Service() {
         private const val FOREGROUND_ID = 3843
         private const val MAX_EVENT_AGE_MS = 12L * 60L * 60L * 1000L
         internal const val STEP_CHANNEL_ID = "com.nvllz.stepsy.STEP_CHANNEL_ID"
+        internal const val LIVE_UPDATE_CHANNEL_ID = "com.nvllz.stepsy.LIVE_UPDATE_CHANNEL_ID"
+        private const val SAMSUNG_CARD_LANE_SDK = 37
     }
 }

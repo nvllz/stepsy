@@ -125,10 +125,12 @@
     <string name="reminders_two">שתי תזכורות</string>
     <string name="reminder_single_summary">תזכורת ב־%1$s מהיעד היומי</string>
     <string name="reminder_double_summary">תזכורות ב־%1$s וב־%2$s מהיעד היומי</string>
-    <string name="live_notification_title">התראה חיה</string>
+    <string name="live_notification_title">התראה בזמן אמת (לא יציבה)</string>
     <string name="live_steps_only">מספר הצעדים בלבד</string>
     <string name="live_steps_progress">מספר הצעדים + התקדמות ביעד</string>
     <string name="live_notification_off">כבוי</string>
+    <string name="live_walk_description">מספר הצעדים בשורת המצב בזמן הליכה</string>
+    <string name="step_notification_title">התראת צעדים</string>
     <string name="notification_settings_row">צליל והתראות</string>
     <string name="notification_settings_summary">בחירת סוג התראה</string>
     <string name="channel_blocked">חסום בהגדרות המערכת</string>
@@ -230,8 +232,10 @@
     <string name="no_sensor">אין למכשירך חיישן מדידת צעדים</string>
     <string name="notification_category_counting_paused">הספירה מושהית</string>
     <string name="notification_category_steps_day">התקדמות צעידה</string>
+    <string name="notification_category_live_update">מספר צעדים בזמן אמת</string>
     <string name="notification_description_paused">התראה לאחר השהיית ספירת הצעדים</string>
     <string name="notification_description_steps_day">ספירת הצעדים של היום</string>
+    <string name="notification_description_live_update">הצגת מספר הצעדים בשורת המצב בזמן הליכה</string>
     <string name="notification_step_counting_paused">ספירת הצעדים מושהית</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

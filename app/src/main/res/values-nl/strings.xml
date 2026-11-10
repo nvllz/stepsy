@@ -119,10 +119,12 @@
     <string name="reminders_two">Twee herinneringen</string>
     <string name="reminder_single_summary">Herinnering bij %1$s van je dagdoel</string>
     <string name="reminder_double_summary">Herinneringen bij %1$s en %2$s van je dagdoel</string>
-    <string name="live_notification_title">Live-melding</string>
+    <string name="live_notification_title">Live melding (instabiel)</string>
     <string name="live_steps_only">Alleen aantal stappen</string>
     <string name="live_steps_progress">Aantal stappen + voortgang van je doel</string>
     <string name="live_notification_off">Uit</string>
+    <string name="live_walk_description">Je stappenteller in de statusbalk tijdens het lopen</string>
+    <string name="step_notification_title">Stappenmelding</string>
     <string name="notification_settings_row">Geluid en waarschuwingen</string>
     <string name="notification_settings_summary">Kies een type melding</string>
     <string name="channel_blocked">Geblokkeerd in de systeeminstellingen</string>
@@ -224,8 +226,10 @@
     <string name="no_sensor">Je apparaat bevat geen stappenteller</string>
     <string name="notification_category_counting_paused">Stappenteller onderbroken</string>
     <string name="notification_category_steps_day">Statistieken</string>
+    <string name="notification_category_live_update">Live stappenteller</string>
     <string name="notification_description_paused">Melding wanneer de stappenteller is onderbroken</string>
     <string name="notification_description_steps_day">Aantal stappen vandaag</string>
+    <string name="notification_description_live_update">Toont je aantal stappen in de statusbalk tijdens het lopen</string>
     <string name="notification_step_counting_paused">Stappenteller is onderbroken</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

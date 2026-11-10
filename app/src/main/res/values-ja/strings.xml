@@ -119,10 +119,12 @@
     <string name="reminders_two">リマインダー2回</string>
     <string name="reminder_single_summary">1日の目標の%1$sでリマインダー</string>
     <string name="reminder_double_summary">1日の目標の%1$sと%2$sでリマインダー</string>
-    <string name="live_notification_title">ライブ通知</string>
+    <string name="live_notification_title">ライブ通知（不安定）</string>
     <string name="live_steps_only">歩数のみ</string>
     <string name="live_steps_progress">歩数 + 目標の進捗</string>
     <string name="live_notification_off">オフ</string>
+    <string name="live_walk_description">歩行中の歩数をステータスバーに表示</string>
+    <string name="step_notification_title">歩数通知</string>
     <string name="notification_settings_row">サウンドとアラート</string>
     <string name="notification_settings_summary">通知の種類を選択</string>
     <string name="channel_blocked">システム設定でブロックされています</string>
@@ -224,8 +226,10 @@
     <string name="no_sensor">この端末には歩数計センサーが搭載されていません</string>
     <string name="notification_category_counting_paused">歩数カウント一時停止中</string>
     <string name="notification_category_steps_day">歩数進捗</string>
+    <string name="notification_category_live_update">リアルタイム歩数</string>
     <string name="notification_description_paused">歩数カウントが一時停止されたときに通知</string>
     <string name="notification_description_steps_day">今日の歩数</string>
+    <string name="notification_description_live_update">歩行中の歩数をステータスバーに表示します</string>
     <string name="notification_step_counting_paused">歩数カウントは一時停止中です</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

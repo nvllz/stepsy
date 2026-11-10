@@ -2,6 +2,7 @@ package com.nvllz.stepsy.ui
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -106,13 +107,20 @@ fun DailyGoalsScreen(onBack: () -> Unit) {
         { AppPreferences.encouragingNotificationsFlow() },
         { AppPreferences.encouragingNotifications },
     )
+    val live by prefsState({ AppPreferences.liveNotificationFlow() }, { AppPreferences.liveNotification })
 
     var blocked by remember { mutableStateOf(blockedChannels(ctx)) }
     val liveOff = blocked[MotionService.STEP_CHANNEL_ID] == true
+    val liveSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA
+    val liveMode = liveSupported && live
+    var promotionOff by remember { mutableStateOf(liveSupported && !NotificationChannels.canPromote(ctx)) }
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) blocked = blockedChannels(ctx)
+            if (event == Lifecycle.Event.ON_RESUME) {
+                blocked = blockedChannels(ctx)
+                promotionOff = liveSupported && !NotificationChannels.canPromote(ctx)
+            }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
@@ -352,10 +360,13 @@ fun DailyGoalsScreen(onBack: () -> Unit) {
             SectionLabel(stringResource(R.string.section_notifications))
             SettingGroup {
                 SettingRow(
-                    title = stringResource(R.string.live_notification_title),
+                    title = stringResource(R.string.step_notification_title),
                     summary = stringResource(
                         when {
                             liveOff -> R.string.live_notification_off
+                            liveMode && promotionOff -> R.string.channel_blocked
+                            liveMode && blocked[MotionService.LIVE_UPDATE_CHANNEL_ID] == true -> R.string.channel_blocked
+                            liveMode -> R.string.live_walk_description
                             progress -> R.string.live_steps_progress
                             else -> R.string.live_steps_only
                         },
@@ -380,11 +391,15 @@ fun DailyGoalsScreen(onBack: () -> Unit) {
                     dismissText = null,
                 ) {
                     SettingGroup {
-                        listOf(
-                            NotificationChannels.REMINDERS to R.string.channel_reminders_name,
-                            MotionService.STEP_CHANNEL_ID to R.string.notification_category_steps_day,
-                            NotificationChannels.GOAL to R.string.records_goal_reached,
-                        ).forEachIndexed { index, (channel, name) ->
+                        val channels = buildList {
+                            add(NotificationChannels.REMINDERS to R.string.channel_reminders_name)
+                            add(MotionService.STEP_CHANNEL_ID to R.string.notification_category_steps_day)
+                            add(NotificationChannels.GOAL to R.string.records_goal_reached)
+                            if (liveMode) {
+                                add(NotificationChannels.LIVE_UPDATE to R.string.notification_category_live_update)
+                            }
+                        }
+                        channels.forEachIndexed { index, (channel, name) ->
                             if (index > 0) SettingDivider()
                             SettingRow(
                                 title = stringResource(name),
@@ -419,11 +434,18 @@ fun DailyGoalsScreen(onBack: () -> Unit) {
         val off = stringResource(R.string.live_notification_off)
         val stepsOnly = stringResource(R.string.live_steps_only)
         val withProgress = stringResource(R.string.live_steps_progress)
+        val liveLabel = stringResource(R.string.live_notification_title)
         ChoiceDialog(
-            title = stringResource(R.string.live_notification_title),
-            options = listOf(0 to off, 1 to stepsOnly, 2 to withProgress),
+            title = stringResource(R.string.step_notification_title),
+            options = buildList {
+                add(0 to off)
+                add(1 to stepsOnly)
+                add(2 to withProgress)
+                if (liveSupported) add(3 to liveLabel)
+            },
             selected = when {
                 liveOff -> 0
+                liveMode -> 3
                 progress -> 2
                 else -> 1
             },
@@ -431,13 +453,27 @@ fun DailyGoalsScreen(onBack: () -> Unit) {
                 choosingProgress = false
                 when (choice) {
                     0 -> openChannel(MotionService.STEP_CHANNEL_ID)
-                    else -> {
+                    1, 2 -> {
                         val showProgress = choice == 2
                         scope.launch {
+                            AppPreferences.liveNotification = false
                             AppPreferences.dailyGoalNotificationProgressbar = showProgress
                             pushNotification(showProgress, AppPreferences.dailyGoalTarget)
                         }
                         if (liveOff) openChannel(MotionService.STEP_CHANNEL_ID)
+                    }
+                    3 -> {
+                        scope.launch {
+                            AppPreferences.liveNotification = true
+                            AppPreferences.dailyGoalNotificationProgressbar = false
+                            pushNotification(false, AppPreferences.dailyGoalTarget)
+                        }
+                        when {
+                            liveOff -> openChannel(MotionService.STEP_CHANNEL_ID)
+                            blocked[MotionService.LIVE_UPDATE_CHANNEL_ID] == true ->
+                                openChannel(MotionService.LIVE_UPDATE_CHANNEL_ID)
+                            promotionOff -> NotificationChannels.openPromotion(ctx)
+                        }
                     }
                 }
             },
@@ -453,8 +489,12 @@ private fun <T> prefsState(flow: () -> Flow<T>, initial: () -> T): State<T> {
 }
 
 private fun blockedChannels(ctx: Context): Map<String, Boolean> =
-    listOf(NotificationChannels.GOAL, NotificationChannels.REMINDERS, MotionService.STEP_CHANNEL_ID)
-        .associateWith { NotificationChannels.isBlocked(ctx, it) }
+    listOf(
+        NotificationChannels.GOAL,
+        NotificationChannels.REMINDERS,
+        MotionService.STEP_CHANNEL_ID,
+        MotionService.LIVE_UPDATE_CHANNEL_ID,
+    ).associateWith { NotificationChannels.isBlocked(ctx, it) }
 
 private fun Float.toPercent(): Int = (this * 100).roundToInt()
 

@@ -119,10 +119,12 @@
     <string name="reminders_two">İki hatırlatma</string>
     <string name="reminder_single_summary">Günlük hedefin %1$s noktasında hatırlatma</string>
     <string name="reminder_double_summary">Günlük hedefin %1$s ve %2$s noktalarında hatırlatma</string>
-    <string name="live_notification_title">Canlı bildirim</string>
+    <string name="live_notification_title">Canlı bildirim (kararsız)</string>
     <string name="live_steps_only">Yalnızca adım sayısı</string>
     <string name="live_steps_progress">Adım sayısı + hedef ilerlemesi</string>
     <string name="live_notification_off">Kapalı</string>
+    <string name="live_walk_description">Yürürken durum çubuğunda adım sayısı</string>
+    <string name="step_notification_title">Adım bildirimi</string>
     <string name="notification_settings_row">Ses ve uyarılar</string>
     <string name="notification_settings_summary">Bildirim türünü seçin</string>
     <string name="channel_blocked">Sistem ayarlarında engellendi</string>
@@ -224,8 +226,10 @@
     <string name="no_sensor">Cihazınızda adım sayma sensörü bulunmamaktadır</string>
     <string name="notification_category_counting_paused">Sayım duraklatıldı</string>
     <string name="notification_category_steps_day">Adım verisi</string>
+    <string name="notification_category_live_update">Canlı adım sayısı</string>
     <string name="notification_description_paused">Adım sayımı duraklatıldığında bilgilendir</string>
     <string name="notification_description_steps_day">Bugünkü adımlar</string>
+    <string name="notification_description_live_update">Yürürken adım sayını durum çubuğunda gösterir</string>
     <string name="notification_step_counting_paused">Adım sayımı duraklatıldı</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>

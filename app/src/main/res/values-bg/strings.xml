@@ -119,10 +119,12 @@
     <string name="reminders_two">Две напомняния</string>
     <string name="reminder_single_summary">Напомняне при %1$s от дневната цел</string>
     <string name="reminder_double_summary">Напомняния при %1$s и %2$s от дневната цел</string>
-    <string name="live_notification_title">Известие на живо</string>
+    <string name="live_notification_title">Известие на живо (нестабилно)</string>
     <string name="live_steps_only">Само брой крачки</string>
     <string name="live_steps_progress">Брой крачки + напредък към целта</string>
     <string name="live_notification_off">Изключено</string>
+    <string name="live_walk_description">Брой стъпки в лентата на състоянието при ходене</string>
+    <string name="step_notification_title">Известие за стъпки</string>
     <string name="notification_settings_row">Звук и сигнали</string>
     <string name="notification_settings_summary">Изберете вид известие</string>
     <string name="channel_blocked">Блокирано в системните настройки</string>
@@ -224,8 +226,10 @@
     <string name="no_sensor">Устройството няма сензор за броене на крачки</string>
     <string name="notification_category_counting_paused">Броенето е спряно</string>
     <string name="notification_category_steps_day">Информация за крачки</string>
+    <string name="notification_category_live_update">Брой стъпки на живо</string>
     <string name="notification_description_paused">Извести при спиране на броенето</string>
     <string name="notification_description_steps_day">Крачки за деня</string>
+    <string name="notification_description_live_update">Броят стъпки в лентата на състоянието, докато ходите</string>
     <string name="notification_step_counting_paused">Броенето на крачки е спряно</string>
     <string name="notification_step_count_raw">%1$s · %2$.2f %3$s</string>
     <string name="notification_step_goal_progress_title">%1$s / %2$s %3$s · %4$d%%</string>
