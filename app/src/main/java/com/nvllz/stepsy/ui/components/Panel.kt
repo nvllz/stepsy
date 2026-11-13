@@ -16,7 +16,7 @@ import com.nvllz.stepsy.ui.theme.StepsyTheme
 fun Panel(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier = modifier.fillMaxWidth().clip(RoundedCornerShape(24.dp))
-            .background(StepsyTheme.colors.accentOpaque).padding(12.dp),
+            .background(StepsyTheme.colors.muted).padding(12.dp),
         content = content,
     )
 }

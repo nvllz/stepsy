@@ -66,7 +66,7 @@ fun StepsBarChart(
 
     val measurer = rememberTextMeasurer()
     val axisGray = Color(0xFF888888)
-    val small = TextStyle(color = axisGray, fontSize = 10.sp, fontFamily = Chivo)
+    val small = TextStyle(color = axisGray, fontSize = 11.sp, fontFamily = Chivo)
     val label = small.copy(fontSize = 12.sp)
     val stagger = if (n > 1) minOf(0.07f, 0.5f / (n - 1)) else 0f
     fun growth(i: Int) = EaseOutBack.transform(((appear.value - i * stagger) / (1f - stagger * (n - 1))).coerceIn(0f, 1f))

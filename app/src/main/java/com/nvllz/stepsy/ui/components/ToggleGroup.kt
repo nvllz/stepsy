@@ -25,7 +25,7 @@ import com.nvllz.stepsy.ui.theme.StepsyTheme
 @Composable
 fun <T> ToggleGroup(options: List<Pair<T, String>>, selected: T, onSelect: (T) -> Unit, modifier: Modifier = Modifier) {
     val onSurface = MaterialTheme.colorScheme.onSurface
-    Row(modifier.fillMaxWidth().clip(CircleShape).background(StepsyTheme.colors.accentOpaque).padding(4.dp)) {
+    Row(modifier.fillMaxWidth().clip(CircleShape).background(StepsyTheme.colors.muted).padding(4.dp)) {
         options.forEach { (value, label) ->
             val active = value == selected
             val fill by animateColorAsState(if (active) onSurface else Color.Transparent, label = "toggle")

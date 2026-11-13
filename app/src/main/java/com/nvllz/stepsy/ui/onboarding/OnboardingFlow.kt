@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.nvllz.stepsy.R
+import com.nvllz.stepsy.ui.components.CircleIconButton
 import com.nvllz.stepsy.ui.components.ImportWarningDialog
 import com.nvllz.stepsy.ui.components.LocalToast
 import com.nvllz.stepsy.ui.components.ToastKind
@@ -292,20 +293,12 @@ private fun TopRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (canGoBack) {
-            Box(
-                Modifier.size(48.dp).clip(CircleShape).clickable(role = Role.Button, onClick = onBack),
-                contentAlignment = Alignment.Center,
-            ) {
-                Box(
-                    Modifier.size(40.dp).clip(CircleShape).background(StepsyTheme.colors.accentOpaque),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        painterResource(R.drawable.ic_chevron_right),
-                        stringResource(androidx.appcompat.R.string.abc_action_bar_up_description),
-                        Modifier.size(24.dp).rotate(180f),
-                    )
-                }
+            CircleIconButton(onClick = onBack) {
+                Icon(
+                    painterResource(R.drawable.ic_chevron_right),
+                    stringResource(androidx.appcompat.R.string.abc_action_bar_up_description),
+                    Modifier.size(24.dp).rotate(180f),
+                )
             }
         }
         Spacer(Modifier.weight(1f))
@@ -317,7 +310,7 @@ private fun TopRow(
         ) {
             Text(
                 stringResource(R.string.onboarding_skip_setup).uppercase(),
-                fontSize = 13.sp, letterSpacing = 2.sp,
+                fontSize = 12.sp, letterSpacing = 2.sp,
                 fontWeight = FontWeight.SemiBold, color = StepsyTheme.colors.accent,
             )
         }
@@ -334,22 +327,24 @@ internal fun OnboardingHero(steps: Int, compact: Boolean) {
         Text(
             stringResource(R.string.label_today).uppercase(),
             modifier = Modifier.padding(bottom = 6.dp),
-            fontSize = 13.sp, letterSpacing = 2.sp,
+            fontSize = 12.sp, letterSpacing = 2.sp,
             fontWeight = FontWeight.SemiBold, color = StepsyTheme.colors.accent,
         )
         Text(
             NumberFormat.getIntegerInstance().format(shown.toLong()),
             style = TextStyle(
                 fontSize = if (compact) 40.sp else 56.sp,
+                lineHeight = if (compact) 44.sp else 60.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = Chivo,
+                fontFeatureSettings = "tnum",
                 color = MaterialTheme.colorScheme.onSurface,
             ),
         )
         if (!compact) {
             Text(
                 pluralStringResource(R.plurals.steps_word, steps).uppercase(),
-                fontSize = 13.sp, letterSpacing = 2.sp,
+                fontSize = 12.sp, letterSpacing = 2.sp,
                 fontWeight = FontWeight.SemiBold, color = StepsyTheme.colors.accent,
                 modifier = Modifier.offset(y = (-2).dp),
             )

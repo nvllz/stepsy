@@ -8,8 +8,8 @@ import com.nvllz.stepsy.ui.theme.StepsyTheme
 
 @Composable
 fun fieldColors() = TextFieldDefaults.colors(
-    focusedContainerColor = StepsyTheme.colors.accentOpaque,
-    unfocusedContainerColor = StepsyTheme.colors.accentOpaque,
+    focusedContainerColor = StepsyTheme.colors.muted,
+    unfocusedContainerColor = StepsyTheme.colors.muted,
     focusedIndicatorColor = Color.Transparent,
     unfocusedIndicatorColor = Color.Transparent,
     cursorColor = MaterialTheme.colorScheme.onSurface,

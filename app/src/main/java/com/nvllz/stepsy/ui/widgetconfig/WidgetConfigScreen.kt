@@ -48,6 +48,7 @@ import com.nvllz.stepsy.ui.components.SettingDivider
 import com.nvllz.stepsy.ui.components.SettingGroup
 import com.nvllz.stepsy.ui.components.SettingRow
 import com.nvllz.stepsy.ui.components.SwitchSetting
+import com.nvllz.stepsy.ui.theme.StepsyTheme
 import java.text.NumberFormat
 import kotlin.math.roundToInt
 
@@ -83,7 +84,7 @@ fun WidgetConfigScreen(
     Column(
         modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
+            .background(StepsyTheme.colors.background)
             .safeDrawingPadding(),
     ) {
         val backdropLabel = stringResource(R.string.widget_pref_invert_bg)
@@ -116,7 +117,7 @@ fun WidgetConfigScreen(
                         .fillMaxSize()
                         .padding(1.5.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surface),
+                        .background(StepsyTheme.colors.background),
                 )
                 Icon(
                     painterResource(targetIcon),

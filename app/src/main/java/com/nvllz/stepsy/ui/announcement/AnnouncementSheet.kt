@@ -113,7 +113,7 @@ fun AnnouncementSheet(kind: Kind, onDismiss: () -> Unit) {
                 modifier = Modifier
                     .size(84.dp)
                     .clip(CircleShape)
-                    .background(StepsyTheme.colors.accentOpaque),
+                    .background(StepsyTheme.colors.muted),
             ) {
                 when (kind) {
                     Kind.STAR -> Icon(

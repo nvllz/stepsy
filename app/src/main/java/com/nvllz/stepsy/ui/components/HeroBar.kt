@@ -80,7 +80,7 @@ fun HeroBar(progress: Float, modifier: Modifier = Modifier) {
 
 @Composable
 fun HeroBar(shown: State<Float>, modifier: Modifier = Modifier) {
-    val bed = StepsyTheme.colors.accentOpaque
+    val bed = StepsyTheme.colors.muted
     val palette = lapPalette()
     val peak = colorResource(R.color.colorLapPeak)
     val sheen = colorResource(R.color.colorLapSheen)

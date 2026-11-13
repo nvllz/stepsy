@@ -1,11 +1,13 @@
 package com.nvllz.stepsy.ui.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -97,7 +99,15 @@ fun ToastHost(state: ToastState, modifier: Modifier = Modifier) {
         exit = slideOutVertically(tween(200)) { it } + fadeOut(tween(200)),
         modifier = modifier.padding(bottom = state.bottomOffset),
     ) {
-        lastMessage?.let { ToastPill(it, onClick = state::dismiss) }
+        AnimatedContent(
+            targetState = lastMessage,
+            transitionSpec = {
+                (slideInVertically(tween(250)) { it } + fadeIn(tween(250))) togetherWith fadeOut(tween(200))
+            },
+            label = "toastContent",
+        ) { pill ->
+            pill?.let { ToastPill(it, onClick = state::dismiss) }
+        }
     }
 }
 

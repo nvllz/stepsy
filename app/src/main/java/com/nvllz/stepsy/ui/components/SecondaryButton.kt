@@ -17,7 +17,7 @@ fun SecondaryButton(text: String, onClick: () -> Unit, modifier: Modifier = Modi
     Button(
         onClick, modifier.heightIn(min = 48.dp), shape = CircleShape, elevation = null,
         colors = ButtonDefaults.buttonColors(
-            containerColor = StepsyTheme.colors.accentOpaque, contentColor = MaterialTheme.colorScheme.onSurface,
+            containerColor = StepsyTheme.colors.muted, contentColor = MaterialTheme.colorScheme.onSurface,
         ),
     ) { Text(text, fontWeight = FontWeight.SemiBold) }
 }

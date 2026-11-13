@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -119,6 +118,16 @@ internal fun HomeScreen(
     }
 
     val fabShown = remember { mutableStateOf(true) }
+    val fabPulse = remember { Animatable(1f) }
+    var fabPulseArmed by remember { mutableStateOf(false) }
+    LaunchedEffect(paused) {
+        if (fabPulseArmed && paused) {
+            fabPulse.snapTo(1f)
+            fabPulse.animateTo(1.06f, tween(130, easing = FastOutSlowInEasing))
+            fabPulse.animateTo(1f, tween(200, easing = FastOutSlowInEasing))
+        }
+        fabPulseArmed = true
+    }
     LaunchedEffect(scroll, filterRowHeight) {
         var concealedNow = false
         if (!filterRowApplied && filterRowHeight > 0) {
@@ -338,11 +347,11 @@ internal fun HomeScreen(
         toast.show(ctx.getString(R.string.steps_updated), ToastKind.SUCCESS)
     }
 
-    fun scrollToFold() {
+    fun scrollToFold(fast: Boolean = false) {
         scope.launch {
             scroll.animateScrollTo(
                 filterRowHeight,
-                tween(850, easing = FastOutSlowInEasing)
+                tween(if (fast) 250 else 850, easing = FastOutSlowInEasing)
             )
         }
     }
@@ -540,7 +549,7 @@ internal fun HomeScreen(
                             Text(
                                 headerShown.uppercase(),
                                 modifier = Modifier.padding(bottom = 6.dp),
-                                fontSize = 13.sp,
+                                fontSize = 12.sp,
                                 letterSpacing = 2.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = StepsyTheme.colors.accent
@@ -550,8 +559,10 @@ internal fun HomeScreen(
                                 Util::formatSteps,
                                 TextStyle(
                                     fontSize = 56.sp,
+                                    lineHeight = 60.sp,
                                     fontWeight = FontWeight.Bold,
                                     fontFamily = Chivo,
+                                    fontFeatureSettings = "tnum",
                                     color = MaterialTheme.colorScheme.onSurface
                                 ),
                                 Modifier.clip(RoundedCornerShape(12.dp)).clickable(enabled = editable) { editSteps = true },
@@ -559,7 +570,7 @@ internal fun HomeScreen(
                             )
                             Text(
                                 ctx.resources.getQuantityString(R.plurals.steps_word, s.steps).uppercase(),
-                                fontSize = 13.sp, letterSpacing = 2.sp,
+                                fontSize = 12.sp, letterSpacing = 2.sp,
                                 fontWeight = FontWeight.SemiBold, color = StepsyTheme.colors.accent,
                                 modifier = Modifier.offset(y = (-2).dp),
                             )
@@ -622,7 +633,7 @@ internal fun HomeScreen(
                                     Modifier
                                         .padding(top = 8.dp)
                                         .clip(CircleShape)
-                                        .background(StepsyTheme.colors.accentOpaque)
+                                        .background(StepsyTheme.colors.muted)
                                         .clickable(role = Role.Button) {
                                             ctx.startActivity(Intent(ctx, DailyGoalsActivity::class.java))
                                         }
@@ -853,7 +864,7 @@ internal fun HomeScreen(
                                 chart.dates.getOrNull(i)?.let { d ->
                                     if (!d.isAfter(today)) {
                                         selectedDate = d; pickedDay = d
-                                        scrollToFold()
+                                        scrollToFold(fast = true)
                                     }
                                 }
                             },
@@ -906,10 +917,10 @@ internal fun HomeScreen(
         AnimatedVisibility(
             fabShown.value,
             Modifier.align(Alignment.BottomEnd).navigationBarsPadding().padding(16.dp),
-            enter = scaleIn(initialScale = 0.5f) + fadeIn(),
-            exit = scaleOut(targetScale = 0.5f) + fadeOut(),
+            enter = if (paused) fadeIn() else scaleIn(initialScale = 0.5f) + fadeIn(),
+            exit = if (paused) fadeOut() else scaleOut(targetScale = 0.5f) + fadeOut(),
         ) {
-            PauseFab(paused, onTogglePause, onPauseOptions)
+            PauseFab(paused, fabPulse, onTogglePause, onPauseOptions)
         }
     }
 
@@ -1019,7 +1030,7 @@ private fun ChartModeToggle(line: Boolean, onToggle: () -> Unit, modifier: Modif
         modifier
             .size(32.dp)
             .clip(CircleShape)
-            .background(StepsyTheme.colors.accentOpaque)
+            .background(StepsyTheme.colors.muted)
             .semantics { contentDescription = description }
             .clickable(role = Role.Button, onClick = onToggle),
         contentAlignment = Alignment.Center,
@@ -1069,7 +1080,7 @@ private fun FilterPickerDialog(
 @Composable
 internal fun FilterChipLabel(label: String, on: Boolean, modifier: Modifier = Modifier, onClick: (() -> Unit)? = null) {
     val c = StepsyTheme.colors
-    val bg by animateColorAsState(if (on) MaterialTheme.colorScheme.onSurface else c.accentOpaque, tween(200), label = "chipBg")
+    val bg by animateColorAsState(if (on) MaterialTheme.colorScheme.onSurface else c.muted, tween(200), label = "chipBg")
     val ink by animateColorAsState(if (on) c.background else c.accent, tween(200), label = "chipInk")
     Text(
         label, fontSize = 14.sp, maxLines = 1,
@@ -1093,13 +1104,13 @@ private fun TopBar(
     milestoneTarget: Int,
 ) {
     var open by remember { mutableStateOf(false) }
-    Box(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp).heightIn(min = 40.dp)) {
+    Box(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp).heightIn(min = 48.dp)) {
         AnimatedVisibility(showToday, Modifier.align(Alignment.Center), enter = fadeIn() + scaleIn(), exit = fadeOut() + scaleOut()) {
 
             Row(
                 Modifier
                     .clip(CircleShape)
-                    .background(StepsyTheme.colors.accentOpaque)
+                    .background(StepsyTheme.colors.muted)
                     .border(1.dp, StepsyTheme.colors.accent.copy(alpha = 0.3f), CircleShape)
                     .clickable(onClick = onToday)
                     .padding(start = 10.dp, end = 15.dp, top = 6.dp, bottom = 6.dp),
@@ -1115,7 +1126,8 @@ private fun TopBar(
                 )
                 Text(
                     stringResource(R.string.label_today).uppercase(),
-                    fontSize = 13.sp,
+                    fontSize = 12.sp,
+                    letterSpacing = 2.sp,
                     fontWeight = FontWeight.SemiBold,
                 )
             }
@@ -1125,12 +1137,12 @@ private fun TopBar(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(Modifier.size(40.dp), contentAlignment = Alignment.Center) {
+            Box(Modifier.size(48.dp), contentAlignment = Alignment.Center) {
                 Box(
                     Modifier
-                        .matchParentSize()
+                        .size(40.dp)
                         .clip(CircleShape)
-                        .background(StepsyTheme.colors.accentOpaque)
+                        .background(StepsyTheme.colors.muted)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = LocalIndication.current,
@@ -1153,7 +1165,7 @@ private fun TopBar(
                                 .size(7.dp)
                                 .clip(CircleShape)
                                 .background(StepsyTheme.colors.special)
-                                .border(1.dp, StepsyTheme.colors.accentOpaque, CircleShape),
+                                .border(1.dp, StepsyTheme.colors.muted, CircleShape),
                         )
                     }
                 }
@@ -1162,18 +1174,25 @@ private fun TopBar(
             Box {
                 Box(
                     Modifier
-                        .size(40.dp)
+                        .size(48.dp)
                         .clip(CircleShape)
-                        .background(StepsyTheme.colors.accentOpaque)
                         .clickable { open = true },
                     contentAlignment = Alignment.Center,
                 ) {
-                    Icon(
-                        painter = painterResource(
-                            androidx.appcompat.R.drawable.abc_ic_menu_overflow_material
-                        ),
-                        contentDescription = stringResource(R.string.settings),
-                    )
+                    Box(
+                        Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .background(StepsyTheme.colors.muted),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            painter = painterResource(
+                                androidx.appcompat.R.drawable.abc_ic_menu_overflow_material
+                            ),
+                            contentDescription = stringResource(R.string.settings),
+                        )
+                    }
                 }
 
                 DropdownMenu(
@@ -1190,7 +1209,7 @@ private fun TopBar(
                         val (label, cls) = item
 
                         DropdownMenuItem(
-                            text = { Text(stringResource(label), fontSize = 17.sp) },
+                            text = { Text(stringResource(label), fontSize = 16.sp) },
                             leadingIcon = {
                                 Icon(
                                     painterResource(icon),
@@ -1237,7 +1256,13 @@ private fun FilterBarCaret(visible: Boolean, onClick: () -> Unit) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun PauseFab(paused: Boolean, onClick: () -> Unit, onLongClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun PauseFab(
+    paused: Boolean,
+    pulse: Animatable<Float, AnimationVector1D>,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val container by animateColorAsState(
         if (paused) StepsyTheme.colors.special else MaterialTheme.colorScheme.onSurface,
         label = "fabColor",
@@ -1246,7 +1271,7 @@ private fun PauseFab(paused: Boolean, onClick: () -> Unit, onLongClick: () -> Un
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .shadow(10.dp, CircleShape)
+            .graphicsLayer { scaleX = pulse.value; scaleY = pulse.value }
             .clip(CircleShape).background(container)
             .combinedClickable(onClickLabel = label, onClick = onClick, onLongClick = { if (!paused) onLongClick() }, role = Role.Button)
             .animateContentSize(spring(stiffness = Spring.StiffnessMediumLow))

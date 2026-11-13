@@ -75,8 +75,8 @@ fun NumberFieldDialog(
 
 @Composable
 private fun fieldColorsWithAccentSupporting() = TextFieldDefaults.colors(
-    focusedContainerColor = StepsyTheme.colors.accentOpaque,
-    unfocusedContainerColor = StepsyTheme.colors.accentOpaque,
+    focusedContainerColor = StepsyTheme.colors.muted,
+    unfocusedContainerColor = StepsyTheme.colors.muted,
     focusedIndicatorColor = Color.Transparent,
     unfocusedIndicatorColor = Color.Transparent,
     cursorColor = MaterialTheme.colorScheme.onSurface,

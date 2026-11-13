@@ -105,7 +105,7 @@ fun <T> PillSelector(
     ) {
         Row(
             Modifier.onSizeChanged { rowWidth = it.width }
-                .clip(CircleShape).background(StepsyTheme.colors.accentOpaque)
+                .clip(CircleShape).background(StepsyTheme.colors.muted)
                 .horizontalScroll(scroll).padding(4.dp)
                 .drawBehind {
                     drawRoundRect(

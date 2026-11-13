@@ -90,7 +90,7 @@ fun AboutScreen(onBack: () -> Unit) {
                     modifier = Modifier
                         .padding(top = 10.dp)
                         .clip(CircleShape)
-                        .background(c.accentOpaque)
+                        .background(c.muted)
                         .border(1.dp, c.accent.copy(alpha = 0.3f), CircleShape)
                         .clickable(role = Role.Button) { open(URL_RELEASES) }
                         .padding(horizontal = 14.dp, vertical = 6.dp),
