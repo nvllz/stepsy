@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +21,7 @@ import com.nvllz.stepsy.ui.components.TimePickerDialog
 import com.nvllz.stepsy.ui.theme.StepsyTheme
 import com.nvllz.stepsy.util.AppPreferences
 import com.nvllz.stepsy.util.Util
+import kotlinx.coroutines.delay
 import java.util.Calendar
 
 class TileDialogActivity : AppCompatActivity() {
@@ -51,6 +53,14 @@ class TileDialogActivity : AppCompatActivity() {
     ) {
         var showCustomTime by rememberSaveable { mutableStateOf(false) }
         var customNowMillis by rememberSaveable { mutableStateOf(0L) }
+        var pauseDialogVisible by remember { mutableStateOf(true) }
+
+        LaunchedEffect(showCustomTime) {
+            if (showCustomTime) {
+                delay(250)
+                pauseDialogVisible = false
+            }
+        }
 
         if (showCustomTime) {
             val now = remember(customNowMillis) {
@@ -63,7 +73,9 @@ class TileDialogActivity : AppCompatActivity() {
                 onConfirm = { hour, minute -> onPauseUntil(hour, minute, now) },
                 onDismiss = onDismiss,
             )
-        } else {
+        }
+
+        if (pauseDialogVisible) {
             PauseStepCountingDialog(
                 onDismiss = onDismiss,
                 onPauseForMinutes = onPauseForMinutes,
@@ -117,6 +129,7 @@ class TileDialogActivity : AppCompatActivity() {
         Intent(applicationContext, MotionService::class.java).also {
             it.action = MotionService.ACTION_PAUSE_COUNTING
             it.putExtra("TIMED_PAUSE", false)
+            if (fromApp) it.putExtra(MotionService.EXTRA_SUPPRESS_TOAST, true)
             startService(it)
         }
 

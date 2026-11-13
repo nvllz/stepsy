@@ -33,7 +33,7 @@ fun TimePickerDialog(
     val config = LocalConfiguration.current
     val compact = config.screenHeightDp < 640 || config.screenWidthDp < 360
     val colors = TimePickerDefaults.colors(
-        clockDialColor = StepsyTheme.colors.accentOpaque,
+        clockDialColor = StepsyTheme.colors.muted,
         clockDialSelectedContentColor = StepsyTheme.colors.background,
         clockDialUnselectedContentColor = MaterialTheme.colorScheme.onSurface,
         selectorColor = StepsyTheme.colors.accent,
@@ -44,7 +44,7 @@ fun TimePickerDialog(
         periodSelectorSelectedContentColor = StepsyTheme.colors.background,
         periodSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurface,
         timeSelectorSelectedContainerColor = StepsyTheme.colors.accent,
-        timeSelectorUnselectedContainerColor = StepsyTheme.colors.accentOpaque,
+        timeSelectorUnselectedContainerColor = StepsyTheme.colors.muted,
         timeSelectorSelectedContentColor = StepsyTheme.colors.background,
         timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurface,
     )

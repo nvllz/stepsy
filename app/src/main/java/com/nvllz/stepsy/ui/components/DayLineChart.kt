@@ -110,7 +110,7 @@ fun DayLineChart(
     val onSurface = MaterialTheme.colorScheme.onSurface
     val axisGray = Color(0xFF888888)
     val pillBase = StepsyTheme.colors.background
-    val pillOverlay = StepsyTheme.colors.accentOpaque
+    val pillOverlay = StepsyTheme.colors.muted
     val targetMax = maxOf(1f, goal.toFloat(), total.toFloat(), peak) * 1.05f
     val shot = remember {
         val to = lineFracs(xs, ys, adjustments, targetMax)
@@ -163,8 +163,9 @@ fun DayLineChart(
     val todayLabel = stringResource(R.string.hourly_today_short)
     val adjustedLabel = stringResource(R.string.hourly_hour_adjusted)
     val (adjustSums, adjustMarks) = remember(adjustments) { adjustHourSums(adjustments) }
-    val tickStyle = TextStyle(color = axisGray, fontSize = 10.sp, fontFamily = Chivo)
+    val tickStyle = TextStyle(color = axisGray, fontSize = 11.sp, fontFamily = Chivo)
     val hourStyle = TextStyle(color = onSurface, fontSize = 12.sp, fontFamily = Chivo)
+    val hourFutureStyle = hourStyle.copy(color = onSurface.copy(alpha = 0.7f))
     val adjustedStyle = hourStyle.copy(color = onSurface.copy(alpha = 0.65f))
     val pillOutline = onSurface.copy(alpha = 0.16f)
     val measurer = rememberTextMeasurer()
@@ -320,7 +321,7 @@ fun DayLineChart(
                         Util.timeLabel(ctx, (selHour + 1) * 60 + dayShiftMinutes) +
                         (steps?.let { " · " + Util.formatSteps(it) } ?: "")
                 if (todaySteps != null) text += " · " + String.format(todayLabel, Util.formatSteps(todaySteps))
-                val first = measurer.measure(text, hourStyle)
+                val first = measurer.measure(text, if (steps == null) hourFutureStyle else hourStyle)
                 val second = if (adjustMarks[selHour]) measurer.measure(
                     String.format(adjustedLabel, signedSteps(adjustSums[selHour])),
                     adjustedStyle,
@@ -441,10 +442,11 @@ fun DayBarChart(
     val onSurface = MaterialTheme.colorScheme.onSurface
     val axisGray = Color(0xFF888888)
     val pillBase = StepsyTheme.colors.background
-    val pillOverlay = StepsyTheme.colors.accentOpaque
+    val pillOverlay = StepsyTheme.colors.muted
     val barColor = onSurface.copy(alpha = 0.35f)
-    val tickStyle = TextStyle(color = axisGray, fontSize = 10.sp, fontFamily = Chivo)
+    val tickStyle = TextStyle(color = axisGray, fontSize = 11.sp, fontFamily = Chivo)
     val hourStyle = TextStyle(color = onSurface, fontSize = 12.sp, fontFamily = Chivo)
+    val hourFutureStyle = hourStyle.copy(color = onSurface.copy(alpha = 0.7f))
     val adjustedStyle = hourStyle.copy(color = onSurface.copy(alpha = 0.65f))
     val pillOutline = onSurface.copy(alpha = 0.16f)
     val hintStyle = tickStyle.copy(color = tickStyle.color.copy(alpha = 0.55f))
@@ -573,7 +575,7 @@ fun DayBarChart(
             var text = Util.timeLabel(ctx, selHour * 60 + dayShiftMinutes) + "–" +
                     Util.timeLabel(ctx, (selHour + 1) * 60 + dayShiftMinutes) +
                     (steps?.let { " · " + Util.formatSteps(it) } ?: "")
-            val first = measurer.measure(text, hourStyle)
+            val first = measurer.measure(text, if (steps == null) hourFutureStyle else hourStyle)
             val second = if (adjustMarks[selHour]) measurer.measure(
                 String.format(adjustedLabel, signedSteps(adjustSums[selHour])),
                 adjustedStyle,

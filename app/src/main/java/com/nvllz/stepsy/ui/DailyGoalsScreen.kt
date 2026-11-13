@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Build
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
@@ -526,12 +528,13 @@ private fun GoalHero(goal: Int, onEdit: () -> Unit, onPick: (Int) -> Unit) {
             AnimatedContent(
                 targetState = goal > 0,
                 transitionSpec = {
-                    (fadeIn() + expandVertically()) togetherWith (fadeOut() + shrinkVertically())
+                    (fadeIn(tween(250)) + scaleIn(tween(250), initialScale = 0.95f)) togetherWith fadeOut(tween(200))
                 },
+                contentAlignment = Alignment.Center,
                 label = "goalState",
             ) { hasGoal ->
                 Column(
-                    Modifier.semantics(mergeDescendants = true) {},
+                    Modifier.fillMaxWidth().semantics(mergeDescendants = true) {},
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     if (hasGoal) {
@@ -553,7 +556,9 @@ private fun GoalHero(goal: Int, onEdit: () -> Unit, onPick: (Int) -> Unit) {
                     } else {
                         Text(
                             stringResource(R.string.daily_goal_none),
-                            fontSize = 34.sp, fontWeight = FontWeight.Bold, fontFamily = Chivo,
+                            fontSize = 28.sp, lineHeight = 32.sp, fontWeight = FontWeight.Bold,
+                            fontFamily = Chivo, textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }

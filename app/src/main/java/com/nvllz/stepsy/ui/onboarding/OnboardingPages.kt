@@ -118,7 +118,7 @@ internal fun PageScaffold(
 internal fun PageText(label: String, title: String, body: String) {
     Text(
         label.uppercase(),
-        fontSize = 13.sp, letterSpacing = 2.sp,
+        fontSize = 12.sp, letterSpacing = 2.sp,
         fontWeight = FontWeight.SemiBold, color = StepsyTheme.colors.accent,
         modifier = Modifier.padding(top = 16.dp),
     )
@@ -350,7 +350,7 @@ private fun FeatureBullet(
 ) {
     Column(
         modifier
-            .clip(RoundedCornerShape(20.dp))
+            .clip(RoundedCornerShape(24.dp))
             .background(StepsyTheme.colors.accent.copy(alpha = 0.07f))
             .semantics(mergeDescendants = true) {}
             .padding(if (compact) 12.dp else 16.dp),

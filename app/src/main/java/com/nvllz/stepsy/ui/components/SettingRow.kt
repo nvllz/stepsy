@@ -43,7 +43,7 @@ import com.nvllz.stepsy.ui.theme.StepsyTheme
 fun SettingGroup(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier.fillMaxWidth().clip(RoundedCornerShape(24.dp))
-            .background(StepsyTheme.colors.accentOpaque).padding(vertical = 4.dp),
+            .background(StepsyTheme.colors.muted).padding(vertical = 4.dp),
         content = content,
     )
 }

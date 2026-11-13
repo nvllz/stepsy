@@ -44,7 +44,7 @@ fun PrimaryButton(
                     modifier = Modifier.size(18.dp),
                 )
             }
-            Text(text.uppercase(), fontWeight = FontWeight.SemiBold)
+            Text(text, fontWeight = FontWeight.SemiBold)
         }
     }
 }

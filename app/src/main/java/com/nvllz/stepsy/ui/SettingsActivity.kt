@@ -1,10 +1,7 @@
 package com.nvllz.stepsy.ui
 
-import android.app.Activity
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.View
-import android.view.Window
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,15 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nvllz.stepsy.ui.components.LocalToast
 import com.nvllz.stepsy.ui.components.ToastHost
@@ -49,17 +42,6 @@ class SettingsActivity : AppCompatActivity() {
                 else -> if (systemDark) Configuration.UI_MODE_NIGHT_YES else Configuration.UI_MODE_NIGHT_NO
             }
             StepsyTheme(uiModeOverride = uiModeOverride) {
-                val configDark = (LocalConfiguration.current.uiMode and
-                        Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-                val dark = uiModeOverride?.let { it == Configuration.UI_MODE_NIGHT_YES } ?: configDark
-                val view = LocalView.current
-                DisposableEffect(dark) {
-                    val activity = view.context as? Activity
-                    activity?.window?.let { window ->
-                        windowInsetAppearance(window, view, dark)
-                    }
-                    onDispose { }
-                }
                 val toast = rememberToastState()
                 Box(Modifier.fillMaxSize()) {
                     CompositionLocalProvider(LocalToast provides toast) {
@@ -78,8 +60,3 @@ class SettingsActivity : AppCompatActivity() {
     }
 }
 
-internal fun windowInsetAppearance(window: Window, view: View, dark: Boolean) {
-    val controller = WindowInsetsControllerCompat(window, view)
-    controller.isAppearanceLightStatusBars = !dark
-    controller.isAppearanceLightNavigationBars = !dark
-}

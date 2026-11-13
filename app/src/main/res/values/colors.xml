@@ -27,7 +27,7 @@
     <color name="widgetBackground_default">#80FFFFFF</color>
 
     <color name="colorDialogSurface">#F4F4F4</color>
-    <color name="colorAccentOpaque">#12575757</color>
+    <color name="colorMuted">#12575757</color>
 
     <color name="colorGoal">#5A5A5A</color>
     <color name="colorSilver">#6F6F6F</color>

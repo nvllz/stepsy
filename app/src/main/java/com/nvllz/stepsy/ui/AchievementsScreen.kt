@@ -73,7 +73,9 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nvllz.stepsy.R
+import com.nvllz.stepsy.ui.components.CircleIconButton
 import com.nvllz.stepsy.ui.components.CountText
+import com.nvllz.stepsy.ui.components.Eyebrow
 import com.nvllz.stepsy.ui.components.HeroBar
 import com.nvllz.stepsy.ui.components.LocalToast
 import com.nvllz.stepsy.ui.components.Panel
@@ -287,7 +289,7 @@ internal fun AchievementsScreen(
             Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp).heightIn(min = 40.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            CircleButton(onBack) {
+            CircleIconButton(onBack) {
                 Icon(
                     painterResource(R.drawable.ic_chevron_right),
                     stringResource(androidx.appcompat.R.string.abc_action_bar_up_description),
@@ -387,26 +389,6 @@ internal fun AchievementsScreen(
 }
 
 @Composable
-private fun CircleButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-    Box(
-        modifier.size(40.dp).clip(CircleShape).background(StepsyTheme.colors.accentOpaque).clickable(onClick = onClick),
-        contentAlignment = Alignment.Center,
-    ) { content() }
-}
-
-@Composable
-private fun Caption(text: String, modifier: Modifier = Modifier, textAlign: TextAlign? = null) {
-    Text(
-        text.uppercase(), fontSize = 12.sp, lineHeight = 14.sp, letterSpacing = 2.sp, fontWeight = FontWeight.SemiBold,
-        color = StepsyTheme.colors.accent, modifier = modifier, textAlign = textAlign,
-    )
-}
-
-@Composable
 private fun Divider(startInset: Dp = milestoneRowInset) {
     Box(
         Modifier.fillMaxWidth().padding(start = startInset, end = milestoneRowInset).height(1.dp)
@@ -441,7 +423,7 @@ private fun TopDayRow(index: Int, steps: Int, distance: String, date: String, fr
             Box(
                 Modifier
                     .size(28.dp)
-                    .clip(RoundedCornerShape(9.dp))
+                    .clip(RoundedCornerShape(12.dp))
                     .background(rankBackground),
             ) {
                 val rankMeasurer = rememberTextMeasurer()
@@ -503,7 +485,7 @@ private fun RecordsHero(total: Int, avg: Int, firstDate: String?, date: (String)
         Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Caption(
+        Eyebrow(
             buildString {
                 append(stringResource(R.string.label_all_time))
                 firstDate?.let { append(" · ").append(stringResource(R.string.since_date, date(it))) }
@@ -521,7 +503,7 @@ private fun RecordsHero(total: Int, avg: Int, firstDate: String?, date: (String)
         )
         Text(
             ctx.resources.getQuantityString(R.plurals.steps_word, total, total).uppercase(),
-            fontSize = 13.sp, letterSpacing = 2.sp, fontWeight = FontWeight.SemiBold,
+            fontSize = 12.sp, letterSpacing = 2.sp, fontWeight = FontWeight.SemiBold,
             color = StepsyTheme.colors.accent,
             modifier = Modifier.offset(y = (-2).dp),
         )
@@ -682,7 +664,7 @@ private fun NextMilestone(total: Int, next: Long, prev: Long, targetLabel: Strin
 
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
-            Caption(stringResource(R.string.milestone_next))
+            Eyebrow(stringResource(R.string.milestone_next))
             Text(
                 ctx.getString(
                     R.string.milestone_to_go,
@@ -749,7 +731,7 @@ private fun BellButton(enabled: Boolean, blocked: Boolean, onToggle: (Boolean) -
     val active = enabled && !blocked
     TooltipBox(
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = { PlainTooltip { Text(stringResource(R.string.milestone_notifications_tooltip), fontSize = 14.sp) } },
+        tooltip = { PlainTooltip { Text(stringResource(R.string.milestone_notifications_tooltip)) } },
         state = tip,
         modifier = modifier,
     ) {
@@ -841,7 +823,7 @@ private fun MilestoneDialog(m: MilestoneAchievement, firstDate: String?, date: (
             CountText(
                 if (armed) m.milestone else 0, Util::formatSteps,
                 TextStyle(
-                    fontSize = 38.sp, lineHeight = 40.sp, fontWeight = FontWeight.Bold, fontFamily = Chivo,
+                    fontSize = 48.sp, lineHeight = 52.sp, fontWeight = FontWeight.Bold, fontFamily = Chivo,
                     fontFeatureSettings = "tnum",
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -851,7 +833,7 @@ private fun MilestoneDialog(m: MilestoneAchievement, firstDate: String?, date: (
             )
             Text(
                 ctx.resources.getQuantityString(R.plurals.steps_word, m.milestone, m.milestone).uppercase(),
-                fontSize = 14.sp, letterSpacing = 2.sp, fontWeight = FontWeight.SemiBold,
+                fontSize = 12.sp, letterSpacing = 2.sp, fontWeight = FontWeight.SemiBold,
                 color = c.accent, modifier = Modifier.offset(y = (-2).dp),
             )
             Row(
@@ -908,7 +890,7 @@ private fun Stat(
     ) {
         Text(
             text = value,
-            fontSize = 14.5.sp,
+            fontSize = 15.sp,
             lineHeight = 18.sp,
             fontWeight = FontWeight.SemiBold,
             fontFamily = Chivo,
@@ -916,15 +898,15 @@ private fun Stat(
             maxLines = 1,
             softWrap = false,
             autoSize = TextAutoSize.StepBased(
-                minFontSize = 12.5.sp,
-                maxFontSize = 15.5.sp,
-                stepSize = 0.01.sp,
+                minFontSize = 12.sp,
+                maxFontSize = 15.sp,
+                stepSize = 0.1.sp,
             ),
         )
 
         Text(
             text = label.uppercase(),
-            fontSize = 10.sp,
+            fontSize = 11.sp,
             lineHeight = 12.sp,
             letterSpacing = 1.5.sp,
             fontWeight = FontWeight.SemiBold,

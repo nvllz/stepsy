@@ -1,5 +1,6 @@
 package com.nvllz.stepsy.ui.theme
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import androidx.compose.material3.*
@@ -7,17 +8,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.nvllz.stepsy.R
 
 @Immutable
 data class StepsyColors(
-    val accent: Color, val accentOpaque: Color, val background: Color,
+    val accent: Color, val muted: Color, val background: Color,
     val dialogSurface: Color, val special: Color, val goal: Color,
 )
 
@@ -73,7 +76,7 @@ fun StepsyTheme(
     val dialog = palette(R.color.colorDialogSurface)
     val colors = StepsyColors(
         accent = accent,
-        accentOpaque = palette(R.color.colorAccentOpaque),
+        muted = palette(R.color.colorMuted),
         background = palette(R.color.colorBackground),
         dialogSurface = dialog,
         special = palette(R.color.colorSpecial),
@@ -95,6 +98,17 @@ fun StepsyTheme(
         labelLarge = t.labelLarge.c(), labelMedium = t.labelMedium.c(), labelSmall = t.labelSmall.c(),
     )
     CompositionLocalProvider(LocalColors provides colors, LocalStepsyDark provides dark) {
+        val view = LocalView.current
+        if (drawBackground) {
+            DisposableEffect(dark) {
+                (view.context as? Activity)?.window?.let { window ->
+                    val controller = WindowInsetsControllerCompat(window, view)
+                    controller.isAppearanceLightStatusBars = !dark
+                    controller.isAppearanceLightNavigationBars = !dark
+                }
+                onDispose { }
+            }
+        }
         MaterialTheme(colorScheme = scheme, typography = typography) {
             if (drawBackground) {
                 Surface(color = colors.background, contentColor = onSurface, content = content)
