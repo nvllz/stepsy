@@ -108,7 +108,7 @@ private fun PauseCard(
         if (hero) {
             Text(
                 "∞",
-                fontSize = 26.sp, lineHeight = 30.sp, fontWeight = FontWeight.Bold, fontFamily = Chivo,
+                fontSize = 20.sp, lineHeight = 20.sp, fontWeight = FontWeight.Bold, fontFamily = Chivo,
                 color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center,
             )
         } else {
