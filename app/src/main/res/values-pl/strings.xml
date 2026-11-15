@@ -51,7 +51,7 @@
     <string name="filters_title">Widoczne filtry</string>
     <string name="filters_years">Sumy roczne</string>
     <string name="home_show_filter_bar">Pokaż pasek filtrów</string>
-    <string name="calories">%1$d kcal</string>
+    <string name="calories">%1$s kcal</string>
     <string name="avg_per_day_pill">%1$s / dzień</string>
     <plurals name="goal_reached_times">
         <item quantity="one">Cel osiągnięto %d raz</item>
@@ -73,7 +73,7 @@
     <string name="invalid_step_count">Wprowadź poprawną liczbę</string>
     <string name="steps_updated">Zaktualizowano liczbę kroków</string>
     <string name="hourly_average_title">Średnia godzinowa</string>
-    <string name="hourly_average_message">Średnia uwzględnia %1$d z %2$d dni w tym zakresie. Dzień jest pomijany, jeśli większość jego kroków nie ma zapisanej godziny. Może się to zdarzyć, gdy śledzenie godzinowe było wyłączone lub gdy dzienna suma została dostosowana.</string>
+    <string name="hourly_average_message">Średnia uwzględnia %1$d z %2$d dni w tym zakresie. Dzień jest pomijany, jeśli większość jego kroków nie ma zapisanej godziny. Może się to zdarzyć, gdy śledzenie godzinowe było wyłączone lub gdy dzienna suma została dostosowana ręcznie.</string>
     <string name="hourly_no_data_day">Brak danych godzinowych dla tego dnia</string>
     <string name="hourly_average_empty">Za mało danych godzinowych, aby narysować wykres średniej dla tego zakresu</string>
     <string name="hourly_average_empty_message">Brak danych godzinowych dla żadnego z %1$s dni w zakresie. Dane godzinowe są dostępne tylko dla dni zapisanych na tym urządzeniu.</string>
@@ -366,4 +366,67 @@
     <string name="onboarding_welcome_point_battery">Lekki dla baterii</string>
     <string name="onboarding_welcome_point_backups">Automatyczne, lokalne kopie zapasowe</string>
     <string name="onboarding_welcome_point_pressure">Śledź postępy bez presji</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">Raporty</string>
+    <string name="reports_year">Rok</string>
+    <string name="reports_previous">Poprzedni okres</string>
+    <string name="reports_next">Następny okres</string>
+    <string name="reports_so_far">Do tej pory</string>
+    <string name="reports_daily_steps">Kroki dziennie</string>
+    <string name="reports_by_week">Średnia tygodniowa</string>
+    <string name="reports_by_month">Średnia miesięczna</string>
+    <string name="reports_time_of_day">Pora dnia</string>
+    <string name="reports_milestones">Nowe kamienie milowe</string>
+    <string name="reports_days_logged">Dni z zapisem: %1$d z %2$d</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">Na razie nie ma o czym raportować. Wróć po dniu lub dwóch spacerów.</string>
+    <string name="reports_empty_period">Brak zapisanych kroków w tym okresie</string>
+    <string name="reports_vs_same">Mniej więcej bez zmian vs %1$s</string>
+    <string name="reports_vs_same_pace">Mniej więcej bez zmian vs %1$s w tym momencie</string>
+    <string name="reports_vs_diff">%1$s vs %2$s</string>
+    <string name="reports_vs_diff_pace">%1$s vs %2$s w tym momencie</string>
+    <string name="reports_prev_week">zeszły tydzień</string>
+    <string name="reports_prev_month">zeszły miesiąc</string>
+    <string name="reports_prev_year">zeszły rok</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">poprzedni dzień</item>
+        <item quantity="few">poprzednie %d dni</item>
+        <item quantity="many">poprzednie %d dni</item>
+        <item quantity="other">poprzednie %d dni</item>
+    </plurals>
+    <string name="reports_best_year">Twój najlepszy rok do tej pory</string>
+    <string name="reports_best_month_ever">Twój najlepszy miesiąc do tej pory</string>
+    <string name="reports_best_month_year">Twój najlepszy miesiąc w tym roku</string>
+    <string name="reports_best_week_ever">Twój najlepszy tydzień do tej pory</string>
+    <string name="reports_best_week_year">Twój najlepszy tydzień w tym roku</string>
+    <string name="reports_streak_record">Nowa najdłuższa seria celów: %1$s</string>
+    <string name="reports_streak_record_ongoing">Nowa najdłuższa seria celów: %1$s i liczy się dalej</string>
+    <string name="reports_top_day">%1$s zajmuje miejsce %2$d wśród Twoich najlepszych dni</string>
+    <string name="reports_active_weekday">Twój najaktywniejszy dzień tygodnia to %1$s</string>
+    <string name="reports_goal_after_gap">Pierwszy dzień z celem po przerwie: %1$s</string>
+    <string name="reports_goal_first_ever">Pierwszy dzień z osiągniętym celem</string>
+    <string name="reports_goal_days_line">Dni z osiągniętym celem: %1$d z %2$d</string>
+    <string name="reports_stat_best_day">Najlepszy dzień</string>
+    <string name="reports_stat_goal_run">Najdłuższa seria celów</string>
+    <string name="reports_part_night">Noc</string>
+    <string name="reports_part_morning">Poranek</string>
+    <string name="reports_part_afternoon">Popołudnie</string>
+    <string name="reports_part_evening">Wieczór</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">%d tydzień</item>
+        <item quantity="few">%d tygodnie</item>
+        <item quantity="many">%d tygodni</item>
+        <item quantity="other">%d tygodnia</item>
+    </plurals>
+    <string name="reports_rhythm_night">Najczęściej chodzisz nocą</string>
+    <string name="reports_rhythm_morning">Najczęściej chodzisz rano</string>
+    <string name="reports_rhythm_afternoon">Najczęściej chodzisz po południu</string>
+    <string name="reports_rhythm_evening">Najczęściej chodzisz wieczorem</string>
+    <string name="reports_rhythm_balanced">Chodzisz równomiernie przez cały dzień</string>
+    <string name="reports_hourly_coverage">Dni z danymi godzinowymi: %1$d z %2$d</string>
+    <string name="reports_rhythm_not_enough">Za mało danych godzinowych w tym okresie, by pokazać, kiedy chodzisz</string>
+    <string name="reports_custom_pick">Wybierz zakres</string>
+    <string name="reports_custom_hint">Dotknij dnia początkowego, potem końcowego</string>
+    <string name="reports_custom_max">Zakres może obejmować maks. %1$d dni</string>
 </resources>

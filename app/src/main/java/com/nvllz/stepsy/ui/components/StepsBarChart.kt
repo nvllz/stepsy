@@ -41,6 +41,8 @@ fun StepsBarChart(
     onBarClick: (Int) -> Unit,
     revealInstant: Boolean = false,
     onReveal: () -> Unit = {},
+    valueLabel: (Int) -> String = Util::formatSteps,
+    showValues: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     val n = values.size
@@ -80,6 +82,9 @@ fun StepsBarChart(
         val top = 24.dp.toPx()
         val slot = size.width / n
         val barW = slot * 0.62f
+        val maxIdx = values.indices.maxByOrNull { values[it] } ?: -1
+        val wideValues = showValues && maxIdx >= 0 &&
+            measurer.measure(valueLabel(values[maxIdx]), small).size.width <= slot - 6.dp.toPx()
         if (goal > 0) {
             val y = base - goal / axis * (base - top)
             drawLine(axisGray.copy(alpha = 0.4f), Offset(0f, y), Offset(size.width, y), 1.dp.toPx(),
@@ -105,9 +110,9 @@ fun StepsBarChart(
                 val l = measurer.measure(it, st)
                 drawText(l, topLeft = Offset(i * slot + (slot - l.size.width) / 2, base + 4.dp.toPx()))
             }
-            if (values[i] > 0 && g > 0.98f) {
+            if (showValues && values[i] > 0 && g > 0.98f && (wideValues || i == maxIdx || i == boldIndex || i == selectedIndex)) {
                 val st = if (bold) small.copy(fontWeight = FontWeight.SemiBold, color = onSurface) else small
-                val l = measurer.measure(Util.formatSteps(values[i]), st)
+                val l = measurer.measure(valueLabel(values[i]), st)
                 drawText(l, topLeft = Offset(i * slot + (slot - l.size.width) / 2, base - h - l.size.height - 2.dp.toPx()))
             }
         }

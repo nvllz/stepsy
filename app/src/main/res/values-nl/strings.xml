@@ -43,7 +43,7 @@
     <string name="filters_title">Zichtbare filters</string>
     <string name="filters_years">Jaartotalen</string>
     <string name="home_show_filter_bar">Filterbalk tonen</string>
-    <string name="calories">%1$d kcal</string>
+    <string name="calories">%1$s kcal</string>
     <string name="avg_per_day_pill">%1$s / dag</string>
     <plurals name="goal_reached_times">
         <item quantity="one">Doel %d keer bereikt</item>
@@ -352,4 +352,63 @@
     <string name="onboarding_welcome_point_battery">Zuinig voor je batterij</string>
     <string name="onboarding_welcome_point_backups">Automatische lokale back-ups instellen</string>
     <string name="onboarding_welcome_point_pressure">Vooruitgang zonder druk</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">Rapporten</string>
+    <string name="reports_year">Jaar</string>
+    <string name="reports_previous">Vorige periode</string>
+    <string name="reports_next">Volgende periode</string>
+    <string name="reports_so_far">Tot nu toe</string>
+    <string name="reports_daily_steps">Dagelijkse stappen</string>
+    <string name="reports_by_week">Gemiddeld per week</string>
+    <string name="reports_by_month">Gemiddeld per maand</string>
+    <string name="reports_time_of_day">Tijd van de dag</string>
+    <string name="reports_milestones">Nieuwe mijlpalen</string>
+    <string name="reports_days_logged">%1$d van %2$d dagen vastgelegd</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">Nog niets te melden. Kom terug na een dag of twee wandelen.</string>
+    <string name="reports_empty_period">Geen stappen vastgelegd in deze periode</string>
+    <string name="reports_vs_same">Ongeveer hetzelfde als %1$s</string>
+    <string name="reports_vs_same_pace">Ongeveer hetzelfde als %1$s op dit punt</string>
+    <string name="reports_vs_diff">%1$s t.o.v. %2$s</string>
+    <string name="reports_vs_diff_pace">%1$s t.o.v. %2$s op dit punt</string>
+    <string name="reports_prev_week">vorige week</string>
+    <string name="reports_prev_month">vorige maand</string>
+    <string name="reports_prev_year">vorig jaar</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">de vorige dag</item>
+        <item quantity="other">de vorige %d dagen</item>
+    </plurals>
+    <string name="reports_best_year">Je beste jaar tot nu toe</string>
+    <string name="reports_best_month_ever">Je beste maand tot nu toe</string>
+    <string name="reports_best_month_year">Je beste maand dit jaar</string>
+    <string name="reports_best_week_ever">Je beste week tot nu toe</string>
+    <string name="reports_best_week_year">Je beste week dit jaar</string>
+    <string name="reports_streak_record">Nieuwe langste doelreeks: %1$s</string>
+    <string name="reports_streak_record_ongoing">Nieuwe langste doelreeks: %1$s en het blijft groeien</string>
+    <string name="reports_top_day">%1$s was je #%2$d beste dag ooit</string>
+    <string name="reports_active_weekday">Je actiefste weekdag is %1$s</string>
+    <string name="reports_goal_after_gap">Eerste doeldag sinds %1$s</string>
+    <string name="reports_goal_first_ever">De eerste dag dat je je doel haalde</string>
+    <string name="reports_goal_days_line">Doel gehaald op %1$d van %2$d dagen</string>
+    <string name="reports_stat_best_day">Beste dag</string>
+    <string name="reports_stat_goal_run">Langste doelreeks</string>
+    <string name="reports_part_night">Nacht</string>
+    <string name="reports_part_morning">Ochtend</string>
+    <string name="reports_part_afternoon">Middag</string>
+    <string name="reports_part_evening">Avond</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">%d week</item>
+        <item quantity="other">%d weken</item>
+    </plurals>
+    <string name="reports_rhythm_night">Je loopt vooral \'s nachts</string>
+    <string name="reports_rhythm_morning">Je loopt vooral \'s ochtends</string>
+    <string name="reports_rhythm_afternoon">Je loopt vooral \'s middags</string>
+    <string name="reports_rhythm_evening">Je loopt vooral \'s avonds</string>
+    <string name="reports_rhythm_balanced">Je loopt gelijkmatig verspreid over de dag</string>
+    <string name="reports_hourly_coverage">%1$d van %2$d dagen met uurgegevens</string>
+    <string name="reports_rhythm_not_enough">Te weinig uurgegevens in deze periode om te laten zien wanneer je loopt</string>
+    <string name="reports_custom_pick">Kies een bereik</string>
+    <string name="reports_custom_hint">Tik op een startdag en daarna op een einddag</string>
+    <string name="reports_custom_max">Een bereik kan maximaal %1$d dagen beslaan</string>
 </resources>

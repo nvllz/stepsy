@@ -30,9 +30,11 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun StatPill(icon: Int, value: Int, format: (Int) -> String, color: Color, modifier: Modifier = Modifier, glow: Boolean = false) {
     val glowAlpha by animateFloatAsState(if (glow) 1f else 0f, tween(500, easing = FastOutSlowInEasing), label = "pillGlow")
-    val pulse by rememberInfiniteTransition(label = "pillPulse").animateFloat(
-        0.8f, 1f, infiniteRepeatable(tween(2400, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "pillPulse",
-    )
+    val pulse = if (glow) {
+        rememberInfiniteTransition(label = "pillPulse").animateFloat(
+            0.8f, 1f, infiniteRepeatable(tween(2400, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "pillPulse",
+        ).value
+    } else null
     Row(
         modifier
             .clip(CircleShape)
@@ -40,7 +42,7 @@ fun StatPill(icon: Int, value: Int, format: (Int) -> String, color: Color, modif
                 if (glowAlpha > 0.01f) {
                     drawRoundRect(
                         Brush.radialGradient(
-                            listOf(color.copy(alpha = 0.26f * glowAlpha * pulse), Color.Transparent),
+                            listOf(color.copy(alpha = 0.26f * glowAlpha * (pulse ?: 1f)), Color.Transparent),
                             radius = maxOf(size.width, size.height),
                         ),
                         cornerRadius = CornerRadius(size.height / 2),

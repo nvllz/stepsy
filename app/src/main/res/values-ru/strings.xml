@@ -51,7 +51,7 @@
     <string name="filters_title">Видимые фильтры</string>
     <string name="filters_years">Итоги по годам</string>
     <string name="home_show_filter_bar">Показывать панель фильтров</string>
-    <string name="calories">%1$d ккал</string>
+    <string name="calories">%1$s ккал</string>
     <string name="avg_per_day_pill">%1$s / день</string>
     <plurals name="goal_reached_times">
         <item quantity="one">Цель достигнута %d раз</item>
@@ -366,4 +366,67 @@
     <string name="onboarding_welcome_point_battery">Бережёт батарею</string>
     <string name="onboarding_welcome_point_backups">Настройте автоматические локальные копии</string>
     <string name="onboarding_welcome_point_pressure">Прогресс без давления</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">Отчёты</string>
+    <string name="reports_year">Год</string>
+    <string name="reports_previous">Предыдущий период</string>
+    <string name="reports_next">Следующий период</string>
+    <string name="reports_so_far">Пока</string>
+    <string name="reports_daily_steps">Шаги по дням</string>
+    <string name="reports_by_week">Среднее по неделям</string>
+    <string name="reports_by_month">Среднее по месяцам</string>
+    <string name="reports_time_of_day">Время суток</string>
+    <string name="reports_milestones">Новые достижения</string>
+    <string name="reports_days_logged">Дней с записями: %1$d из %2$d</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">Пока нечего показать. Загляните через день-другой прогулок.</string>
+    <string name="reports_empty_period">За этот период шагов не записано</string>
+    <string name="reports_vs_same">Почти без изменений к %1$s</string>
+    <string name="reports_vs_same_pace">Почти без изменений к %1$s на этот момент</string>
+    <string name="reports_vs_diff">%1$s к %2$s</string>
+    <string name="reports_vs_diff_pace">%1$s к %2$s на этот момент</string>
+    <string name="reports_prev_week">прошлой неделе</string>
+    <string name="reports_prev_month">прошлому месяцу</string>
+    <string name="reports_prev_year">прошлому году</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">предыдущему периоду (%d дн.)</item>
+        <item quantity="few">предыдущему периоду (%d дн.)</item>
+        <item quantity="many">предыдущему периоду (%d дн.)</item>
+        <item quantity="other">предыдущему периоду (%d дн.)</item>
+    </plurals>
+    <string name="reports_best_year">Ваш лучший год пока</string>
+    <string name="reports_best_month_ever">Ваш лучший месяц пока</string>
+    <string name="reports_best_month_year">Ваш лучший месяц в этом году</string>
+    <string name="reports_best_week_ever">Ваша лучшая неделя пока</string>
+    <string name="reports_best_week_year">Ваша лучшая неделя в этом году</string>
+    <string name="reports_streak_record">Новая самая длинная серия целей: %1$s</string>
+    <string name="reports_streak_record_ongoing">Новая самая длинная серия целей: %1$s, и она продолжается</string>
+    <string name="reports_top_day">%1$s на месте №%2$d среди ваших лучших дней</string>
+    <string name="reports_active_weekday">Самый активный день недели: %1$s</string>
+    <string name="reports_goal_after_gap">Первый день с целью после перерыва: %1$s</string>
+    <string name="reports_goal_first_ever">Первый день, когда вы выполнили цель</string>
+    <string name="reports_goal_days_line">Дней с выполненной целью: %1$d из %2$d</string>
+    <string name="reports_stat_best_day">Лучший день</string>
+    <string name="reports_stat_goal_run">Самая длинная серия целей</string>
+    <string name="reports_part_night">Ночь</string>
+    <string name="reports_part_morning">Утро</string>
+    <string name="reports_part_afternoon">День</string>
+    <string name="reports_part_evening">Вечер</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">%d неделя</item>
+        <item quantity="few">%d недели</item>
+        <item quantity="many">%d недель</item>
+        <item quantity="other">%d недели</item>
+    </plurals>
+    <string name="reports_rhythm_night">Вы чаще всего ходите ночью</string>
+    <string name="reports_rhythm_morning">Вы чаще всего ходите утром</string>
+    <string name="reports_rhythm_afternoon">Вы чаще всего ходите днём</string>
+    <string name="reports_rhythm_evening">Вы чаще всего ходите вечером</string>
+    <string name="reports_rhythm_balanced">Вы ходите равномерно в течение дня</string>
+    <string name="reports_hourly_coverage">Дней с почасовыми данными: %1$d из %2$d</string>
+    <string name="reports_rhythm_not_enough">За этот период мало почасовых данных, чтобы показать, когда вы ходите</string>
+    <string name="reports_custom_pick">Выберите период</string>
+    <string name="reports_custom_hint">Нажмите на первый день, затем на последний</string>
+    <string name="reports_custom_max">Период не больше %1$d дн.</string>
 </resources>

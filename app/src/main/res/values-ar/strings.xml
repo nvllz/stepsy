@@ -380,4 +380,69 @@
     <string name="onboarding_welcome_point_battery">خفيف على البطارية</string>
     <string name="onboarding_welcome_point_backups">إعداد نسخ احتياطي محلي تلقائي</string>
     <string name="onboarding_welcome_point_pressure">تقدّم بلا ضغط</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">التقارير</string>
+    <string name="reports_year">السنة</string>
+    <string name="reports_previous">الفترة السابقة</string>
+    <string name="reports_next">الفترة التالية</string>
+    <string name="reports_so_far">حتى الآن</string>
+    <string name="reports_daily_steps">الخطوات اليومية</string>
+    <string name="reports_by_week">المتوسط حسب الأسبوع</string>
+    <string name="reports_by_month">المتوسط حسب الشهر</string>
+    <string name="reports_time_of_day">وقت اليوم</string>
+    <string name="reports_milestones">معالم جديدة</string>
+    <string name="reports_days_logged">الأيام المسجّلة: %1$d من %2$d</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">لا يوجد ما نعرضه بعد. عُد بعد يوم أو يومين من المشي.</string>
+    <string name="reports_empty_period">لا خطوات مسجّلة في هذه الفترة</string>
+    <string name="reports_vs_same">تقريبًا مثل %1$s</string>
+    <string name="reports_vs_same_pace">تقريبًا مثل %1$s في هذه المرحلة</string>
+    <string name="reports_vs_diff">%1$s مقابل %2$s</string>
+    <string name="reports_vs_diff_pace">%1$s مقابل %2$s في هذه المرحلة</string>
+    <string name="reports_prev_week">الأسبوع الماضي</string>
+    <string name="reports_prev_month">الشهر الماضي</string>
+    <string name="reports_prev_year">العام الماضي</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">اليوم السابق</item>
+        <item quantity="two">اليومين السابقين</item>
+        <item quantity="few">الأيام الـ%d السابقة</item>
+        <item quantity="many">الأيام الـ%d السابقة</item>
+        <item quantity="other">الأيام الـ%d السابقة</item>
+    </plurals>
+    <string name="reports_best_year">أفضل سنة لك حتى الآن</string>
+    <string name="reports_best_month_ever">أفضل شهر لك حتى الآن</string>
+    <string name="reports_best_month_year">أفضل شهر لك هذا العام</string>
+    <string name="reports_best_week_ever">أفضل أسبوع لك حتى الآن</string>
+    <string name="reports_best_week_year">أفضل أسبوع لك هذا العام</string>
+    <string name="reports_streak_record">أطول سلسلة أهداف جديدة: %1$s</string>
+    <string name="reports_streak_record_ongoing">أطول سلسلة أهداف جديدة: %1$s وما زالت مستمرة</string>
+    <string name="reports_top_day">%1$s كان في المرتبة %2$d بين أفضل أيامك</string>
+    <string name="reports_active_weekday">أكثر أيام الأسبوع نشاطًا لديك: %1$s</string>
+    <string name="reports_goal_after_gap">أول يوم يتحقق فيه الهدف بعد انقطاع: %1$s</string>
+    <string name="reports_goal_first_ever">أول يوم حقّقت فيه هدفك</string>
+    <string name="reports_goal_days_line">الأيام التي تحقق فيها الهدف: %1$d من %2$d</string>
+    <string name="reports_stat_best_day">أفضل يوم</string>
+    <string name="reports_stat_goal_run">أطول سلسلة أهداف</string>
+    <string name="reports_part_night">الليل</string>
+    <string name="reports_part_morning">الصباح</string>
+    <string name="reports_part_afternoon">بعد الظهر</string>
+    <string name="reports_part_evening">المساء</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">أسبوع واحد</item>
+        <item quantity="two">أسبوعان</item>
+        <item quantity="few">%d أسابيع</item>
+        <item quantity="many">%d أسبوعًا</item>
+        <item quantity="other">%d أسبوع</item>
+    </plurals>
+    <string name="reports_rhythm_night">تمشي غالبًا في الليل</string>
+    <string name="reports_rhythm_morning">تمشي غالبًا في الصباح</string>
+    <string name="reports_rhythm_afternoon">تمشي غالبًا بعد الظهر</string>
+    <string name="reports_rhythm_evening">تمشي غالبًا في المساء</string>
+    <string name="reports_rhythm_balanced">تمشي بالتساوي على مدار اليوم</string>
+    <string name="reports_hourly_coverage">الأيام ذات البيانات الساعية: %1$d من %2$d</string>
+    <string name="reports_rhythm_not_enough">لا تتوفر بيانات ساعية كافية في هذه الفترة لعرض أوقات مشيك</string>
+    <string name="reports_custom_pick">اختر نطاقًا</string>
+    <string name="reports_custom_hint">اضغط على يوم البداية ثم يوم النهاية</string>
+    <string name="reports_custom_max">أقصى مدة للنطاق: %1$d يومًا</string>
 </resources>

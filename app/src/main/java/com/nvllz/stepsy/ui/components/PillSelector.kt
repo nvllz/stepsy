@@ -8,6 +8,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
@@ -62,6 +65,8 @@ fun <T> PillSelector(
     onLongClick: (() -> Unit)? = null,
     iconOf: ((T) -> Int?)? = null,
     chipPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 7.dp),
+    containerColor: Color? = null,
+    elevated: Boolean = false,
 ) {
     val onSurface = MaterialTheme.colorScheme.onSurface
     val idx = options.indexOfFirst { it.first == selected }
@@ -105,7 +110,16 @@ fun <T> PillSelector(
     ) {
         Row(
             Modifier.onSizeChanged { rowWidth = it.width }
-                .clip(CircleShape).background(StepsyTheme.colors.muted)
+                .then(
+                    if (elevated) Modifier
+                        .shadow(6.dp, CircleShape)
+                        .shadow(20.dp, CircleShape)
+                    else Modifier
+                )
+                .clip(CircleShape).background(containerColor ?: StepsyTheme.colors.muted)
+                .then(
+                    if (elevated) Modifier.border(1.dp, onSurface.copy(alpha = 0.16f), CircleShape) else Modifier
+                )
                 .horizontalScroll(scroll).padding(4.dp)
                 .drawBehind {
                     drawRoundRect(

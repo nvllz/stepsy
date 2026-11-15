@@ -610,7 +610,7 @@ internal fun HomeScreen(
                                 ) { day ->
                                     if (day) StatPill(
                                         R.drawable.ic_calories, s.steps,
-                                        { st -> ctx.getString(R.string.calories, Util.stepsToCalories(st)) },
+                                        { st -> ctx.getString(R.string.calories, Util.formatKcal(Util.stepsToCalories(st), ctx)) },
                                         pillColor(flame, pillProgress), glow = heroReached,
                                     )
                                     else StatPill(
@@ -1173,17 +1173,15 @@ private fun TopBar(
 
             Box {
                 Box(
-                    Modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .clickable { open = true },
+                    Modifier.size(48.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Box(
                         Modifier
                             .size(40.dp)
                             .clip(CircleShape)
-                            .background(StepsyTheme.colors.muted),
+                            .background(StepsyTheme.colors.muted)
+                            .clickable { open = true },
                         contentAlignment = Alignment.Center,
                     ) {
                         Icon(
@@ -1202,6 +1200,7 @@ private fun TopBar(
                     shape = RoundedCornerShape(16.dp),
                 ) {
                     listOf(
+                        R.drawable.icon_report to (R.string.reports_title to ReportsActivity::class.java),
                         R.drawable.ic_target to (R.string.daily_goals to DailyGoalsActivity::class.java),
                         R.drawable.ic_settings to (R.string.settings to SettingsActivity::class.java),
                         R.drawable.ic_info to (R.string.about_stepsy to AboutActivity::class.java),

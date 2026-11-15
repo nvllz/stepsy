@@ -117,7 +117,7 @@ fun singleUnseenMilestone(context: Context): Long? = unseenMilestones(context).s
 
 private fun dateFormat() = SimpleDateFormat(AppPreferences.dateFormatString, Locale.getDefault())
 private fun dist(c: Context, steps: Int) = c.getString(R.string.distance_today, Util.stepsToDistance(steps), Util.distanceUnit())
-private fun kcal(c: Context, steps: Int) = c.getString(R.string.calories, Util.stepsToCalories(steps))
+private fun kcal(c: Context, steps: Int) = c.getString(R.string.calories, Util.formatKcal(Util.stepsToCalories(steps), c))
 
 data class FilterVisibility(val years: Boolean = true, val ranges: Set<StepRange> = StepRange.entries.toSet())
 

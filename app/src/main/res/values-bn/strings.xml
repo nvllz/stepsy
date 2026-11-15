@@ -43,7 +43,7 @@
     <string name="filters_title">দৃশ্যমান ফিল্টার</string>
     <string name="filters_years">বছরভিত্তিক মোট</string>
     <string name="home_show_filter_bar">ফিল্টার বার দেখান</string>
-    <string name="calories">%1$d কিলোক্যালরি</string>
+    <string name="calories">%1$s কিলোক্যালরি</string>
     <string name="avg_per_day_pill">%1$s / দিন</string>
     <plurals name="goal_reached_times">
         <item quantity="one">লক্ষ্য %d বার পূরণ হয়েছে</item>
@@ -352,4 +352,63 @@
     <string name="onboarding_welcome_point_battery">ব্যাটারিতে হালকা</string>
     <string name="onboarding_welcome_point_backups">স্বয়ংক্রিয় লোকাল ব্যাকআপ সেট করুন</string>
     <string name="onboarding_welcome_point_pressure">চাপ ছাড়াই অগ্রগতি</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">রিপোর্ট</string>
+    <string name="reports_year">বছর</string>
+    <string name="reports_previous">আগের সময়কাল</string>
+    <string name="reports_next">পরের সময়কাল</string>
+    <string name="reports_so_far">এখন পর্যন্ত</string>
+    <string name="reports_daily_steps">প্রতিদিনের স্টেপ</string>
+    <string name="reports_by_week">সাপ্তাহিক গড়</string>
+    <string name="reports_by_month">মাসিক গড়</string>
+    <string name="reports_time_of_day">দিনের সময়</string>
+    <string name="reports_milestones">নতুন মাইলফলক</string>
+    <string name="reports_days_logged">%2$d দিনের মধ্যে %1$d দিন রেকর্ড হয়েছে</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">রিপোর্ট করার মতো কিছু এখনও নেই। এক-দুই দিন হাঁটার পর আবার আসুন।</string>
+    <string name="reports_empty_period">এই সময়ে কোনো স্টেপ রেকর্ড হয়নি</string>
+    <string name="reports_vs_same">প্রায় একই রকম, বনাম %1$s</string>
+    <string name="reports_vs_same_pace">প্রায় একই রকম, বনাম %1$s, এই পর্যায়ে</string>
+    <string name="reports_vs_diff">%1$s বনাম %2$s</string>
+    <string name="reports_vs_diff_pace">%1$s বনাম %2$s, এই পর্যায়ে</string>
+    <string name="reports_prev_week">গত সপ্তাহ</string>
+    <string name="reports_prev_month">গত মাস</string>
+    <string name="reports_prev_year">গত বছর</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">আগের দিন</item>
+        <item quantity="other">আগের %d দিন</item>
+    </plurals>
+    <string name="reports_best_year">এখন পর্যন্ত আপনার সেরা বছর</string>
+    <string name="reports_best_month_ever">এখন পর্যন্ত আপনার সেরা মাস</string>
+    <string name="reports_best_month_year">এ বছরে আপনার সেরা মাস</string>
+    <string name="reports_best_week_ever">এখন পর্যন্ত আপনার সেরা সপ্তাহ</string>
+    <string name="reports_best_week_year">এ বছরে আপনার সেরা সপ্তাহ</string>
+    <string name="reports_streak_record">লক্ষ্যপূরণের নতুন দীর্ঘতম ধারা: %1$s</string>
+    <string name="reports_streak_record_ongoing">লক্ষ্যপূরণের নতুন দীর্ঘতম ধারা: %1$s, এখনও চলছে</string>
+    <string name="reports_top_day">%1$s আপনার সেরা দিনগুলোর মধ্যে %2$d নম্বরে</string>
+    <string name="reports_active_weekday">সপ্তাহের সবচেয়ে সক্রিয় দিন: %1$s</string>
+    <string name="reports_goal_after_gap">%1$s পর লক্ষ্য পূরণের প্রথম দিন</string>
+    <string name="reports_goal_first_ever">যেদিন প্রথম লক্ষ্য পূরণ করেছেন</string>
+    <string name="reports_goal_days_line">%2$d দিনের মধ্যে %1$d দিন লক্ষ্য পূরণ হয়েছে</string>
+    <string name="reports_stat_best_day">সেরা দিন</string>
+    <string name="reports_stat_goal_run">লক্ষ্য পূরণের দীর্ঘতম ধারা</string>
+    <string name="reports_part_night">রাত</string>
+    <string name="reports_part_morning">সকাল</string>
+    <string name="reports_part_afternoon">বিকাল</string>
+    <string name="reports_part_evening">সন্ধ্যা</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">%d সপ্তাহ</item>
+        <item quantity="other">%d সপ্তাহ</item>
+    </plurals>
+    <string name="reports_rhythm_night">আপনি বেশিরভাগ রাতে হাঁটেন</string>
+    <string name="reports_rhythm_morning">আপনি বেশিরভাগ সকালে হাঁটেন</string>
+    <string name="reports_rhythm_afternoon">আপনি বেশিরভাগ বিকালে হাঁটেন</string>
+    <string name="reports_rhythm_evening">আপনি বেশিরভাগ সন্ধ্যায় হাঁটেন</string>
+    <string name="reports_rhythm_balanced">আপনি দিনভর সমানভাবে হাঁটেন</string>
+    <string name="reports_hourly_coverage">%2$d দিনের মধ্যে %1$d দিনের ঘণ্টাভিত্তিক ডেটা আছে</string>
+    <string name="reports_rhythm_not_enough">এই সময়ে ঘণ্টাভিত্তিক ডেটা যথেষ্ট নয়, তাই কখন হাঁটেন তা দেখানো যাচ্ছে না</string>
+    <string name="reports_custom_pick">একটি সময়সীমা বেছে নিন</string>
+    <string name="reports_custom_hint">প্রথমে শুরুর দিন, তারপর শেষের দিনে ট্যাপ করুন</string>
+    <string name="reports_custom_max">সর্বোচ্চ %1$d দিন পর্যন্ত সময়সীমা বেছে নেওয়া যায়</string>
 </resources>

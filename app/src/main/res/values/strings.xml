@@ -43,7 +43,7 @@
     <string name="filters_title">Visible filters</string>
     <string name="filters_years">Year totals</string>
     <string name="home_show_filter_bar">Show filter bar</string>
-    <string name="calories">%1$d kcal</string>
+    <string name="calories">%1$s kcal</string>
     <string name="avg_per_day_pill">%1$s / day</string>
     <plurals name="goal_reached_times">
         <item quantity="one">Goal reached %d time</item>
@@ -65,7 +65,7 @@
     <string name="hourly_no_data_day">No hourly data for this day</string>
     <string name="hourly_average_days" translatable="false">(%1$d of %2$s)</string>
     <string name="hourly_average_empty">Not enough hourly data to draw an average chart for this range</string>
-    <string name="hourly_average_empty_message">No hourly data is available for any of the %1$s days in the range. Hourly data is only available for days recorded on this device.</string>
+    <string name="hourly_average_empty_message">No hourly data is available for any of the %1$s in the range.</string>
     <string name="hourly_no_data_before">No hourly data before %1$s</string>
     <string name="hourly_untimed_steps">%1$s steps without a time</string>
     <string name="hourly_view_chart">Chart</string>
@@ -375,4 +375,63 @@
     <string name="onboarding_welcome_point_battery">Light on your battery</string>
     <string name="onboarding_welcome_point_backups">Set up automatic local backups</string>
     <string name="onboarding_welcome_point_pressure">Make progress without pressure</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">Reports</string>
+    <string name="reports_year">Year</string>
+    <string name="reports_previous">Previous period</string>
+    <string name="reports_next">Next period</string>
+    <string name="reports_so_far">So far</string>
+    <string name="reports_daily_steps">Daily steps</string>
+    <string name="reports_by_week">Average by week</string>
+    <string name="reports_by_month">Average by month</string>
+    <string name="reports_time_of_day">Time of day</string>
+    <string name="reports_milestones">New milestones</string>
+    <string name="reports_days_logged">%1$d of %2$d days logged</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">Nothing to report yet. Come back after a day or two of walking.</string>
+    <string name="reports_empty_period">No steps recorded in this period</string>
+    <string name="reports_vs_same">About the same as %1$s</string>
+    <string name="reports_vs_same_pace">About the same as %1$s at this point</string>
+    <string name="reports_vs_diff">%1$s vs %2$s</string>
+    <string name="reports_vs_diff_pace">%1$s vs %2$s at this point</string>
+    <string name="reports_prev_week">last week</string>
+    <string name="reports_prev_month">last month</string>
+    <string name="reports_prev_year">last year</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">the previous day</item>
+        <item quantity="other">the previous %d days</item>
+    </plurals>
+    <string name="reports_best_year">Your best year so far</string>
+    <string name="reports_best_month_ever">Your best month so far</string>
+    <string name="reports_best_month_year">Your best month this year</string>
+    <string name="reports_best_week_ever">Your best week so far</string>
+    <string name="reports_best_week_year">Your best week this year</string>
+    <string name="reports_streak_record">New longest goal streak: %1$s</string>
+    <string name="reports_streak_record_ongoing">New longest goal streak: %1$s and counting</string>
+    <string name="reports_top_day">%1$s was your #%2$d best day ever</string>
+    <string name="reports_active_weekday">Your most active weekday is %1$s</string>
+    <string name="reports_goal_after_gap">First goal day in %1$s</string>
+    <string name="reports_goal_first_ever">First day you reached your goal</string>
+    <string name="reports_goal_days_line">Goal reached on %1$d of %2$d days</string>
+    <string name="reports_stat_best_day">Best day</string>
+    <string name="reports_stat_goal_run">Longest goal run</string>
+    <string name="reports_part_night">Night</string>
+    <string name="reports_part_morning">Morning</string>
+    <string name="reports_part_afternoon">Afternoon</string>
+    <string name="reports_part_evening">Evening</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">%d week</item>
+        <item quantity="other">%d weeks</item>
+    </plurals>
+    <string name="reports_rhythm_night">You mostly walk at night</string>
+    <string name="reports_rhythm_morning">You mostly walk in the morning</string>
+    <string name="reports_rhythm_afternoon">You mostly walk in the afternoon</string>
+    <string name="reports_rhythm_evening">You mostly walk in the evening</string>
+    <string name="reports_rhythm_balanced">You walk evenly through the day</string>
+    <string name="reports_hourly_coverage">%1$d of %2$d days with hourly data</string>
+    <string name="reports_rhythm_not_enough">Not enough hourly data in this period to show when you walk</string>
+    <string name="reports_custom_pick">Choose a range</string>
+    <string name="reports_custom_hint">Tap a start day, then an end day</string>
+    <string name="reports_custom_max">Ranges can span up to %1$d days</string>
 </resources>

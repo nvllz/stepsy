@@ -121,4 +121,4 @@ private fun normalizeDigits(s: String): String = buildString(s.length) {
     }
 }
 
-private fun calendarDayToDayOfWeek(calDay: Int): DayOfWeek = DayOfWeek.of((calDay + 5) % 7 + 1)
+internal fun calendarDayToDayOfWeek(calDay: Int): DayOfWeek = DayOfWeek.of((calDay + 5) % 7 + 1)

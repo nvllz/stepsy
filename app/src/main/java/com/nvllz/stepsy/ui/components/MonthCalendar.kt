@@ -19,7 +19,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,6 +65,8 @@ fun MonthCalendar(
     laps: Map<LocalDate, Float> = emptyMap(),
     streak: Set<LocalDate> = emptySet(),
     onMonthClick: (year: Int, month: Int) -> Unit = { _, _ -> },
+    outline: Boolean = true,
+    showHeader: Boolean = true,
 ) {
     val first = YearMonth.from(minDate)
     val count = ChronoUnit.MONTHS.between(first, YearMonth.from(maxDate)).toInt() + 1
@@ -96,37 +97,51 @@ fun MonthCalendar(
     }
 
     Column {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton({ scope.launch { pager.animateScrollToPage(pager.currentPage - 1) } }, enabled = pager.currentPage > 0) {
-                Icon(
-                    painterResource(R.drawable.ic_chevron_right), null,
-                    Modifier.size(24.dp).rotate(180f),
-                )
-            }
-            Text(
-                title,
-                Modifier.weight(1f).clip(CircleShape)
-                    .clickable { onMonthClick(shown.year, shown.monthValue) }
-                    .padding(vertical = 6.dp),
-                fontSize = 16.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
-            )
-            Box(
-                Modifier.size(48.dp).clip(CircleShape).combinedClickable(
-                    enabled = pager.currentPage < count - 1,
-                    onClick = { scope.launch { pager.animateScrollToPage(pager.currentPage + 1) } },
-                    onLongClick = { scope.launch { pager.animateScrollToPage(count - 1) } },
-                ),
-                contentAlignment = Alignment.Center,
-            ) {
-                val canGoNext = pager.currentPage < count - 1
-                Icon(painterResource(R.drawable.ic_chevron_right), null,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .then(
-                            if (!canGoNext) Modifier.graphicsLayer(alpha = 0.2f)
-                            else Modifier
+        if (showHeader) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (count > 1) {
+                    Box(
+                        Modifier.size(48.dp).clip(CircleShape).combinedClickable(
+                            enabled = pager.currentPage > 0,
+                            onClick = { scope.launch { pager.animateScrollToPage(pager.currentPage - 1) } },
+                            onLongClick = { scope.launch { pager.animateScrollToPage(0) } },
                         ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            painterResource(R.drawable.ic_chevron_right), null,
+                            Modifier.size(24.dp).rotate(180f)
+                                .graphicsLayer(alpha = if (pager.currentPage > 0) 1f else 0.2f),
+                        )
+                    }
+                }
+                Text(
+                    title,
+                    Modifier.weight(1f).clip(CircleShape)
+                        .clickable { onMonthClick(shown.year, shown.monthValue) }
+                        .padding(vertical = 6.dp),
+                    fontSize = 16.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
                 )
+                if (count > 1) {
+                    Box(
+                        Modifier.size(48.dp).clip(CircleShape).combinedClickable(
+                            enabled = pager.currentPage < count - 1,
+                            onClick = { scope.launch { pager.animateScrollToPage(pager.currentPage + 1) } },
+                            onLongClick = { scope.launch { pager.animateScrollToPage(count - 1) } },
+                        ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        val canGoNext = pager.currentPage < count - 1
+                        Icon(painterResource(R.drawable.ic_chevron_right), null,
+                            modifier = Modifier
+                                .size(24.dp)
+                                .then(
+                                    if (!canGoNext) Modifier.graphicsLayer(alpha = 0.2f)
+                                    else Modifier
+                                ),
+                        )
+                    }
+                }
             }
         }
         Row(Modifier.padding(vertical = 8.dp)) {
@@ -163,14 +178,14 @@ fun MonthCalendar(
                                                 SolidColor(fill)
                                             },
                                         )
-                                            .then(if (date == selected) Modifier.border(1.5.dp, onSurface, RoundedCornerShape(11.dp)) else Modifier)
+                                            .then(if (outline && date == selected) Modifier.border(1.5.dp, onSurface, RoundedCornerShape(11.dp)) else Modifier)
                                             .clickable(enabled = enabled) { onSelect(date) },
                                         contentAlignment = Alignment.Center,
                                     )
                                     {
                                         Text(
                                             day.toString(), fontSize = 14.sp,
-                                            fontWeight = if (date == maxDate || date == selected || met) FontWeight.Bold else FontWeight.Normal,
+                                            fontWeight = if (met || (outline && (date == maxDate || date == selected))) FontWeight.Bold else FontWeight.Normal,
                                             style = TextStyle(
                                                 shadow = Shadow(
                                                     (if (dark) StepsyTheme.colors.background else onSurface)

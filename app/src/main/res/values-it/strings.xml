@@ -47,7 +47,7 @@
     <string name="filters_title">Filtri visibili</string>
     <string name="filters_years">Totali per anno</string>
     <string name="home_show_filter_bar">Mostra la barra dei filtri</string>
-    <string name="calories">%1$d kcal</string>
+    <string name="calories">%1$s kcal</string>
     <string name="avg_per_day_pill">%1$s / giorno</string>
     <plurals name="goal_reached_times">
         <item quantity="one">Obiettivo raggiunto %d volta</item>
@@ -359,4 +359,63 @@
     <string name="onboarding_welcome_point_battery">Leggera sulla batteria</string>
     <string name="onboarding_welcome_point_backups">Configura backup locali automatici</string>
     <string name="onboarding_welcome_point_pressure">Progressi senza pressione</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">Report</string>
+    <string name="reports_year">Anno</string>
+    <string name="reports_previous">Periodo precedente</string>
+    <string name="reports_next">Periodo successivo</string>
+    <string name="reports_so_far">Finora</string>
+    <string name="reports_daily_steps">Passi giornalieri</string>
+    <string name="reports_by_week">Media settimanale</string>
+    <string name="reports_by_month">Media mensile</string>
+    <string name="reports_time_of_day">Momento della giornata</string>
+    <string name="reports_milestones">Nuovi traguardi</string>
+    <string name="reports_days_logged">%1$d su %2$d giorni registrati</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">Ancora niente da mostrare. Torna dopo un giorno o due di camminate.</string>
+    <string name="reports_empty_period">Nessun passo registrato in questo periodo</string>
+    <string name="reports_vs_same">Più o meno come %1$s</string>
+    <string name="reports_vs_same_pace">Più o meno come %1$s a questo punto</string>
+    <string name="reports_vs_diff">%1$s vs %2$s</string>
+    <string name="reports_vs_diff_pace">%1$s vs %2$s a questo punto</string>
+    <string name="reports_prev_week">la settimana scorsa</string>
+    <string name="reports_prev_month">il mese scorso</string>
+    <string name="reports_prev_year">l\'anno scorso</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">il giorno precedente</item>
+        <item quantity="other">i %d giorni precedenti</item>
+    </plurals>
+    <string name="reports_best_year">Il tuo anno migliore finora</string>
+    <string name="reports_best_month_ever">Il tuo mese migliore finora</string>
+    <string name="reports_best_month_year">Il tuo mese migliore di quest\'anno</string>
+    <string name="reports_best_week_ever">La tua settimana migliore finora</string>
+    <string name="reports_best_week_year">La tua settimana migliore di quest\'anno</string>
+    <string name="reports_streak_record">Nuova serie di obiettivi più lunga: %1$s</string>
+    <string name="reports_streak_record_ongoing">Nuova serie di obiettivi più lunga: %1$s e continua</string>
+    <string name="reports_top_day">%1$s è stato il tuo %2$d° giorno migliore di sempre</string>
+    <string name="reports_active_weekday">Il tuo giorno della settimana più attivo è %1$s</string>
+    <string name="reports_goal_after_gap">Primo giorno con obiettivo raggiunto da %1$s</string>
+    <string name="reports_goal_first_ever">Il primo giorno in cui hai raggiunto l\'obiettivo</string>
+    <string name="reports_goal_days_line">Obiettivo raggiunto in %1$d giorni su %2$d</string>
+    <string name="reports_stat_best_day">Giorno migliore</string>
+    <string name="reports_stat_goal_run">Serie di obiettivi più lunga</string>
+    <string name="reports_part_night">Notte</string>
+    <string name="reports_part_morning">Mattina</string>
+    <string name="reports_part_afternoon">Pomeriggio</string>
+    <string name="reports_part_evening">Sera</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">%d settimana</item>
+        <item quantity="other">%d settimane</item>
+    </plurals>
+    <string name="reports_rhythm_night">Cammini soprattutto di notte</string>
+    <string name="reports_rhythm_morning">Cammini soprattutto la mattina</string>
+    <string name="reports_rhythm_afternoon">Cammini soprattutto nel pomeriggio</string>
+    <string name="reports_rhythm_evening">Cammini soprattutto la sera</string>
+    <string name="reports_rhythm_balanced">Cammini in modo uniforme durante la giornata</string>
+    <string name="reports_hourly_coverage">%1$d su %2$d giorni con dati orari</string>
+    <string name="reports_rhythm_not_enough">Dati orari insufficienti in questo periodo per mostrare quando cammini</string>
+    <string name="reports_custom_pick">Scegli un intervallo</string>
+    <string name="reports_custom_hint">Tocca un giorno di inizio, poi uno di fine</string>
+    <string name="reports_custom_max">Gli intervalli possono durare fino a %1$d giorni</string>
 </resources>

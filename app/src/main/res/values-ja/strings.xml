@@ -43,7 +43,7 @@
     <string name="filters_title">表示するフィルター</string>
     <string name="filters_years">年ごとの合計</string>
     <string name="home_show_filter_bar">フィルターバーを表示</string>
-    <string name="calories">%1$d kcal</string>
+    <string name="calories">%1$s kcal</string>
     <string name="avg_per_day_pill">%1$s / 日</string>
     <plurals name="goal_reached_times">
         <item quantity="one">目標を%d回達成</item>
@@ -352,4 +352,63 @@
     <string name="onboarding_welcome_point_battery">バッテリーにやさしい</string>
     <string name="onboarding_welcome_point_backups">自動ローカルバックアップを設定</string>
     <string name="onboarding_welcome_point_pressure">プレッシャーなく前進</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">レポート</string>
+    <string name="reports_year">年</string>
+    <string name="reports_previous">前の期間</string>
+    <string name="reports_next">次の期間</string>
+    <string name="reports_so_far">ここまで</string>
+    <string name="reports_daily_steps">1日の歩数</string>
+    <string name="reports_by_week">週ごとの平均</string>
+    <string name="reports_by_month">月ごとの平均</string>
+    <string name="reports_time_of_day">時間帯</string>
+    <string name="reports_milestones">新しいマイルストーン</string>
+    <string name="reports_days_logged">%2$d日中%1$d日分を記録</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">まだ報告できることがありません。1日か2日歩いたら、また見に来てください。</string>
+    <string name="reports_empty_period">この期間に記録された歩数はありません</string>
+    <string name="reports_vs_same">%1$sとほぼ同じ</string>
+    <string name="reports_vs_same_pace">同時点の%1$sとほぼ同じ</string>
+    <string name="reports_vs_diff">%2$s比 %1$s</string>
+    <string name="reports_vs_diff_pace">同時点の%2$s比 %1$s</string>
+    <string name="reports_prev_week">先週</string>
+    <string name="reports_prev_month">先月</string>
+    <string name="reports_prev_year">昨年</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">前日</item>
+        <item quantity="other">直前の%d日間</item>
+    </plurals>
+    <string name="reports_best_year">ここまでで最高の年</string>
+    <string name="reports_best_month_ever">ここまでで最高の月</string>
+    <string name="reports_best_month_year">今年最高の月</string>
+    <string name="reports_best_week_ever">ここまでで最高の週</string>
+    <string name="reports_best_week_year">今年最高の週</string>
+    <string name="reports_streak_record">目標達成の最長記録を更新: %1$s</string>
+    <string name="reports_streak_record_ongoing">目標達成の最長記録を更新: %1$s（継続中）</string>
+    <string name="reports_top_day">%1$sは歴代%2$d位の日でした</string>
+    <string name="reports_active_weekday">最もよく歩く曜日は%1$sです</string>
+    <string name="reports_goal_after_gap">%1$sぶりの目標達成</string>
+    <string name="reports_goal_first_ever">初めて目標を達成した日</string>
+    <string name="reports_goal_days_line">%2$d日中%1$d日で目標達成</string>
+    <string name="reports_stat_best_day">ベストな日</string>
+    <string name="reports_stat_goal_run">目標の最長連続達成</string>
+    <string name="reports_part_night">夜</string>
+    <string name="reports_part_morning">朝</string>
+    <string name="reports_part_afternoon">午後</string>
+    <string name="reports_part_evening">夕方</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">%d週間</item>
+        <item quantity="other">%d週間</item>
+    </plurals>
+    <string name="reports_rhythm_night">夜に歩くことが多いです</string>
+    <string name="reports_rhythm_morning">朝に歩くことが多いです</string>
+    <string name="reports_rhythm_afternoon">午後に歩くことが多いです</string>
+    <string name="reports_rhythm_evening">夕方に歩くことが多いです</string>
+    <string name="reports_rhythm_balanced">1日を通してバランスよく歩いています</string>
+    <string name="reports_hourly_coverage">%2$d日中%1$d日分に時間別データあり</string>
+    <string name="reports_rhythm_not_enough">この期間は時間別データが足りず、歩く時間帯を表示できません</string>
+    <string name="reports_custom_pick">期間を選択</string>
+    <string name="reports_custom_hint">開始日、終了日の順にタップしてください</string>
+    <string name="reports_custom_max">選べる期間は最大%1$d日間です</string>
 </resources>

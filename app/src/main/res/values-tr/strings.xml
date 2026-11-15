@@ -43,7 +43,7 @@
     <string name="filters_title">Görünür filtreler</string>
     <string name="filters_years">Yıllık toplamlar</string>
     <string name="home_show_filter_bar">Filtre çubuğunu göster</string>
-    <string name="calories">%1$d kcal</string>
+    <string name="calories">%1$s kcal</string>
     <string name="avg_per_day_pill">%1$s / gün</string>
     <plurals name="goal_reached_times">
         <item quantity="one">Hedefe %d kez ulaşıldı</item>
@@ -352,4 +352,63 @@
     <string name="onboarding_welcome_point_battery">Pile hafif</string>
     <string name="onboarding_welcome_point_backups">Otomatik yerel yedeklemeler kurun</string>
     <string name="onboarding_welcome_point_pressure">Baskı olmadan ilerleme</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">Raporlar</string>
+    <string name="reports_year">Yıl</string>
+    <string name="reports_previous">Önceki dönem</string>
+    <string name="reports_next">Sonraki dönem</string>
+    <string name="reports_so_far">Şimdiye kadar</string>
+    <string name="reports_daily_steps">Günlük adımlar</string>
+    <string name="reports_by_week">Haftalık ortalama</string>
+    <string name="reports_by_month">Aylık ortalama</string>
+    <string name="reports_time_of_day">Günün zamanı</string>
+    <string name="reports_milestones">Yeni kilometre taşları</string>
+    <string name="reports_days_logged">%2$d günün %1$d günü kaydedildi</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">Henüz raporlanacak bir şey yok. Bir iki gün yürüdükten sonra tekrar gel.</string>
+    <string name="reports_empty_period">Bu dönemde kayıtlı adım yok</string>
+    <string name="reports_vs_same">%1$s yaklaşık aynı</string>
+    <string name="reports_vs_same_pace">Aynı noktada, %1$s yaklaşık aynı</string>
+    <string name="reports_vs_diff">%2$s %1$s</string>
+    <string name="reports_vs_diff_pace">%2$s aynı noktada %1$s</string>
+    <string name="reports_prev_week">geçen haftaya göre</string>
+    <string name="reports_prev_month">geçen aya göre</string>
+    <string name="reports_prev_year">geçen yıla göre</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">önceki güne göre</item>
+        <item quantity="other">önceki %d güne göre</item>
+    </plurals>
+    <string name="reports_best_year">Şimdiye kadarki en iyi yılın</string>
+    <string name="reports_best_month_ever">Şimdiye kadarki en iyi ayın</string>
+    <string name="reports_best_month_year">Bu yılki en iyi ayın</string>
+    <string name="reports_best_week_ever">Şimdiye kadarki en iyi haftan</string>
+    <string name="reports_best_week_year">Bu yılki en iyi haftan</string>
+    <string name="reports_streak_record">Yeni en uzun hedef serisi: %1$s</string>
+    <string name="reports_streak_record_ongoing">Yeni en uzun hedef serisi: %1$s ve devam ediyor</string>
+    <string name="reports_top_day">%1$s, en iyi günlerin arasında %2$d. sırada</string>
+    <string name="reports_active_weekday">En aktif hafta günün %1$s</string>
+    <string name="reports_goal_after_gap">%1$s sonra ilk hedef günü</string>
+    <string name="reports_goal_first_ever">Hedefine ulaştığın ilk gün</string>
+    <string name="reports_goal_days_line">%2$d günün %1$d gününde hedef tutturuldu</string>
+    <string name="reports_stat_best_day">En iyi gün</string>
+    <string name="reports_stat_goal_run">En uzun hedef serisi</string>
+    <string name="reports_part_night">Gece</string>
+    <string name="reports_part_morning">Sabah</string>
+    <string name="reports_part_afternoon">Öğleden sonra</string>
+    <string name="reports_part_evening">Akşam</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">%d hafta</item>
+        <item quantity="other">%d hafta</item>
+    </plurals>
+    <string name="reports_rhythm_night">Çoğunlukla geceleri yürüyorsun</string>
+    <string name="reports_rhythm_morning">Çoğunlukla sabahları yürüyorsun</string>
+    <string name="reports_rhythm_afternoon">Çoğunlukla öğleden sonra yürüyorsun</string>
+    <string name="reports_rhythm_evening">Çoğunlukla akşamları yürüyorsun</string>
+    <string name="reports_rhythm_balanced">Gün boyunca dengeli yürüyorsun</string>
+    <string name="reports_hourly_coverage">%2$d günün %1$d gününde saatlik veri var</string>
+    <string name="reports_rhythm_not_enough">Bu dönemde ne zaman yürüdüğünü göstermek için yeterli saatlik veri yok</string>
+    <string name="reports_custom_pick">Bir aralık seç</string>
+    <string name="reports_custom_hint">Önce başlangıç gününe, sonra bitiş gününe dokun</string>
+    <string name="reports_custom_max">Aralık en fazla %1$d gün olabilir</string>
 </resources>

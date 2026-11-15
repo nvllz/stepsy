@@ -8,9 +8,17 @@ import android.database.Cursor.*
 import android.util.Log
 import java.util.Calendar
 import java.util.TimeZone
+import java.util.concurrent.atomic.AtomicLong
 import androidx.core.database.sqlite.transaction
 
 internal class Database private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    private val changes = AtomicLong()
+    internal val changeStamp: Long get() = changes.get()
+
+    private fun touch(date: String?) {
+        if (date == null || date < Util.todayDateString()) changes.incrementAndGet()
+    }
 
     private fun querySingle(columns: Array<String>, selection: String? = null, selectionArgs: Array<String>? = null): Any? {
         val cursor = readableDatabase.query(HISTORY_TABLE, columns, selection, selectionArgs, null, null, null)
@@ -82,6 +90,31 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
         if (writableDatabase.update(HISTORY_TABLE, values, "date = ?", arrayOf(date)) == 0) {
             writableDatabase.insertOrThrow(HISTORY_TABLE, null, values)
         }
+        touch(date)
+    }
+
+    internal fun loadDaySteps(minDate: String, beforeDate: String): List<Pair<String, Int>> {
+        val rows = ArrayList<Pair<String, Int>>()
+        readableDatabase.rawQuery(
+            "SELECT date, stepsy FROM $HISTORY_TABLE WHERE date >= ? AND date < ? ORDER BY date ASC",
+            arrayOf(minDate, beforeDate),
+        ).use { c -> while (c.moveToNext()) rows.add(c.getString(0) to c.getInt(1)) }
+        return rows
+    }
+
+    internal class DayPartRow(val date: String, val parts: IntArray)
+
+    internal fun loadDayParts(minDate: String, maxDate: String): List<DayPartRow> {
+        val per = SLOT_COUNT / 4
+        val sums = (0..3).joinToString(", ") { "SUM(CASE WHEN slot / $per = $it THEN steps ELSE 0 END)" }
+        val rows = ArrayList<DayPartRow>()
+        readableDatabase.rawQuery(
+            "SELECT date, $sums, SUM(steps) FROM $SLOTS_TABLE WHERE date >= ? AND date <= ? GROUP BY date ORDER BY date ASC",
+            arrayOf(minDate, maxDate),
+        ).use { c ->
+            while (c.moveToNext()) rows.add(DayPartRow(c.getString(0), IntArray(5) { c.getInt(it + 1) }))
+        }
+        return rows
     }
 
     internal fun loadSlots(date: String): IntArray {
@@ -114,6 +147,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
                 }
             }
         }
+        touch(date)
     }
 
     internal fun addAdjust(date: String, minute: Int, delta: Int) {
@@ -123,6 +157,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
             put("delta", delta)
         }
         writableDatabase.insertOrThrow(ADJUST_TABLE, null, values)
+        touch(date)
     }
 
     internal fun hasSlots(date: String): Boolean {
@@ -183,6 +218,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
             delete(SLOTS_TABLE, "date = ?", arrayOf(date))
             delete(ADJUST_TABLE, "date = ?", arrayOf(date))
         }
+        touch(date)
     }
 
     internal fun clearAllHourly() {
@@ -190,6 +226,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
             delete(SLOTS_TABLE, null, null)
             delete(ADJUST_TABLE, null, null)
         }
+        touch(null)
     }
 
     internal fun loadSlotsAll(): List<Triple<String, Int, Int>> {
@@ -259,6 +296,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
                 }
             }
         }
+        touch(null)
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -392,6 +430,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
                 insertOrThrow(HISTORY_TABLE, null, values)
             }
         }
+        touch(null)
     }
 
     internal fun clearAllAndInsert(
@@ -431,6 +470,7 @@ internal class Database private constructor(context: Context) : SQLiteOpenHelper
                 insertOrThrow(ADJUST_TABLE, null, values)
             }
         }
+        touch(null)
     }
 
     internal class Entry(

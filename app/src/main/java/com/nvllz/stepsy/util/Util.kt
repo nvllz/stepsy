@@ -156,6 +156,12 @@ object Util {
         else -> NumberFormat.getIntegerInstance().format(steps)
     }
 
+    internal fun formatKcal(kcal: Int, context: Context): String = if (kcal >= 10_000) {
+        context.getString(R.string.milestone_short_thousands, (kcal + 500) / 1_000)
+    } else {
+        NumberFormat.getIntegerInstance().format(kcal)
+    }
+
     internal fun estimatedStepLengthCm(heightCm: Int): Float = heightCm * 0.415f
 
     internal fun milestoneBadge(milestoneSteps: Int): String = when {

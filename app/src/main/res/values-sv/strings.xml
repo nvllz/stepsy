@@ -43,7 +43,7 @@
     <string name="filters_title">Synliga filter</string>
     <string name="filters_years">Årssummor</string>
     <string name="home_show_filter_bar">Visa filterfält</string>
-    <string name="calories">%1$d kcal</string>
+    <string name="calories">%1$s kcal</string>
     <string name="avg_per_day_pill">%1$s / dag</string>
     <plurals name="goal_reached_times">
         <item quantity="one">Mål uppnått %d gång</item>
@@ -352,4 +352,63 @@
     <string name="onboarding_welcome_point_battery">Snål mot batteriet</string>
     <string name="onboarding_welcome_point_backups">Ställ in automatiska lokala säkerhetskopior</string>
     <string name="onboarding_welcome_point_pressure">Framsteg utan press</string>
+
+    <!-- Screen: Reports -->
+    <string name="reports_title">Rapporter</string>
+    <string name="reports_year">År</string>
+    <string name="reports_previous">Föregående period</string>
+    <string name="reports_next">Nästa period</string>
+    <string name="reports_so_far">Hittills</string>
+    <string name="reports_daily_steps">Steg per dag</string>
+    <string name="reports_by_week">Snitt per vecka</string>
+    <string name="reports_by_month">Snitt per månad</string>
+    <string name="reports_time_of_day">Tid på dygnet</string>
+    <string name="reports_milestones">Nya milstolpar</string>
+    <string name="reports_days_logged">%1$d av %2$d dagar loggade</string>
+    <string name="reports_of" translatable="false">%1$d of %2$d</string>
+    <string name="reports_empty_all">Inget att rapportera än. Kom tillbaka efter en eller två dagars promenader.</string>
+    <string name="reports_empty_period">Inga steg loggade under den här perioden</string>
+    <string name="reports_vs_same">Ungefär som %1$s</string>
+    <string name="reports_vs_same_pace">Ungefär som %1$s vid den här tidpunkten</string>
+    <string name="reports_vs_diff">%1$s mot %2$s</string>
+    <string name="reports_vs_diff_pace">%1$s mot %2$s vid den här tidpunkten</string>
+    <string name="reports_prev_week">förra veckan</string>
+    <string name="reports_prev_month">förra månaden</string>
+    <string name="reports_prev_year">förra året</string>
+    <plurals name="reports_prev_custom">
+        <item quantity="one">föregående dag</item>
+        <item quantity="other">föregående %d dagar</item>
+    </plurals>
+    <string name="reports_best_year">Ditt bästa år hittills</string>
+    <string name="reports_best_month_ever">Din bästa månad hittills</string>
+    <string name="reports_best_month_year">Din bästa månad i år</string>
+    <string name="reports_best_week_ever">Din bästa vecka hittills</string>
+    <string name="reports_best_week_year">Din bästa vecka i år</string>
+    <string name="reports_streak_record">Ny längsta målserie: %1$s</string>
+    <string name="reports_streak_record_ongoing">Ny längsta målserie: %1$s och den fortsätter</string>
+    <string name="reports_top_day">%1$s hamnade på plats %2$d bland dina bästa dagar</string>
+    <string name="reports_active_weekday">Din mest aktiva veckodag är %1$s</string>
+    <string name="reports_goal_after_gap">Första måldagen på %1$s</string>
+    <string name="reports_goal_first_ever">Första dagen du nådde ditt mål</string>
+    <string name="reports_goal_days_line">Målet nåddes %1$d av %2$d dagar</string>
+    <string name="reports_stat_best_day">Bästa dag</string>
+    <string name="reports_stat_goal_run">Längsta målserie</string>
+    <string name="reports_part_night">Natt</string>
+    <string name="reports_part_morning">Morgon</string>
+    <string name="reports_part_afternoon">Eftermiddag</string>
+    <string name="reports_part_evening">Kväll</string>
+    <plurals name="reports_weeks_count">
+        <item quantity="one">%d vecka</item>
+        <item quantity="other">%d veckor</item>
+    </plurals>
+    <string name="reports_rhythm_night">Du går mest på natten</string>
+    <string name="reports_rhythm_morning">Du går mest på morgonen</string>
+    <string name="reports_rhythm_afternoon">Du går mest på eftermiddagen</string>
+    <string name="reports_rhythm_evening">Du går mest på kvällen</string>
+    <string name="reports_rhythm_balanced">Du går jämnt fördelat över dagen</string>
+    <string name="reports_hourly_coverage">%1$d av %2$d dagar med timdata</string>
+    <string name="reports_rhythm_not_enough">För lite timdata under perioden för att visa när du går</string>
+    <string name="reports_custom_pick">Välj ett intervall</string>
+    <string name="reports_custom_hint">Tryck på en startdag och sedan en slutdag</string>
+    <string name="reports_custom_max">Intervall kan vara upp till %1$d dagar</string>
 </resources>
