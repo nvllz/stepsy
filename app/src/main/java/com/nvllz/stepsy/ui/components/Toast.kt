@@ -2,6 +2,8 @@ package com.nvllz.stepsy.ui.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -102,8 +104,10 @@ fun ToastHost(state: ToastState, modifier: Modifier = Modifier) {
         AnimatedContent(
             targetState = lastMessage,
             transitionSpec = {
-                (slideInVertically(tween(250)) { it } + fadeIn(tween(250))) togetherWith fadeOut(tween(200))
+                ((slideInVertically(tween(250)) { it } + fadeIn(tween(250))) togetherWith fadeOut(tween(200)))
+                    .using(SizeTransform(clip = false) { _, _ -> snap() })
             },
+            contentAlignment = Alignment.BottomCenter,
             label = "toastContent",
         ) { pill ->
             pill?.let { ToastPill(it, onClick = state::dismiss) }

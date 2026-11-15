@@ -423,7 +423,7 @@ private fun TopDayRow(index: Int, steps: Int, distance: String, date: String, fr
             Box(
                 Modifier
                     .size(28.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .background(rankBackground),
             ) {
                 val rankMeasurer = rememberTextMeasurer()
