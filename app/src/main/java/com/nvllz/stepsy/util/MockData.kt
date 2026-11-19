@@ -150,18 +150,44 @@ internal object MockData {
     private fun distribute(tracked: Int, startSlot: Int, endSlot: Int, slots: IntArray, focus: MockFocus) {
         if (endSlot < startSlot) return
         val count = endSlot - startSlot + 1
-        val weights = IntArray(count) { slotWeight(startSlot + it, focus) }
-        if (weights.sum() == 0) weights[count - 1] = 1
+        val candidates = IntArray(count) { slotWeight(startSlot + it, focus) }
+        if (candidates.sum() == 0) candidates[count - 1] = 1
+
+        val weights = IntArray(count)
+        repeat((tracked / 2500).coerceIn(1, 4)) {
+            val index = pickWeighted(candidates)
+            if (index < 0) return@repeat
+            val length = Random.nextInt(1, 3)
+            for (i in index until min(index + length, count)) {
+                weights[i] += Random.nextInt(80, 161)
+            }
+            candidates[index] = 0
+        }
+        for (i in weights.indices) {
+            if (weights[i] == 0 && Random.nextInt(100) < 20) weights[i] = Random.nextInt(1, 6)
+        }
+
         val weightSum = weights.sum()
         var previous = 0
         var cumulative = 0
         for (i in 0 until count) {
             cumulative += weights[i]
-            val bound = if (weightSum == 0) 0 else (tracked.toLong() * cumulative / weightSum).toInt()
+            val bound = (tracked.toLong() * cumulative / weightSum).toInt()
             slots[startSlot + i] = bound - previous
             previous = bound
         }
         slots[endSlot] += tracked - previous
+    }
+
+    private fun pickWeighted(weights: IntArray): Int {
+        val sum = weights.sum()
+        if (sum <= 0) return -1
+        var roll = Random.nextInt(sum)
+        for (i in weights.indices) {
+            roll -= weights[i]
+            if (roll < 0) return i
+        }
+        return weights.lastIndex
     }
 
     private fun slotWeight(slot: Int, focus: MockFocus): Int = when (focus) {
@@ -224,6 +250,7 @@ internal object DebugTools {
         AppPreferences.PreferenceKeys.ENCOURAGING_STATE,
         AppPreferences.PreferenceKeys.MILESTONE_NOTIFICATIONS_ENABLED,
         AppPreferences.PreferenceKeys.STAR_PROMPT_HANDLED,
+        AppPreferences.PreferenceKeys.LAST_PROMPT_SHOWN_MS,
         AppPreferences.PreferenceKeys.SETUP_CARD_DISMISSED,
     )
 
