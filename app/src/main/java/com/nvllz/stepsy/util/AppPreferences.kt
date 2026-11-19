@@ -55,6 +55,7 @@ object AppPreferences {
         val IS_PAUSED                            = booleanPreferencesKey("is_paused")
         val LAST_SEEN_ANNOUNCEMENT_VERSION       = intPreferencesKey("last_seen_announcement_version")
         val STAR_PROMPT_HANDLED                  = booleanPreferencesKey("star_prompt_handled")
+        val LAST_PROMPT_SHOWN_MS                 = longPreferencesKey("last_prompt_shown_ms")
         val ONBOARDING_COMPLETED                 = booleanPreferencesKey("onboarding_completed")
         val SETUP_CARD_DISMISSED                 = stringSetPreferencesKey("setup_card_dismissed")
     }
@@ -63,6 +64,7 @@ object AppPreferences {
         "STEPS", "DATE", "base_total_steps", "last_notified_milestone",
         "encouraging_state", "is_paused", "app_version_code", "onboarding_completed",
         "setup_card_dismissed", "last_seen_announcement_version", "star_prompt_handled",
+        "last_prompt_shown_ms",
         "backup_location_uri", "backup_frequency", "backup_retention",
         "day_start_prev_hour", "day_start_switch_ms",
     )
@@ -344,6 +346,10 @@ object AppPreferences {
     var starPromptHandled: Boolean
         get() = runBlocking { dataStore.data.map { it[PreferenceKeys.STAR_PROMPT_HANDLED] ?: false }.first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.STAR_PROMPT_HANDLED] = value } }
+
+    var lastPromptShownMs: Long
+        get() = runBlocking { dataStore.data.map { it[PreferenceKeys.LAST_PROMPT_SHOWN_MS] ?: 0L }.first() }
+        set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.LAST_PROMPT_SHOWN_MS] = value } }
 
     fun onboardingCompletedFlow(): Flow<Boolean> =
         dataStore.data.map { it[PreferenceKeys.ONBOARDING_COMPLETED] ?: true }

@@ -21,16 +21,16 @@ object AnnouncementContent {
         id = 24,
         showIf = { !BuildConfig.HAS_PROPRIETARY_LIBRARIES && BuildConfig.VERSION_CODE <= 28 },
         swipeDismiss = false,
-        title = "FOSS vs FULL",
+        title = "FOSS vs Regular",
         badge = "⚠️",
         body = """
-            The <b>Activity Recognition API</b>, introduced in the previous update, helps Stepsy filter out steps counted while cycling or travelling by car or bus. After several months of testing, it's proven stable, with negligible battery impact.<br><br>
+            The <b>Activity Recognition API</b>, introduced a few months ago, helps Stepsy to filter out steps while cycling or travelling by car or bus. After several months of testing, it's proven stable, with negligible battery impact.<br><br>
 
-            The <b>FOSS</b> build remains unchanged for F-Droid and IzzyOnDroid, without Google dependencies. The <b>Full</b> build includes this API for more reliable step counting.<br><br>
+            The <b>FOSS</b> build remains unchanged for F-Droid and IzzyOnDroid, without Google dependencies. The <b>regular</b> build includes this API for more reliable step counting.<br><br>
 
-            Both versions work entirely offline, with no Internet access or changes to your privacy. You can switch builds without uninstalling the app.<br><br>
+            Both versions work entirely offline, without internet access or changes to your privacy. You can switch builds without uninstalling the app.<br><br>
 
-            Have Google Play Services installed? Get <a href='https://github.com/nvllz/stepsy/releases/latest'><b><tt>Stepsy-full-2.0.apk</tt></b></a> from GitHub Releases, or use <a href='https://github.com/ImranR98/Obtainium'>Obtainium</a> to track the Full build. See the <a href='https://github.com/nvllz/stepsy#build-flavors'>build differences</a> for details.
+            Have Google Play Services installed? Get <a href='https://github.com/nvllz/stepsy/releases/latest'><b><tt>Stepsy-2.0.0.apk</tt></b></a> from GitHub Releases, or use <a href='https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/{"id":"com.nvllz.stepsy","url":"https://github.com/nvllz/stepsy","author":"nvllz","name":"Stepsy","additionalSettings":"{\"apkFilterRegEx\":\"^Stepsy-[0-9].*[.]apk$\",\"appName\":\"Stepsy\",\"appAuthor\":\"nvllz\",\"about\":\"Reliable step counter.\"}"}'>Obtainium</a> to track the Full build. See the <a href='https://github.com/nvllz/stepsy#build-flavors'>build differences</a> for details.
         """.trimIndent()
         /*
         actionLabel = "Open app settings",
