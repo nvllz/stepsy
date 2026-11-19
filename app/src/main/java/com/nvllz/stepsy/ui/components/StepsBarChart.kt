@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
@@ -59,6 +60,8 @@ fun StepsBarChart(
 
     val onSurface = MaterialTheme.colorScheme.onSurface
     val goalColor = StepsyTheme.colors.goal
+    val pillBase = StepsyTheme.colors.background
+    val pillOverlay = StepsyTheme.colors.muted
     val colors = values.mapIndexed { i, v ->
         val met = goal > 0 && v >= goal
         val dim = if (selectedIndex != null && selectedIndex != i) 0.5f else 1f
@@ -85,6 +88,16 @@ fun StepsBarChart(
         val maxIdx = values.indices.maxByOrNull { values[it] } ?: -1
         val wideValues = showValues && maxIdx >= 0 &&
             measurer.measure(valueLabel(values[maxIdx]), small).size.width <= slot - 6.dp.toPx()
+
+        fun drawPill(layout: TextLayoutResult, x: Float, y: Float) {
+            val topLeft = Offset(x - 3.dp.toPx(), y)
+            val pillSize = Size(layout.size.width + 6.dp.toPx(), layout.size.height.toFloat())
+            val corner = CornerRadius(layout.size.height / 2f)
+            drawRoundRect(pillBase, topLeft = topLeft, size = pillSize, cornerRadius = corner)
+            drawRoundRect(pillOverlay, topLeft = topLeft, size = pillSize, cornerRadius = corner)
+            drawText(layout, topLeft = Offset(x, y))
+        }
+
         if (goal > 0) {
             val y = base - goal / axis * (base - top)
             drawLine(axisGray.copy(alpha = 0.4f), Offset(0f, y), Offset(size.width, y), 1.dp.toPx(),
@@ -113,7 +126,7 @@ fun StepsBarChart(
             if (showValues && values[i] > 0 && g > 0.98f && (wideValues || i == maxIdx || i == boldIndex || i == selectedIndex)) {
                 val st = if (bold) small.copy(fontWeight = FontWeight.SemiBold, color = onSurface) else small
                 val l = measurer.measure(valueLabel(values[i]), st)
-                drawText(l, topLeft = Offset(i * slot + (slot - l.size.width) / 2, base - h - l.size.height - 2.dp.toPx()))
+                drawPill(l, i * slot + (slot - l.size.width) / 2, base - h - l.size.height - 2.dp.toPx())
             }
         }
     }

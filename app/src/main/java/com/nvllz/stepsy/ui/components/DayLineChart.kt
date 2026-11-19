@@ -230,6 +230,18 @@ fun DayLineChart(
                 drawText(layout, topLeft = Offset(x, y), alpha = alpha)
             }
 
+            val divider = 0.5.dp.toPx()
+            for (tick in ticks) {
+                val x = xFor(tick.first.toFloat())
+                    .coerceIn(divider / 2f, (size.width - divider / 2f).coerceAtLeast(divider / 2f))
+                drawLine(
+                    axisGray.copy(alpha = 0.22f),
+                    Offset(x, top),
+                    Offset(x, base),
+                    divider,
+                )
+            }
+
             if (s.goal > 0) {
                 val k = if (s.goalFade) s.toInv else inv
                 val a = if (s.goalFade) ramp else 1f
@@ -515,6 +527,18 @@ fun DayBarChart(
             Offset(size.width, base),
             0.75.dp.toPx(),
         )
+
+        val divider = 0.5.dp.toPx()
+        for (tick in ticks) {
+            val x = (tick.first / 1440f * size.width)
+                .coerceIn(divider / 2f, (size.width - divider / 2f).coerceAtLeast(divider / 2f))
+            drawLine(
+                axisGray.copy(alpha = 0.22f),
+                Offset(x, top),
+                Offset(x, base),
+                divider,
+            )
+        }
 
         val maxValue = values.maxOrNull() ?: 0
         var hintMaxRight = 0f
