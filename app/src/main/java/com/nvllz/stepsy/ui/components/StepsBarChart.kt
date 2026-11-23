@@ -35,6 +35,8 @@ import androidx.compose.ui.unit.sp
 import com.nvllz.stepsy.ui.theme.Chivo
 import com.nvllz.stepsy.ui.theme.StepsyTheme
 import com.nvllz.stepsy.util.Util
+import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 @Composable
 fun StepsBarChart(
@@ -85,6 +87,17 @@ fun StepsBarChart(
         val top = 24.dp.toPx()
         val slot = size.width / n
         val barW = slot * 0.62f
+        val widestLabel = (labels.maxOfOrNull { measurer.measure(it, label).size.width } ?: 0).toFloat()
+        val labelStride = ceil((widestLabel + 4.dp.toPx()) / slot).toInt().coerceAtLeast(1)
+        val labelMask = BooleanArray(n)
+        if (n == 1) {
+            labelMask[0] = true
+        } else if (n > 1) {
+            val intervals = ((n - 1) / labelStride).coerceAtLeast(1)
+            for (k in 0..intervals) {
+                labelMask[(k * (n - 1).toFloat() / intervals).roundToInt()] = true
+            }
+        }
         val maxIdx = values.indices.maxByOrNull { values[it] } ?: -1
         val wideValues = showValues && maxIdx >= 0 &&
             measurer.measure(valueLabel(values[maxIdx]), small).size.width <= slot - 6.dp.toPx()
@@ -118,7 +131,7 @@ fun StepsBarChart(
             } else {
                 drawRoundRect(colors[i], Offset(left, base - h), Size(barW, h), CornerRadius(minOf(barW / 2, 8.dp.toPx(), h / 2)))
             }
-            labels.getOrNull(i)?.let {
+            labels.getOrNull(i)?.takeIf { labelMask[i] }?.let {
                 val st = if (bold) label.copy(fontWeight = FontWeight.SemiBold, color = onSurface) else label
                 val l = measurer.measure(it, st)
                 drawText(l, topLeft = Offset(i * slot + (slot - l.size.width) / 2, base + 4.dp.toPx()))

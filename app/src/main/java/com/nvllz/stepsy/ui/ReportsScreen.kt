@@ -21,6 +21,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -48,7 +49,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -133,7 +133,6 @@ internal fun ReportsScreen(
 ) {
     val ctx = LocalContext.current
     val app = ctx.applicationContext
-    val scroll = rememberScrollState()
     val scope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -169,9 +168,14 @@ internal fun ReportsScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    var kind by rememberSaveable { mutableStateOf(bootKind ?: ReportKind.WEEK) }
-    var startIso by rememberSaveable { mutableStateOf(bootStartIso ?: boot.startIso) }
-    var endIso by rememberSaveable { mutableStateOf(bootEndIso ?: boot.endIso) }
+    val seedFromBootRange = bootKind == null || bootKind == ReportKind.CUSTOM
+    var kind by rememberSaveable { mutableStateOf(bootKind ?: boot.kind) }
+    var startIso by rememberSaveable {
+        mutableStateOf(bootStartIso ?: if (seedFromBootRange) boot.startIso else boot.todayIso)
+    }
+    var endIso by rememberSaveable {
+        mutableStateOf(bootEndIso ?: if (seedFromBootRange) boot.endIso else boot.todayIso)
+    }
     var openPicker by remember { mutableStateOf(false) }
     var partsHelpOpen by remember { mutableStateOf(false) }
     var animateSections by remember { mutableStateOf(true) }
@@ -179,8 +183,8 @@ internal fun ReportsScreen(
     LaunchedEffect(bounds, firstDow) {
         val b = bounds ?: return@LaunchedEffect
         if (startIso.isEmpty()) {
-            val p = ReportPeriod.containing(ReportKind.WEEK, b.today, firstDow)
-            kind = ReportKind.WEEK
+            val p = ReportPeriod.containing(ReportKind.CUSTOM, b.today, firstDow)
+            kind = ReportKind.CUSTOM
             startIso = p.start.toString()
             endIso = p.end.toString()
         }
@@ -192,7 +196,7 @@ internal fun ReportsScreen(
         else ReportPeriod.containing(kind, LocalDate.parse(startIso), firstDow)
     }
 
-    val bootMatches = kind == ReportKind.WEEK && startIso == boot.startIso && endIso == boot.endIso
+    val bootMatches = kind == boot.kind && startIso == boot.startIso && endIso == boot.endIso
     val skipFirstRun = remember { mutableStateOf(bootMatches) }
     val content by produceState(
         if (bootMatches) boot.content else ReportContent(null, emptyList(), null),
@@ -273,103 +277,105 @@ internal fun ReportsScreen(
                     }
                 }
                 else -> {
-                    Column(
-                        Modifier.weight(1f).verticalScroll(scroll).padding(horizontal = 16.dp),
-                    ) {
-                        val p = period
-                        if (p == null) {
+                    val p = period
+                    if (p == null || report == null) {
+                        val skeletonScroll = rememberScrollState()
+                        Column(
+                            Modifier.weight(1f).verticalScroll(skeletonScroll).padding(horizontal = 16.dp),
+                        ) {
                             SkeletonLoading()
-                        } else {
-                            val rep = report
-                            if (rep == null) {
-                                SkeletonLoading()
-                            } else {
-                                AnimatedSection(visible = rep.isEmpty, resetKey = rep.period) {
+                        }
+                    } else {
+                        AnimatedContent(
+                            targetState = content,
+                            contentKey = { it.report?.period?.kind },
+                            modifier = Modifier.weight(1f).clipToBounds(),
+                            contentAlignment = Alignment.TopCenter,
+                            transitionSpec = {
+                                val dir =
+                                    if (filterOrder(targetState.report?.period?.kind) >= filterOrder(initialState.report?.period?.kind)) 1 else -1
+                                (slideInHorizontally(tween(300, easing = FastOutSlowInEasing)) { dir * it } + fadeIn(tween(200)))
+                                    .togetherWith(
+                                        slideOutHorizontally(tween(300, easing = FastOutSlowInEasing)) { -dir * it } + fadeOut(tween(180)),
+                                    )
+                                    .using(SizeTransform(clip = false) { _, _ -> snap() })
+                            },
+                            label = "reportsPage",
+                        ) { c ->
+                            val pageScroll = rememberScrollState()
+                            Column(
+                                Modifier.fillMaxSize()
+                                    .verticalScroll(pageScroll)
+                                    .padding(horizontal = 16.dp),
+                            ) {
+                                val r = c.report
+                                if (r != null && r.isEmpty) {
                                     Panel(Modifier.padding(top = 24.dp)) {
                                         MutedMessage(stringResource(R.string.reports_empty_period))
                                     }
                                 }
-                                AnimatedContent(
-                                    targetState = content,
-                                    contentKey = { it.report?.period?.kind },
-                                    contentAlignment = Alignment.TopCenter,
-                                    transitionSpec = {
-                                        val dir =
-                                            if (filterOrder(targetState.report?.period?.kind) >= filterOrder(initialState.report?.period?.kind)) 1 else -1
-                                        (slideInHorizontally(tween(300, easing = FastOutSlowInEasing)) { dir * it } + fadeIn(tween(200)))
-                                            .togetherWith(
-                                                slideOutHorizontally(tween(300, easing = FastOutSlowInEasing)) { -dir * it } + fadeOut(tween(180)),
-                                            )
-                                            .using(SizeTransform(clip = false) { _, _ -> snap() })
-                                    },
-                                    label = "reportsPage",
-                                ) { c ->
-                                    Column(Modifier.fillMaxWidth()) {
-                                        val r = c.report
-                                        if (r != null && !r.isEmpty) {
-                                        val singleDay = r.period.kind == ReportKind.CUSTOM && r.period.days == 1
-                                        val insights = if (singleDay) r.insights.filterNot { it is Insight.GoalDays } else r.insights
-                                        HeroSection(r, singleDay, animateSections)
-                                        AnimatedSection(visible = insights.isNotEmpty()) {
-                                            Panel(
-                                                Modifier.padding(top = 16.dp)
-                                                    .then(if (animateSections) Modifier.animateContentSize() else Modifier),
-                                            ) {
-                                                insights.forEach { ins ->
-                                                    Row(Modifier.padding(horizontal = 8.dp, vertical = 6.dp), verticalAlignment = Alignment.Top) {
-                                                        Text(
-                                                            ">",
-                                                            fontSize = 16.sp, lineHeight = 21.sp, fontWeight = FontWeight.Bold,
-                                                            color = StepsyTheme.colors.accent,
-                                                        )
-                                                        Spacer(Modifier.width(10.dp))
-                                                        Text(
-                                                            insightText(ctx, ins, fmt, percentFmt),
-                                                            fontSize = 16.sp, lineHeight = 21.sp,
-                                                            color = MaterialTheme.colorScheme.onSurface,
-                                                        )
-                                                    }
+                                if (r != null && !r.isEmpty) {
+                                    val singleDay = r.period.kind == ReportKind.CUSTOM && r.period.days == 1
+                                    val insights = if (singleDay) r.insights.filterNot { it is Insight.GoalDays } else r.insights
+                                    HeroSection(r, singleDay, animateSections)
+                                    AnimatedSection(visible = insights.isNotEmpty()) {
+                                        Panel(
+                                            Modifier.padding(top = 16.dp)
+                                                .then(if (animateSections) Modifier.animateContentSize() else Modifier),
+                                        ) {
+                                            insights.forEach { ins ->
+                                                Row(Modifier.padding(horizontal = 8.dp, vertical = 6.dp), verticalAlignment = Alignment.Top) {
+                                                    Text(
+                                                        ">",
+                                                        fontSize = 16.sp, lineHeight = 21.sp, fontWeight = FontWeight.Bold,
+                                                        color = StepsyTheme.colors.accent,
+                                                    )
+                                                    Spacer(Modifier.width(10.dp))
+                                                    Text(
+                                                        insightText(ctx, ins, fmt, percentFmt),
+                                                        fontSize = 16.sp, lineHeight = 21.sp,
+                                                        color = MaterialTheme.colorScheme.onSurface,
+                                                    )
                                                 }
                                             }
                                         }
-                                        AnimatedSection(visible = !singleDay) {
-                                            ChartSection(r, goal, firstDow, b.today, fmt, tick, animateSections)
-                                        }
+                                    }
+                                    AnimatedSection(visible = !singleDay) {
+                                        ChartSection(r, goal, firstDow, b.today, fmt, tick, animateSections)
+                                    }
 
-                                        val partsHidden = !hourlyOn && c.parts?.included == 0
-                                        AnimatedSection(visible = !partsHidden && !singleDay) {
-                                            SectionLabel(stringResource(R.string.reports_time_of_day))
-                                            val enough = c.parts != null &&
-                                                c.parts.included >= 3 && c.parts.included * 2 >= c.parts.rowsInRange
-                                            DayPartsPanel(
-                                                stats = c.parts,
-                                                labels = listOf(
-                                                    stringResource(R.string.reports_part_night),
-                                                    stringResource(R.string.reports_part_morning),
-                                                    stringResource(R.string.reports_part_afternoon),
-                                                    stringResource(R.string.reports_part_evening),
-                                                ),
-                                                icons = listOf(
-                                                    R.drawable.ic_night,
-                                                    R.drawable.ic_morning,
-                                                    R.drawable.ic_afternoon,
-                                                    R.drawable.ic_evening,
-                                                ),
-                                                headline = if (enough && c.parts != null) rhythmHeadline(ctx, c.parts) else null,
-                                                detail = if (enough && c.parts != null) rhythmCoverage(ctx, c.parts) else null,
-                                                onHelp = { partsHelpOpen = true },
-                                            )
-                                        }
-                                        AnimatedVisibility(
-                                            visible = c.milestones.isNotEmpty(),
-                                            enter = if (animateSections) fadeIn(tween(200)) + expandVertically(tween(220)) else fadeIn(snap()) + expandVertically(snap()),
-                                            exit = if (animateSections) fadeOut(tween(120)) + shrinkVertically(tween(180)) else fadeOut(snap()) + shrinkVertically(snap()),
-                                        ) {
-                                            Column {
-                                                SectionLabel(stringResource(R.string.reports_milestones))
-                                                MilestoneCards(c.milestones)
-                                            }
-                                        }
+                                    val partsHidden = !hourlyOn && c.parts?.included == 0
+                                    AnimatedSection(visible = !partsHidden && !singleDay) {
+                                        SectionLabel(stringResource(R.string.reports_time_of_day))
+                                        val enough = c.parts != null &&
+                                            c.parts.included >= 3 && c.parts.included * 2 >= c.parts.rowsInRange
+                                        DayPartsPanel(
+                                            stats = c.parts,
+                                            labels = listOf(
+                                                stringResource(R.string.reports_part_night),
+                                                stringResource(R.string.reports_part_morning),
+                                                stringResource(R.string.reports_part_afternoon),
+                                                stringResource(R.string.reports_part_evening),
+                                            ),
+                                            icons = listOf(
+                                                R.drawable.ic_night,
+                                                R.drawable.ic_morning,
+                                                R.drawable.ic_afternoon,
+                                                R.drawable.ic_evening,
+                                            ),
+                                            headline = if (enough && c.parts != null) rhythmHeadline(ctx, c.parts) else null,
+                                            detail = if (enough && c.parts != null) rhythmCoverage(ctx, c.parts) else null,
+                                            onHelp = { partsHelpOpen = true },
+                                        )
+                                    }
+                                    AnimatedVisibility(
+                                        visible = c.milestones.isNotEmpty(),
+                                        enter = if (animateSections) fadeIn(tween(200)) + expandVertically(tween(220)) else fadeIn(snap()) + expandVertically(snap()),
+                                        exit = if (animateSections) fadeOut(tween(120)) + shrinkVertically(tween(180)) else fadeOut(snap()) + shrinkVertically(snap()),
+                                    ) {
+                                        Column {
+                                            SectionLabel(stringResource(R.string.reports_milestones))
+                                            MilestoneCards(c.milestones)
                                         }
                                     }
                                 }
@@ -452,6 +458,8 @@ internal class ReportBoot private constructor(
     val dateFmt: String,
     val hourlyOn: Boolean,
     val bounds: ReportBounds,
+    val kind: ReportKind,
+    val todayIso: String,
     val startIso: String,
     val endIso: String,
     val content: ReportContent,
@@ -464,10 +472,11 @@ internal class ReportBoot private constructor(
             val hourlyOn = AppPreferences.hourlyBreakdown
             val bounds = ReportData.bounds(ctx)
             val today = bounds.today
-            val p = ReportPeriod.containing(ReportKind.WEEK, today, firstDow)
+            val p = ReportPeriod.containing(ReportKind.CUSTOM, today, firstDow)
             val live = if (AppPreferences.date == bounds.today.toString()) AppPreferences.steps else null
             ReportBoot(
                 firstDow, goal, dateFmt, hourlyOn, bounds,
+                ReportKind.CUSTOM, today.toString(),
                 p.start.toString(), p.end.toString(),
                 ReportContent(
                     ReportData.load(ctx, p, goal, firstDow, live),
@@ -492,10 +501,9 @@ private fun filterOrder(k: ReportKind?): Int = when (k) {
 @Composable
 private fun AnimatedSection(
     visible: Boolean,
-    resetKey: Any? = null,
     content: @Composable () -> Unit,
 ) {
-    if (visible) key(resetKey) { Column { content() } }
+    if (visible) Column { content() }
 }
 
 @Composable
@@ -510,6 +518,7 @@ private fun BoxScope.FloatingControls(
     onShift: (Int) -> Unit,
 ) {
     val ctx = LocalContext.current
+    val customInteraction = remember { MutableInteractionSource() }
     Column(
         Modifier.align(Alignment.BottomCenter).fillMaxWidth()
             .navigationBarsPadding().padding(start = 16.dp, end = 16.dp, bottom = 10.dp),
@@ -559,7 +568,11 @@ private fun BoxScope.FloatingControls(
                 Eyebrow(
                     navLabel,
                     (if (period?.kind == ReportKind.CUSTOM) {
-                        Modifier.clip(CircleShape).clickable(onClick = onPickCustom)
+                        Modifier.clickable(
+                            interactionSource = customInteraction,
+                            indication = null,
+                            onClick = onPickCustom,
+                        )
                     } else Modifier).padding(vertical = 10.dp),
                     textAlign = TextAlign.Center,
                     fontSize = 13.sp,
@@ -913,6 +926,22 @@ private fun StatRow(label: String, value: String, valueLeading: (@Composable () 
 }
 
 @Composable
+private fun RangePresetPill(label: String, selected: Boolean, onClick: () -> Unit) {
+    Text(
+        label,
+        fontSize = 14.sp,
+        fontWeight = if (selected) FontWeight.Bold else FontWeight.SemiBold,
+        color = if (selected) StepsyTheme.colors.background else StepsyTheme.colors.accent,
+        maxLines = 1,
+        modifier = Modifier
+            .clip(CircleShape)
+            .background(if (selected) MaterialTheme.colorScheme.onSurface else StepsyTheme.colors.muted)
+            .clickable(role = Role.Button, onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 7.dp),
+    )
+}
+
+@Composable
 private fun CustomRangeDialog(
     minDate: LocalDate,
     today: LocalDate,
@@ -920,18 +949,22 @@ private fun CustomRangeDialog(
     onDismiss: () -> Unit,
     onConfirm: (LocalDate, LocalDate) -> Unit,
 ) {
-    var pendingStart by remember { mutableStateOf<LocalDate?>(null) }
-    var pendingEnd by remember { mutableStateOf<LocalDate?>(null) }
+    var anchor by remember { mutableStateOf<LocalDate?>(null) }
+    var selectedRange by remember { mutableStateOf<Pair<LocalDate, LocalDate>?>(null) }
 
-    val s0 = pendingStart
-    val e0 = pendingEnd
-    val picked: Pair<LocalDate, LocalDate>? = when {
-        s0 != null && e0 != null -> s0 to e0
-        s0 != null -> s0 to s0
-        else -> null
-    }
+    val picked: Pair<LocalDate, LocalDate>? = selectedRange ?: anchor?.let { it to it }
     val spanDays = picked?.let { (s, e) -> ChronoUnit.DAYS.between(s, e).toInt() + 1 } ?: 0
     val valid = spanDays in 1..MAX_CUSTOM_RANGE_DAYS
+    val applyPreset: (Int) -> Unit = { days ->
+        if (spanDays == days) {
+            anchor = null
+            selectedRange = null
+        } else {
+            val start = today.minusDays((days - 1).toLong())
+            anchor = start
+            selectedRange = start to today
+        }
+    }
 
     StepsyDialog(
         title = stringResource(R.string.reports_custom_pick),
@@ -941,40 +974,50 @@ private fun CustomRangeDialog(
         onConfirm = { picked?.let { (s, e) -> onConfirm(s, e) } },
     ) {
         Column {
-            Text(
-                stringResource(R.string.reports_custom_hint),
-                fontSize = 13.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            )
-            Spacer(Modifier.height(8.dp))
-            val heat = remember(s0, e0) {
+            val heat = remember(selectedRange, anchor) {
+                val span = selectedRange ?: anchor?.let { it to it }
                 buildMap {
-                    val start = s0
-                    val end = e0
-                    if (start != null && end != null) {
-                        var d: LocalDate = start
-                        while (!d.isAfter(end)) {
+                    if (span != null) {
+                        var d = span.first
+                        while (!d.isAfter(span.second)) {
                             put(d, 1f)
                             d = d.plusDays(1)
                         }
-                    } else start?.let { put(it, 1f) }
+                    }
                 }
             }
             MonthCalendar(
-                selected = pendingEnd ?: today,
+                selected = today,
                 minDate = minDate,
                 maxDate = today,
                 firstDay = firstDow,
                 heat = heat,
+                outline = false,
                 onSelect = { d ->
-                    val s = pendingStart
-                    if (s == null) pendingStart = d
-                    else {
-                        pendingStart = minOf(s, d)
-                        pendingEnd = maxOf(s, d)
+                    val a = anchor
+                    when {
+                        selectedRange != null -> {
+                            anchor = d
+                            selectedRange = null
+                        }
+                        a == null -> anchor = d
+                        a == d -> Unit
+                        else -> {
+                            anchor = minOf(a, d)
+                            selectedRange = minOf(a, d) to maxOf(a, d)
+                        }
                     }
                 },
             )
+            Spacer(Modifier.height(12.dp))
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            ) {
+                RangePresetPill(stringResource(R.string.label_7d), spanDays == 7) { applyPreset(7) }
+                RangePresetPill(stringResource(R.string.label_30d), spanDays == 30) { applyPreset(30) }
+                RangePresetPill(stringResource(R.string.label_90d), spanDays == 90) { applyPreset(90) }
+            }
             if (!valid && picked != null) {
                 Text(
                     stringResource(R.string.reports_custom_max, MAX_CUSTOM_RANGE_DAYS),
