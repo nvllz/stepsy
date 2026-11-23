@@ -130,13 +130,14 @@ object BackupScheduler {
         )
     }
 
-    private fun calculateNextBackupTime(intervalDays: Long): Long {
+    internal fun calculateNextBackupTime(intervalDays: Long): Long {
         val now = System.currentTimeMillis()
+        val dayStartHour = AppPreferences.dayStartHour
 
         val next = Calendar.getInstance().apply {
             timeInMillis = now
 
-            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.HOUR_OF_DAY, dayStartHour)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
@@ -153,8 +154,8 @@ object BackupScheduler {
         val nextBackupTime = next.timeInMillis - now
 
         val totalSeconds = nextBackupTime / 1000
-        Log.d(TAG,String.format("Next backup in %02dh %02dm %02ds",
-            totalSeconds / 3600, (totalSeconds % 3600) / 60, totalSeconds % 60))
+        Log.d(TAG, String.format("Next backup in %02dh %02dm %02ds (day starts at %02d:00)",
+            totalSeconds / 3600, (totalSeconds % 3600) / 60, totalSeconds % 60, dayStartHour))
 
         return nextBackupTime
     }
@@ -434,7 +435,7 @@ class BackupWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         if (frequency <= 0) return
 
         val nextBackupMillis = System.currentTimeMillis() +
-                TimeUnit.DAYS.toMillis(frequency.toLong())
+                BackupScheduler.calculateNextBackupTime(frequency.toLong())
 
         val prefs = context.getSharedPreferences("backup_prefs", Context.MODE_PRIVATE)
         prefs.edit {

@@ -68,6 +68,7 @@ import com.nvllz.stepsy.ui.components.ToastKind
 import com.nvllz.stepsy.ui.components.ToastState
 import com.nvllz.stepsy.ui.theme.StepsyTheme
 import com.nvllz.stepsy.util.AppPreferences
+import com.nvllz.stepsy.util.BackupScheduler
 import com.nvllz.stepsy.util.DebugTools
 import com.nvllz.stepsy.util.MockData
 import com.nvllz.stepsy.util.MockEffort
@@ -479,7 +480,10 @@ fun SettingsScreen(onBack: () -> Unit) {
                 scope.launch {
                     val nowMs = System.currentTimeMillis()
                     val switchAt = withContext(Dispatchers.IO) {
-                        AppPreferences.setDayStart(chosen, nowMs).also { Util.refreshDayStartCache() }
+                        AppPreferences.setDayStart(chosen, nowMs).also {
+                            Util.refreshDayStartCache()
+                            if (chosen != storedDayStartHour) BackupScheduler.scheduleBackup(ctx)
+                        }
                     }
                     ctx.startService(Intent(ctx, MotionService::class.java).apply {
                         action = "UPDATE_NOTIFICATION"

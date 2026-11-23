@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.nvllz.stepsy.util.Util
 
 class MidnightResetReceiver : BroadcastReceiver() {
@@ -18,7 +19,11 @@ class MidnightResetReceiver : BroadcastReceiver() {
         val serviceIntent = Intent(context, MotionService::class.java).apply {
             putExtra("FORCE_UPDATE", true)
         }
-        context.startService(serviceIntent)
+        runCatching {
+            ContextCompat.startForegroundService(context, serviceIntent)
+        }.onFailure {
+            Log.w(TAG, "Unable to start service for day change", it)
+        }
 
         scheduleNextMidnightAlarm(context)
     }
