@@ -31,6 +31,11 @@ internal class ActivityRecognitionManager(private val context: Context) {
     private val stabilityWindowMs = 12_000L
 
     fun start() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            Log.d(TAG, "Activity recognition is not available before Android 10, skipping vehicle filter")
+            return
+        }
+
         val gps = GoogleApiAvailability.getInstance()
         if (gps.isGooglePlayServicesAvailable(context) != ConnectionResult.SUCCESS) {
             Log.w(TAG, "Google Play Services unavailable, disabling vehicle filter")
