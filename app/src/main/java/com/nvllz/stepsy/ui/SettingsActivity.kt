@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,8 +33,9 @@ class SettingsActivity : AppCompatActivity() {
 
         setContent {
             val ctx = LocalContext.current
-            val storedTheme by AppPreferences.themeFlow()
-                .collectAsStateWithLifecycle(initialValue = AppPreferences.theme)
+            val themeFlow = remember { AppPreferences.themeFlow() }
+            val storedTheme by themeFlow
+                .collectAsStateWithLifecycle(initialValue = remember { AppPreferences.theme })
             val systemDark = (ctx.applicationContext.resources.configuration.uiMode and
                     Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
             val uiModeOverride = when (storedTheme) {

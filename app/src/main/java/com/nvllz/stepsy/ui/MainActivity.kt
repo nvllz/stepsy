@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.nvllz.stepsy.R
 import com.nvllz.stepsy.service.MotionService
 import com.nvllz.stepsy.service.StepSnapshot
@@ -45,7 +46,9 @@ import com.nvllz.stepsy.util.BackupScheduler
 import com.nvllz.stepsy.util.TimedPauseManager
 import com.nvllz.stepsy.util.TrackingAccess
 import com.nvllz.stepsy.util.Util
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 
 internal class MainActivity : AppCompatActivity() {
 
@@ -54,10 +57,13 @@ internal class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        BackupScheduler.ensureBackupScheduled(applicationContext)
+        lifecycleScope.launch(Dispatchers.IO) {
+            BackupScheduler.ensureBackupScheduled(applicationContext)
+        }
 
         setContent {
-            val theme by AppPreferences.themeFlow().collectAsState(AppPreferences.theme)
+            val themeFlow = remember { AppPreferences.themeFlow() }
+            val theme by themeFlow.collectAsState(remember { AppPreferences.theme })
             val systemDark = (LocalContext.current.applicationContext.resources.configuration.uiMode
                     and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
             val override = when (theme) {

@@ -86,7 +86,9 @@ object AppPreferences {
     private fun updateAppVersion() {
         val currentVersionCode = BuildConfig.VERSION_CODE
         runBlocking {
-            dataStore.edit { it[PreferenceKeys.APP_VERSION_CODE] = currentVersionCode }
+            if (dataStore.data.first()[PreferenceKeys.APP_VERSION_CODE] != currentVersionCode) {
+                dataStore.edit { it[PreferenceKeys.APP_VERSION_CODE] = currentVersionCode }
+            }
         }
     }
 

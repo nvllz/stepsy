@@ -176,11 +176,12 @@ internal fun HomeScreen(
     val jumpKey = remember { mutableIntStateOf(0) }
     val editable = pickedDay != null || selection == Selection.Range(StepRange.TODAY)
 
-    val goal by AppPreferences.dailyGoalTargetFlow().collectAsStateWithLifecycle(AppPreferences.dailyGoalTarget)
-    val hourlyEnabled by AppPreferences.hourlyBreakdownFlow()
-        .collectAsStateWithLifecycle(remember { AppPreferences.hourlyBreakdown })
-    val dayStartHour by AppPreferences.dayStartHourFlow()
-        .collectAsStateWithLifecycle(AppPreferences.dayStartHour)
+    val goalFlow = remember { AppPreferences.dailyGoalTargetFlow() }
+    val goal by goalFlow.collectAsStateWithLifecycle(remember { AppPreferences.dailyGoalTarget })
+    val hourlyFlow = remember { AppPreferences.hourlyBreakdownFlow() }
+    val hourlyEnabled by hourlyFlow.collectAsStateWithLifecycle(remember { AppPreferences.hourlyBreakdown })
+    val dayStartFlow = remember { AppPreferences.dayStartHourFlow() }
+    val dayStartHour by dayStartFlow.collectAsStateWithLifecycle(remember { AppPreferences.dayStartHour })
     var hourlyView by remember { mutableStateOf(loadHourlyView(ctx)) }
     var chartLine by remember { mutableStateOf(loadChartLine(ctx)) }
     var chartRevealed by remember { mutableStateOf(false) }

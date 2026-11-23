@@ -128,7 +128,8 @@ internal fun AchievementsScreen(
     onBack: () -> Unit,
 ) {
     val ctx = LocalContext.current
-    val goal by AppPreferences.dailyGoalTargetFlow().collectAsStateWithLifecycle(AppPreferences.dailyGoalTarget)
+    val goalFlow = remember { AppPreferences.dailyGoalTargetFlow() }
+    val goal by goalFlow.collectAsStateWithLifecycle(remember { AppPreferences.dailyGoalTarget })
     val firstDow = remember { AppPreferences.firstDayOfWeek }
 
     val app = ctx.applicationContext
@@ -704,19 +705,30 @@ private fun NextMilestone(total: Int, next: Long, prev: Long, targetLabel: Strin
 }
 
 @Composable
-private fun DialogBadge(m: MilestoneAchievement, modifier: Modifier = Modifier) {
+private fun DialogBadge(m: MilestoneAchievement, pop: () -> Float) {
     val c = StepsyTheme.colors
     val cs = MaterialTheme.colorScheme
     val shape = RoundedCornerShape(28.dp)
     val pulse = if (m.isNew) rememberNewPulse() else null
-    Box(modifier.size(116.dp), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(116.dp), contentAlignment = Alignment.Center) {
         Box(
             Modifier.size(88.dp)
                 .then(if (pulse != null) Modifier.newHalo(c.goal, pulse, 28.dp) else Modifier)
                 .clip(shape).background(cs.onSurface.copy(alpha = 0.06f))
                 .then(if (m.isNew) Modifier.border(2.dp, cs.primary, shape) else Modifier),
             contentAlignment = Alignment.Center,
-        ) { Text(Util.milestoneBadge(m.milestone), fontSize = 48.sp) }
+        ) {
+            Text(
+                Util.milestoneBadge(m.milestone),
+                fontSize = 48.sp,
+                modifier = Modifier.graphicsLayer {
+                    val s = 0.6f + 0.4f * pop()
+                    scaleX = s
+                    scaleY = s
+                    alpha = (0.4f + 0.6f * pop()).coerceAtMost(1f)
+                },
+            )
+        }
     }
 }
 
@@ -811,15 +823,7 @@ private fun MilestoneDialog(m: MilestoneAchievement, firstDate: String?, date: (
         dismissText = null,
     ) {
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            DialogBadge(
-                m,
-                modifier = Modifier.graphicsLayer {
-                    val s = 0.6f + 0.4f * pop.value
-                    scaleX = s
-                    scaleY = s
-                    alpha = (0.4f + 0.6f * pop.value).coerceAtMost(1f)
-                },
-            )
+            DialogBadge(m, pop = { pop.value })
             CountText(
                 if (armed) m.milestone else 0, Util::formatSteps,
                 TextStyle(
