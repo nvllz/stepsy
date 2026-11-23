@@ -38,6 +38,7 @@
     <string name="label_month">মাস</string>
     <string name="label_7d">৭ দিন</string>
     <string name="label_30d">৩০ দিন</string>
+    <string name="label_90d">৯০ দিন</string>
     <string name="label_all_time">সর্বমোট</string>
     <string name="week_display_format">সপ্তাহ %1$d</string>
     <string name="filters_title">দৃশ্যমান ফিল্টার</string>
@@ -409,6 +410,5 @@
     <string name="reports_hourly_coverage">%2$d দিনের মধ্যে %1$d দিনের ঘণ্টাভিত্তিক ডেটা আছে</string>
     <string name="reports_rhythm_not_enough">এই সময়ে ঘণ্টাভিত্তিক ডেটা যথেষ্ট নয়, তাই কখন হাঁটেন তা দেখানো যাচ্ছে না</string>
     <string name="reports_custom_pick">একটি সময়সীমা বেছে নিন</string>
-    <string name="reports_custom_hint">প্রথমে শুরুর দিন, তারপর শেষের দিনে ট্যাপ করুন</string>
     <string name="reports_custom_max">সর্বোচ্চ %1$d দিন পর্যন্ত সময়সীমা বেছে নেওয়া যায়</string>
 </resources>

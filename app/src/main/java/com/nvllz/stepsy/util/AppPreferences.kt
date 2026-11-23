@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import java.util.Calendar
-import androidx.preference.PreferenceManager
 import com.nvllz.stepsy.BuildConfig
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -97,7 +96,7 @@ object AppPreferences {
         if (prefs[PreferenceKeys.ONBOARDING_COMPLETED] != null) return
         val upgrade = prefs[PreferenceKeys.APP_VERSION_CODE] != null ||
             prefs[PreferenceKeys.STEPS] != null ||
-            PreferenceManager.getDefaultSharedPreferences(context).contains("STEPS")
+            legacyPreferences(context).contains("STEPS")
         dataStore.edit {
             it[PreferenceKeys.ONBOARDING_COMPLETED] = upgrade
             if (upgrade) it[PreferenceKeys.SETUP_CARD_DISMISSED] = setOf("battery", "notifications")
@@ -367,13 +366,16 @@ object AppPreferences {
         get() = runBlocking { setupCardDismissedFlow().first() }
         set(value) = runBlocking { dataStore.edit { it[PreferenceKeys.SETUP_CARD_DISMISSED] = value } }
 
+    private fun legacyPreferences(context: Context) =
+        context.getSharedPreferences("${context.packageName}_preferences", Context.MODE_PRIVATE)
+
     @OptIn(DelicateCoroutinesApi::class)
     private fun stepDataStoreMigration(context: Context) {
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val sharedPrefs = legacyPreferences(context)
         if (!sharedPrefs.contains("STEPS")) return
 
         GlobalScope.launch(Dispatchers.IO) {
-            val sharedPrefs2 = PreferenceManager.getDefaultSharedPreferences(context)
+            val sharedPrefs2 = legacyPreferences(context)
             val sharedPrefsSteps = sharedPrefs2.getInt("STEPS", 0)
             val sharedPrefsDate  = sharedPrefs2.getString("DATE", "")
 

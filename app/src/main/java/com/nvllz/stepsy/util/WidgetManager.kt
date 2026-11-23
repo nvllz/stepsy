@@ -13,19 +13,24 @@ import com.nvllz.stepsy.ui.WidgetRingProvider
 object WidgetManager {
     private val updateHandler = Handler(Looper.getMainLooper())
     private var isUpdateQueued = false
+    private var lastRenderedSteps: Int? = null
+    private var lastRenderedGoal: Int? = null
 
     fun updateAllWidgets(context: Context, steps: Int? = null, immediate: Boolean = false) {
 
         val stepsToUse = steps ?: AppPreferences.steps
+        val goal = AppPreferences.dailyGoalTarget
+
+        if (stepsToUse == lastRenderedSteps && goal == lastRenderedGoal) return
 
         if (immediate) {
-            performWidgetUpdates(context, stepsToUse)
+            performWidgetUpdates(context, stepsToUse, goal)
         } else {
             synchronized(this) {
                 if (!isUpdateQueued) {
                     isUpdateQueued = true
                     updateHandler.postDelayed({
-                        performWidgetUpdates(context, stepsToUse)
+                        performWidgetUpdates(context, stepsToUse, goal)
                         isUpdateQueued = false
                     }, 150)
                 }
@@ -33,7 +38,9 @@ object WidgetManager {
         }
     }
 
-    private fun performWidgetUpdates(context: Context, steps: Int) {
+    private fun performWidgetUpdates(context: Context, steps: Int, goal: Int) {
+        lastRenderedSteps = steps
+        lastRenderedGoal = goal
         val appWidgetManager = AppWidgetManager.getInstance(context)
 
         appWidgetManager.getAppWidgetIds(

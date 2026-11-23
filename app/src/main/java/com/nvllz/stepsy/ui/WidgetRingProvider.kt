@@ -30,6 +30,18 @@ class WidgetRingProvider : AppWidgetProvider() {
         private const val TRACK_ALPHA = 150
         private const val RING_BASE_DP = 96f
         private const val RING_STROKE_DP = 9f
+        private const val RING_PROGRESS_STEPS = 200
+
+        private class RingBitmapCache(
+            val sizePx: Int,
+            val strokeWidthPx: Float,
+            val color: Int,
+            val progressStep: Int,
+            val bitmap: Bitmap,
+        )
+
+        @Volatile
+        private var ringBitmapCache: RingBitmapCache? = null
 
         private fun themedContext(context: Context, themeMode: String): Context {
             val uiMode = when (themeMode) {
@@ -53,6 +65,17 @@ class WidgetRingProvider : AppWidgetProvider() {
             val density = context.resources.displayMetrics.density
             val sizePx = (RING_BASE_DP * density * scaleFactor).toInt().coerceAtLeast(1)
             val strokeWidthPx = RING_STROKE_DP * density * scaleFactor
+            val progressStep = (progress.coerceIn(0f, 1f) * RING_PROGRESS_STEPS).toInt()
+
+            ringBitmapCache?.let { cached ->
+                if (cached.sizePx == sizePx &&
+                    cached.strokeWidthPx == strokeWidthPx &&
+                    cached.color == ringColor &&
+                    cached.progressStep == progressStep
+                ) {
+                    return cached.bitmap
+                }
+            }
 
             val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
@@ -79,9 +102,12 @@ class WidgetRingProvider : AppWidgetProvider() {
 
             canvas.drawArc(rect, 0f, 360f, false, trackPaint)
             canvas.drawCircle(sizePx / 2f, pad, strokeWidthPx / 2f, startDotPaint)
-            if (progress > 0f) {
-                canvas.drawArc(rect, -90f, progress.coerceIn(0f, 1f) * 360f, false, arcPaint)
+            if (progressStep > 0) {
+                val sweep = progressStep.toFloat() / RING_PROGRESS_STEPS * 360f
+                canvas.drawArc(rect, -90f, sweep, false, arcPaint)
             }
+
+            ringBitmapCache = RingBitmapCache(sizePx, strokeWidthPx, ringColor, progressStep, bitmap)
             return bitmap
         }
 

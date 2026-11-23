@@ -38,6 +38,7 @@
     <string name="label_month">Maand</string>
     <string name="label_7d">7 dagen</string>
     <string name="label_30d">30 dagen</string>
+    <string name="label_90d">90 dagen</string>
     <string name="label_all_time">Alles</string>
     <string name="week_display_format">Week %1$d</string>
     <string name="filters_title">Zichtbare filters</string>
@@ -409,6 +410,5 @@
     <string name="reports_hourly_coverage">%1$d van %2$d dagen met uurgegevens</string>
     <string name="reports_rhythm_not_enough">Te weinig uurgegevens in deze periode om te laten zien wanneer je loopt</string>
     <string name="reports_custom_pick">Kies een bereik</string>
-    <string name="reports_custom_hint">Tik op een startdag en daarna op een einddag</string>
     <string name="reports_custom_max">Een bereik kan maximaal %1$d dagen beslaan</string>
 </resources>

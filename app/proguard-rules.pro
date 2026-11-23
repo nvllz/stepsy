@@ -19,7 +19,6 @@
 -keep class androidx.datastore.** { *; }
 -keep class * implements androidx.datastore.core.Serializer { *; }
 
--dontobfuscate
 -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
 
 -keepattributes Signature

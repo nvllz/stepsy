@@ -38,6 +38,7 @@
     <string name="label_month">Monat</string>
     <string name="label_7d">7 Tage</string>
     <string name="label_30d">30 Tage</string>
+    <string name="label_90d">90 Tage</string>
     <string name="label_all_time">Gesamte Zeit</string>
     <string name="week_display_format">Woche %1$d</string>
     <string name="filters_title">Sichtbare Filter</string>
@@ -409,6 +410,5 @@
     <string name="reports_hourly_coverage">%1$d von %2$d Tagen mit Stundendaten</string>
     <string name="reports_rhythm_not_enough">Zu wenige Stundendaten in diesem Zeitraum, um zu zeigen, wann du gehst</string>
     <string name="reports_custom_pick">Zeitraum wählen</string>
-    <string name="reports_custom_hint">Tippe auf einen Starttag, dann auf einen Endtag</string>
     <string name="reports_custom_max">Zeiträume können bis zu %1$d Tage umfassen</string>
 </resources>

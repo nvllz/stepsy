@@ -42,6 +42,7 @@
     <string name="label_month">Mes</string>
     <string name="label_7d">7 días</string>
     <string name="label_30d">30 días</string>
+    <string name="label_90d">90 días</string>
     <string name="label_all_time">Todo el tiempo</string>
     <string name="week_display_format">Semana %1$d</string>
     <string name="filters_title">Filtros visibles</string>
@@ -416,6 +417,5 @@
     <string name="reports_hourly_coverage">%1$d de %2$d días con datos por hora</string>
     <string name="reports_rhythm_not_enough">No hay suficientes datos por hora en este periodo para mostrar cuándo caminas</string>
     <string name="reports_custom_pick">Elige un rango</string>
-    <string name="reports_custom_hint">Toca un día de inicio y luego uno de fin</string>
     <string name="reports_custom_max">Los rangos pueden abarcar hasta %1$d días</string>
 </resources>

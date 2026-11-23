@@ -38,6 +38,7 @@
     <string name="label_month">Månad</string>
     <string name="label_7d">7 dagar</string>
     <string name="label_30d">30 dagar</string>
+    <string name="label_90d">90 dagar</string>
     <string name="label_all_time">Överlag</string>
     <string name="week_display_format">Vecka %1$d</string>
     <string name="filters_title">Synliga filter</string>
@@ -409,6 +410,5 @@
     <string name="reports_hourly_coverage">%1$d av %2$d dagar med timdata</string>
     <string name="reports_rhythm_not_enough">För lite timdata under perioden för att visa när du går</string>
     <string name="reports_custom_pick">Välj ett intervall</string>
-    <string name="reports_custom_hint">Tryck på en startdag och sedan en slutdag</string>
     <string name="reports_custom_max">Intervall kan vara upp till %1$d dagar</string>
 </resources>
