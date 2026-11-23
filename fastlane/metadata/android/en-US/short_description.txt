@@ -1,1 +1,1 @@
-Your lightweight step counting buddy
+Lightweight step counting app

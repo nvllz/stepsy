@@ -1,0 +1,21 @@
+Leave us a star on Github!
+
+#new
+- big interface rework!
+- hourly overview
+- reports to visualize your data
+- onboarding for new users
+- step goal progressbar
+- edit past steps in the app
+- custom start hour of the day
+
+#changes
+- merged motionservice with the main process
+- refreshed logo and design approach
+- moved backups from menu to settings screen
+- achievements screen looks finally the way I imagined it
+
+#fixed
+- adjusted tons of small inconsistencies
+
+and more..
