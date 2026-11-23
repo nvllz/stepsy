@@ -209,9 +209,10 @@ internal class MainActivity : AppCompatActivity() {
 
     private fun Context.isGranted(p: String) = ContextCompat.checkSelfPermission(this, p) == PackageManager.PERMISSION_GRANTED
 
-    private fun Context.canTrackSteps() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+    private fun Context.canTrackSteps() =
             packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER) &&
-            isGranted(Manifest.permission.ACTIVITY_RECOGNITION)
+            (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ||
+                    isGranted(Manifest.permission.ACTIVITY_RECOGNITION))
 
     companion object {
         const val RECEIVER_TAG = "RECEIVER_TAG"
