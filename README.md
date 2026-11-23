@@ -10,7 +10,7 @@
 
 </div>
 
-Advanced step counter that efficiently uses your phone's sensors.
+An advanced step counter that efficiently uses your phone's sensors.
 
 - **Daily Goals & Streaks**: set a daily step target and build consistent walking streaks
 - **Track without feeling overwhelmed**: you set the goal, optional reminders and build the routine your own way
@@ -76,7 +76,7 @@ You can automate Stepsy using apps such as Tasker with broadcast intents.
 ## Dependencies
 
 - [Chivo](https://fonts.google.com/specimen/Chivo) – SIL OFL
-- [Tabler Icons](https://github.com/tabler/tabler-icons) — MIT
+- [Tabler Icons](https://github.com/tabler/tabler-icons) – MIT
 - Google Play Services (full build; used only when step filtering is turned on in Settings)
 
 ## Credits
